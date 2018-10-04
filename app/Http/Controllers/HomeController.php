@@ -29,8 +29,8 @@ class HomeController extends Controller
           'cache_wsdl' => WSDL_CACHE_NONE
         );
         try{
-        $get_products = new \SoapClient('http://localhost/dilok2/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
-        $get_products2 = new \SoapClient('http://localhost/dilok2/soap/default?wsdl&services=catalogProductRenderListV1',$params);
+        $get_products = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
+        $get_products2 = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=catalogProductRenderListV1',$params);
         $get_product_page = [
             'searchCriteria' => [
                 'filterGroups' => [

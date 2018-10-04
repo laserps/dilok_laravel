@@ -34,10 +34,10 @@ class FilterController extends Controller
         } else {
             $page = 1;
         }
-        $catalog = new \SoapClient('http://localhost/dilok2/soap/default?wsdl&services=catalogCategoryManagementV1',$params);
-        $get_products = new \SoapClient('http://localhost/dilok2/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
-        $get_products2 = new \SoapClient('http://localhost/dilok2/soap/default?wsdl&services=catalogProductRenderListV1',$params);
-        $get_type_products = new \SoapClient('http://localhost/dilok2/soap/default?wsdl&services=catalogProductAttributeOptionManagementV1',$params);
+        $catalog = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=catalogCategoryManagementV1',$params);
+        $get_products = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
+        $get_products2 = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=catalogProductRenderListV1',$params);
+        $get_type_products = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=catalogProductAttributeOptionManagementV1',$params);
         $get_product_page = [
             'searchCriteria' => [
                 'filterGroups' => [
@@ -251,8 +251,8 @@ class FilterController extends Controller
             }
         }
 
-        $get_products = new \SoapClient('http://localhost/dilok2/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
-        $get_products2 = new \SoapClient('http://localhost/dilok2/soap/default?wsdl&services=catalogProductRenderListV1',$params);
+        $get_products = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
+        $get_products2 = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=catalogProductRenderListV1',$params);
 
             if(!empty($input_all['gender']) || !empty($input_all['brand']) || !empty($input_all['size']) || !empty($input_all['colorproduct'])){
                 $get_product_page = [
@@ -389,10 +389,10 @@ class FilterController extends Controller
             $page = 1;
         }
 
-        $get_products = new \SoapClient('http://localhost/dilok2/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
+        $get_products = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
 
 
-        // $get_products = new \SoapClient('http://localhost/dilok2/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
+        // $get_products = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
         $get_product_page = [
             'searchCriteria' => [
                 'filterGroups' => [

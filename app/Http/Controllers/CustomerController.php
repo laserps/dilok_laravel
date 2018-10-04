@@ -41,7 +41,7 @@ class CustomerController extends Controller
 
         try{
 
-        $create_customers = new \SoapClient('http://localhost/dilok2/soap/default?wsdl&services=customerAccountManagementV1',$params);
+        $create_customers = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=customerAccountManagementV1',$params);
 
         $customer['customer'] = array(
             'email' => $request->input('email'),
@@ -192,7 +192,7 @@ class CustomerController extends Controller
 
         try{
 
-        $login_customer = new \SoapClient('http://localhost/dilok2/soap/default?wsdl&services=integrationCustomerTokenServiceV1',$params);
+        $login_customer = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=integrationCustomerTokenServiceV1',$params);
 
         $login_customers = array(
             'username' => $request->input('email_login'),

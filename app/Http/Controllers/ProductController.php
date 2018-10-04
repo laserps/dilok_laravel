@@ -33,12 +33,12 @@ class ProductController extends Controller
           'cache_wsdl' => WSDL_CACHE_NONE
         );
         try{
-        $get_products = new \SoapClient('http://localhost/dilok2/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
-        $get_products2 = new \SoapClient('http://localhost/dilok2/soap/default?wsdl&services=catalogProductRenderListV1',$params);
-        $get_products_gallerys = new \SoapClient('http://localhost/dilok2/soap/default?wsdl&services=catalogProductAttributeMediaGalleryManagementV1',$params);
-        $get_color_products = new \SoapClient('http://localhost/dilok2/soap/default?wsdl&services=catalogProductAttributeOptionManagementV1',$params);
-        $get_products_option = new \SoapClient('http://localhost/dilok2/soap/default?wsdl&services=configurableProductOptionRepositoryV1',$params);
-        $get_stock_product = new \SoapClient('http://localhost/dilok2/soap/default?wsdl&services=catalogInventoryStockRegistryV1',$params);
+        $get_products = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
+        $get_products2 = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=catalogProductRenderListV1',$params);
+        $get_products_gallerys = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=catalogProductAttributeMediaGalleryManagementV1',$params);
+        $get_color_products = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=catalogProductAttributeOptionManagementV1',$params);
+        $get_products_option = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=configurableProductOptionRepositoryV1',$params);
+        $get_stock_product = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=catalogInventoryStockRegistryV1',$params);
 
 
         $get_product_detail = [
@@ -185,7 +185,7 @@ class ProductController extends Controller
           'cache_wsdl' => WSDL_CACHE_NONE
         );
         try{
-        $get_products = new \SoapClient('http://localhost/dilok2/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
+        $get_products = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
         $get_product_page = [
             'searchCriteria' => [
                 'filterGroups' => [

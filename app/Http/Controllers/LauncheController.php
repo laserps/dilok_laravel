@@ -33,7 +33,7 @@ class LauncheController extends Controller
           'cache_wsdl' => WSDL_CACHE_NONE
         );
         try{
-        $get_products = new \SoapClient('http://localhost/dilok/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
+        $get_products = new \SoapClient('http://192.168.1.27/dilok/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
 
         $get_product_page = [
             'searchCriteria' => [

@@ -16,24 +16,24 @@ $params = array (
 );
 
 try{
-// $tokenadmin = new SoapClient('http://localhost/dilok/soap/default?wsdl&services=integrationAdminTokenServiceV1',$params);
-// $request = new SoapClient('http://localhost/dilok/soap/default?wsdl&services=directoryCurrencyInformationAcquirerV1',$params);
-// $create_customers = new SoapClient('http://localhost/dilok/soap/default?wsdl&services=customerAccountManagementV1',$params);
-// $login_customer = new SoapClient('http://localhost/dilok2/soap/default?wsdl&services=integrationCustomerTokenServiceV1',$params);
-// $get_currency = new SoapClient('http://localhost/dilok2/soap/default?wsdl&services=directoryCurrencyInformationAcquirerV1',$params);
-$get_products = new SoapClient('http://localhost/dilok2/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
-$get_products2 = new SoapClient('http://localhost/dilok2/soap/default?wsdl&services=catalogProductRenderListV1',$params);
-$get_products_link = new SoapClient('http://localhost/dilok2/soap/default?wsdl&services=configurableProductLinkManagementV1',$params);
-$get_products_option = new SoapClient('http://localhost/dilok2/soap/default?wsdl&services=configurableProductOptionRepositoryV1',$params);
-$get_stock_product = new SoapClient('http://localhost/dilok2/soap/default?wsdl&services=catalogInventoryStockRegistryV1',$params);
-$get_type_products = new \SoapClient('http://localhost/dilok2/soap/default?wsdl&services=catalogProductAttributeOptionManagementV1',$params);
-$category = new \SoapClient('http://localhost/dilok2/soap/default?wsdl&services=catalogCategoryManagementV1',$params);
-$category2 = new \SoapClient('http://localhost/dilok2/soap/default?wsdl&services=catalogCategoryRepositoryV1',$params);
-$login_customer22 = new \SoapClient('http://localhost/dilok2/soap/default?wsdl&services=customerAccountManagementV1',$params);
-// $get_products_type = new SoapClient('http://localhost/dilok2/soap/default?wsdl&services=quoteGuestCartRepositoryV1',$params);
+// $tokenadmin = new SoapClient('http://192.168.1.27/dilok/soap/default?wsdl&services=integrationAdminTokenServiceV1',$params);
+// $request = new SoapClient('http://192.168.1.27/dilok/soap/default?wsdl&services=directoryCurrencyInformationAcquirerV1',$params);
+// $create_customers = new SoapClient('http://192.168.1.27/dilok/soap/default?wsdl&services=customerAccountManagementV1',$params);
+// $login_customer = new SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=integrationCustomerTokenServiceV1',$params);
+// $get_currency = new SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=directoryCurrencyInformationAcquirerV1',$params);
+$get_products = new SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
+$get_products2 = new SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=catalogProductRenderListV1',$params);
+$get_products_link = new SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=configurableProductLinkManagementV1',$params);
+$get_products_option = new SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=configurableProductOptionRepositoryV1',$params);
+$get_stock_product = new SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=catalogInventoryStockRegistryV1',$params);
+$get_type_products = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=catalogProductAttributeOptionManagementV1',$params);
+$category = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=catalogCategoryManagementV1',$params);
+$category2 = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=catalogCategoryRepositoryV1',$params);
+$login_customer22 = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=customerAccountManagementV1',$params);
+// $get_products_type = new SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=quoteGuestCartRepositoryV1',$params);
 
-// $get_products_gallerys = new \SoapClient('http://localhost/dilok/soap/default?wsdl&services=catalogProductAttributeMediaGalleryManagementV1',$params);
-// $catalog = new \SoapClient('http://localhost/dilok/soap/default?wsdl&services=catalogCategoryManagementV1',$params);
+// $get_products_gallerys = new \SoapClient('http://192.168.1.27/dilok/soap/default?wsdl&services=catalogProductAttributeMediaGalleryManagementV1',$params);
+// $catalog = new \SoapClient('http://192.168.1.27/dilok/soap/default?wsdl&services=catalogCategoryManagementV1',$params);
 
 // $soapResponse = $get_products->__getFunctions();
 
@@ -118,7 +118,7 @@ $get_color_product = [
 // $catalogs = [
 //     'rootCategoryId' => 1,
 // ];
-$login_customer = new \SoapClient('http://localhost/dilok2/soap/default?wsdl&services=integrationCustomerTokenServiceV1',$params);
+$login_customer = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=integrationCustomerTokenServiceV1',$params);
 
 $login_customers = array(
     'username' => 'hamworkbythai@gmail.com',

@@ -1,0 +1,710 @@
+button {
+	text-transform: uppercase;
+}
+.footer-link {
+	color: #fff;
+}
+.footer-link:hover {
+	color: #999999!important;
+	transition: all 0.3s;
+}
+.nav-link:hover {
+	color: #999999!important;
+	transition: 0.3s;
+}
+.btn-cmd-detail-position {
+	position: absolute;
+	top: 0px;
+	right: 35px;
+}
+.title-show-slide-fix {
+	overflow: hidden;
+    height: 40px;
+    line-height: 20px;
+}
+.body-fix-slide {
+	overflow: hidden;
+    height: 40px;
+    line-height: 20px;
+    font-weight: 300;
+}
+/*---------------------------
+------- ACCOUNT -------------
+-----------------------------*/
+.account-font {
+	font-size: 18px;
+    margin-top: 30px;
+}
+.account-text-xsmall {
+	font-size: 12px;
+    color: #d4d4d4;
+}
+.account-edit {
+	position: absolute;
+    font-size: 14px;
+    color: #c7c7c7;
+    right: 5px;
+    top: 5px;
+}
+.account-edit:hover {
+    color: #c7c7c7;
+    text-decoration: none;
+}
+.account-card {
+	background: #eee6;
+    border: none;
+    border-radius: 0px;
+}
+.account-line-height {
+	line-height: 30px;
+}
+.account-btn {
+	width: 250px;
+    margin-top: 20px;
+    border-radius: 0px;
+    background-color: #eee;
+}
+.account-btn:focus {
+	box-shadow: none;
+}
+/*------ MODAL ----------*/
+.account-modal-dialog {
+    max-width: 900px!important;
+    margin: 1.75rem auto!important;
+}
+.account-close {
+	font-size: 30px;
+    font-weight: 700;
+    line-height: 0;
+    color: #000;
+    text-shadow: none;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+}
+.account-modal-footer {
+    justify-content: center;
+}
+.account-btn-save-ad {
+	background-color: #000;
+    color: #fff;
+    border-radius: 0px;
+    border: 2px solid #000;
+    height: 45px;
+    margin-bottom: 20px;
+}
+.account-btn-save-ad:hover {
+	background-color: #fff;
+    color: #000;
+    border: 2px solid #000;
+    transition: 0.5s;
+}
+.account-btn-save-ad:focus {
+	box-shadow: none;
+}
+.account-requited {
+	position: absolute;
+    right: 15px;
+    top: 0px;
+    font-size: 13px;
+}
+/*---------------------------
+------- END ACCOUNT --------
+-----------------------------*/
+
+/*------------------------------
+------------ HELP --------------
+--------------------------------*/
+.help-input-group {
+	background-color: #fff;
+    border: 1px solid #ced4da;
+    border-left: none;
+    border-radius: 0px;
+}
+.help-input-group:focus {
+	box-shadow: none;
+	border-left: none;
+}
+
+.help-input-all:focus {
+	box-shadow: none;
+	border-color: #ced4da;
+	border-right: none;
+}
+.help-font-set {
+	font-size: 14px;
+    color: #5a5a5a;
+}
+.help-font-set:hover {
+    color: #5a5a5a;
+}
+.help-see-all {
+	font-size: 14px;
+    text-decoration: underline;
+    color: #000;
+    font-weight: bolder;
+}
+.help-see-all:hover {
+    color: #000;
+}
+.help-modal-body {
+    overflow-y: scroll;
+    height: 800px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    margin: 15px 15px;
+}
+.help-see-all-body {
+	overflow-y: scroll;
+    height: 770px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    margin: 20px 20px;
+}
+.help-live-chat {
+	background-color: #eee;
+    color: #000;
+    border-radius: 0px;
+    border: 2px solid #eee;
+    height: 45px;
+    margin-bottom: 20px;
+}
+.help-live-chat:hover {
+    border: 2px solid #000;
+    background-color: #fff;
+    transition: 0.5s;
+}
+.help-chat-online {
+    font-size: 13px;
+}
+.help-filecontainer {
+    overflow: hidden;
+    position: relative;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    padding: .375rem .75rem;
+    text-align: center;
+}
+
+.help-filecontainer [type=file] {
+    cursor: inherit;
+    display: block;
+    font-size: 999px;
+    filter: alpha(opacity=0);
+    min-height: 100%;
+    min-width: 100%;
+    opacity: 0;
+    position: absolute;
+    right: 0;
+    text-align: right;
+    top: 0;
+}
+.help-dropfiles {
+	font-size: 11px;
+    color: #b9b9b9;
+}
+.help-addfile {
+	font-size: 15px;
+}
+.help-paperclip {
+	color: #d2d2d2;
+    font-size: 20px;
+}
+.help-tab-position {
+	position: absolute;
+    left: 15px;
+}
+.help-mail-body {
+	overflow-y: scroll;
+    height: 770px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    margin: 20px 20px;
+}
+/*------------------------------
+------------ END HELP ----------
+--------------------------------*/
+
+
+/*-----------------------------
+--------- BLANK ---------------
+-------------------------------*/
+.blank-fontsize {
+	font-size: 15px;
+	color: #5d5d5d;
+}
+.blank-decoration {
+	border-bottom: 1px solid #ccc;
+}
+
+/*-----------------------------
+--------- END BLANK -----------
+-------------------------------*/
+
+/*------------------------------
+-------- SUB BRANCH ------------
+--------------------------------*/
+.sub-branch-fix-img {
+	position: relative;
+	overflow: hidden;
+	height: 540px;
+}
+.sub-branch-font-store {
+	font-size: 18px;
+    margin-bottom: 10px;
+}
+.sub-branch-font-address {
+	font-size: 14px;
+    color: #444;
+}
+.sub-branch-store {
+    margin-bottom: 35px;
+}
+.sub-branch-table {
+	width: 250px;
+    font-size: 14px;
+    color: #444;
+}
+.sub-branch-pb-30px {
+	padding-bottom: 30px;
+}
+.sub-img-auto {
+	position: absolute;
+    width: auto;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50% ,-50%);
+    height: auto;
+}
+.sub-img-short {
+	position: relative;
+    overflow: hidden;
+    height: 550px;
+}
+.sub-img-long {
+	position: relative;
+    overflow: hidden;
+    height: 850px;
+}
+.sub-img-head-footer {
+	position: relative;
+    overflow: hidden;
+    height: 540px;
+}
+/*------------------------------
+------- END SUB BRANCH ---------
+--------------------------------*/
+
+/*-----------------------------
+----------- BLOG --------------
+-------------------------------*/
+.blog-title {
+    height: 45px;
+    overflow: hidden;
+}
+.blog-img-auto {
+	position: absolute;
+    width: 100%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50% ,-50%);
+}
+.blog-img-fix {
+    position: relative;
+    height: 305px;
+    overflow: hidden;
+}
+/*-----------------------------
+----------- END BLOG ----------
+-------------------------------*/
+
+/*-----------------------------
+---------- SINGLE-BLOG --------
+-------------------------------*/
+.sb-uppercase {
+	text-transform: uppercase;
+}
+/*------------------------------
+------- END SINGLE-BLOG ---------
+--------------------------------*/
+
+@media (max-width: 1366px){
+
+}
+
+@media (max-width: 1024px){
+/*-----------------------------
+---------- ACCOUNT 1024 -------
+-------------------------------*/
+	.account-modal-dialog {
+	    max-width: 90%!important;
+	    margin: 1.75rem auto!important;
+	}
+/*-----------------------------
+-------- END ACCOUNT 1024 -----
+-------------------------------*/
+
+
+/*------------------------------
+-------- SUB BRANCH 1024--------
+--------------------------------*/
+	.sub-branch-fix-img {
+	    position: relative;
+	    overflow: hidden;
+	    height: 445px;
+	}
+	.sub-img-head-footer {
+	    position: relative;
+	    overflow: hidden;
+	    height: 455px;
+	}
+	.sub-img-short {
+	    position: relative;
+	    overflow: hidden;
+	    height: 455px;
+	}
+	.sub-img-long {
+	    position: relative;
+	    overflow: hidden;
+	    height: 705px;
+	}
+/*------------------------------
+----- END SUB BRANCH 1024 -------
+--------------------------------*/
+
+/*------------------------------
+---------- BLOG 1024 -----------
+--------------------------------*/
+	.blog-img-fix {
+	    position: relative;
+	    height: 255px;
+	    overflow: hidden;
+	}
+	.blog-title {
+	    height: 75px;
+	    overflow: hidden;
+	}
+/*------------------------------
+------- END BLOG 1024 ----------
+--------------------------------*/
+
+}
+
+@media (max-width: 768px){
+/*---------------------------
+------- ACCOUNT 768 --------
+-----------------------------*/
+	.account-modal-dialog {
+	    max-width: 100%!important;
+	    margin: 5px 5px!important;
+	}
+
+/*---------------------------
+----- END ACCOUN 768 --------
+-----------------------------*/
+
+/*------------------------------
+-------- SUB BRANCH 768 --------
+--------------------------------*/
+	.sub-map-responsive {
+		height: 400px!important;
+	}
+	.sub-branch-fix-img {
+	    position: relative;
+	    overflow: hidden;
+	    height: 335px;
+	}
+	.sub-branch-pb-30px {
+	    padding-bottom: 10px;
+	}
+	.sub-img-head-footer {
+	    position: relative;
+	    overflow: hidden;
+	    height: 340px;
+	}
+	.sub-img-short {
+	    position: relative;
+	    overflow: hidden;
+	    height: 345px;
+	}
+	.sub-img-long {
+	    position: relative;
+	    overflow: hidden;
+	    height: 510px;
+	}
+/*------------------------------
+----- END SUB BRANCH 768 -------
+--------------------------------*/
+
+/*------------------------------
+------------ BLOG 768 ----------
+--------------------------------*/
+	.blog-img-fix {
+	    position: relative;
+	    height: 185px;
+	    overflow: hidden;
+	}
+	.blog-title {
+	    height: 95px;
+	    overflow: hidden;
+	}
+/*------------------------------
+--------- END BLOG 768 ----------
+--------------------------------*/
+}
+
+@media (max-width: 414px){
+/*---------------------------
+------- ACCOUNT 414 --------
+-----------------------------*/
+	.btn-cmd-detail-position {
+			position: absolute;
+			top: -10px;
+			right: 25px;
+	}
+	.account-modal-dialog {
+	    max-width: 100%!important;
+	    margin: 5px 5px 0px 5px!important;
+	}
+
+	.help-modal-body {
+	    overflow-y: scroll;
+	    height: 600px;
+	    padding-top: 0px;
+	    padding-bottom: 0px;
+	    margin: 10px 0px;
+	}
+	.help-head-modal {
+		font-size: 20px;
+   		margin-top: 35px;
+	}
+	.help-mail-body {
+	    overflow-y: scroll;
+	    height: 550px;
+	    padding-top: 0px;
+	    padding-bottom: 0px;
+	    margin: 20px 20px;
+	}
+/*---------------------------
+----- END ACCOUN 414 --------
+-----------------------------*/
+
+/*------------------------------
+--------- SUB BRANCH 414 -------
+--------------------------------*/
+	.sub-branch-fix-img {
+	    position: relative;
+	    overflow: hidden;
+	    height: 190px;
+	}
+	.sub-map-responsive {
+	    height: 396px!important;
+	    padding: 0px 5px;
+	}
+	.sub-img-head-footer {
+	    position: relative;
+	    overflow: hidden;
+	    height: 190px;
+	}
+	.sub-img-short {
+	    position: relative;
+	    overflow: hidden;
+	    height: 390px;
+	}
+	.sub-img-long {
+	    position: relative;
+	    overflow: hidden;
+	    height: 605px;
+	}
+/*------------------------------
+----- END SUB BRANCH 414 -------
+--------------------------------*/
+/*------------------------------
+----------- BLOG 414 -----------
+--------------------------------*/
+	.blog-img-fix {
+	    position: relative;
+	    height: 215px;
+	    overflow: hidden;
+	}
+	.blog-title {
+	    height: 70px;
+	    overflow: hidden;
+	}
+/*------------------------------
+-------- END BLOG 414 ----------
+--------------------------------*/
+
+/*-------------------------------
+--------- SINGLE-BLOG 414 -------
+---------------------------------*/
+	.sb-h3-respon {
+		font-size: 20px;
+	}
+	.sb-font-respon {
+		font-size: 12px;
+    	text-align: center;
+	}
+/*-------------------------------
+----- END SINGLE-BLOG 414 -------
+---------------------------------*/
+}
+@media (max-width: 375px){
+/*---------------------------
+------- ACCOUNT 375 --------
+-----------------------------*/
+	.account-modal-dialog {
+	    max-width: 100%!important;
+	    margin: 5px 5px 0px 5px!important;
+	}
+	.help-modal-body {
+		overflow-y: scroll;
+	    height: 530px;
+	    padding-top: 0px;
+	    padding-bottom: 0px;
+	    margin: 10px 0px;
+	}
+	.help-mail-body {
+	    overflow-y: scroll;
+	    height: 480px;
+	    padding-top: 0px;
+	    padding-bottom: 0px;
+	    margin: 20px 20px;
+	}
+/*---------------------------
+----- END ACCOUN 375 --------
+-----------------------------*/
+
+/*------------------------------
+--------- SUB BRANCH 375 -------
+--------------------------------*/
+	.sub-branch-fix-img {
+	    position: relative;
+	    overflow: hidden;
+	    height: 170px;
+	}
+	.sub-img-head-footer {
+	    position: relative;
+	    overflow: hidden;
+	    height: 170px;
+	}
+	.sub-img-short {
+	    position: relative;
+	    overflow: hidden;
+	    height: 335px;
+	}
+	.sub-img-long {
+	    position: relative;
+	    overflow: hidden;
+	    height: 530px;
+	}
+/*------------------------------
+----- END SUB BRANCH 375 -------
+--------------------------------*/
+
+/*------------------------------
+---------- BLOG 375 ------------
+--------------------------------*/
+	.blog-img-fix {
+	    position: relative;
+	    height: 190px;
+	    overflow: hidden;
+	}
+	.blog-title {
+	    height: 70px;
+	    overflow: hidden;
+	    font-size: 15px;
+	}
+/*------------------------------
+------- END BLOG 375 -----------
+--------------------------------*/
+}
+
+@media (max-width: 320px){
+	.account-modal-dialog {
+	    max-width: 100%!important;
+	    margin: 5px 5px 0px 5px!important;
+	}
+	.help-modal-body {
+	    overflow-y: scroll;
+	    height: 430px;
+	    padding-top: 0px;
+	    padding-bottom: 0px;
+	    margin: 10px 0px;
+	}
+	.help-mail-body {
+	    overflow-y: scroll;
+	    height: 380px;
+	    padding-top: 0px;
+	    padding-bottom: 0px;
+	    margin: 20px 5px;
+	}
+
+/*------------------------------
+--------- SUB BRANCH 320 -------
+--------------------------------*/
+	.sub-branch-fix-img {
+	    position: relative;
+	    overflow: hidden;
+	    height: 145px;
+	}
+	.sub-map-responsive {
+	    height: 340px!important;
+	    padding: 0px 5px;
+	}
+	.sub-img-head-footer {
+	    position: relative;
+	    overflow: hidden;
+	    height: 140px;
+	}
+	.sub-img-short {
+	    position: relative;
+	    overflow: hidden;
+	    height: 295px;
+	}
+	.sub-img-short {
+	    position: relative;
+	    overflow: hidden;
+	    height: 295px;
+	}
+	.sub-img-long {
+	    position: relative;
+	    overflow: hidden;
+	    height: 450px;
+	}
+	.btn-cmd-detail-position {
+		position: absolute;
+		top: -10px;
+		right: 35px;
+	}
+/*------------------------------
+----- END SUB BRANCH 320 -------
+--------------------------------*/
+/*------------------------------
+--------- BLOG 320 -------------
+--------------------------------*/
+	.blog-title {
+	    height: 85px;
+	    overflow: hidden;
+	    font-size: 15px;
+	}
+	.blog-img-fix {
+	    position: relative;
+	    height: 160px;
+	    overflow: hidden;
+	}
+/*-------------------------------
+------- END BLOG 320 ------------
+---------------------------------*/
+
+/*-------------------------------
+------ SINGLE-BLOG 320 -----------
+---------------------------------*/
+	.sb-h3-respon {
+	    font-size: 20px;
+	}
+/*-------------------------------
+---- END SINGLE-BLOG 320 --------
+---------------------------------*/
+}

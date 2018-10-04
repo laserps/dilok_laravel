@@ -1,0 +1,699 @@
+
+
+}
+a {
+    color: #000;
+    text-decoration: none;
+}
+a:hover {
+    /*color: #000 !important;*/
+    text-decoration: none;
+}
+
+
+.btn:focus {
+     outline: 0!important;
+     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0);
+}
+/*-------------------------
+---------launches----------
+---------------------------*/
+
+.frame::-webkit-scrollbar
+ {
+   display: none;
+   width: 0px;
+ }
+
+/*-------index----------------*/
+.index-next-right i{
+    margin-right: 25px;
+}
+.index-next-left i{
+    margin-left: 25px;
+}
+.index-fix-frame {
+     position:relative;
+    overflow: hidden;
+    width:100%;
+    height: 330px;
+}
+.index-img-top{
+     position:absolute;
+    top:50%;
+    left:50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: auto;
+}
+.index-text-color{
+    color: #d0cdcd;
+}
+
+.latest-card{
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    width: 37vw;
+    margin-right: 5px;
+}
+.latest-img-top {
+     position:absolute;
+    top:50%;
+    left:50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: auto;
+
+}
+.latest-fix-frame{
+    height: 160px;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+}
+/*---------index end----------*/
+
+
+
+/*------------zoom---------------*/
+.zoom {
+display:inline-block;
+position: relative;
+}
+.zoom img {
+display: block;
+cursor: zoom-in;
+}
+.zoom img::selection {
+    background-color: transparent;
+}
+/*------product-details2-----*/
+.cur{
+cursor: zoom-in;
+}
+.icon-size{
+font-size: 24px;
+}
+/*------product-details2 end-----*/
+
+
+
+/*-----------zoom-------------------*/
+
+
+.card_new {
+    position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    min-width: 0px;
+    word-wrap: break-word;
+    background-color: #ffffff;
+    background-clip: border-box;
+    border: 0px solid rgba(0,0,0,.125);
+    border-radius: 0.25rem;
+}
+
+
+.launches-img-top {
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform: translate(-50%, -50%);
+
+}
+
+.pagination .news_page-link.active{
+     color: #ffffff;
+    text-decoration: none;
+    background-color: #000000;
+    transition: 1s !important;
+
+}
+
+
+.news_page-link {
+    position: relative;
+    display: block;
+    padding: 2px 10px 2px 10px;
+    margin-left: -1px;
+    color: #000000;
+    background-color: #ffffff;
+    border: 1px solid #000000;
+    border-radius: 0px;
+}
+.news_page-link:hover {
+    color: #ffffff !important;
+    text-decoration: none;
+    background-color: #000000;
+    transition: 1s !important;
+}
+
+
+
+.btn-1 {
+    background-color: white;
+    outline: 2px solid white;
+    border: 2px solid black;
+    outline-offset: -3px;
+    border-radius: 0px;
+    color: black;
+}
+
+.launches_btn-primary {
+    color: #fff;
+    background-color: #000000;
+    border-color: #000000;
+    border-radius: 0px;
+}
+.launches_font_3{
+    font-weight: 600;
+    font-size: 16px;
+
+}
+.launches_font_30{
+    font-weight: 400;
+    font-size: 16px;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 40px;
+    color: #000;
+    line-height: 20px;
+
+}
+.launches_font_31{
+    font-size: 50px;
+    margin: -30px 0px -15px 0px;
+    color: #ff2f2f;
+}
+.launches_font_32{
+    text-align: right;
+    font-size: 14px;
+}
+.launches_border{
+        border-right: 1px solid;
+}
+
+
+.launches-fix-frame {
+     position:relative;
+    overflow: hidden;
+    width:100%;
+    height: 290px;
+}
+.font_14{
+    font-size: 14px;
+}
+.fix_20{
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 40px;
+}
+.line-h-20{
+    line-height: 20px;
+}
+
+
+
+/*-------------------------
+---------launches end-------
+---------------------------*/
+
+
+/*-------------------------
+---------Add_Branch-------
+---------------------------*/
+.add_Branch-btn-secondary {
+    color: #020202;
+    background-color: #6c757d12;
+    border-radius: 0px;
+    padding: 15px 51px 15px 50px;
+}
+.add_Branch-card{
+    position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    min-width: 0px;
+    word-wrap: break-word;
+    background-color: #ffffff;
+    background-clip: border-box;
+    border: 0px solid rgba(0,0,0,.125);
+    border-radius: 0.25rem;
+}
+.add_Branch-fix-frame{
+    height: 350px;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+}
+.add_Branch-img-top {
+   position:absolute;
+    top:50%;
+    left:50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: auto;
+
+}
+
+
+/*-------------------------
+---------Add_Branch end------
+---------------------------*/
+
+/*-------------------------
+---------Add_our_story------
+---------------------------*/
+.add_our_story-fix-frame{
+    height: 350px;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+}
+
+.add_our_story-img-top {
+   position:absolute;
+    top:50%;
+    left:50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: auto;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+}
+.add_our_story-fix-frame-boy {
+    height: 640px;
+    position: relative;
+    overflow: hidden;
+    width: 70%;
+}
+.add_our_story-img-top-boy {
+   position:absolute;
+    top:50%;
+    left:50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: auto;
+
+}
+.add_our_story-padding{
+    padding: 15px 100px 0px 100px;
+}
+
+.add_our_story-padtext{
+   padding: 210px 100px 210px 100px;
+}
+
+
+
+/*-------------------------
+---------Add_our_story end-----
+---------------------------*/
+
+/*-----------------------------
+----------launches_detail------
+-------------------------------*/
+.launches_detail-color-font{
+    color: #ff2f2f;
+}
+.launches_detail-title{
+    font-size: 30px;
+}
+.launches_detail-content{
+    font-weight: 300;
+    font-size: 14px
+}
+.launches_detail-excerpt{
+    font-size: small;
+    font-weight: 300;
+    color: #808080;
+    margin-bottom: 15px
+}
+.launches_detail-color-icon{
+    color: #00000030;
+}
+.launches_detail-hr{
+    border-width: 2px;
+    background-color: black;
+}
+.launches_detail-lineheight{
+    line-height: 20px;
+}
+.launches_detail-bg{
+    padding: 30px 50px 30px 50px;
+    background-color: #d0d0d04a;
+}
+
+/*-----------------------------
+----------launches_detail end---
+-------------------------------*/
+
+
+@media (max-width: 1366px){
+
+ /*-------------------------
+---------launches -------
+---------------------------*/
+    .lau_pad_10{
+        padding: 0px 0px 0px 10px;
+    }
+    .launches_font_32 {
+    text-align: center;
+    font-size: 14px;
+}
+.launches-fix-frame {
+    position: relative;
+    overflow: hidden;
+    width: 98%;
+    height: 240px;
+}
+
+/*-------------------------
+---------launches end-------
+---------------------------*/
+
+}
+
+@media (max-width: 1024px){
+
+
+/*-----lanches-detail--------*/
+.dis_block{
+    display: block;
+}
+
+
+/*-----lanches-detail end-----*/
+
+
+
+
+/*-------------------------
+---------launches -------
+---------------------------*/
+
+    .lau_pad_10{
+        padding: 0px 0px 0px 10px;
+    }
+    .launches_font_32 {
+    text-align: center;
+    font-size: 14px;
+}
+
+.launches-fix-frame {
+    height: 180px;
+    position: relative;
+    overflow: hidden;
+    width: 98%;
+}
+/*-------------------------
+---------launches end-------
+---------------------------*/
+
+/*------------------------
+----------add_our_story---
+--------------------------*/
+.row_fix {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin-right: 0px;
+    margin-left: 0px;
+}
+.add_our_story-fix-frame-boy {
+    height: 640px;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+}
+.add_our_story-padtext {
+    padding: 190px 30px 210px 30px;
+}
+
+/*---------------------------
+----------add_our_story end---
+----------------------------*/
+
+}
+
+@media (max-width: 768px){
+
+/*-------index----------------*/
+.index-next-right i{
+    margin-right: -25px;
+}
+.index-next-left i{
+    margin-left: -25px;
+}
+/*---------index end----------*/
+
+/*-------------------------
+---------launches -------
+---------------------------*/
+
+    .launches_font_32 {
+        text-align: center;
+        font-size: 14px;
+    }
+    .launches-fix-frame {
+    height: 200px;
+    position: relative;
+    overflow: hidden;
+    width: 98%;
+}
+
+
+/*-------------------------
+---------launches end-------
+---------------------------*/
+
+ /*-------------------------
+---------Add_our_story------
+---------------------------*/
+.add_our_story-padtext {
+    padding-bottom: 40px;
+    padding-top: 40px;
+}
+.add-mat{
+    margin-bottom: 15px;
+}
+
+
+/*----------------------------
+---------Add_our_story end-----
+-----------------------------*/
+
+
+
+
+}
+
+@media (max-width: 414px){
+
+    .latest-fix-frame {
+    height: 100px;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+}
+.latest-card {
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    width: 40vw;
+    margin-right: 5px;
+}
+
+/*-------------------------
+---------launches-------
+---------------------------*/
+.launches_font_32 {
+    text-align: left;
+    font-size: 14px;
+}
+ .launches-img{
+         width: 100%;
+    }
+ .launches-fix-frame {
+    height: auto;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+}
+.launches_font_30 {
+    font-size: 14px;
+}
+
+
+/*-------------------------
+---------launches end-------
+---------------------------*/
+
+
+/*--------------------------
+--------add_branch----------
+---------------------------*/
+.add_Branch-fix-frame {
+    height: 270px;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+}
+/*--------------------------
+--------add_branch end------
+---------------------------*/
+
+/*---------------------------
+--------add_our story--------
+----------------------------*/
+.add_our_story-padding {
+    padding: 0px;
+}
+
+.add_our_story-fix-frame {
+    height: 200px;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+}
+.add_our_story-fix-frame-boy {
+    height: 590px;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+}
+/*---------------------------
+--------add_our story end-----
+----------------------------*/
+
+
+
+
+
+}
+@media (max-width: 375px){
+
+    .latest-fix-frame {
+    height: 95px;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+}
+
+/*-------------------------
+---------launches-----------
+---------------------------*/
+
+    .launches_font_32 {
+    text-align: left;
+    font-size: 14px;
+}
+.launches-img-top {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: auto;
+    height: 100%;
+}
+
+/*-------------------------
+---------launches end-----------
+---------------------------*/
+
+
+/*--------------------------
+--------add_branch----------
+---------------------------*/
+.add_Branch-fix-frame {
+    height: 240px;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+}
+
+/*--------------------------
+--------add_branch end----------
+---------------------------*/
+
+/*-----------------------------
+------add_our_story------------
+------------------------------*/
+.add_our_story-fix-frame-boy {
+    height: 550px;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+}
+/*-----------------------------
+------add_our_story end--------
+------------------------------*/
+
+
+}
+
+@media (max-width: 320px){
+       .latest-fix-frame {
+    height: 80px;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+}
+
+/*--------------------------
+--------add_branch----------
+---------------------------*/
+    .add_Branch-fix-frame {
+    height: 200px;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+}
+/*--------------------------
+--------add_branch end-------
+---------------------------*/
+
+/*-----------------------------
+------add_our_story------------
+------------------------------*/
+.add_our_story-fix-frame-boy {
+    height: 430px;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+}
+.add-mat {
+    margin-bottom: 10px;
+}
+/*-----------------------------
+------add_our_story end--------
+------------------------------*/
+
+}

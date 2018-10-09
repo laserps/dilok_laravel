@@ -50,43 +50,108 @@ class CustomerController extends Controller
             'website_id' => 1,
             'store_id' => 1,
             'group_id' => 1,
-            'addresses' =>
-                0 => [
+            "default_billing" => 1,
+            // "dob" => "1",
+            // "confirmation"=> "1",
+            "default_shipping" => 1,
+            // "middlename" => "ham",
+            "gender"=> 0,
+            // "taxvat"=> "0",
+            // "prefix" => "1",
+            // "suffix" => "1",
+            "created_at" => "2018-09-24 06:48:56",
+            "updated_at" => "2018-09-24 06:48:56",
+            "created_in" => "Default Store View",
+              "addresses" => [
+                array(
+                  // "id"=> 0,
+                  "customer_id"=> 5,
+                  "region"=> array(
+                    "region_code"=> "string",
+                    "region"=> "string",
+                    "region_id"=> 0,
+                    "extension_attributes"=> array(),
+                  ),
+                  "region_id"=> 0,
+                  "country_id"=> "string",
+                  "street"=> [
+                    "string"
+                  ],
+                  "company"=> "string",
+                  "telephone"=> "string",
+                  "fax"=> "string",
+                  "postcode"=> "string",
+                  "city"=> "string",
+                  "firstname"=> "string",
+                  "lastname"=> "string",
+                  "middlename"=> "string",
+                  "prefix"=> "string",
+                  "suffix"=> "string",
+                  "vat_id"=> "string",
+                  "default_shipping"=> true,
+                  "default_billing"=> true,
+                  "extension_attributes"=> array(),
+                  "custom_attributes"=> [
                     array(
-                    // "id" => 0,
-                    // "customer_id" => 0,
-                    "region" => array(
-                      // "region_code" => "string",
-                      "region" => "Bankok",
-                      "region_id" => 0,
-                      // "extension_attributes" => array(),
+                      "attribute_code"=> "string",
+                      "value"=> "string"
                     ),
-                    "region_id" => 0,
-                    "country_id" => "TH",
-                    "street" => array(
-                      "1518/4"
-                    ),
-                    "company" => "workbythai",
-                    "telephone" => "0857000516",
-                    "fax" => "",
-                    "postcode" => "10800",
-                    "city" => "Bankok",
-                    "firstname" => $request->input('firstname'),
-                    "lastname" => $request->input('lastname'),
-                    "middlename" => "",
-                    "prefix" => "",
-                    "suffix" => "",
-                    "vat_id" => "",
-                    "default_shipping" => true,
-                    "default_billing" => true,
-                    // "extension_attributes" => array(),
-                    // "custom_attributes" => array(
-                    //     "attribute_code" => "string",
-                    //     "value" => "string"
-                    // ),
-                    ),
-            ],
+                  ]
+                )
+              ],
+            // 'addresses' =>
+            //       [
+            //         array(
+            //         // "id" => 9,
+            //         "customer_id" => 75,
+            //         "region" => array(
+            //           "region_code" => "TH",
+            //           "region" => "Bankok",
+            //           "region_id" => 0,
+            //           "extension_attributes" => array(),
+            //         ),
+            //         "region" => "Bankok",
+            //         "region_id" => 0,
+            //         "country_id" => "TH",
+            //         // "street" => array("street","PO Box 321"),
+            //         "company" => "workbythai",
+            //         "telephone" => "0857000516",
+            //         // "fax" => "1",
+            //         "postcode" => "10800",
+            //         "city" => "Bankok",
+            //         "firstname" => $request->input('firstname'),
+            //         "lastname" => $request->input('lastname'),
+            //         // "middlename" => "1",
+            //         // "prefix" => "1",
+            //         // "suffix" => "1",
+            //         // "vat_id" => "1",
+            //         "default_shipping" => 1,
+            //         "default_billing" => 1,
+            //         // "extension_attributes" => array(),
+            //         // "custom_attributes" => [
+            //         //     array(
+            //         //       "attribute_code" => "23",
+            //         //       "value" => "bbb"
+            //         //     ),
+            //         //   ],
+            //         ),
+            //       ],
+            //       "disable_auto_group_change" => 0,
+            //       "extension_attributes" => [
+            //           array(
+            //           "is_subscribed" =>  true
+            //         ),
+            //       ],
+            //       "custom_attributes" => [
+            //         array(
+            //           "attribute_code" => "23",
+            //           "value" => "bbb"
+            //         ),
+            //       ]
         );
+
+        // dd($customer);
+        // exit();
 
         // $customer['addresses'] = array(
         //     'firstname'             => $request->input('firstname'),
@@ -106,6 +171,7 @@ class CustomerController extends Controller
         $customer['password'] = $request->input('password');
         $create_customer = $create_customers->customerAccountManagementV1CreateAccount($customer);
         $return['status'] = 1;
+        $return['customer'] = $create_customer;
         $return['content'] = 'สำเร็จ';
 
         } catch (Exception $e){

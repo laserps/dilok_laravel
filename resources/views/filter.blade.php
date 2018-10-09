@@ -115,11 +115,13 @@
                 <div class="collapse show" id="collapseExample333">
                     <div class="filter-scroll">
                         @foreach($category->result->childrenData->item as $key_category => $value_category)
-                          <label class="check">
-                              <div class="regist-m-l2 pt-1 fillter-font3" data-type="{{ $value_category->id }}">{{ $value_category->name }}</div>
-                              <input name="brand[]" type="checkbox" data-text_gender="{{ $value_category->name }}" data-type="{{ $value_category->id }}" class="checkboxlist checkmark data_type2{{ $value_category->id }}" value="{{ $value_category->id }}" />
-                              <!-- <span class="checkmark data_type{{ $value_category->id }}" data-type="{{ $value_category->id }}" data-text_type="{{ $value_category->name }}"></span> -->
-                          </label>
+                          @if($value_category->name != 'Default Category')
+                            <label class="check">
+                                <div class="regist-m-l2 pt-1 fillter-font3" data-type="{{ $value_category->id }}">{{ $value_category->name }}</div>
+                                <input name="brand[]" type="checkbox" data-text_gender="{{ $value_category->name }}" data-type="{{ $value_category->id }}" class="checkboxlist checkmark data_type2{{ $value_category->id }}" value="{{ $value_category->id }}" />
+                                <!-- <span class="checkmark data_type{{ $value_category->id }}" data-type="{{ $value_category->id }}" data-text_type="{{ $value_category->name }}"></span> -->
+                            </label>
+                          @endif
                         @endforeach
                     </div>
                 </div>
@@ -154,7 +156,7 @@
                             @if($value_sizes->label != ' ')
                               <label class="check">
                                   <div class="regist-m-l2 pt-1 fillter-font3">{{ $value_sizes->label }}</div>
-                                  <input name="size[]" type="checkbox" data-text_gender="{{ $value_sizes->label }}" data-type="{{ $value_sizes->value }}"" class="checkboxlist checkmark data_type2{{ $value_category->id }}" value="{{ $value_sizes->value }}" />
+                                  <input name="size[]" type="checkbox" data-text_gender="{{ $value_sizes->label }}" data-type="{{ $value_sizes->value }}"" class="checkboxlist checkmark data_type2{{ $value_sizes->value }}" value="{{ $value_sizes->value }}" />
                                   <!-- <span class="checkmark data_type{{ $value_sizes->value }}"></span> -->
                               </label>
                             @endif
@@ -172,7 +174,7 @@
                             @if($value_color->label != ' ')
                               <label class="check">
                                   <div class="regist-m-l2 pt-1 fillter-font3">{{$value_color->label}}</div>
-                                  <input name="colorproduct[]" data-text_gender="{{ $value_color->label }}" data-type="{{ $value_color->value }}" type="checkbox" class="checkboxlist checkmark data_type2{{ $value_category->id }}" value="{{ $value_color->value }}" />
+                                  <input name="colorproduct[]" data-text_gender="{{ $value_color->label }}" data-type="{{ $value_color->value }}" type="checkbox" class="checkboxlist checkmark data_type2{{ $value_color->value }}" value="{{ $value_color->value }}" />
                                   <!-- <span class="checkmark data_type{{ $value_color->value }}"></span> -->
                               </label>
                             @endif

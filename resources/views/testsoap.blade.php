@@ -19,7 +19,7 @@ try{
 // $tokenadmin = new SoapClient('http://192.168.1.27/dilok/soap/default?wsdl&services=integrationAdminTokenServiceV1',$params);
 // $request = new SoapClient('http://192.168.1.27/dilok/soap/default?wsdl&services=directoryCurrencyInformationAcquirerV1',$params);
 // $create_customers = new SoapClient('http://192.168.1.27/dilok/soap/default?wsdl&services=customerAccountManagementV1',$params);
-// $login_customer = new SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=integrationCustomerTokenServiceV1',$params);
+$login_customer = new SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=integrationCustomerTokenServiceV1',$params);
 // $get_currency = new SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=directoryCurrencyInformationAcquirerV1',$params);
 $get_products = new SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
 $get_products2 = new SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=catalogProductRenderListV1',$params);
@@ -29,13 +29,84 @@ $get_stock_product = new SoapClient('http://192.168.1.27/dilok2/soap/default?wsd
 $get_type_products = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=catalogProductAttributeOptionManagementV1',$params);
 $category = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=catalogCategoryManagementV1',$params);
 $category2 = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=catalogCategoryRepositoryV1',$params);
-$login_customer22 = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=customerAccountManagementV1',$params);
+// $login_customer22 = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl_list&services=catalogCategoryRepositoryV1',$params);
 // $get_products_type = new SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=quoteGuestCartRepositoryV1',$params);
 
 // $get_products_gallerys = new \SoapClient('http://192.168.1.27/dilok/soap/default?wsdl&services=catalogProductAttributeMediaGalleryManagementV1',$params);
 // $catalog = new \SoapClient('http://192.168.1.27/dilok/soap/default?wsdl&services=catalogCategoryManagementV1',$params);
 
-// $soapResponse = $get_products->__getFunctions();
+// $soapResponse = $login_customer22->__getFunctions();
+
+$aa = array('1','2');
+$bb = array('11'=>'11','22'=>'22');
+$cc = ['1','2'];
+$dd = [array('1','2')];
+
+dd(json_encode($aa),json_encode($bb),json_encode($cc),json_encode($dd));
+// dd($soapResponse);
+exit();
+
+$customer['customer'] = array(
+            'email' => 'banjong_147@hotmail.com',
+            'firstname' => 'banjong',
+            'lastname' => 'limkluea',
+            'website_id' => 1,
+            'store_id' => 1,
+            'group_id' => 1,
+            'addresses' =>
+                  // [
+                    array(
+                    // "id" => 72,
+                    "customer_id" => 72,
+                    "region" => array(
+                      "region_code" => "string",
+                      "region" => "Bankok",
+                      "region_id" => 0,
+                      "extension_attributes" => array(),
+                    ),
+                    "region_id" => 0,
+                    "country_id" => "TH",
+                    "street" =>
+                        [
+                          "404 Main Street",
+                          "PO Box 321",
+                      ],
+                    "company" => "workbythai",
+                    "telephone" => "0857000516",
+                    "fax" => "",
+                    "postcode" => "10800",
+                    "city" => "Bankok",
+                    "firstname" => 'banjong',
+                    "lastname" => 'limkluea',
+                    "middlename" => "",
+                    "prefix" => "",
+                    "suffix" => "",
+                    "vat_id" => "",
+                    "default_shipping" => true,
+                    "default_billing" => true,
+                    "extension_attributes" => array(),
+                    "custom_attributes" => array(
+                        "attribute_code" => "23",
+                        "value" => "bbb"
+                    ),
+                    ),
+                  // ],
+                  // "disable_auto_group_change" => 0,
+                  // "extension_attributes" => array(
+                  //   "is_subscribed" =>  true
+                  // ),
+                  // "custom_attributes" => [
+                  //   array(
+                  //     "attribute_code" => "23",
+                  //     "value" => "bbb"
+                  //   ),
+                  // ]
+        );
+
+// $soapResponse = $address_customer->__getFunctions();
+
+// return dd(json_encode($customer));
+// exit();
 
 	// $admin_token = $tokenadmin->integrationAdminTokenServiceV1CreateAdminAccessToken(array('username' => 'workbythai01', 'password' => 'workbythai@01'));
 	// $currency = $get_currency->directoryCurrencyInformationAcquirerV1GetCurrencyInfo();
@@ -52,17 +123,20 @@ $login_customer22 = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsd
 	// $customer['password'] = "Whitestar01";
 	// $create_customer = $create_customers->customerAccountManagementV1CreateAccount($customer);
 
-	// $login_customers = array(
-	// 	'username' => 'hamworkbythai@gmail.com',
-	// 	'password' => 'Whitestar01'
-	// );
+	$login_customers = array(
+		'username' => 'hamworkbythai@gmail.com',
+		'password' => 'Whitestar01'
+	);
 
 	// dd($currency);
 	// exit();
 
 	// $get_token_login = $login_customer->integrationCustomerTokenServiceV1CreateCustomerAccessToken(array('username' => 'hamworkbythai@gmail.com','password' => 'Whitestar01'));
-	// $get_token_login = $login_customer->integrationCustomerTokenServiceV1CreateCustomerAccessToken($login_customers);
+	$get_token_login = $login_customer->integrationCustomerTokenServiceV1CreateCustomerAccessToken($login_customers);
 	// $get_customer = $create_customers->customerAccountManagementV1ValidateResetPasswordLinkToken(array('customerId' => '2' , 'resetPasswordLinkToken' => '3afcab3761a3230e9b2bf2a91174b5ab'));
+
+	dd($get_token_login);
+	exit();
 
 $get_product_page = [
     'searchCriteria' => [

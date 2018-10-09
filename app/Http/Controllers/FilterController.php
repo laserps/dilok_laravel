@@ -178,7 +178,7 @@ class FilterController extends Controller
         //
     }
 
-    public function get_gender(Request $request){
+    public function get_gender(Request $request,$id=null){
         $opts = array(
             'ssl' => array('ciphers'=>'RC4-SHA', 'verify_peer'=>false, 'verify_peer_name'=>false)
         );
@@ -254,6 +254,7 @@ class FilterController extends Controller
         $get_products = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
         $get_products2 = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=catalogProductRenderListV1',$params);
 
+        if($id != null){
             if(!empty($input_all['gender']) || !empty($input_all['brand']) || !empty($input_all['size']) || !empty($input_all['colorproduct'])){
                 $get_product_page = [
                     'searchCriteria' => [
@@ -350,6 +351,40 @@ class FilterController extends Controller
                     ],
                 ];
             }
+        } else {
+            $get_product_page = [
+                    'searchCriteria' => [
+                        'filterGroups' => [
+                            [
+                                'filters' => [
+                                    [
+                                        'field' => 'status',
+                                        'value' => '1',
+                                        'conditionType' => 'eq',
+                                    ],
+                                ],
+                                'filters' => [
+                                    [
+                                        'field' => 'visibility',
+                                        'value' => '4',
+                                        'condition_type' => 'eq',
+                                    ],
+                                ],
+                                'filters' => [
+                                    [
+                                        'field' => 'type_id',
+                                        'value' => 'configurable',
+                                        'condition_type' => 'eq',
+                                    ],
+                                ],
+                            ],
+                        ],
+                        'pageSize' => 12,
+                        'currentPage' => $page,
+                    ],
+                ];
+            $data['id_product'] = $id;
+        }
             $get_product_page['storeId'] = "1";
             $get_product_page['currencyCode'] = "THB";
 

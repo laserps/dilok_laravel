@@ -10,11 +10,18 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/checkphp',function(){
+    return phpinfo();
+});
 
 Route::get('/testapi','TestapiController@index');
 Route::post('/postapidilok','TestapiController@postapidilok');
 Route::get('/testsoap','TestapiController@testsoap');
 Route::get('/testsoap2','TestapiController@testsoap2');
+
+Route::get('/testrest','TestapiController@testrest');
+Route::get('/testrestpost','MeeController@addCustomer');
+
 
 Route::get('/','HomeController@index');
 Route::get('/blog','BlogController@index');

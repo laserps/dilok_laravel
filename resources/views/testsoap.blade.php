@@ -19,6 +19,7 @@ try{
 // $tokenadmin = new SoapClient('http://192.168.1.27/dilok/soap/default?wsdl&services=integrationAdminTokenServiceV1',$params);
 // $request = new SoapClient('http://192.168.1.27/dilok/soap/default?wsdl&services=directoryCurrencyInformationAcquirerV1',$params);
 // $create_customers = new SoapClient('http://192.168.1.27/dilok/soap/default?wsdl&services=customerAccountManagementV1',$params);
+$create_customers2 = new SoapClient('http://192.168.1.27/dilok/soap/default?wsdl&services=customerGroupRepositoryV1,customerGroupManagementV1,customerCustomerMetadataV1,customerAddressMetadataV1,customerCustomerRepositoryV1,customerAccountManagementV1,customerAddressRepositoryV1',$params);
 $login_customer = new SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=integrationCustomerTokenServiceV1',$params);
 // $get_currency = new SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=directoryCurrencyInformationAcquirerV1',$params);
 $get_products = new SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
@@ -35,7 +36,10 @@ $category2 = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&servi
 // $get_products_gallerys = new \SoapClient('http://192.168.1.27/dilok/soap/default?wsdl&services=catalogProductAttributeMediaGalleryManagementV1',$params);
 // $catalog = new \SoapClient('http://192.168.1.27/dilok/soap/default?wsdl&services=catalogCategoryManagementV1',$params);
 
-// $soapResponse = $login_customer22->__getFunctions();
+$soapResponse = $create_customers2->__getFunctions();
+
+dd($soapResponse);
+exit();
 
 $aa = array('1','2');
 $bb = array('11'=>'11','22'=>'22');

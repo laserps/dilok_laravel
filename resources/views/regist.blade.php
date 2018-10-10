@@ -53,7 +53,7 @@
                                 </label>
                                 <div class="input-group text-center">
                                   <div class="input-group-prepend"></div>
-                                  <input type="text" class="regist-form" name="firstname" id="validationDefaultUsername1" placeholder="First Name" aria-describedby="inputGroupPrepend1" required>
+                                  <input type="text" class="regist-form firstname" name="firstname" id="validationDefaultUsername1" placeholder="First Name" aria-describedby="inputGroupPrepend1" required>
                                 </div>
                             </div>
                             <div class="col-xl-6 regist-m-t3">
@@ -190,6 +190,13 @@
 
 @section('js_bottom')
 <script type="text/javascript">
+$.ajaxSetup({
+  headers: {
+      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+      // 'Accept': 'application/json',
+      // 'Content-Type': 'application/json'
+  }
+});
   function myFunction() {
     $("#my-account").css('display',"block");
     $("#detail").css('display',"none");
@@ -197,10 +204,16 @@
 
 $('body').on('click','#btn-submit_form',function(){
     var form = $('#form_register_customer').serializeArray();
+    var firstname = $('.firstname').val();
+    console.log(form);
       $.ajax({
         method : "POST",
         url : url_gb+"/create_customer",
-        data : form,
+        async: false,
+        // contentType: 'application/json; charset=utf-8',
+        dataType: "JSON",
+        // data: $(form)  .stringify(),
+        data: $('#form_register_customer').serialize(),
     }).done(function(rec){
       if(rec.status==1){
         console.log(1);
@@ -209,7 +222,7 @@ $('body').on('click','#btn-submit_form',function(){
         console.log(2);
         // swal("ระบบมีปัญหา","กรุณาติดต่อผู้ดูแล","error");
       }
-      $('#form_register_customer')[0].reset();
+      // $('#form_register_customer')[0].reset();
     }).fail(function(){
     });
 });
@@ -219,6 +232,7 @@ $('body').on('click','#btn_login_customer',function(){
       $.ajax({
         method : "POST",
         url : url_gb+"/login_customer",
+        contentType: "JSON",
         data : form,
     }).done(function(rec){
       if(rec.status==1){
@@ -228,7 +242,7 @@ $('body').on('click','#btn_login_customer',function(){
         console.log(2);
         // swal("ระบบมีปัญหา","กรุณาติดต่อผู้ดูแล","error");
       }
-      $('#form_login_customer')[0].reset();
+      // $('#form_login_customer')[0].reset();
     }).fail(function(){
     });
 });

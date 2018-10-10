@@ -39,5 +39,5 @@ Route::get('/payment','ProductController@payment');
 Route::post('/gender','FilterController@get_gender');
 Route::post('/gender/{id}','FilterController@get_gender');
 Route::get('/filter_search','FilterController@filter_search');
-Route::post('/create_customer','CustomerController@create');
+Route::post('/create_customer','CustomerController@abc');
 Route::post('/login_customer','CustomerController@login_customer');

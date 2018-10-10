@@ -21,8 +21,14 @@ class CustomerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function abc(Request $request)
     {
+        // return "test";
+        $data['email'] = $request->input('email');
+        $data['firstname'] = $request->input('firstname');
+        $data['lastname'] = $request->input('lastname');
+        // dd($data,$request->all(),$request->input('email'));
+        // exit();
         $opts = array(
             'ssl' => array('ciphers'=>'RC4-SHA', 'verify_peer'=>false, 'verify_peer_name'=>false)
         );
@@ -51,14 +57,14 @@ class CustomerController extends Controller
             'store_id' => 1,
             'group_id' => 1,
             "default_billing" => 1,
-            // "dob" => "1",
-            // "confirmation"=> "1",
+            "dob" => "1",
+            "confirmation"=> "1",
             "default_shipping" => 1,
-            // "middlename" => "ham",
+            "middlename" => "ham",
             "gender"=> 0,
-            // "taxvat"=> "0",
-            // "prefix" => "1",
-            // "suffix" => "1",
+            "taxvat"=> "0",
+            "prefix" => "1",
+            "suffix" => "1",
             "created_at" => "2018-09-24 06:48:56",
             "updated_at" => "2018-09-24 06:48:56",
             "created_in" => "Default Store View",
@@ -102,71 +108,76 @@ class CustomerController extends Controller
 
             'addresses' =>
                   [
-                    array(
+                    [
                     // "id" => 9,
-                    "customer_id" => 75,
-                    "region" => array(
+                    // "customer_id" => 12,
+                    "region" => [
                       "region_code" => "TH",
                       "region" => "Bankok",
                       "region_id" => 0,
-                      "extension_attributes" => array(),
-                    ),
+                      "extension_attributes" => [],
+                    ],
                     "region" => "Bankok",
                     "region_id" => 0,
                     "country_id" => "TH",
-                    // "street" => array("street","PO Box 321"),
+                    // "street" => ["street","PO Box 321"],
+                    "street" => [
+                        "123 Main Street",
+                        "PO Box 321"
+                    ],
                     "company" => "workbythai",
                     "telephone" => "0857000516",
-                    // "fax" => "1",
+                    "fax" => "1",
                     "postcode" => "10800",
                     "city" => "Bankok",
                     "firstname" => $request->input('firstname'),
                     "lastname" => $request->input('lastname'),
-                    // "middlename" => "1",
-                    // "prefix" => "1",
-                    // "suffix" => "1",
-                    // "vat_id" => "1",
-                    "default_shipping" => 1,
-                    "default_billing" => 1,
-                    // "extension_attributes" => array(),
+                    "middlename" => "1",
+                    "prefix" => "1",
+                    "suffix" => "1",
+                    "vat_id" => "1",
+                    "default_shipping" => true,
+                    "default_billing" => true,
+                    "extension_attributes" => array(),
                     // "custom_attributes" => [
                     //     array(
                     //       "attribute_code" => "23",
                     //       "value" => "bbb"
                     //     ),
                     //   ],
-                    ),
+                    ],
                   ],
+            // "addresses" => [
+            //     [
+            //         // "customer_id" => "3",
+            //         // "region_id" =>  32, // RegionId must needs to pass
+            //         "country_id" => "TH",
+            //         "street" => [
+            //             "123 Main Street",
+            //             "PO Box 321"
+            //         ],
+            //         // "firstname" => "John",
+            //         // "lastname" => "Doe",
+            //         // "company" => "ABC Manufacturing",
+            //         "telephone" => "555-555-5555",
+            //         "city" => "Boston",
+            //         "postcode" => "02115"
+            //     ]
+            // ],
+
+
                   "disable_auto_group_change" => 0,
                   "extension_attributes" => [
                       array(
                       "is_subscribed" =>  true
                     ),
                   ],
-                  "custom_attributes" => [
-                    array(
-                      "attribute_code" => "23",
-                      "value" => "bbb"
-                    ),
-                  ]
-=======
-            "addresses" => [
-                [
-                    "customer_id" => "3",
-                    "region_id" =>  32, // RegionId must needs to pass
-                    "country_id" => "US",
-                    "street" => [
-                        "123 Main Street",
-                        "PO Box 321"
-                    ],
-                    "firstname" => "John",
-                    "lastname" => "Doe",
-                    "company" => "ABC Manufacturing",
-                    "telephone" => "555-555-5555",
-                    "city" => "Boston",
-                    "postcode" => "02115"
-                ]
-            ],
+                  // "custom_attributes" => [
+                  //   array(
+                  //     "attribute_code" => "23",
+                  //     "value" => "bbb"
+                  //   ),
+                  // ]
             // 'addresses' =>
             //       [
             //         array(
@@ -216,8 +227,11 @@ class CustomerController extends Controller
             //           "value" => "bbb"
             //         ),
             //       ]
->>>>>>> 29c9577774193c758a71e6fd445fc8fd72bd6573
         );
+
+$customer2['customer'] = array(
+  'customer' => 1
+);
 
         // dd($customer);
         // exit();
@@ -238,7 +252,7 @@ class CustomerController extends Controller
         // );
 
         $customer['password'] = $request->input('password');
-        $create_customer = $create_customers->customerAccountManagementV1CreateAccount($customer);
+        $create_customer = $create_customers->customerAccountManagementV1CreateAccount($customer2);
         $return['status'] = 1;
         $return['customer'] = $create_customer;
         $return['content'] = 'สำเร็จ';

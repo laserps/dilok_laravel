@@ -62,43 +62,23 @@ class CustomerController extends Controller
             "created_at" => "2018-09-24 06:48:56",
             "updated_at" => "2018-09-24 06:48:56",
             "created_in" => "Default Store View",
-              "addresses" => [
-                array(
-                  // "id"=> 0,
-                  "customer_id"=> 5,
-                  "region"=> array(
-                    "region_code"=> "string",
-                    "region"=> "string",
-                    "region_id"=> 0,
-                    "extension_attributes"=> array(),
-                  ),
-                  "region_id"=> 0,
-                  "country_id"=> "string",
-                  "street"=> [
-                    "string"
-                  ],
-                  "company"=> "string",
-                  "telephone"=> "string",
-                  "fax"=> "string",
-                  "postcode"=> "string",
-                  "city"=> "string",
-                  "firstname"=> "string",
-                  "lastname"=> "string",
-                  "middlename"=> "string",
-                  "prefix"=> "string",
-                  "suffix"=> "string",
-                  "vat_id"=> "string",
-                  "default_shipping"=> true,
-                  "default_billing"=> true,
-                  "extension_attributes"=> array(),
-                  "custom_attributes"=> [
-                    array(
-                      "attribute_code"=> "string",
-                      "value"=> "string"
-                    ),
-                  ]
-                )
-              ],
+            "addresses" => [
+                [
+                    "customer_id" => "3",
+                    "region_id" =>  32, // RegionId must needs to pass
+                    "country_id" => "US",
+                    "street" => [
+                        "123 Main Street",
+                        "PO Box 321"
+                    ],
+                    "firstname" => "John",
+                    "lastname" => "Doe",
+                    "company" => "ABC Manufacturing",
+                    "telephone" => "555-555-5555",
+                    "city" => "Boston",
+                    "postcode" => "02115"
+                ]
+            ],
             // 'addresses' =>
             //       [
             //         array(

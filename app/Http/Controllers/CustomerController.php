@@ -149,6 +149,74 @@ class CustomerController extends Controller
                       "value" => "bbb"
                     ),
                   ]
+=======
+            "addresses" => [
+                [
+                    "customer_id" => "3",
+                    "region_id" =>  32, // RegionId must needs to pass
+                    "country_id" => "US",
+                    "street" => [
+                        "123 Main Street",
+                        "PO Box 321"
+                    ],
+                    "firstname" => "John",
+                    "lastname" => "Doe",
+                    "company" => "ABC Manufacturing",
+                    "telephone" => "555-555-5555",
+                    "city" => "Boston",
+                    "postcode" => "02115"
+                ]
+            ],
+            // 'addresses' =>
+            //       [
+            //         array(
+            //         // "id" => 9,
+            //         "customer_id" => 75,
+            //         "region" => array(
+            //           "region_code" => "TH",
+            //           "region" => "Bankok",
+            //           "region_id" => 0,
+            //           "extension_attributes" => array(),
+            //         ),
+            //         "region" => "Bankok",
+            //         "region_id" => 0,
+            //         "country_id" => "TH",
+            //         // "street" => array("street","PO Box 321"),
+            //         "company" => "workbythai",
+            //         "telephone" => "0857000516",
+            //         // "fax" => "1",
+            //         "postcode" => "10800",
+            //         "city" => "Bankok",
+            //         "firstname" => $request->input('firstname'),
+            //         "lastname" => $request->input('lastname'),
+            //         // "middlename" => "1",
+            //         // "prefix" => "1",
+            //         // "suffix" => "1",
+            //         // "vat_id" => "1",
+            //         "default_shipping" => 1,
+            //         "default_billing" => 1,
+            //         // "extension_attributes" => array(),
+            //         // "custom_attributes" => [
+            //         //     array(
+            //         //       "attribute_code" => "23",
+            //         //       "value" => "bbb"
+            //         //     ),
+            //         //   ],
+            //         ),
+            //       ],
+            //       "disable_auto_group_change" => 0,
+            //       "extension_attributes" => [
+            //           array(
+            //           "is_subscribed" =>  true
+            //         ),
+            //       ],
+            //       "custom_attributes" => [
+            //         array(
+            //           "attribute_code" => "23",
+            //           "value" => "bbb"
+            //         ),
+            //       ]
+>>>>>>> 29c9577774193c758a71e6fd445fc8fd72bd6573
         );
 
         // dd($customer);

@@ -347,7 +347,7 @@ class ProductController extends Controller
             $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/customers/me");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . ($get_session_all[0])));
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all[0]));
 
             $result2 = curl_exec($ch);
 
@@ -359,6 +359,13 @@ class ProductController extends Controller
             curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all[0]));
 
             $result3 = json_decode(curl_exec($ch));
+
+            $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/carts/mine");
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all[0]));
+
+            $get_cart = json_decode(curl_exec($ch));
 
             $opts = array(
                 'ssl' => array('ciphers'=>'RC4-SHA', 'verify_peer'=>false, 'verify_peer_name'=>false)
@@ -442,6 +449,7 @@ class ProductController extends Controller
             $data['products2'] = $get_products2->catalogProductRenderListV1GetList($get_product_page);
             $data['token_customer'] = json_decode($result2);
             $data['cart_customer'] = $result3;
+            $data['get_cart'] = $get_cart;
         } else {
           \Session::flush();
           return redirect('/');

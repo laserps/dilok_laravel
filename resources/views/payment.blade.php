@@ -90,17 +90,29 @@
                     <div class="col-xl-12">
                         <div class="pay-font1"style="display:inline;">Billing Address</div>
                         <div class="pay-font1 pay-m-l2 w-100" style="display:inline;">
-                          <a href="#" class="pay-font5" data-toggle="modal" data-target="#billing"><u>edit</u></a>
+                          <a href="#" class="pay-font5" data-toggle="modal" id="billing_modal" data-target="#billing"><u>edit</u></a>
                         </div>
                     </div>
                 </div>
                 <div class="pt-3">
-                    <div class="pay-font6">{{ $token_customer->firstname }} {{ $token_customer->lastname }}<br>
+                    <div class="pay-font6">
+                      <div><span id="bill_firstname">Firstname : {{ $get_cart->billing_address->firstname }}</span></div>
+                      <div><span id="bill_lastname">Lastname : {{ $get_cart->billing_address->lastname }}</span></div>
+                      <div><span id="bill_street1">Street : {{ $get_cart->billing_address->street[0] }}</span></div>
+                      <div><span id="bill_street2">Street2 : @if(!empty($get_cart->billing_address->street[1])){{ $get_cart->billing_address->street[1] }} @endif</span></div>
+                      <div><span id="bill_company">Company : @if(!empty($get_cart->billing_address->company)) {{ $get_cart->billing_address->company }} @endif</span></div>
+                      <div><span id="bill_telephone">Telephone : @if(!empty($get_cart->billing_address->telephone)) {{ $get_cart->billing_address->telephone }} @endif</span></div>
+                      <div><span id="bill_city">City : @if(!empty($get_cart->billing_address->city)) {{ $get_cart->billing_address->city }} @endif</span></div>
+                      <div><span id="bill_postcode">Postcode : @if(!empty($get_cart->billing_address->postcode)) {{ $get_cart->billing_address->postcode }} @endif</span></div>
+                      <div><span id="bill_country_id">Country : @if(!empty($get_cart->billing_address->country_id)) {{ $get_cart->billing_address->country_id }} @endif</span></div>
+                      <div><span id="bill_email">Email : @if(!empty($get_cart->billing_address->email)) {{ $get_cart->billing_address->email }} @endif</span></div>
+
+                      <input type="text" name="id_value_billing" id="id_value_billing">
+                      <!-- {{ $token_customer->firstname }} {{ $token_customer->lastname }}<br>
                       {{ $token_customer->addresses[0]->street[0] }}<br>
                       {{ $token_customer->addresses[0]->street[1] }}, {{ $token_customer->addresses[0]->city }}<br>
-                      {{ $token_customer->addresses[0]->region->region }}, {{ $token_customer->addresses[0]->country_id }} {{ $token_customer->addresses[0]->postcode }}
+                      {{ $token_customer->addresses[0]->region->region }}, {{ $token_customer->addresses[0]->country_id }} {{ $token_customer->addresses[0]->postcode }} -->
                     </div>
-                    <div class="pt-2 pay-font6">Tel: {{ $token_customer->addresses[0]->telephone }}</div>
                 </div>
                 <hr>
                 <div class="row">
@@ -112,12 +124,20 @@
                     </div>
                 </div>
                 <div class="pt-3">
-                    <div class="pay-font6">{{ $token_customer->firstname }} {{ $token_customer->lastname }}<br>
-                      {{ $token_customer->addresses[0]->street[0] }}<br>
-                      {{ $token_customer->addresses[0]->street[1] }}, {{ $token_customer->addresses[0]->city }}<br>
-                      {{ $token_customer->addresses[0]->region->region }}, {{ $token_customer->addresses[0]->country_id }} {{ $token_customer->addresses[0]->postcode }}
+                    <div class="pay-font6">
+                      <div><span id="shipping_firstname">Firstname : {{ $get_cart->billing_address->firstname }}</span></div>
+                      <div><span id="shipping_lastname">Lastname : {{ $get_cart->billing_address->lastname }}</span></div>
+                      <div><span id="shipping_street1">Street : {{ $get_cart->billing_address->street[0] }}</span></div>
+                      <div><span id="shipping_street2">Street2 : @if(!empty($get_cart->billing_address->street[1])){{ $get_cart->billing_address->street[1] }} @endif</span></div>
+                      <div><span id="shipping_company">Company : @if(!empty($get_cart->billing_address->company)) {{ $get_cart->billing_address->company }} @endif</span></div>
+                      <div><span id="shipping_telephone">Telephone : @if(!empty($get_cart->billing_address->telephone)) {{ $get_cart->billing_address->telephone }} @endif</span></div>
+                      <div><span id="shipping_city">City : @if(!empty($get_cart->billing_address->city)) {{ $get_cart->billing_address->city }} @endif</span></div>
+                      <div><span id="shipping_postcode">Postcode : @if(!empty($get_cart->billing_address->postcode)) {{ $get_cart->billing_address->postcode }} @endif</span></div>
+                      <div><span id="shipping_country_id">Country : @if(!empty($get_cart->billing_address->country_id)) {{ $get_cart->billing_address->country_id }} @endif</span></div>
+                      <div><span id="shipping_email">Email : @if(!empty($get_cart->billing_address->email)) {{ $get_cart->billing_address->email }} @endif</span></div>
+
+                      <input type="text" name="id_value_shipping" id="id_value_shipping">
                     </div>
-                    <div class="pt-2 pay-font6">Tel: {{ $token_customer->addresses[0]->telephone }}</div>
                 </div>
                 <hr>
                 <div class="row">
@@ -281,10 +301,32 @@
         </button>
       </div>
       <div class="modal-body">
-        ...aa
+        @foreach($token_customer->addresses as $key_address => $value_address)
+          <div class="col-12 px-0 my-3">
+            <div class="card account-card">
+              <div class="card-body account-line-height text-md-left text-center">
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="value_billing" class="value_billing" id="optionsRadios2" value="{{ $value_address->id }}"> Select
+                  </label>
+                </div>
+                  <div><span>Firstname : {{ $value_address->firstname }}</span></div>
+                  <div><span>Lastname : {{ $value_address->lastname }}</span></div>
+                  <div><span>Street : {{ $value_address->street[0] }}</span></div>
+                  <div><span>Street2 : @if(!empty($value_address->street[1])){{ $value_address->street[1] }} @endif</span></div>
+                  <div><span>Company : @if(!empty($value_address->company)) {{ $value_address->company }} @endif</span></div>
+                  <div><span>Telephone : @if(!empty($value_address->telephone)) {{ $value_address->telephone }} @endif</span></div>
+                  <div><span>Country : @if(!empty($value_address->country_id)) {{ $value_address->country_id }} @endif</span></div>
+                  <div><span>City : @if(!empty($value_address->city)) {{ $value_address->city }} @endif</span></div>
+                  <div><span>Region : @if(!empty($value_address->region->region)) {{ $value_address->region->region }} @endif</span></div>
+                  <div><span>Postcode : @if(!empty($value_address->postcode)) {{ $value_address->postcode }} @endif</span></div>
+              </div>
+            </div>
+          </div>
+        @endforeach
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" id="btn_submit_billing">Save changes</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
     </div>
@@ -301,10 +343,32 @@
         </button>
       </div>
       <div class="modal-body">
-        ...
+        @foreach($token_customer->addresses as $key_address => $value_address)
+          <div class="col-12 px-0 my-3">
+            <div class="card account-card">
+              <div class="card-body account-line-height text-md-left text-center">
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="value_shipping" class="value_shipping" id="optionsRadios2" value="{{ $value_address->id }}"> Select
+                  </label>
+                </div>
+                  <div><span>Firstname : {{ $value_address->firstname }}</span></div>
+                  <div><span>Lastname : {{ $value_address->lastname }}</span></div>
+                  <div><span>Street : {{ $value_address->street[0] }}</span></div>
+                  <div><span>Street2 : @if(!empty($value_address->street[1])){{ $value_address->street[1] }} @endif</span></div>
+                  <div><span>Company : @if(!empty($value_address->company)) {{ $value_address->company }} @endif</span></div>
+                  <div><span>Telephone : @if(!empty($value_address->telephone)) {{ $value_address->telephone }} @endif</span></div>
+                  <div><span>Country : @if(!empty($value_address->country_id)) {{ $value_address->country_id }} @endif</span></div>
+                  <div><span>City : @if(!empty($value_address->city)) {{ $value_address->city }} @endif</span></div>
+                  <div><span>Region : @if(!empty($value_address->region->region)) {{ $value_address->region->region }} @endif</span></div>
+                  <div><span>Postcode : @if(!empty($value_address->postcode)) {{ $value_address->postcode }} @endif</span></div>
+              </div>
+            </div>
+          </div>
+        @endforeach
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Save changes</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
     </div>
@@ -338,5 +402,35 @@
 //         al_su('Error','danger');
 //   });
 // });
+
+// $('body').on('click','#billing_modal',function(){
+//   $.ajax({
+//     method : "GET",
+//     url : url_gb+"/get_billing",
+//     dataType: "JSON",
+//   }).done(function(rec){
+//     $('#billing').modal('show');
+//   }).fail(function(){
+//     $('body').loader('hide');
+//     al_su('Error','danger');
+//   });
+// });
+
+$('body').on('change','.value_billing',function(){
+    var data_billing = $(this).val();
+    $('#id_value_billing').val('');
+    if($(this).is(":checked") == true){
+        $('#id_value_billing').val(data_billing);
+        $('#id_value_billing_modal').val(data_billing);
+    }
+});
+$('body').on('change','.value_shipping',function(){
+    var data_billing = $(this).val();
+    $('#id_value_shipping').val('');
+    if($(this).is(":checked") == true){
+        $('#id_value_shipping').val(data_billing);
+        $('#id_value_shipping_modal').val(data_billing);
+    }
+});
 </script>
 @endsection

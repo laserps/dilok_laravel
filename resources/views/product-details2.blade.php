@@ -25,6 +25,7 @@
     $discount = '';
     $video = '';
     $colorproduct = '';
+    $colorproduct2 = '';
     $size = '';
     $date = date('Y-m-d H:i:s');
   @endphp
@@ -52,6 +53,9 @@
     @endif
     @if($value->attributeCode == 'colorproduct' && !empty($value->value))
       @php $colorproduct = $value->value; @endphp
+    @endif
+    @if($value->attributeCode == 'color' && !empty($value->value))
+      @php $colorproduct2 = $value->value; @endphp
     @endif
     @if($value->attributeCode == 'size' && !empty($value->value))
       @php $size = $value->value; @endphp
@@ -110,15 +114,23 @@
                   </div>
                   @endif -->
                   @if(!empty($products_gallery))
-                    @foreach($products_gallery as $key_gallerys => $value_gallerys)
-                      @foreach($value_gallerys->item as $key_gallery => $value_gallery)
-                        <div class="product-desktop-col col-xl-6 col-lg-12 px-1 mb-2">
+                    @if(is_array($products_gallery->result->item))
+                      @foreach($products_gallery as $key_gallerys => $value_gallerys)
+                        @foreach($value_gallerys->item as $key_gallery => $value_gallery)
+                          <div class="product-desktop-col col-xl-6 col-lg-12 px-1 mb-2">
+                            <div class="product-desktop-frame zoom3 cur" id="zoom3" data-toggle="modal" data-target="#full-screen-product-1">
+                              <img class="product-desktop-img" src="http://localhost/dilok2/pub/media/catalog/product\{{$value_gallery->file}}">
+                            </div>
+                          </div>
+                        @endforeach
+                      @endforeach
+                    @else
+                      <div class="product-desktop-col col-xl-6 col-lg-12 px-1 mb-2">
                           <div class="product-desktop-frame zoom3 cur" id="zoom3" data-toggle="modal" data-target="#full-screen-product-1">
-                            <img class="product-desktop-img" src="http://localhost/dilok2/pub/media/catalog/product\{{$value_gallery->file}}">
+                            <img class="product-desktop-img" src="http://localhost/dilok2/pub/media/catalog/product\{{$products_gallery->result->item->file}}">
                           </div>
                         </div>
-                      @endforeach
-                    @endforeach
+                    @endif
                   @endif
                   <!-- @if(!empty($small_image))
                     <div class="product-desktop-col col-xl-6 col-lg-12 px-1 mb-2">
@@ -153,11 +165,15 @@
                         <span aria-hidden="true">&times;</span>
                       </button>
                       @if(!empty($products_gallery))
-                        @foreach($products_gallery as $key_gallerys => $value_gallerys)
-                          @foreach($value_gallerys->item as $key_gallery => $value_gallery)
-                            <img width="100%" src="http://localhost/dilok2/pub/media/catalog/product\{{$value_gallery->file}}">
+                        @if(is_array($products_gallery->result->item))
+                          @foreach($products_gallery as $key_gallerys => $value_gallerys)
+                            @foreach($value_gallerys->item as $key_gallery => $value_gallery)
+                              <img width="100%" src="http://localhost/dilok2/pub/media/catalog/product\{{$value_gallery->file}}">
+                            @endforeach
                           @endforeach
-                        @endforeach
+                        @else
+                            <img width="100%" src="http://localhost/dilok2/pub/media/catalog/product\{{$products_gallery->result->item->file}}">
+                        @endif
                       @endif
                       <!-- <img width="100%" src="http://localhost/dilok2/pub/media/catalog/product\{{$image}}"> -->
                       <!-- <img width="100%" src="http://localhost/dilok2/pub/media/catalog/product\{{$small_image}}"> -->
@@ -177,15 +193,23 @@
                   <div class="col-12 px-0">
                     <div class="productdetail2-carousel owl-carousel owl-theme">
                       @if(!empty($products_gallery))
-                        @foreach($products_gallery as $key_gallerys => $value_gallerys)
-                          @foreach($value_gallerys->item as $key_gallery => $value_gallery)
-                            <div class="item">
-                              <div class="product-ipad-frame" data-toggle="modal" data-target="#full-screen-product-1">
-                                <img width="100%" src="http://localhost/dilok2/pub/media/catalog/product\{{$value_gallery->file}}">
+                        @if(is_array($products_gallery->result->item))
+                          @foreach($products_gallery as $key_gallerys => $value_gallerys)
+                            @foreach($value_gallerys->item as $key_gallery => $value_gallery)
+                              <div class="item">
+                                <div class="product-ipad-frame" data-toggle="modal" data-target="#full-screen-product-1">
+                                  <img width="100%" src="http://localhost/dilok2/pub/media/catalog/product\{{$value_gallery->file}}">
+                                </div>
                               </div>
-                            </div>
+                            @endforeach
                           @endforeach
-                        @endforeach
+                        @else
+                            <div class="item">
+                                <div class="product-ipad-frame" data-toggle="modal" data-target="#full-screen-product-1">
+                                  <img width="100%" src="http://localhost/dilok2/pub/media/catalog/product\{{$products_gallery->result->item->file}}">
+                                </div>
+                              </div>
+                        @endif
                       @endif
 
                       @if(!empty($video))
@@ -293,21 +317,47 @@
                               <!-- <span class="grey">
                                  (black)
                               </span> -->
+
                                @php $color = explode(',',$colorproduct); $size_product = explode(',',$size); @endphp
+
                               <div class="row mx-0 mt-2 mb-3">
+                                @if(!empty($product_options))
                                   @if(!empty($color_product))
                                     @foreach($color_product->result->item as $key_color => $value_color)
                                       @foreach($color as $key_product_color => $value_product_color)
-                                        @foreach($product_option->result->values->item as $key_product_color => $value_product_color)
-                                          @if($value_product_color->valueIndex == $value_color->value)
-                                            <div class="col-1 mr-2 px-2 mb-2 text-center">
-                                              <button type="button" class="btn color-btn color-active" style="background-color:{{$value_color->label}}"></button>
-                                            </div>
-                                          @endif
-                                        @endforeach
+                                          @foreach($product_options->result->item as $key_options => $value_options)
+                                            @if($value_options->attributeId == '93' && $value_options->label == 'Color')
+                                              @foreach($value_options->values->item as $key_value => $value_value)
+                                                @if(count($value_options->values->item) > 1)
+                                                  @if($value_value->valueIndex == $value_color->value)
+                                                    <div class="col-1 mr-2 px-2 mb-2 text-center">
+                                                       <a class="btn color-btn btn_color_active" data-btncolor="{{$value_color->label}}" data-valuecolor="{{$value_color->value}}" style="background-color:{{$value_color->label}}"></a>
+                                                    </div>
+                                                  @endif
+                                                @else
+                                                  @if($value_value == $value_color->value)
+                                                    <div class="col-1 mr-2 px-2 mb-2 text-center">
+                                                       <a type="button" class="btn color-btn color-active" style="background-color:{{$value_color->label}}"></a>
+                                                    </div>
+                                                  @endif
+                                                @endif
+                                              @endforeach
+                                            @endif
+                                          @endforeach
                                       @endforeach
                                     @endforeach
                                   @endif
+                                @else
+                                  @if(!empty($color_product))
+                                    @foreach($color_product->result->item as $key_color_product => $value_color_product)
+                                      @if($value_color_product->value == $colorproduct2)
+                                        <div class="col-1 mr-2 px-2 mb-2 text-center">
+                                           <button type="button" class="btn color-btn color-active" style="background-color:{{ $value_color_product->label }}"></button>
+                                        </div>
+                                      @endif
+                                    @endforeach
+                                  @endif
+                                @endif
                                 <!-- <div class="col-1 mr-2 px-2 mb-2 text-center">
                                   <button type="button" class="btn color-btn" style="background-color:white"></button>
                                 </div> -->
@@ -316,18 +366,40 @@
                                  Size
                               </span>
                               <div class="row mx-0 mt-2 mb-3 size-select-box">
-                                @if(!empty($size_products))
-                                  @foreach($size_products->result->item as $key_sizes => $value_sizes)
-                                    @foreach($product_option_size->result->values->item as $key_product_size => $value_product_size)
-                                      @if($value_sizes->label != ' ')
-                                        @if($value_product_size->valueIndex == $value_sizes->value)
-                                          <div class="col-xl-4 col-6 px-0 size-select @if($value_product_size->valueIndex != $value_sizes->value) {{ 'disabled' }} @endif">
-                                            <span>{{ $value_sizes->label }}</span>
-                                          </div>
-                                        @endif
+                                @if(!empty($product_options))
+                                  @if(!empty($size_products))
+                                    @foreach($size_products->result->item as $key_sizes => $value_sizes)
+                                        @foreach($product_options->result->item as $key_options => $value_options)
+                                          @if($value_options->attributeId == '136' && $value_options->label == 'Size')
+                                            @foreach($value_options->values->item as $key_value => $value_value)
+                                              @if(count($value_options->values->item) > 1)
+                                                @if($value_value->valueIndex == $value_sizes->value)
+                                                  <div class="col-xl-4 col-6 px-0 size-select btn_size_active @if($value_value->valueIndex != $value_sizes->value) {{ 'disabled' }} @endif" data-btnsize="{{ $value_sizes->label }}" data-valuesize="{{$value_sizes->value}}">
+                                                    <span>{{ $value_sizes->label }}</span>
+                                                  </div>
+                                                @endif
+                                              @else
+                                                @if($value_value == $value_sizes->value)
+                                                <div class="col-xl-4 col-6 px-0 size-select btn_size_active @if($value_value != $value_sizes->value) {{ 'disabled' }} @endif" data-btnsize="{{ $value_sizes->label }}" data-valuesize="{{$value_sizes->value}}">
+                                                  <span>{{ $value_sizes->label }}</span>
+                                                </div>
+                                                @endif
+                                              @endif
+                                            @endforeach
+                                          @endif
+                                        @endforeach
+                                    @endforeach
+                                  @endif
+                                @else
+                                  @if(!empty($size_products))
+                                    @foreach($size_products->result->item as $key_color_product => $value_size_product)
+                                      @if($value_size_product->value == $size)
+                                        <div class="col-xl-4 col-6 px-0 size-select active">
+                                          <span>{{ $value_size_product->label }}</span>
+                                        </div>
                                       @endif
                                     @endforeach
-                                  @endforeach
+                                  @endif
                                 @endif
                                 <!-- <div class="col-xl-4 col-6 px-0 size-select disabled">
                                   <span>US 7.5</span>
@@ -338,22 +410,35 @@
                               </div>
                             </div>
 
-                            <!-- @foreach($stock as $color => $sizes)
-                              @foreach($sizes as $size => $value)
-                                @if($value->result->qty != 0)
-                                  {{ $color }} {{ $size }} {{ $value->result->qty }}
-                                @endif
+                            @if(!empty($stock))
+                              @foreach($stock as $color => $sizes)
+                                @foreach($sizes as $size => $value)
+                                  @if($value->result->qty != 0)
+                                    {{ $color }} {{ $size }} {{ $value->result->qty }}
+                                  @endif
+                                @endforeach
                               @endforeach
-                            @endforeach -->
+                            @endif
 
                             <div class="row my-3 mx-0 pb-3 sticky-product-picker">
                               <div class="col-xl-6 col-lg-12 col-6 px-xl-1 px-lg-0 px-md-2 px-1 latest-product-btn mb-2">
-                                <button type="button" class="btn add-to-cart p-2">
+                                @if($products_detail->result->items->item->typeId == 'simple')
+                                  <button type="button" class="btn_add_to_cart" data-product_detail="{{ $products_detail->result->items->item->name }}" data-product_id="{{ $products_detail->result->items->item->id }}" data-price_product="@if($price_special != $price_defult)
+                                    {{ $price_special }}
+                                      @endif" class="btn add-to-cart p-2">
+                                  <label class="mb-0 d-flex pr-2">
+                                    <span>Add to cart</span>
+                                    <i class="fas fa-plus ml-auto pt-1" aria-hidden="true"></i>
+                                  </label>
+                                </button>
+                                @else
+                                <button type="button" class="btn add-to-cart btn_add_to_cart_config p-2">
                                   <label class="mb-0 d-flex px-2">
                                     <span>ADD TO CART</span>
                                     <i class="fas fa-plus ml-auto pt-1" aria-hidden="true"></i>
                                   </label>
                                 </button>
+                                @endif
                               </div>
                               <div class="col-xl-6 col-lg-12 col-6 px-xl-1 px-lg-0 px-md-2 px-1 latest-product-btn">
                                 <button type="button" class="btn fast-buy p-2">
@@ -363,6 +448,15 @@
                                   </label>
                                 </button>
                               </div>
+
+
+                              <input type="hidden" name="text_type_product" class="text_type_product" value="{{ $products_detail->result->items->item->typeId }}" readonly>
+                              <input type="hidden" name="text_color_product" class="text_color_product" readonly>
+                              <input type="hidden" name="text_valuecolor_product" class="text_valuecolor_product" readonly>
+                              <input type="hidden" name="text_size_product" class="text_size_product" readonly>
+                              <input type="hidden" name="text_valuesize_product" class="text_valuesize_product" readonly>
+                              <input type="hidden" name="text_name_product" class="text_name_product" value="{{ $products_detail->result->items->item->name }}" readonly>
+                              <input type="hidden" name="text_price_product" class="text_price_product" value="@if($price_special != $price_defult) {{ $price_special }} @else {{ $price_defult }} @endif" readonly>
                             </div>
 
 
@@ -476,5 +570,87 @@
   $('.productdetail2-carousel').find('.owl-dots').toggleClass('disabled custom-dots');
   $('.productdetail2-carousel').find('.tog').addClass('d-none');
   // $('.owl-video-play-icon').remove();
+
+$('body').on('click','.btn_color_active',function(){
+  var data = $(this).data('btncolor');
+  var valuecolor = $(this).data('valuecolor');
+  var text_color_product = $('.text_color_product').val();
+  if(text_color_product != ''){
+    if(data != text_color_product){
+      $('.btn_color_active').removeClass('color-active');
+      $(this).addClass('color-active');
+      $('.text_color_product').val(data);
+      $('.text_valuecolor_product').val(valuecolor);
+    } else {
+      $(this).removeClass('color-active');
+      $('.text_color_product').val('');
+      $('.text_valuecolor_product').val('');
+    }
+  } else {
+    $(this).addClass('color-active');
+    $('.text_color_product').val(data);
+    $('.text_valuecolor_product').val(valuecolor);
+  }
+});
+
+$('body').on('click','.btn_size_active',function(){
+  var data = $(this).data('btnsize');
+  var valuesize = $(this).data('valuesize');
+  var text_size_product = $('.text_size_product').val();
+  if(text_size_product != ''){
+    if(data != text_size_product){
+      $('.btn_size_active').removeClass('active');
+      $(this).addClass('active');
+      $('.text_size_product').val(data);
+      $('.text_valuesize_product').val(valuesize);
+    } else {
+      $(this).removeClass('active');
+      $('.text_size_product').val('');
+      $('.text_valuesize_product').val('');
+    }
+  } else {
+    $(this).addClass('active');
+    $('.text_size_product').val(data);
+    $('.text_valuesize_product').val(valuesize);
+  }
+});
+
+$('body').on('click','.btn_add_to_cart_config',function(){
+  var text_color_product = $('.text_color_product').val();
+  var text_size_product = $('.text_size_product').val();
+  var text_name_product = $('.text_name_product').val();
+  var text_price_product = $('.text_price_product').val();
+  var text_valuecolor_product = $('.text_valuecolor_product').val();
+  var text_valuesize_product = $('.text_valuesize_product').val();
+  var text_type_product = $('.text_type_product').val();
+  // $('body').loader('show');
+  if(text_color_product != '' && text_size_product != '' && text_name_product != '' && text_price_product != '' && text_valuecolor_product != '' && text_valuesize_product != ''){
+    $('body').loader('show');
+    $.ajax({
+      method : "POST",
+      url : url_gb+"/addproductconfigurable",
+      dataType: "JSON",
+      data : { 'text_color_product' :text_color_product , 'text_size_product' : text_size_product ,'text_name_product':text_name_product ,'text_price_product':text_price_product,'text_valuecolor_product':text_valuecolor_product,'text_valuesize_product':text_valuesize_product,'text_type_product':text_type_product},
+    }).done(function(rec){
+      if(rec.status == 1){
+        al_su(rec.content,'success');
+        location.reload();
+        $('body').loader('hide');
+      } else if(rec.status == 2) {
+        window.location.href = url_gb+'/regist';
+      } else {
+        $('body').loader('hide');
+        al_su(rec.content,'danger');
+      }
+    }).fail(function(){
+        $('body').loader('hide');
+        al_su('Error','danger');
+    });
+  } else {
+    al_su('กรุณาเลือกประเภทสินค้า','danger');
+    // $('body').loader('hide');
+  }
+});
 </script>
+
 @endsection

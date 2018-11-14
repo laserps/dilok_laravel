@@ -21,240 +21,205 @@ class CustomerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function abc(Request $request)
+    public function create(Request $request)
     {
-        // return "test";
-        $data['email'] = $request->input('email');
-        $data['firstname'] = $request->input('firstname');
-        $data['lastname'] = $request->input('lastname');
-        // dd($data,$request->all(),$request->input('email'));
-        // exit();
-        $opts = array(
-            'ssl' => array('ciphers'=>'RC4-SHA', 'verify_peer'=>false, 'verify_peer_name'=>false)
-        );
+        $validator = \Validator::make($request->all(), [
+            // 'password' => 'required|regex:/(^([a-zA-Z]+)([0-9]+)(\d+)?$)/u|min:1',
+            'password' => 'required|regex:/(^([A-Za-z]+)([0-9]+)(\d+)?$)/u|min:1',
+            // 'password' => 'required|regex:/^([a-z])([A-Z])(\d)).+$/|min:1',
+        ]);
 
-        $params = array (
-            'encoding' => 'UTF-8',
-            'verifypeer' => false,
-            'verifyhost' => false,
-            'soap_version' => SOAP_1_2,
-            'trace' => 1,
-            'exceptions' => 1,
-            "connection_timeout" => 180,
-            'stream_context' => stream_context_create($opts),
-            'cache_wsdl' => WSDL_CACHE_NONE
-        );
+        if ($validator->fails()) {
+            return "2";
+        } else {
+            return "1";
+        }
+
+
+
+
+        exit();
 
         try{
+            $value = [
+                "customer" => [
+                    // 'id' => 29,
+                    'email' => $request->input('email'),
+                    'firstname' => $request->input('firstname'),
+                    'lastname' => $request->input('lastname'),
+                    'website_id' => 1,
+                    'store_id' => 1,
+                    'group_id' => 1,
+                    "default_billing" => 1,
+                    "default_shipping" => 1,
+                    // "gender"=> 0,
+                    // "created_at" => "2018-09-24 06:48:56",
+                    // "updated_at" => "2018-09-24 06:48:56",
+                    "created_in" => "Default Store View",
+                    "addresses"=> [
+                        [
+                            // "id" => 0,
+                            // "customer_id" => 29,
+                            "region" => ["region_code" => $request->input('country'),"region" => $request->input('country_name'),"region_id" => 0],
+                            "region_id" => 0,
+                            "country_id" => $request->input('country'),
+                            "street" => [$request->input('address')],
+                            "telephone" => $request->input('telephone'),
+                            "postcode" => $request->input('postcode'),
+                            "city" => $request->input('city'),
+                            "firstname" => $request->input('firstname'),
+                            "lastname" => $request->input('lastname'),
+                            // "middlename"=> "string",
+                            // "prefix"=> "1",
+                            // "suffix"=> "1",
+                            // "vat_id"=> "1",
+                            "default_shipping"=> true,
+                            "default_billing"=> true,
+                            "extension_attributes"=> [],
+                        ]
+                    ],
+                ],
+                "password" => $request->input('password'),
+            ];
 
-        $create_customers = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=customerAccountManagementV1',$params);
+            $admin_token = array("username" => "customer", "password" => "customer@01");
+            $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/integration/admin/token");
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($admin_token));
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . strlen(json_encode($admin_token))));
 
-        $customer['customer'] = array(
-            'email' => $request->input('email'),
-            'firstname' => $request->input('firstname'),
-            'lastname' => $request->input('lastname'),
-            'website_id' => 1,
-            'store_id' => 1,
-            'group_id' => 1,
-            "default_billing" => 1,
-            "dob" => "1",
-            "confirmation"=> "1",
-            "default_shipping" => 1,
-            "middlename" => "ham",
-            "gender"=> 0,
-            "taxvat"=> "0",
-            "prefix" => "1",
-            "suffix" => "1",
-            "created_at" => "2018-09-24 06:48:56",
-            "updated_at" => "2018-09-24 06:48:56",
-            "created_in" => "Default Store View",
-              // "addresses" => [
-              //   array(
-              //     // "id"=> 0,
-              //     "customer_id"=> 5,
-              //     "region"=> array(
-              //       "region_code"=> "string",
-              //       "region"=> "string",
-              //       "region_id"=> 0,
-              //       "extension_attributes"=> array(),
-              //     ),
-              //     "region_id"=> 0,
-              //     "country_id"=> "string",
-              //     "street"=> [
-              //       "string"
-              //     ],
-              //     "company"=> "string",
-              //     "telephone"=> "string",
-              //     "fax"=> "string",
-              //     "postcode"=> "string",
-              //     "city"=> "string",
-              //     "firstname"=> "string",
-              //     "lastname"=> "string",
-              //     "middlename"=> "string",
-              //     "prefix"=> "string",
-              //     "suffix"=> "string",
-              //     "vat_id"=> "string",
-              //     "default_shipping"=> true,
-              //     "default_billing"=> true,
-              //     "extension_attributes"=> array(),
-              //     "custom_attributes"=> [
-              //       array(
-              //         "attribute_code"=> "string",
-              //         "value"=> "string"
-              //       ),
-              //     ]
-              //   )
-              // ],
+            $token = json_decode(curl_exec($ch));
 
-            'addresses' =>
-                  [
+            $chch = curl_init("http://192.168.1.27/dilok2/rest/all/V1/customers");
+            curl_setopt($chch, CURLOPT_CUSTOMREQUEST, "POST");
+            curl_setopt($chch, CURLOPT_POSTFIELDS, json_encode($value));
+            curl_setopt($chch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($chch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $token));
+
+            $result = json_decode(curl_exec($chch));
+
+            $return['status'] = 1;
+            $return['customer'] = $result;
+            $return['content'] = 'สำเร็จ';
+
+        } catch (Exception $e){
+            $return['status'] = 0;
+            $return['content'] = 'ไม่สำรเ็จ'.$e->getMessage();;
+        }
+
+        $return['title'] = 'เพิ่มข้อมูล';
+        return json_encode($return);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request , $id)
+    {
+      try{
+        $userData = array("username" => "customer", "password" => "customer@01");
+        $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/integration/admin/token");
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . strlen(json_encode($userData))));
+
+        $token = json_decode(curl_exec($ch));
+
+        $get_session_all = \Session::all();
+
+        if(!empty($get_session_all[0])){
+                $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/customers/me");
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all[0]));
+
+                $result2 = json_decode(curl_exec($ch));
+
+                // $data['token_customer'] = $result2;
+
+                foreach($result2->addresses as $key => $value){
+                    $address_value[$key] = [
+                        "id" => $value->id,
+                        "customer_id" => $value->customer_id,
+                        "region" => [
+                          "region_code" => $value->region->region_code,
+                          "region" => $value->region->region,
+                          "region_id" => $value->region->region_id,
+                        ],
+                        "region_id" => $value->region_id,
+                        "country_id" => $value->country_id,
+                        "street" => $value->street,
+                        "company" => !empty($value->company),
+                        "telephone" => $value->telephone,
+                        "postcode" => $value->postcode,
+                        "city" => $value->city,
+                        "firstname" => $value->firstname,
+                        "lastname" => $value->lastname,
+                    ];
+                }
+
+
+                if(count($address_value) == 1){
+                    $count = 1;
+                } else {
+                    $count = count($address_value);
+                }
+
+                $address_value[$count] =
                     [
-                    // "id" => 9,
-                    // "customer_id" => 12,
-                    "region" => [
-                      "region_code" => "TH",
-                      "region" => "Bankok",
-                      "region_id" => 0,
-                      "extension_attributes" => [],
+                        "customer_id" => $id,
+                        "region" => ["region_code" => $request->input('country'),"region" => $request->input('country_name'),"region_id" => 0],
+                        "region_id" => 0,
+                        "country_id" => $request->input('country'),
+                        "street" => [$request->input('address'),$request->input('address2')],
+                        "company" => $request->input('company'),
+                        "telephone" => $request->input('telephone'),
+                        "postcode" => $request->input('postcode'),
+                        "city" => $request->input('city'),
+                        "firstname" => $request->input('firstname'),
+                        "lastname" => $request->input('lastname'),
+                ];
+
+                $value = [
+                    "customer" => [
+                        'id' => $id,
+                        'email' => $request->input('email'),
+                        'firstname' => $request->input('firstname'),
+                        'lastname' => $request->input('lastname'),
+                        'website_id' => 1,
+                        'store_id' => 1,
+                        'group_id' => 1,
+                        "default_billing" => 1,
+                        "default_shipping" => 1,
+                        "addresses" =>
+                            $address_value,
                     ],
-                    "region" => "Bankok",
-                    "region_id" => 0,
-                    "country_id" => "TH",
-                    // "street" => ["street","PO Box 321"],
-                    "street" => [
-                        "123 Main Street",
-                        "PO Box 321"
-                    ],
-                    "company" => "workbythai",
-                    "telephone" => "0857000516",
-                    "fax" => "1",
-                    "postcode" => "10800",
-                    "city" => "Bankok",
-                    "firstname" => $request->input('firstname'),
-                    "lastname" => $request->input('lastname'),
-                    "middlename" => "1",
-                    "prefix" => "1",
-                    "suffix" => "1",
-                    "vat_id" => "1",
-                    "default_shipping" => true,
-                    "default_billing" => true,
-                    "extension_attributes" => array(),
-                    // "custom_attributes" => [
-                    //     array(
-                    //       "attribute_code" => "23",
-                    //       "value" => "bbb"
-                    //     ),
-                    //   ],
-                    ],
-                  ],
-            // "addresses" => [
-            //     [
-            //         // "customer_id" => "3",
-            //         // "region_id" =>  32, // RegionId must needs to pass
-            //         "country_id" => "TH",
-            //         "street" => [
-            //             "123 Main Street",
-            //             "PO Box 321"
-            //         ],
-            //         // "firstname" => "John",
-            //         // "lastname" => "Doe",
-            //         // "company" => "ABC Manufacturing",
-            //         "telephone" => "555-555-5555",
-            //         "city" => "Boston",
-            //         "postcode" => "02115"
-            //     ]
-            // ],
+                ];
 
+            } else {
+                \Session::flush();
+                $return['status'] = 2;
+                $return['content'] = 'กรุณาล็อกอินเข้าสู่ระบบ';
+            }
 
-                  "disable_auto_group_change" => 0,
-                  "extension_attributes" => [
-                      array(
-                      "is_subscribed" =>  true
-                    ),
-                  ],
-                  // "custom_attributes" => [
-                  //   array(
-                  //     "attribute_code" => "23",
-                  //     "value" => "bbb"
-                  //   ),
-                  // ]
-            // 'addresses' =>
-            //       [
-            //         array(
-            //         // "id" => 9,
-            //         "customer_id" => 75,
-            //         "region" => array(
-            //           "region_code" => "TH",
-            //           "region" => "Bankok",
-            //           "region_id" => 0,
-            //           "extension_attributes" => array(),
-            //         ),
-            //         "region" => "Bankok",
-            //         "region_id" => 0,
-            //         "country_id" => "TH",
-            //         // "street" => array("street","PO Box 321"),
-            //         "company" => "workbythai",
-            //         "telephone" => "0857000516",
-            //         // "fax" => "1",
-            //         "postcode" => "10800",
-            //         "city" => "Bankok",
-            //         "firstname" => $request->input('firstname'),
-            //         "lastname" => $request->input('lastname'),
-            //         // "middlename" => "1",
-            //         // "prefix" => "1",
-            //         // "suffix" => "1",
-            //         // "vat_id" => "1",
-            //         "default_shipping" => 1,
-            //         "default_billing" => 1,
-            //         // "extension_attributes" => array(),
-            //         // "custom_attributes" => [
-            //         //     array(
-            //         //       "attribute_code" => "23",
-            //         //       "value" => "bbb"
-            //         //     ),
-            //         //   ],
-            //         ),
-            //       ],
-            //       "disable_auto_group_change" => 0,
-            //       "extension_attributes" => [
-            //           array(
-            //           "is_subscribed" =>  true
-            //         ),
-            //       ],
-            //       "custom_attributes" => [
-            //         array(
-            //           "attribute_code" => "23",
-            //           "value" => "bbb"
-            //         ),
-            //       ]
-        );
+        $chch = curl_init("http://192.168.1.27/dilok2/rest/all/V1/customers/me");
+        curl_setopt($chch, CURLOPT_CUSTOMREQUEST, "PUT");
+        curl_setopt($chch, CURLOPT_POSTFIELDS, json_encode($value));
+        curl_setopt($chch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($chch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all[0]));
 
-$customer2['customer'] = array(
-  'customer' => 1
-);
+        $result = json_decode(curl_exec($chch));
 
-        // dd($customer);
+        // dd($result);
         // exit();
 
-        // $customer['addresses'] = array(
-        //     'firstname'             => $request->input('firstname'),
-        //     'lastname'              => $request->input('lastname'),
-        //     'create_address'        => true,
-        //     'city'                  => 'Bankok',
-        //     'company'               => 'workbythai',
-        //     'country_id'            => 'TH',
-        //     'region_id'             => 12,
-        //     'postcode'              => '10800',
-        //     'street'                => array('1518/4', 'workbythai'),
-        //     'telephone'             => '02-1024291',
-        //     'is_default_billing'    => true,
-        //     'is_default_shipping'   => true
-        // );
-
-        $customer['password'] = $request->input('password');
-        $create_customer = $create_customers->customerAccountManagementV1CreateAccount($customer2);
         $return['status'] = 1;
-        $return['customer'] = $create_customer;
+        $return['customer'] = $result;
         $return['content'] = 'สำเร็จ';
 
         } catch (Exception $e){
@@ -267,17 +232,6 @@ $customer2['customer'] = array(
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
      * Display the specified resource.
      *
      * @param  int  $id
@@ -285,7 +239,33 @@ $customer2['customer'] = array(
      */
     public function show($id)
     {
-        //
+        try {
+            $userData = array("username" => "customer", "password" => "customer@01");
+            $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/integration/admin/token");
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . strlen(json_encode($userData))));
+
+            $token = json_decode(curl_exec($ch));
+
+            $chch = curl_init("http://192.168.1.27/dilok2/rest/all/V1/customers/".$id."");
+            curl_setopt($chch, CURLOPT_CUSTOMREQUEST, "GET");
+            curl_setopt($chch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($chch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $token));
+
+            $result = json_decode(curl_exec($chch));
+
+            $return['status'] = 1;
+            $return['customer'] = $result;
+            $return['content'] = 'สำเร็จ';
+
+        } catch (Exception $e) {
+            $return['status'] = 0;
+            $return['content'] = 'ไม่สำรเ็จ'.$e->getMessage();
+        }
+
+        return json_encode($return);
     }
 
     /**
@@ -294,9 +274,85 @@ $customer2['customer'] = array(
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id , Request $request)
     {
-        //
+      try{
+        $value = [
+            "customer"=>[
+                'id' => $id,
+                'email' => $request->input('email'),
+                'firstname' => $request->input('firstname'),
+                'lastname' => $request->input('lastname'),
+                'website_id' => 1,
+                'store_id' => 1,
+                'group_id' => 1,
+                // "default_billing" => 1,
+                // "default_shipping" => 1,
+                // "gender"=> 0,
+                // "created_at" => "2018-09-24 06:48:56",
+                // "updated_at" => "2018-09-24 06:48:56",
+                // "created_in" => "Default Store View",
+                // "addresses"=> [
+                //     [
+                //         // "id" => 0,
+                //         // "customer_id" => 29,
+                //         "region" => ["region_code" => $request->input('country'),"region" => $request->input('country_name'),"region_id" => 0],
+                //         "region_id" => 0,
+                //         "country_id" => $request->input('country'),
+                //         "street" => [$request->input('address')],
+                //         "telephone" => $request->input('telephone'),
+                //         "postcode" => $request->input('postcode'),
+                //         "city" => $request->input('city'),
+                //         "firstname" => $request->input('firstname'),
+                //         "lastname" => $request->input('lastname'),
+                //         // "middlename"=> "string",
+                //         // "prefix"=> "1",
+                //         // "suffix"=> "1",
+                //         // "vat_id"=> "1",
+                //         "default_shipping"=> true,
+                //         "default_billing"=> true,
+                //         "extension_attributes"=> [],
+                //         // "custom_attributes"=> [
+                //         //     [
+                //         //     "attribute_code"=> "string",
+                //         //     "value"=> "string"
+                //         //     ]
+                //         // ]
+                //     ]
+                // ],
+            ],
+            "password" => $request->input('password'),
+        ];
+
+        $userData = array("username" => "customer", "password" => "customer@01");
+        $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/integration/admin/token");
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . strlen(json_encode($userData))));
+
+        $token = curl_exec($ch);
+
+
+        $chch = curl_init("http://192.168.1.27/dilok2/rest/all/V1/customers/".$id."");
+        curl_setopt($chch, CURLOPT_CUSTOMREQUEST, "PUT");
+        curl_setopt($chch, CURLOPT_POSTFIELDS, json_encode($value));
+        curl_setopt($chch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($chch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . json_decode($token)));
+
+        $result = curl_exec($chch);
+
+        $return['status'] = 1;
+        $return['customer'] = $result;
+        $return['content'] = 'สำเร็จ';
+
+        } catch (Exception $e){
+            $return['status'] = 0;
+            $return['content'] = 'ไม่สำรเ็จ'.$e->getMessage();
+        }
+        $return['title'] = 'เพิ่มข้อมูล';
+
+        return json_encode($return);
     }
 
     /**
@@ -319,46 +375,230 @@ $customer2['customer'] = array(
      */
     public function destroy($id)
     {
-        //
+        try {
+            $get_session_all = \Session::all();
+
+            $userData = array("username" => "customer", "password" => "customer@01");
+            $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/integration/admin/token");
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . strlen(json_encode($userData))));
+
+            $token = json_decode(curl_exec($ch));
+
+            $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/addresses/".$id."");
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "delete");
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $token));
+
+            $result = json_decode(curl_exec($ch));
+
+            $return['status'] = 1;
+            $return['customer'] = $result;
+            $return['content'] = 'ลบที่อยู่สำเร็จ';
+
+        } catch (Exception $e) {
+            $return['status'] = 0;
+            $return['content'] = 'ลบที่อยู่ไม่สำรเ็จ'.$e->getMessage();
+        }
+
+        return json_encode($return);
+    }
+
+    public function profile(){
+      try {
+            $get_session_all = \Session::all();
+
+            $userData = array("username" => "customer", "password" => "customer@01");
+            $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/integration/admin/token");
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . strlen(json_encode($userData))));
+
+            $token = json_encode(curl_exec($ch));
+
+            $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/directory/countries");
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . $token));
+
+            $result = json_decode(curl_exec($ch));
+
+            $data['countries'] = $result;
+
+            if(!empty($get_session_all[0])){
+                $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/customers/me");
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all[0]));
+
+                $result2 = json_decode(curl_exec($ch));
+
+                if(!empty($result2->id)){
+                    $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/carts/mine/items");
+                    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all[0]));
+
+                    $result3 = json_decode(curl_exec($ch));
+
+                    $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/carts/mine");
+                    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all[0]));
+
+                    $get_cart = json_decode(curl_exec($ch));
+
+                    $opts = array(
+                        'ssl' => array('ciphers' => 'RC4-SHA', 'verify_peer' => false, 'verify_peer_name' => false)
+                    );
+
+                    $params = array (
+                        'encoding' => 'UTF-8',
+                        'verifypeer' => false,
+                        'verifyhost' => false,
+                        'soap_version' => SOAP_1_2,
+                        'trace' => 1,
+                        'exceptions' => 1,
+                        "connection_timeout" => 180,
+                        'stream_context' => stream_context_create($opts),
+                        'cache_wsdl' => WSDL_CACHE_NONE
+                    );
+
+                    $get_products = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
+                    $get_products2 = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=catalogProductRenderListV1',$params);
+                    $get_product_page = [
+                        'searchCriteria' => [
+                            'filterGroups' => [
+                                [
+                                    'filters' => [
+                                        [
+                                            'field' => 'visibility',
+                                            'value' => '4',
+                                            'condition_type' => 'eq',
+                                        ],
+                                    ],
+                                    'filters' => [
+                                        [
+                                            'field' => 'status',
+                                            'value' => '1',
+                                            'condition_type' => 'eq',
+                                        ],
+                                    ],
+                                    'filters' => [
+                                        [
+                                            'field' => 'type_id',
+                                            'value' => 'configurable',
+                                            'condition_type' => 'eq',
+                                        ],
+                                    ],
+                                ],
+                            ],
+                            'sortOrders' => [
+                                [
+                                    'field' => 'entity_id',
+                                    'direction' => 'DESC',
+                                ],
+                            ],
+                            'pageSize' => 20,
+                        ],
+                    ];
+                    $get_product_page['storeId'] = "1";
+                    $get_product_page['currencyCode'] = "THB";
+
+                    $get_products = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
+
+                    foreach($result3 as $key => $value){
+                        $get_key_product = array(
+                            'sku' => $value->sku
+                        );
+
+                        $data['product_key'][$key] = $get_products->catalogProductRepositoryV1Get($get_key_product);
+                    }
+
+                    $get_type_products = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=catalogProductAttributeOptionManagementV1',$params);
+
+                    $get_color_product = [
+                        'attributeCode' => 'color',
+                    ];
+                    $get_size_product = [
+                        'attributeCode' => 'size',
+                    ];
+
+                    $data['color_product'] = $get_type_products->catalogProductAttributeOptionManagementV1GetItems($get_color_product);
+                    $data['size_products'] = $get_type_products->catalogProductAttributeOptionManagementV1GetItems($get_size_product);
+                    $data['products'] = $get_products->catalogProductRepositoryV1GetList($get_product_page);
+                    $data['products2'] = $get_products2->catalogProductRenderListV1GetList($get_product_page);
+                    $data['token_customer'] = $result2;
+                    $data['cart_customer'] = $result3;
+                    $data['get_cart'] = $get_cart;
+
+                } else {
+                    \Session::flush();
+                    return redirect('/');
+                }
+
+            } else {
+                \Session::flush();
+                return redirect('/');
+            }
+        } catch (Exception $e) {
+            $data['products'] = $e->getMessage();
+        }
+        return view('account',$data);
     }
 
     public function login_customer(Request $request){
-        $opts = array(
-            'ssl' => array('ciphers'=>'RC4-SHA', 'verify_peer'=>false, 'verify_peer_name'=>false)
-        );
-
-        $params = array (
-            'encoding' => 'UTF-8',
-            'verifypeer' => false,
-            'verifyhost' => false,
-            'soap_version' => SOAP_1_2,
-            'trace' => 1,
-            'exceptions' => 1,
-            "connection_timeout" => 180,
-            'stream_context' => stream_context_create($opts),
-            'cache_wsdl' => WSDL_CACHE_NONE
-        );
-
         try{
+            $login_customers = array(
+                'username' => $request->input('email_login'),
+                'password' => $request->input('password_login')
+            );
 
-        $login_customer = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=integrationCustomerTokenServiceV1',$params);
+            $userData = array("username" => "customer", "password" => "customer@01");
+            $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/integration/admin/token");
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . strlen(json_encode($userData))));
 
-        $login_customers = array(
-            'username' => $request->input('email_login'),
-            'password' => $request->input('password_login')
-        );
+            $token = curl_exec($ch);
 
-        $return['result'] = $login_customer->integrationCustomerTokenServiceV1CreateCustomerAccessToken($login_customers);
-        $return['status'] = 1;
-        $return['content'] = 'สำเร็จ';
+            $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/integration/customer/token");
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($login_customers));
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . json_decode($token)));
+
+            $result = curl_exec($ch);
+
+            $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/customers/me");
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . json_decode($result)));
+
+            $result2 = curl_exec($ch);
+
+            \Session::put(json_decode($result2)->id, json_decode($result));
+
+            $return['status'] = 1;
+            $return['login'] = $result2;
+            $return['content'] = 'เข้าสู่ระบบสำเร็จ';
 
         } catch (Exception $e){
             $return['status'] = 0;
-            $return['content'] = 'ไม่สำรเ็จ'.$e->getMessage();;
+            $return['content'] = 'เข้าสู่ระบบไม่สำรเ็จ'.$e->getMessage();
         }
         $return['title'] = 'เข้าสู่ระบบ';
 
         return json_encode($return);
 
+    }
+
+    public function logout(){
+        \Session::flush();
+        return redirect('/');
     }
 }

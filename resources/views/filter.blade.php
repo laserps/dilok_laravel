@@ -71,6 +71,7 @@
         @include('nav-sidebar')
         @include('filter-sidebar')
         <!-- END CART SIDEBAR -->
+
 <div class="row mt-5">
   <div class="col-xl-2 col-lg-3 fillter-d-n3" id="myDIV">
     <section class="filter">
@@ -305,7 +306,7 @@
                                     <div class="product-categories filter-font-product1">
                                         @foreach($value_custom as $key => $value)
                                           @if(!empty($value->attributeCode) && !empty($value->value) && $value->attributeCode == 'short_description')
-                                            <span>{!! $value->value !!}</span>
+                                            <span>{!! str_limit(strip_tags($value->value),50) !!}</span>
                                           @endif
                                         @endforeach
                                     </div>
@@ -327,20 +328,29 @@
                                       <span class="currency filter-font-product1">THB</span>
                                 </div>
                                 <div class="d-none d-lg-block d-md-none col-xl-6 col-lg-12 px-xl-1 px-lg-0 mb-xl-0 mb-2 mt-2 latest-product-btn latest-product-btn-pond fillter-btn-width">
-                                  <button type="button" class="btn add-to-cart p-2">
-                                    <label class="mb-0 d-flex pr-2">
-                                      <span>Add to cart</span>
-                                      <i class="fas fa-plus ml-auto pt-1" aria-hidden="true"></i>
-                                    </label>
-                                  </button>
+                                  <!-- <button type="button" class="btn add-to-cart p-2"> -->
+                                  <!-- <button type="button" class="btn_add_to_cart" data-product_detail="{{ $value_product->name }}" data-product_id="{{ $value_product->id }}" data-price_product="@if($price_special != $price_defult)
+                                    {{ $price_special }}
+                                  @endif" class="btn add-to-cart p-2"> -->
+                                  <a href="{{ url('product/'.$value_product->id) }}">
+                                    <button type="button" class="btn add-to-cart p-2">
+                                      <label class="mb-0 d-flex pr-2">
+                                        <span>Add to cart</span>
+                                        <i class="fas fa-plus ml-auto pt-1" aria-hidden="true"></i>
+                                      </label>
+                                    </button>
+                                  </a>
+                                  <!-- </button> -->
                                 </div>
                                 <div class="d-none d-lg-block d-md-none col-xl-6 col-lg-12 px-xl-1 px-lg-0 mt-2 latest-product-btn latest-product-btn-pond fillter-btn-width">
-                                  <button type="button" class="btn fast-buy p-2">
-                                    <label class="mb-0 d-flex pr-2">
-                                      <span>Buy now</span>
-                                      <i class="icon-collpase fas fa-angle-right ml-auto pt-1" aria-hidden="true"></i>
-                                    </label>
-                                  </button>
+                                  <a href="{{ url('product/'.$value_product->id) }}">
+                                    <button type="button" class="btn fast-buy p-2">
+                                      <label class="mb-0 d-flex pr-2">
+                                        <span>Buy now</span>
+                                        <i class="icon-collpase fas fa-angle-right ml-auto pt-1" aria-hidden="true"></i>
+                                      </label>
+                                    </button>
+                                  </a>
                                 </div>
                             </div>
                           </div>
@@ -406,15 +416,8 @@ function gender(value){
 $('body').on('click','.checkmark',function(){
     var data = $(this).data('type');
     var text = $(this).data('text_gender');
-    // $('.data_type2'+data).attr('checked',true);
-    // $('.checkmark').toggleClass('checkmark');
-    // $('.data_type'+data).addClass('checktest');
-    // $(".check").after(function() {
-    // });
-      // $('.data_type2'+data).attr('checked','checked');
     var form = $('#type').serializeArray();
-
-  // if($('.data_gender2'+data).is(':checked') == false){
+    $('body').loader('show');
       $.ajax({
         method : "POST",
         url : url_gb+"/gender",
@@ -422,6 +425,7 @@ $('body').on('click','.checkmark',function(){
     }).done(function(rec){
       $('#filter_data').remove();
       $('#filter_data_search').html(rec);
+      $('body').loader('hide');
 
       // $('.data_type2'+data).prop('checked',true);
       if($('.data_type2'+data).is(':checked') == true){
@@ -432,6 +436,8 @@ $('body').on('click','.checkmark',function(){
         $('.remove_gender_tag'+data).remove();
       }
     }).fail(function(){
+      $('body').loader('hide');
+      al_su('Error','danger');
     });
   // } else {
   //   $('.data_gender2'+data).removeAttr('checked');
@@ -451,16 +457,20 @@ $('body').on('click','.checkmark',function(){
 
 $('body').on('click','.remove_gender',function(){
   var data = $(this).data('remove_gender');
+  $('body').loader('show');
     $.ajax({
       method : "POST",
       url : url_gb+"/gender/"+data,
       dataType : 'json'
   }).done(function(rec){
       if(data == rec.gender_id.value) {
+        $('body').loader('hide');
         $('.remove_gender_tag'+rec.gender_id.value).remove();
         // $('.data_gender').removeClass('data_gender');
       }
   }).fail(function(){
+    $('body').loader('hide');
+    al_su('Error','danger');
   });
 });
 

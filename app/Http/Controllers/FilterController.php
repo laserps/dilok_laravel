@@ -29,11 +29,13 @@ class FilterController extends Controller
           'cache_wsdl' => WSDL_CACHE_NONE
         );
         try{
-        if(!empty($_GET)){
-            $page = $_GET['page'];
-        } else {
-            $page = 1;
-        }
+
+            if(!empty($_GET)){
+                $page = $_GET['page'];
+            } else {
+                $page = 1;
+            }
+
         $catalog = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=catalogCategoryManagementV1',$params);
         $get_products = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
         $get_products2 = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=catalogProductRenderListV1',$params);
@@ -56,6 +58,15 @@ class FilterController extends Controller
                                 'condition_type' => 'eq',
                             ],
                         ],
+                        // 'filters' => [
+                        //     [
+                        //         'field' => 'type_id',
+                        //         'value' => 'configurable',
+                        //         'condition_type' => 'eq',
+                        //     ],
+                        // ],
+                    ],
+                    [
                         'filters' => [
                             [
                                 'field' => 'type_id',
@@ -98,6 +109,74 @@ class FilterController extends Controller
             'attributeCode' => 'gender',
         ];
 
+        $login_customers = array(
+            'username' => 'hamworkbythai@gmail.com',
+            'password' => 'Whitestar01'
+        );
+
+        $userData = array("username" => "customer", "password" => "customer@01");
+        $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/integration/admin/token");
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . strlen(json_encode($userData))));
+
+        $token = curl_exec($ch);
+
+        $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/integration/customer/token");
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($login_customers));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . json_decode($token)));
+
+        $result = curl_exec($ch);
+
+        $get_session_all = \Session::all();
+
+        if(!empty($get_session_all[0])){
+            $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/customers/me");
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all[0]));
+
+            $result2 = json_decode(curl_exec($ch));
+
+            if(empty($result2->parameters)){
+
+                $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/carts/mine/items");
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all[0]));
+
+                $result3 = json_decode(curl_exec($ch));
+
+                if(empty($result3->parameters)) {
+
+                    $data['token_customer'] = $result2;
+                    $data['login'] = $result2;
+                    $data['cart_customer'] = $result3;
+
+                    $get_products = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
+
+                        foreach($result3 as $key => $value){
+                            $get_key_product = array(
+                                'sku' => $value->sku
+                            );
+                            $data['product_key'][$key] = $get_products->catalogProductRepositoryV1Get($get_key_product);
+                        }
+
+                } else {
+                    $data['token_customer'] = $result2;
+                    $data['login'] = '';
+                    $data['cart_customer'] = '';
+                }
+
+            } else {
+                \Session::flush();
+                return redirect('/');
+            }
+        }
+
             $data['products'] = $get_products->catalogProductRepositoryV1GetList($get_product_page);
             $data['products2'] = $get_products2->catalogProductRenderListV1GetList($get_product_page);
             $data['category'] = $catalog->catalogCategoryManagementV1GetTree($catalogs);
@@ -105,8 +184,9 @@ class FilterController extends Controller
             $data['size_products'] = $get_type_products->catalogProductAttributeOptionManagementV1GetItems($get_size_products);
             // $data['clothing_size'] = $get_type_products->catalogProductAttributeOptionManagementV1GetItems($get_clothing_products);
             $data['gender'] = $get_type_products->catalogProductAttributeOptionManagementV1GetItems($get_gender_products);
-        }catch(Exception $e){
-          $data['products'] = $e->getMessage();
+
+        } catch(Exception $e) {
+            $data['products'] = $e->getMessage();
         }
 
         return view('filter',$data);
@@ -254,7 +334,7 @@ class FilterController extends Controller
         $get_products = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
         $get_products2 = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=catalogProductRenderListV1',$params);
 
-        if($id != null){
+        // if($id != null){
             if(!empty($input_all['gender']) || !empty($input_all['brand']) || !empty($input_all['size']) || !empty($input_all['colorproduct'])){
                 $get_product_page = [
                     'searchCriteria' => [
@@ -282,15 +362,6 @@ class FilterController extends Controller
                                 //     ],
                                 // ],
                             ],
-                            // 1 => [
-                            //     'filters' => [
-                            //         [
-                            //             'field' => 'type_id',
-                            //             'value' => 'configurable',
-                            //             'condition_type' => 'eq',
-                            //         ],
-                            //     ],
-                            // ],
                             // 2 => [
                             //     'filters' => [
                             //         [
@@ -312,6 +383,15 @@ class FilterController extends Controller
                             4 => [
                                 'filters' => $colorproduct
                             ],
+                            5 => [
+                                'filters' => [
+                                    [
+                                        'field' => 'type_id',
+                                        'value' => 'simple',
+                                        'condition_type' => 'eq',
+                                    ],
+                                ],
+                            ],
                         ],
                         'pageSize' => 12,
                         'currentPage' => $page,
@@ -330,13 +410,22 @@ class FilterController extends Controller
                                         'conditionType' => 'eq',
                                     ],
                                 ],
-                                'filters' => [
-                                    [
-                                        'field' => 'visibility',
-                                        'value' => '4',
-                                        'condition_type' => 'eq',
-                                    ],
-                                ],
+                                // 'filters' => [
+                                //     [
+                                //         'field' => 'visibility',
+                                //         'value' => '4',
+                                //         'condition_type' => 'eq',
+                                //     ],
+                                // ],
+                                // 'filters' => [
+                                //     [
+                                //         'field' => 'type_id',
+                                //         'value' => 'configurable',
+                                //         'condition_type' => 'eq',
+                                //     ],
+                                // ],
+                            ],
+                            [
                                 'filters' => [
                                     [
                                         'field' => 'type_id',
@@ -351,48 +440,45 @@ class FilterController extends Controller
                     ],
                 ];
             }
-        } else {
-            $get_product_page = [
-                    'searchCriteria' => [
-                        'filterGroups' => [
-                            [
-                                'filters' => [
-                                    [
-                                        'field' => 'status',
-                                        'value' => '1',
-                                        'conditionType' => 'eq',
-                                    ],
-                                ],
-                                'filters' => [
-                                    [
-                                        'field' => 'visibility',
-                                        'value' => '4',
-                                        'condition_type' => 'eq',
-                                    ],
-                                ],
-                                'filters' => [
-                                    [
-                                        'field' => 'type_id',
-                                        'value' => 'configurable',
-                                        'condition_type' => 'eq',
-                                    ],
-                                ],
-                            ],
-                        ],
-                        'pageSize' => 12,
-                        'currentPage' => $page,
-                    ],
-                ];
-            $data['id_product'] = $id;
-        }
+        // } else {
+        //     $get_product_page = [
+        //             'searchCriteria' => [
+        //                 'filterGroups' => [
+        //                     [
+        //                         'filters' => [
+        //                             [
+        //                                 'field' => 'status',
+        //                                 'value' => '1',
+        //                                 'conditionType' => 'eq',
+        //                             ],
+        //                         ],
+        //                         'filters' => [
+        //                             [
+        //                                 'field' => 'visibility',
+        //                                 'value' => '4',
+        //                                 'condition_type' => 'eq',
+        //                             ],
+        //                         ],
+                                // 'filters' => [
+                                //     [
+                                //         'field' => 'type_id',
+                                //         'value' => 'configurable',
+                                //         'condition_type' => 'eq',
+                                //     ],
+                                // ],
+        //                     ],
+        //                 ],
+        //                 'pageSize' => 12,
+        //                 'currentPage' => $page,
+        //             ],
+        //         ];
+        //     $data['id_product'] = $id;
+        // }
             $get_product_page['storeId'] = "1";
             $get_product_page['currencyCode'] = "THB";
 
         $data['products'] = $get_products->catalogProductRepositoryV1GetList($get_product_page);
         $data['products2'] = $get_products2->catalogProductRenderListV1GetList($get_product_page);
-
-        // dd($data);
-        // exit();
 
         } catch(Exception $e){
           $data['products'] = $e->getMessage();
@@ -455,5 +541,177 @@ class FilterController extends Controller
         }
 
         return view('filter_search',$data);
+    }
+
+    public function add_to_cart(Request $request){
+        $opts = array(
+            'ssl' => array('ciphers'=>'RC4-SHA', 'verify_peer'=>false, 'verify_peer_name'=>false)
+        );
+
+        $params = array (
+          'encoding' => 'UTF-8',
+          'verifypeer' => false,
+          'verifyhost' => false,
+          'soap_version' => SOAP_1_2,
+          'trace' => 1,
+          'exceptions' => 1,
+          "connection_timeout" => 180,
+          'stream_context' => stream_context_create($opts),
+          'cache_wsdl' => WSDL_CACHE_NONE
+        );
+        try{
+            $product = $request->input('product');
+            $price_product = $request->input('price');
+            $product_id = $request->input('product_id');
+
+            $userData = array("username" => "customer", "password" => "customer@01");
+            $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/integration/admin/token");
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . strlen(json_encode($userData))));
+
+            $token = curl_exec($ch);
+
+        $get_products = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
+        $get_product_detail = array(
+            'sku' => $product
+        );
+        $data_product = $get_products->catalogProductRepositoryV1Get($get_product_detail);
+
+        // $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/products/".$product);
+        // curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+        // // curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($test));
+        // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        // curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . json_decode($token)));
+
+        // $data_product = curl_exec($ch);
+
+        // dd($data_product);
+        // exit();
+
+        $get_session_all = \Session::all();
+
+        if(!empty($get_session_all[0])){
+            $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/customers/me");
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all[0]));
+
+            $result2 = curl_exec($ch);
+
+        }
+
+        $product = [
+            "cartItem" => [
+              // "item_id" => 22,
+              "sku"=> $data_product->result->sku,
+              "qty"=> 1,
+              "name" => $data_product->result->sku,
+              "price" => $price_product,
+              "product_type" => "simple",
+              "quote_id"=> json_decode($result2)->id,
+              // "productOption"=> [
+              //   "extensionAttributes"=> [
+              //     "configurableItemOptions"=> [
+              //       [
+              //         "optionId"=> "93",
+              //         "optionValue"=> 44,
+              //         "extensionAttributes"=> []
+              //       ]
+              //     ]
+              //   ]
+              // ]
+            ]
+          ];
+
+        $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/carts/".json_decode($result2)->id."/items");
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($product));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . json_decode($token)));
+
+        $result3 = curl_exec($ch);
+
+        // dd($result3);
+        // exit();
+
+            $return['status'] = 1;
+            $return['login'] = $result3;
+            $return['content'] = 'เพิ่มสินค้าสำเร็จ';
+        } catch (Exception $e){
+            $return['status'] = 0;
+            $return['content'] = 'เพิ่มสินค้าไม่สำรเ็จ'.$e->getMessage();;
+        }
+        $return['title'] = 'เพิ่มสินค้า';
+
+        return json_encode($return);
+
+
+    }
+
+    public function del_to_cart(Request $request){
+        try{
+            $product_sku = $request->input('product');
+            $product_id = $request->input('id_sku');
+
+            $get_session_all = \Session::all();
+
+            if(!empty($get_session_all[0])){
+                $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/customers/me");
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all[0]));
+
+                $result2 = curl_exec($ch);
+
+                $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/carts/mine");
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all[0]));
+
+                $get_cart = json_decode(curl_exec($ch));
+
+            }
+
+            $product = [
+                "cartItem" => [
+                    "item_id" => $product_id,
+                    "sku" => $product_sku,
+                    "name" => $product_sku,
+                    "quote_id" => $get_cart->id,
+                ]
+              ];
+
+            $userData = array("username" => "customer", "password" => "customer@01");
+            $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/integration/admin/token");
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . strlen(json_encode($userData))));
+
+            $token = curl_exec($ch);
+
+            $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/carts/mine/items/".$product_id);
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "delete");
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all[0]));
+
+
+            $result3 = curl_exec($ch);
+
+            // dd($product);
+            // exit();
+
+                $return['status'] = 1;
+                $return['login'] = $result3;
+                $return['content'] = 'ลบสินค้าสำเร็จ';
+            } catch (Exception $e){
+                $return['status'] = 0;
+                $return['content'] = 'ลบสินค้าไม่สำรเ็จ'.$e->getMessage();;
+            }
+            $return['title'] = 'ลบสินค้า';
+
+        return json_encode($return);
     }
 }

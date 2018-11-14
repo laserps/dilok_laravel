@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 class MeeController extends Controller
 {
     public function addCustomer(){
-        $value = 
+        $value =
         [
             "customer"=>[
                 'email' => 'test@test.com',
@@ -52,25 +52,25 @@ class MeeController extends Controller
                 ],
             ]
         ];
-    
-        $userData = array("username" => "admin", "password" => "Osaklang8136");
-        $ch = curl_init("http://localhost/wb_magento/rest/V1/integration/admin/token");
+
+        $userData = array("username" => "dilok", "password" => "dilok@01");
+        $ch = curl_init("http://localhost/dilok2/rest/V1/integration/admin/token");
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . strlen(json_encode($userData))));
-        
+
         $token = curl_exec($ch);
         // return $token;
-        
-        $chch = curl_init("http://localhost/wb_magento/rest/all/V1/customers");
+
+        $chch = curl_init("http://localhost/dilok2/rest/all/V1/customers");
         curl_setopt($chch, CURLOPT_CUSTOMREQUEST, "POST");
         curl_setopt($chch, CURLOPT_POSTFIELDS, json_encode($value));
         curl_setopt($chch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($chch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . json_decode($token)));
-        
+
         $result = curl_exec($chch);
         return $result;
-    
+
     }
 }

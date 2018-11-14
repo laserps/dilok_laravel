@@ -36,19 +36,65 @@ $category2 = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&servi
 // $get_products_gallerys = new \SoapClient('http://192.168.1.27/dilok/soap/default?wsdl&services=catalogProductAttributeMediaGalleryManagementV1',$params);
 // $catalog = new \SoapClient('http://192.168.1.27/dilok/soap/default?wsdl&services=catalogCategoryManagementV1',$params);
 
-$soapResponse = $create_customers2->__getFunctions();
+// $soapResponse = $create_customers2->__getFunctions();
 
-dd($soapResponse);
-exit();
+// $test = array(
+// 	'username' => 'dilok',
+// 	'password' => 'dilok@01'
+// );
+// $tokenadmin = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=integrationAdminTokenServiceV1',array("soap_version" => SOAP_1_2));
+// $admin_token = $tokenadmin->integrationAdminTokenServiceV1CreateAdminAccessToken($test);
 
-$aa = array('1','2');
-$bb = array('11'=>'11','22'=>'22');
-$cc = ['1','2'];
-$dd = [array('1','2')];
+//         dd($test);
+//         exit();
 
-dd(json_encode($aa),json_encode($bb),json_encode($cc),json_encode($dd));
 // dd($soapResponse);
+// exit();
+$get_session_all = \Session::all();
+
+$userData = array("username" => "customer", "password" => "customer@01");
+$ch = curl_init("http://192.168.1.27/dilok2/rest/V1/integration/admin/token");
+curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . strlen(json_encode($userData))));
+
+$token_admin = json_decode(curl_exec($ch));
+
+$ch = curl_init("http://192.168.1.27/dilok2/rest/V1/modules");
+curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $token_admin));
+
+$result2 = json_decode(curl_exec($ch));
+
+dd($result2);
 exit();
+
+foreach($result2->addresses as $key => $value){
+    $address_value[$key] = [
+        "id" => $value->id,
+        "customer_id" => $value->customer_id,
+        "region" => [
+          "region_code" => $value->region->region_code,
+          "region" => $value->region->region,
+          "region_id" => $value->region->region_id,
+        ],
+        "region_id" => $value->region_id,
+        "country_id" => $value->country_id,
+        "street" => $value->street,
+        "company" => $value->company,
+        "telephone" => $value->telephone,
+        "postcode" => $value->postcode,
+        "city" => $value->city,
+        "firstname" => $value->firstname,
+        "lastname" => $value->lastname,
+    ];
+}
+
+dd($address_value);
+
+
 
 $customer['customer'] = array(
             'email' => 'banjong_147@hotmail.com',
@@ -139,8 +185,8 @@ $customer['customer'] = array(
 	$get_token_login = $login_customer->integrationCustomerTokenServiceV1CreateCustomerAccessToken($login_customers);
 	// $get_customer = $create_customers->customerAccountManagementV1ValidateResetPasswordLinkToken(array('customerId' => '2' , 'resetPasswordLinkToken' => '3afcab3761a3230e9b2bf2a91174b5ab'));
 
-	dd($get_token_login);
-	exit();
+	// dd($get_token_login);
+	// exit();
 
 $get_product_page = [
     'searchCriteria' => [
@@ -203,24 +249,24 @@ $login_customers = array(
     'password' => 'Whitestar01'
 );
 
-        $token = $login_customer->integrationCustomerTokenServiceV1CreateCustomerAccessToken($login_customers);
+        // $token = $login_customer->integrationCustomerTokenServiceV1CreateCustomerAccessToken($login_customers);
 
 
-	$get_product = $get_products->catalogProductRepositoryV1GetList($get_product_page);
-	$get_product2 = $get_products2->catalogProductRenderListV1GetList($get_product_page);
-	$get_product3 = $get_products_link->configurableProductLinkManagementV1GetChildren($option_product);
-	$get_product4 = $get_products_option->configurableProductOptionRepositoryV1GetList($option_product);
-	$get_product5 = $get_stock_product->catalogInventoryStockRegistryV1GetStockStatusBySku($get_stock_products);
-    $get_product6 = $get_type_products->catalogProductAttributeOptionManagementV1GetItems($get_color_product);
-    $cat = $category->catalogCategoryManagementV1GetTree(array('rootCategoryId'=>'1'));
-    $cat2 = $category2->catalogCategoryRepositoryV1Get(array('categoryId'=> '3'));
+	// $get_product = $get_products->catalogProductRepositoryV1GetList($get_product_page);
+	// $get_product2 = $get_products2->catalogProductRenderListV1GetList($get_product_page);
+	// $get_product3 = $get_products_link->configurableProductLinkManagementV1GetChildren($option_product);
+	// $get_product4 = $get_products_option->configurableProductOptionRepositoryV1GetList($option_product);
+	// $get_product5 = $get_stock_product->catalogInventoryStockRegistryV1GetStockStatusBySku($get_stock_products);
+    // $get_product6 = $get_type_products->catalogProductAttributeOptionManagementV1GetItems($get_color_product);
+    // $cat = $category->catalogCategoryManagementV1GetTree(array('rootCategoryId'=>'1'));
+    // $cat2 = $category2->catalogCategoryRepositoryV1Get(array('categoryId'=> '3'));
     // $tt = $login_customer22->customerAccountManagementV1ValidateResetPasswordLinkToken(array('customerId'=> '1' , 'resetPasswordLinkToken' => $token->result));
 	// $get_product = $get_products->configurableProductLinkManagementV1GetChildren(array('sku'=>'Mj01'));
 	// $get_product_types = $get_products_type->quoteGuestCartRepositoryV1Get(array('cartId'=>'1'));
     // $get_products_gallerys = $get_products_gallerys->catalogProductAttributeMediaGalleryManagementV1GetList($get_products_gallery);
     // $get_catalog = $catalog->catalogCategoryManagementV1GetTree($catalogs);
 	// dd($get_product,$get_products_gallerys,$get_catalog);
-	dd($get_product,$get_product2,$get_product3,$get_product4,$get_product5,$get_product6,$cat,$cat2);
+	// dd($get_product,$get_product2,$get_product3,$get_product4,$get_product5,$get_product6,$cat,$cat2);
 	// dd($cat,$cat2);
 	// dd($get_product2->result->items->item[1]);
 	// dd($create_customer);

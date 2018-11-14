@@ -42,12 +42,26 @@ Route::get('/adidas','ProductController@adidas');
 Route::get('/reebok','ProductController@reebok');
 
 Route::get('/payment','ProductController@payment');
+Route::get('/payment_order','ProductController@payment_order');
 
 Route::post('/gender','FilterController@get_gender');
+Route::post('/addproducttocart','FilterController@add_to_cart');
+Route::post('/deleteproducttocart','FilterController@del_to_cart');
 Route::post('/gender/{id}','FilterController@get_gender');
 Route::get('/filter_search','FilterController@filter_search');
+// Route::get('/Login',[ 'as' => 'login', 'uses' => 'CheckController@index']);
+
+// Route::post('/login_customer',[ 'as' => 'login', 'uses' => 'CustomerController@login_customer']);
+
+Route::post('/addproductconfigurable','CartController@create');
+
+//Customer
 Route::post('/create_customer','CustomerController@create');
+Route::get('/account','CustomerController@profile');
+Route::get('/page_edit_account/{id}','CustomerController@show');
+Route::post('/edit_customer/{id}','CustomerController@edit');
 Route::post('/login_customer','CustomerController@login_customer');
+<<<<<<< HEAD
 
 // P`m'ee
 Route::get('/payment','PaypalPaymentController@paywithPaypal');
@@ -55,3 +69,10 @@ Route::get('/payments/success','PaypalPaymentController@success');
 Route::get('/payments/fails',function(){
     echo "fails";
 });
+=======
+Route::post('/add_address_customer/{id}','CustomerController@store');
+Route::post('/del_address_customer/{id}','CustomerController@destroy');
+
+//logout
+Route::get('/logout','CustomerController@logout');
+>>>>>>> 09e86313428b32a3f2264e3ca3dbcfae79c30004

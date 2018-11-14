@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 class MeeController extends Controller
 {
     public function addCustomer(){
-        $value = 
+        $value =
         [
             "customer"=>[
                 'email' => 'tes2t@test.com',
@@ -79,17 +79,18 @@ class MeeController extends Controller
                 ],
             ]
         ];
-    
-        $userData = array("username" => "admin", "password" => "Osaklang8136");
-        $ch = curl_init("http://localhost/wb_magento/rest/V1/integration/admin/token");
+
+        $userData = array("username" => "dilok", "password" => "dilok@01");
+        $ch = curl_init("http://localhost/dilok2/rest/V1/integration/admin/token");
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . strlen(json_encode($userData))));
-        
+
         $token = curl_exec($ch);
         curl_close($ch);
         // return $token;
+<<<<<<< HEAD
         
         $chch = curl_init("http://localhost/wb_magento/rest/default/V1/customers/7");
         curl_setopt($chch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . 
@@ -98,9 +99,22 @@ class MeeController extends Controller
         curl_setopt($chch, CURLOPT_CUSTOMREQUEST, 'PUT');
         curl_setopt($chch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($chch, CURLOPT_POSTFIELDS, json_encode($value));
+=======
+
+        $chch = curl_init("http://localhost/dilok2/rest/all/V1/customers");
+        curl_setopt($chch, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($chch, CURLOPT_POSTFIELDS, json_encode($value));
+        curl_setopt($chch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($chch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . json_decode($token)));
+
+>>>>>>> 09e86313428b32a3f2264e3ca3dbcfae79c30004
         $result = curl_exec($chch);
         curl_close($chch);
         return $result;
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> 09e86313428b32a3f2264e3ca3dbcfae79c30004
     }
 }

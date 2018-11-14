@@ -70,6 +70,71 @@ class HomeController extends Controller
         $get_product_page['storeId'] = "1";
         $get_product_page['currencyCode'] = "THB";
 
+
+        $userData = array("username" => "customer", "password" => "customer@01");
+        $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/integration/admin/token");
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . strlen(json_encode($userData))));
+
+        $token = curl_exec($ch);
+
+        $get_session_all = \Session::all();
+
+        if(!empty($get_session_all[0])){
+            $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/customers/me");
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . ($get_session_all[0])));
+
+            $result2 = json_decode(curl_exec($ch));
+
+            if(empty($result2->parameters)){
+
+                $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/carts/mine/items");
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all[0]));
+
+                $result3 = json_decode(curl_exec($ch));
+
+                if(empty($result3->parameters)) {
+
+                    $data['token_customer'] = $result2;
+                    $data['cart_customer'] = $result3;
+
+                    $get_products = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
+
+                    foreach($result3 as $key => $value){
+                      $get_key_product = array(
+                        'sku' => $value->sku
+                      );
+
+                      $data['product_key'][$key] = $get_products->catalogProductRepositoryV1Get($get_key_product);
+                    }
+
+                    $get_type_products = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=catalogProductAttributeOptionManagementV1',$params);
+
+                    $get_color_product = [
+                      'attributeCode' => 'color',
+                    ];
+                    $get_size_product = [
+                      'attributeCode' => 'size',
+                    ];
+
+                    $data['color_product'] = $get_type_products->catalogProductAttributeOptionManagementV1GetItems($get_color_product);
+                    $data['size_products'] = $get_type_products->catalogProductAttributeOptionManagementV1GetItems($get_size_product);
+
+                } else {
+                    $data['token_customer'] = $result2;
+                    $data['cart_customer'] = '';
+                    $data['color_product'] = '';
+                    $data['size_products'] = '';
+                }
+            }
+        }
+
         $data['products'] = $get_products->catalogProductRepositoryV1GetList($get_product_page);
         $data['products2'] = $get_products2->catalogProductRenderListV1GetList($get_product_page);
 

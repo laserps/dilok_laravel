@@ -30,6 +30,7 @@
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/pond.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/gia.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/park.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/jquery.loader.css') }}">
 
 <!-- GOOGLE FONTS -->
 <link href="{{ asset('https://fonts.googleapis.com/css?family=Kanit:300,400,500,600') }}" rel="stylesheet">
@@ -1171,58 +1172,86 @@
               </div>
             </div>
           </li>
+
           <li class="nav-item cart mr-3">
-              <button class="btn btn-secondary cart-btn sidebarCollapse" type="button" >
-                 <span style="font-weight : 400;"><i class="fa fa-shopping-cart" aria-hidden="true"></i> CART (0)</span></a>
-              </button>
+            <button class="btn btn-secondary cart-btn sidebarCollapse" type="button" >
+              <span style="font-weight : 400;"><i class="fa fa-shopping-cart" aria-hidden="true"></i> CART
+              @if(!empty($cart_customer))
+                @if(count($cart_customer) != '[]')
+                  ({{ count($cart_customer) }})
+                @else
+                  (0)
+                @endif
+              @else
+                (0)
+              @endif
+            </span></a>
+            </button>
           </li>
           <!-- logged in -->
-                  <!-- <li class="nav-item">
+          @if(!empty($token_customer))
+
+                  <li class="nav-item" style="margin-top: 5px;">
                     <div class="btn-group">
                       <button class="btn profile-btn p-0" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 
                         <div class="center-table">
-                          <span class="image-cropper">
+                          <!-- <span class="image-cropper">
                               <img class="profile-pic rounded" src="assets/images/index/person/1.jpg"/>
-                          </span>
-                          <span pl-4 class="profile-name pl-2"> Suradech Srisukdee </span>
+                          </span> -->
+                          <span class="profile-name pl-2">Welcome {{ $token_customer->firstname }}</span>
                         </div>
 
                       </button>
                       <div class="dropdown-menu dropdown-menu-right">
-                           <a class="dropdown-item" href="#">Action</a>
-                           <a class="dropdown-item" href="#">Another action</a>
-                           <a class="dropdown-item" href="#"><i class="fa fa-sign-out" aria-hidden="true"></i> Log out</a>
+                          <a class="dropdown-item" href="{{ url('account') }}"><i class="fa fa-user" aria-hidden="true"></i> Profile</a>
+                          <!-- <a class="dropdown-item" href="#">Action</a> -->
+                          <!-- <a class="dropdown-item" href="#">Another action</a> -->
+                          <a class="dropdown-item" href="{{ url('logout') }}"><i class="fa fa-sign-out-alt" aria-hidden="true"></i> Log out</a>
                       </div>
                     </div>
-                  </li> -->
-          <!-- end loged in -->
-          <!-- Not loged in -->
-                  <li class="nav-item">
-                       <div class="dropdown">
-                         <button class="btn btn-secondary log-in-dropdown-btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                           <span style="font-weight:400;"><i class="fa fa-sign-in-alt" aria-hidden="true"></i> Log in</span>
-                         </button>
-                         <div class="dropdown-menu dropdown-menu-right log-in-dropdown" aria-labelledby="dropdownMenuButton">
-                               <form class="p-5">
-                                <div class="form-group">
-                                  <label class="d-flex">Email address<span class="red">*</span><span class="red ml-auto">*Required fields</span></label>
-                                  <input type="email" class="form-control" aria-describedby="" placeholder="">
-                                </div>
-                                <div class="form-group">
-                                  <label class="d-flex">Password<span class="red">*</span><span class="ml-auto"><a class="grey" href="{{ url('forgot') }}">Forget your password?</a></span></label>
-                                  <input type="password" class="form-control" placeholder="">
-                                </div>
-                                  <div class="regist-m-t2 text-center">
-                                    <button class="btn regist-btn-1" type="submit">LOG IN</button>
-                                  </div>
-                              </form>
-                              <div class="create-account py-3">
-                                <span><a class="black" href="{{ url('regist') }}">New? Create an account</a></span>
-                              </div>
-                         </div>
-                       </div>
                   </li>
+          <!-- end loged in -->
+
+            <!-- <li class="nav-item">
+             <div class="dropdown">
+               <button class="btn btn-secondary log-in-dropdown-btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span style="font-weight:400;">Welcome {{ $token_customer->firstname }}</span>
+               </button>
+                <div class="create-account py-3">
+                  <span><a class="black" href="{{ url('account') }}">Profile</a></span><br/>
+                  <span><a class="black" href="{{ url('logout') }}">Log Out</a></span>
+                </div>
+               </div>
+             </div>
+            </li> -->
+          @else
+            <li class="nav-item">
+                 <div class="dropdown">
+                   <button class="btn btn-secondary log-in-dropdown-btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                     <span style="font-weight:400;"><i class="fa fa-sign-in-alt" aria-hidden="true"></i> Log in</span>
+                   </button>
+                   <div class="dropdown-menu dropdown-menu-right log-in-dropdown" aria-labelledby="dropdownMenuButton">
+                         <form class="p-5 form_login_customer2">
+                          <div class="form-group">
+                            <label class="d-flex">Email address<span class="red">*</span><span class="red ml-auto">*Required fields</span></label>
+                            <input type="email" name="email_login" class="form-control" aria-describedby="" placeholder="">
+                          </div>
+                          <div class="form-group">
+                            <label class="d-flex">Password<span class="red">*</span><span class="ml-auto"><a class="grey" href="{{ url('forgot') }}">Forget your password?</a></span></label>
+                            <input type="password" name="password_login" class="form-control" placeholder="">
+                          </div>
+                            <div class="regist-m-t2 text-center">
+                              <button class="btn regist-btn-1 btn_login_customer2" type="button">LOG IN</button>
+                            </div>
+                        </form>
+                        <div class="create-account py-3">
+                          <span><a class="black" href="{{ url('regist') }}">New? Create an account</a></span>
+                        </div>
+                   </div>
+                 </div>
+            </li>
+          @endif
           <!-- END Not loged in -->
         </ul>
       </div>
@@ -1693,6 +1722,8 @@
 
 
 </footer>
+
+@yield('model')
  <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script type="text/javascript" src="{{ asset('node_modules/jquery/dist/jquery.min.js') }}"></script>
@@ -1704,6 +1735,9 @@
 
     <script src="{{ asset('assets/vendor/datepic/dist/js/bootstrap-datepicker.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/datepic/dist/locales/bootstrap-datepicker.th.min.js') }}" charset="UTF-8"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="{{ asset('assets/js/jquery.loader.min.js') }}"></script>
+    <script src="{{ asset('assets/js/jquery.bootstrap-growl.min.js') }}"></script>
 
     <script type="text/javascript">
 var url_gb = '{{url('')}}';
@@ -1811,8 +1845,24 @@ $.ajaxSetup({
       });
     }
 
-    $(window).on('load', function () {
+    function al_su(content,type){
+      $(function() {
+        setTimeout(function() {
+            $.bootstrapGrowl(content, { type: type , align : 'left'});
+        }, 3000);
+      });
+    }
 
+    function al_da(content,type){
+      $(function() {
+        setTimeout(function() {
+            $.bootstrapGrowl(content, { type: type , align : 'left'});
+        }, 3000);
+      });
+    }
+
+    $(window).on('load', function () {
+  // $('body').loader('show');
       // LANGUAGE PICKER
       $(".large").bind('mouseover', function() {
         var languagecount = document.getElementById("languagepicker").getElementsByTagName("li").length
@@ -2412,6 +2462,103 @@ $.ajaxSetup({
 
     });
 
-    </script>
+$('body').on('click','.btn_login_customer',function(){
+  var form = $('.form_login_customer').serializeArray();
+  $('body').loader('show');
+    $.ajax({
+      method : "POST",
+      url : url_gb+"/login_customer",
+      dataType: "JSON",
+      data : form,
+    }).done(function(rec){
+      if(rec.status==1){
+        $('.form_login_customer')[0].reset();
+        al_su(rec.content,'success');
+        window.location.href = url_gb;
+        $('body').loader('hide');
+      }else{
+      $('body').loader('hide');
+        al_su(rec.content,'danger');
+      }
+    }).fail(function(e){
+      al_su('Error','danger');
+      $('body').loader('hide');
+  });
+});
+
+$('body').on('click','.btn_login_customer2',function(){
+  var form = $('.form_login_customer2').serializeArray();
+  $('body').loader('show');
+    $.ajax({
+      method : "POST",
+      url : url_gb+"/login_customer",
+      dataType: "JSON",
+      data : form,
+    }).done(function(rec){
+      if(rec.status==1){
+        $('.form_login_customer2')[0].reset();
+        al_su(rec.content,'success');
+        window.location.href = url_gb;
+        $('body').loader('hide');
+      }else{
+      $('body').loader('hide');
+        al_su(rec.content,'danger');
+      }
+    }).fail(function(){
+      $('body').loader('hide');
+      al_su('Error','danger');
+  });
+});
+
+$('body').on('click','.btn_add_to_cart',function(){
+  var data = $(this).data('product_detail');
+  var price = $(this).data('price_product');
+  var product_id = $(this).data('product_id');
+  $('body').loader('show');
+    $.ajax({
+      method : "POST",
+      url : url_gb+"/addproducttocart",
+      dataType: "JSON",
+      data : { 'product' :data , 'price' : price ,'product_id':product_id},
+    }).done(function(rec){
+      if(rec.status==1){
+        al_su(rec.content,'success');
+        location.reload();
+        $('body').loader('hide');
+      }else{
+        $('body').loader('hide');
+        al_su(rec.content,'danger');
+      }
+    }).fail(function(){
+        $('body').loader('hide');
+        al_su('Error','danger');
+  });
+});
+
+$('body').on('click','.delete_cart_product',function(){
+  var data = $(this).data('product_sku');
+  var id_sku = $(this).data('id_sku');
+  $('body').loader('show');
+    $.ajax({
+      method : "POST",
+      url : url_gb+"/deleteproducttocart",
+      dataType: "JSON",
+      data : { 'product' :data , 'id_sku' : id_sku},
+    }).done(function(rec){
+      if(rec.status==1){
+        al_su(rec.content,'success');
+        location.reload();
+        $('body').loader('hide');
+      }else{
+        $('body').loader('hide');
+        al_su(rec.content,'danger');
+      }
+    }).fail(function(){
+        $('body').loader('hide');
+        al_su('Error','danger');
+  });
+});
+
+</script>
 
 @yield('js_bottom')

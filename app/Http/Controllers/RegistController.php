@@ -13,7 +13,48 @@ class RegistController extends Controller
      */
     public function index()
     {
-        return view('regist');
+
+        try{
+
+        $userData = array("username" => "customer", "password" => "customer@01");
+        $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/integration/admin/token");
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . strlen(json_encode($userData))));
+
+        $token = curl_exec($ch);
+
+        $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/directory/countries");
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+        // curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . json_encode($token)));
+
+        $result = json_decode(curl_exec($ch));
+
+        $data['countries'] = $result;
+
+        $get_session_all = \Session::all();
+
+        if(!empty($get_session_all[0])){
+            $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/customers/me");
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . ($get_session_all[0])));
+
+            $result2 = curl_exec($ch);
+
+            $data['token_customer'] = json_decode($result2);
+        } else {
+            $data['token_customer'] = '';
+        }
+
+        }catch(Exception $e){
+          $data['products'] = $e->getMessage();
+        }
+
+        return view('regist',$data);
     }
 
     public function forgot(){

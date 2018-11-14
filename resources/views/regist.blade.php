@@ -53,7 +53,7 @@
                                 </label>
                                 <div class="input-group text-center">
                                   <div class="input-group-prepend"></div>
-                                  <input type="text" class="regist-form" name="firstname" id="validationDefaultUsername1" placeholder="First Name" aria-describedby="inputGroupPrepend1" required>
+                                  <input type="text" class="regist-form firstname" name="firstname" id="validationDefaultUsername1" placeholder="First Name" aria-describedby="inputGroupPrepend1" required>
                                 </div>
                             </div>
                             <div class="col-xl-6 regist-m-t3">
@@ -77,6 +77,76 @@
                                 <div class="input-group text-center">
                                   <div class="input-group-prepend"></div>
                                   <input type="text" class="regist-form" name="email" id="validationDefaultUsername2" placeholder="Email" aria-describedby="inputGroupPrepend2" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row mb-3">
+                        <!-- <div class="form-row"> -->
+                            <div class="col-xl-6 mb-3">
+                                <label class="regist-font4 d-flex" for="telephone">
+                                    Phone
+                                    <span class="forgot-font3 ml-1">*</span>
+                                </label>
+                                <div class="input-group text-center">
+                                  <div class="input-group-prepend"></div>
+                                  <input type="text" class="regist-form" name="telephone" id="telephone" placeholder="Phone" aria-describedby="inputGroupPrepend3" required>
+                                </div>
+                            </div>
+                        <!-- </div> -->
+                        <!-- <div class="form-row"> -->
+                            <div class="col-xl-6 mb-3">
+                                <label class="regist-font4 d-flex" for="postcode">
+                                    Postcode
+                                    <span class="forgot-font3 ml-1">*</span>
+                                </label>
+                                <div class="input-group text-center">
+                                  <div class="input-group-prepend"></div>
+                                  <input type="text" class="regist-form" name="postcode" id="postcode" placeholder="Postcode" aria-describedby="inputGroupPrepend4" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-xl-12 mb-3">
+                                <label class="regist-font4 d-flex" for="city">
+                                    City
+                                    <span class="forgot-font3 ml-1">*</span>
+                                </label>
+                                <div class="input-group text-center">
+                                  <div class="input-group-prepend"></div>
+                                  <input type="text" class="regist-form" name="city" id="city" placeholder="City" aria-describedby="inputGroupPrepend5" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-xl-12 mb-3">
+                                <label class="regist-font4 d-flex" for="address">
+                                    Address
+                                    <span class="forgot-font3 ml-1">*</span>
+                                </label>
+                                <div class="input-group text-center">
+                                  <div class="input-group-prepend"></div>
+                                  <!-- <input type="text" class="regist-form" name="city" id="city" placeholder="City" aria-describedby="inputGroupPrepend2" required> -->
+                                  <textarea class="regist-form" name="address" id="address" placeholder="address" aria-describedby="inputGroupPrepend6" required></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-xl-12 mb-3">
+                                <label class="regist-font4 d-flex" for="address">
+                                    Country
+                                    <span class="forgot-font3 ml-1">*</span>
+                                </label>
+                                <div class="input-group text-center">
+                                  <div class="input-group-prepend"></div>
+                                    <select name="country" class="regist-form select_country">
+                                      <option>---- Select ----</option>
+                                      @foreach($countries as $key_country => $value_country)
+                                        @if($value_country->full_name_english != null)
+                                          <option value="{{ $value_country->id }}" data_name="{{ $value_country->full_name_english }}">{{ $value_country->full_name_english }}</option>
+                                        @endif
+                                      @endforeach
+                                    <input type="text" hidden name="country_name" class="regist-form country_name" placeholder="country_name">
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -104,7 +174,7 @@
                                 </label>
                                 <div class="input-group text-center">
                                     <div class="input-group-prepend"></div>
-                                    <input type="password" class="regist-form" name="password" id="validationDefaultUsername2" placeholder="Create Password" aria-describedby="inputGroupPrepend2" required>
+                                    <input type="password" class="regist-form password" name="password" id="validationDefaultUsername2" placeholder="Create Password" aria-describedby="inputGroupPrepend2" required>
                                 </div>
                             </div>
                         </div>
@@ -143,7 +213,7 @@
           <div class="col-xl-6 col-lg-6 col-12 regist-p-l regist-m-t7 order-1 order-lg-1 order-xl-1">
                <div class="col-12">
                    <div class="regist-font2">I'VE REGISTERED...</div>
-                   <form id="form_login_customer">
+                   <form class="form_login_customer">
                        <div class="form-row regist-m-t4">
                            <div class="col-xl-12 mb-3">
                                <label class="regist-font4 d-flex" for="validationDefaultUsername1">
@@ -171,7 +241,7 @@
                            </div>
                        </div>
                        <div class="regist-m-t2 text-center">
-                           <button class="btn regist-btn" id="btn_login_customer" type="button">LOG IN</button>
+                           <button class="btn regist-btn btn_login_customer" type="button">LOG IN</button>
                        </div>
                        <div class="mt-3 text-center">
                            <a href="{{ url('forgot') }}" class="regist-font5"><u>Forgot Your Password?</u></a>
@@ -180,7 +250,6 @@
                    <hr class="mt-5 d-xl-none d-lg-none">
                </div>
           </div>
-
 
         </div>
     </div>
@@ -195,44 +264,53 @@
     $("#detail").css('display',"none");
   }
 
+$('body').on('change','.select_country',function(){
+  var data = $(this).val();
+  var option = $('option:selected', this).attr('data_name');
+  $('.country_name').val('');
+  $('.country_name').val(option);
+});
+
 $('body').on('click','#btn-submit_form',function(){
-    var form = $('#form_register_customer').serializeArray();
-      $.ajax({
-        method : "POST",
-        url : url_gb+"/create_customer",
-        data : form,
-    }).done(function(rec){
-      if(rec.status==1){
-        console.log(1);
-        // swal(rec.title,rec.content,"success");
-      }else{
-        console.log(2);
-        // swal("ระบบมีปัญหา","กรุณาติดต่อผู้ดูแล","error");
-      }
-      $('#form_register_customer')[0].reset();
-    }).fail(function(){
-    });
-});
+  var nameReg = "/^[A-Za-z]+$/";
+  var numberReg =  "/^[0-9]+$/";
+  var emailReg = "/^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/";
+  var password = $('.password').val();
 
-$('body').on('click','#btn_login_customer',function(){
-    var form = $('#form_login_customer').serializeArray();
-      $.ajax({
-        method : "POST",
-        url : url_gb+"/login_customer",
-        data : form,
+  var form = $('#form_register_customer').serializeArray();
+  var firstname = $('.firstname').val();
+  // $('body').loader('show');
+  var pwdPolicy = "/^\w*(?=\w*\d)(?=\w*[a-z])(?=\w*[A-Z])\w*$/";
+  // alert(password);
+  // if(password.match(nameReg)){
+  //   alert('1');
+  //   return true;
+  // } else {
+  //   alert("Please fallow password policy");
+  //   $('.password').focus();
+  //   return false;
+  // }
+    $.ajax({
+      method : "POST",
+      url : url_gb+"/create_customer",
+      dataType: "JSON",
+      data: form,
     }).done(function(rec){
+      console.log(rec);
       if(rec.status==1){
-        console.log(1);
-        // swal(rec.title,rec.content,"success");
+        $('#form_register_customer')[0].reset();
+        $('body').loader('hide');
+        al_su(rec.content,'success');
+        // window.location.href = url_gb;
       }else{
-        console.log(2);
-        // swal("ระบบมีปัญหา","กรุณาติดต่อผู้ดูแล","error");
+        $('body').loader('hide');
+        al_su(rec.content,'danger');
       }
-      $('#form_login_customer')[0].reset();
     }).fail(function(){
-    });
+        $('body').loader('hide');
+        al_su('Error','danger');
+  });
 });
-
 </script>
 @endsection
 

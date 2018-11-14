@@ -48,3 +48,10 @@ Route::post('/gender/{id}','FilterController@get_gender');
 Route::get('/filter_search','FilterController@filter_search');
 Route::post('/create_customer','CustomerController@create');
 Route::post('/login_customer','CustomerController@login_customer');
+
+// P`m'ee
+Route::get('/payment','PaypalPaymentController@paywithPaypal');
+Route::get('/payments/success','PaypalPaymentController@success');
+Route::get('/payments/fails',function(){
+    echo "fails";
+});

@@ -64,7 +64,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Asia/Bangkok',
 
     /*
     |--------------------------------------------------------------------------
@@ -77,7 +77,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'th',
 
     /*
     |--------------------------------------------------------------------------
@@ -177,6 +177,9 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        // Plugin Paypal
+        Anouar\Paypalpayment\PaypalpaymentServiceProvider::class,
+
     ],
 
     /*
@@ -225,6 +228,9 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+
+        // Plugin Paypal
+        'Paypalpayment'   => Anouar\Paypalpayment\Facades\PaypalPayment::class,
 
     ],
 

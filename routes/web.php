@@ -61,8 +61,18 @@ Route::get('/account','CustomerController@profile');
 Route::get('/page_edit_account/{id}','CustomerController@show');
 Route::post('/edit_customer/{id}','CustomerController@edit');
 Route::post('/login_customer','CustomerController@login_customer');
+<<<<<<< HEAD
+
+// P`m'ee
+Route::get('/payment','PaypalPaymentController@paywithPaypal');
+Route::get('/payments/success','PaypalPaymentController@success');
+Route::get('/payments/fails',function(){
+    echo "fails";
+});
+=======
 Route::post('/add_address_customer/{id}','CustomerController@store');
 Route::post('/del_address_customer/{id}','CustomerController@destroy');
 
 //logout
 Route::get('/logout','CustomerController@logout');
+>>>>>>> 09e86313428b32a3f2264e3ca3dbcfae79c30004

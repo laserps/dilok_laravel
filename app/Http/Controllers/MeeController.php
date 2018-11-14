@@ -10,7 +10,7 @@ class MeeController extends Controller
         $value =
         [
             "customer"=>[
-                'email' => 'test@test.com',
+                'email' => 'tes2t@test.com',
                 'firstname' => 'firstname',
                 'lastname' => 'lastname',
                 'website_id' => 1,
@@ -25,7 +25,7 @@ class MeeController extends Controller
                 "addresses"=> [
                     [
                         "id" => 0,
-                        "customer_id" => 3,
+                        "customer_id" => 7,
                         "region" => ["region_code" => null,"region" => null,"region_id" => 0],
                         "region_id" => 0,
                         "country_id" => "TH",
@@ -48,7 +48,34 @@ class MeeController extends Controller
                             "value"=> "string"
                             ]
                         ]
-                    ]
+                    ],
+                    [
+                        "id" => 1,
+                        "customer_id" => 7,
+                        "region" => ["region_code" => null,"region" => null,"region_id" => 0],
+                        "region_id" => 0,
+                        "country_id" => "TH",
+                        "street" => ["137"],
+                        "telephone" => "0917161124",
+                        "postcode" => "30000",
+                        "city" => "Nakhon Ratjasima",
+                        "firstname" => "Napat",
+                        "lastname" => "Osaklang",
+                        "middlename"=> "string",
+                        "prefix"=> "string",
+                        "suffix"=> "string",
+                        "vat_id"=> "string",
+                        "default_shipping"=> true,
+                        "default_billing"=> true,
+                        "extension_attributes"=> [],
+                        "custom_attributes"=> [
+                            [
+                            "attribute_code"=> "string",
+                            "value"=> "string"
+                            ]
+                        ]
+                    ]    
+
                 ],
             ]
         ];
@@ -61,7 +88,18 @@ class MeeController extends Controller
         curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . strlen(json_encode($userData))));
 
         $token = curl_exec($ch);
+        curl_close($ch);
         // return $token;
+<<<<<<< HEAD
+        
+        $chch = curl_init("http://localhost/wb_magento/rest/default/V1/customers/7");
+        curl_setopt($chch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . 
+        json_decode($token)));
+        // curl_setopt($chch, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($chch, CURLOPT_CUSTOMREQUEST, 'PUT');
+        curl_setopt($chch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($chch, CURLOPT_POSTFIELDS, json_encode($value));
+=======
 
         $chch = curl_init("http://localhost/dilok2/rest/all/V1/customers");
         curl_setopt($chch, CURLOPT_CUSTOMREQUEST, "POST");
@@ -69,8 +107,14 @@ class MeeController extends Controller
         curl_setopt($chch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($chch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . json_decode($token)));
 
+>>>>>>> 09e86313428b32a3f2264e3ca3dbcfae79c30004
         $result = curl_exec($chch);
+        curl_close($chch);
         return $result;
+<<<<<<< HEAD
+        
+=======
 
+>>>>>>> 09e86313428b32a3f2264e3ca3dbcfae79c30004
     }
 }

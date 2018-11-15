@@ -96,22 +96,18 @@
                 </div>
                 <div class="pt-3">
                     <div class="pay-font6">
-                      <div><span id="bill_firstname">Firstname : {{ $get_cart->billing_address->firstname }}</span></div>
-                      <div><span id="bill_lastname">Lastname : {{ $get_cart->billing_address->lastname }}</span></div>
-                      <div><span id="bill_street1">Street : {{ $get_cart->billing_address->street[0] }}</span></div>
-                      <div><span id="bill_street2">Street2 : @if(!empty($get_cart->billing_address->street[1])){{ $get_cart->billing_address->street[1] }} @endif</span></div>
-                      <div><span id="bill_company">Company : @if(!empty($get_cart->billing_address->company)) {{ $get_cart->billing_address->company }} @endif</span></div>
-                      <div><span id="bill_telephone">Telephone : @if(!empty($get_cart->billing_address->telephone)) {{ $get_cart->billing_address->telephone }} @endif</span></div>
-                      <div><span id="bill_city">City : @if(!empty($get_cart->billing_address->city)) {{ $get_cart->billing_address->city }} @endif</span></div>
-                      <div><span id="bill_postcode">Postcode : @if(!empty($get_cart->billing_address->postcode)) {{ $get_cart->billing_address->postcode }} @endif</span></div>
-                      <div><span id="bill_country_id">Country : @if(!empty($get_cart->billing_address->country_id)) {{ $get_cart->billing_address->country_id }} @endif</span></div>
-                      <div><span id="bill_email">Email : @if(!empty($get_cart->billing_address->email)) {{ $get_cart->billing_address->email }} @endif</span></div>
+                      <div><span>Firstname : </span><span id="bill_firstname">@if(!empty($get_cart->billing_address->firstname)){{ $get_cart->billing_address->firstname }} @endif</span></div>
+                      <div><span>Lastname : </span><span id="bill_lastname">@if(!empty($get_cart->billing_address->lastname)){{ $get_cart->billing_address->lastname }} @endif</span></div>
+                      <div><span>Street : </span><span id="bill_street1">@if(!empty($get_cart->billing_address->street[0])){{ $get_cart->billing_address->street[0] }} @endif</span></div>
+                      <div><span>Street2 : </span><span id="bill_street2">@if(!empty($get_cart->billing_address->street[1])){{ $get_cart->billing_address->street[1] }} @endif</span></div>
+                      <div><span>Company : </span><span id="bill_company">@if(!empty($get_cart->billing_address->company)) {{ $get_cart->billing_address->company }} @endif</span></div>
+                      <div><span>Telephone : </span><span id="bill_telephone">@if(!empty($get_cart->billing_address->telephone)) {{ $get_cart->billing_address->telephone }} @endif</span></div>
+                      <div><span>City : </span><span id="bill_city">@if(!empty($get_cart->billing_address->city)) {{ $get_cart->billing_address->city }} @endif</span></div>
+                      <div><span>Postcode : </span><span id="bill_postcode">@if(!empty($get_cart->billing_address->postcode)) {{ $get_cart->billing_address->postcode }} @endif</span></div>
+                      <div><span>Country : </span><span id="bill_country_id">@if(!empty($get_cart->billing_address->country_id)) {{ $get_cart->billing_address->country_id }} @endif</span></div>
+                      <div><span>Email : </span><span id="bill_email">@if(!empty($get_cart->billing_address->email)) {{ $get_cart->billing_address->email }} @endif</span></div>
 
                       <input type="text" name="id_value_billing" id="id_value_billing">
-                      <!-- {{ $token_customer->firstname }} {{ $token_customer->lastname }}<br>
-                      {{ $token_customer->addresses[0]->street[0] }}<br>
-                      {{ $token_customer->addresses[0]->street[1] }}, {{ $token_customer->addresses[0]->city }}<br>
-                      {{ $token_customer->addresses[0]->region->region }}, {{ $token_customer->addresses[0]->country_id }} {{ $token_customer->addresses[0]->postcode }} -->
                     </div>
                 </div>
                 <hr>
@@ -125,16 +121,16 @@
                 </div>
                 <div class="pt-3">
                     <div class="pay-font6">
-                      <div><span id="shipping_firstname">Firstname : {{ $get_cart->billing_address->firstname }}</span></div>
-                      <div><span id="shipping_lastname">Lastname : {{ $get_cart->billing_address->lastname }}</span></div>
-                      <div><span id="shipping_street1">Street : {{ $get_cart->billing_address->street[0] }}</span></div>
-                      <div><span id="shipping_street2">Street2 : @if(!empty($get_cart->billing_address->street[1])){{ $get_cart->billing_address->street[1] }} @endif</span></div>
-                      <div><span id="shipping_company">Company : @if(!empty($get_cart->billing_address->company)) {{ $get_cart->billing_address->company }} @endif</span></div>
-                      <div><span id="shipping_telephone">Telephone : @if(!empty($get_cart->billing_address->telephone)) {{ $get_cart->billing_address->telephone }} @endif</span></div>
-                      <div><span id="shipping_city">City : @if(!empty($get_cart->billing_address->city)) {{ $get_cart->billing_address->city }} @endif</span></div>
-                      <div><span id="shipping_postcode">Postcode : @if(!empty($get_cart->billing_address->postcode)) {{ $get_cart->billing_address->postcode }} @endif</span></div>
-                      <div><span id="shipping_country_id">Country : @if(!empty($get_cart->billing_address->country_id)) {{ $get_cart->billing_address->country_id }} @endif</span></div>
-                      <div><span id="shipping_email">Email : @if(!empty($get_cart->billing_address->email)) {{ $get_cart->billing_address->email }} @endif</span></div>
+                      <div><span>Firstname : </span><span id="shipping_firstname">@if(!empty($get_cart->billing_address->firstname)){{ $get_cart->billing_address->firstname }} @endif</span></div>
+                      <div><span>Lastname : </span><span id="shipping_lastname">@if(!empty($get_cart->billing_address->lastname)){{ $get_cart->billing_address->lastname }} @endif</span></div>
+                      <div><span>Street : </span><span id="shipping_street1">@if(!empty($get_cart->billing_address->street[0])){{ $get_cart->billing_address->street[0] }} @endif</span></div>
+                      <div><span>Street2 : </span><span id="shipping_street2">@if(!empty($get_cart->billing_address->street[1])){{ $get_cart->billing_address->street[1] }} @endif</span></div>
+                      <div><span>Company : </span><span id="shipping_company">@if(!empty($get_cart->billing_address->company)) {{ $get_cart->billing_address->company }} @endif</span></div>
+                      <div><span>Telephone : </span><span id="shipping_telephone">@if(!empty($get_cart->billing_address->telephone)) {{ $get_cart->billing_address->telephone }} @endif</span></div>
+                      <div><span>City : </span><span id="shipping_city">@if(!empty($get_cart->billing_address->city)) {{ $get_cart->billing_address->city }} @endif</span></div>
+                      <div><span>Postcode : </span><span id="shipping_postcode">@if(!empty($get_cart->billing_address->postcode)) {{ $get_cart->billing_address->postcode }} @endif</span></div>
+                      <div><span>Country : </span><span id="shipping_country_id">@if(!empty($get_cart->billing_address->country_id)) {{ $get_cart->billing_address->country_id }} @endif</span></div>
+                      <div><span>Email : </span><span id="shipping_email">@if(!empty($get_cart->billing_address->email)) {{ $get_cart->billing_address->email }} @endif</span></div>
 
                       <input type="text" name="id_value_shipping" id="id_value_shipping">
                     </div>
@@ -253,10 +249,13 @@
                 <div class="col-xl-6 col-lg-4 col-md-4"></div>
                 <div class="col-xl-6 col-lg-4 col-md-4 pl-3 pr-3">
                     <div class="checkout">
-                      <a href="{{ url('payment_order') }}"><button class="btn checkout-btn">
+                      <!-- <a href="{{ url('payment_order') }}"> -->
+                        <button type="button" class="btn checkout-btn" id="btn_submit_payment">
+                      <!-- <a href="{{ url('payment/paypal') }}"><button class="btn checkout-btn"> -->
                           <span class="pull-left">Order</span>
                           <span class="pull-right">></span>
-                      </button></a>
+                      </button>
+                    <!-- </a> -->
                     </div>
                 </div>
                 <div class="col-xl-12 mt-2">
@@ -326,7 +325,7 @@
         @endforeach
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal" id="btn_submit_billing">Save changes</button>
+        <button type="button" class="btn btn-primary" id="btn_submit_billing">Save changes</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
     </div>
@@ -368,7 +367,7 @@
         @endforeach
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal">Save changes</button>
+        <button type="button" class="btn btn-primary" id="btn_submit_shipping">Save changes</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
     </div>
@@ -403,34 +402,101 @@
 //   });
 // });
 
-// $('body').on('click','#billing_modal',function(){
-//   $.ajax({
-//     method : "GET",
-//     url : url_gb+"/get_billing",
-//     dataType: "JSON",
-//   }).done(function(rec){
-//     $('#billing').modal('show');
-//   }).fail(function(){
-//     $('body').loader('hide');
-//     al_su('Error','danger');
-//   });
-// });
+$('body').on('click','#btn_submit_billing',function(){
+  var id_address = $(this).data('data_billing');
+  var atLeastOneIsChecked = $('.value_billing:radio:checked').length > 0;
+  if(atLeastOneIsChecked == true){
+    $.ajax({
+      method : "POST",
+      url : url_gb+"/get_billing/"+id_address,
+      dataType: "JSON",
+    }).done(function(rec){
+      $('#bill_firstname').html(rec.login.firstname);
+      $('#bill_lastname').html(rec.login.lastname);
+      $('#bill_street1').html(rec.login.street[0]);
+      $('#bill_street2').html(rec.login.street[1]);
+      $('#bill_company').html(rec.login.company);
+      $('#bill_telephone').html(rec.login.telephone);
+      $('#bill_city').html(rec.login.city);
+      $('#bill_postcode').html(rec.login.postcode);
+      $('#bill_country_id').html(rec.login.country_id);
+      $('#bill_email').html(rec.login.email);
+      $('#billing').modal('hide');
+    }).fail(function(){
+      $('body').loader('hide');
+      al_su('Error','danger');
+    });
+  } else {
+    return;
+  }
+});
+
+$('body').on('click','#btn_submit_shipping',function(){
+  var id_address = $(this).data('data_shipping');
+  var atLeastOneIsChecked = $('.value_shipping:radio:checked').length > 0;
+  if(atLeastOneIsChecked == true){
+    $.ajax({
+      method : "POST",
+      url : url_gb+"/get_billing/"+id_address,
+      dataType: "JSON",
+    }).done(function(rec){
+      $('#shipping_firstname').html(rec.login.firstname);
+      $('#shipping_lastname').html(rec.login.lastname);
+      $('#shipping_street1').html(rec.login.street[0]);
+      $('#shipping_street2').html(rec.login.street[1]);
+      $('#shipping_company').html(rec.login.company);
+      $('#shipping_telephone').html(rec.login.telephone);
+      $('#shipping_city').html(rec.login.city);
+      $('#shipping_postcode').html(rec.login.postcode);
+      $('#shipping_country_id').html(rec.login.country_id);
+      $('#shipping_email').html(rec.login.email);
+      $('#shipping').modal('hide');
+    }).fail(function(){
+      $('body').loader('hide');
+      al_su('Error','danger');
+    });
+  } else {
+    return;
+  }
+});
 
 $('body').on('change','.value_billing',function(){
     var data_billing = $(this).val();
     $('#id_value_billing').val('');
     if($(this).is(":checked") == true){
         $('#id_value_billing').val(data_billing);
-        $('#id_value_billing_modal').val(data_billing);
+        $('#btn_submit_billing').attr('data-data_billing',data_billing);
     }
 });
 $('body').on('change','.value_shipping',function(){
-    var data_billing = $(this).val();
+    var data_shipping = $(this).val();
     $('#id_value_shipping').val('');
     if($(this).is(":checked") == true){
-        $('#id_value_shipping').val(data_billing);
-        $('#id_value_shipping_modal').val(data_billing);
+        $('#id_value_shipping').val(data_shipping);
+        $('#btn_submit_shipping').attr('data-data_shipping',data_shipping);
     }
 });
+
+$('body').on('click','#btn_submit_payment',function(){
+    var data_billing = $('#id_value_billing').val();
+    var data_shipping = $('#id_value_shipping').val();
+    $.ajax({
+      method : "POST",
+      url : url_gb+"/payment/paypal",
+      dataType: "JSON",
+      data: { 'data_billing': data_billing , 'data_shipping': data_shipping },
+    }).done(function(rec){
+        if(rec.approval_url != null){
+          // window.open(rec.approval_url);
+         window.location.href = rec.approval_url;
+        } else {
+          console.log(2);
+        }
+
+    }).fail(function(e){
+
+    });
+});
+
 </script>
 @endsection

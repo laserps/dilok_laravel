@@ -84,9 +84,9 @@
                 <div class="col-12 px-0 my-3">
                   <div class="card account-card">
                     <div class="card-body account-line-height text-md-left text-center">
-                        <div><span>Firstname : {{ $get_cart->billing_address->firstname }}</span></div>
-                        <div><span>Lastname : {{ $get_cart->billing_address->lastname }}</span></div>
-                        <div><span>Street : {{ $get_cart->billing_address->street[0] }}</span></div>
+                        <div><span>Firstname : @if(!empty($get_cart->billing_address->firstname)){{ $get_cart->billing_address->firstname }} @endif</span></div>
+                        <div><span>Lastname : @if(!empty($get_cart->billing_address->lastname)){{ $get_cart->billing_address->lastname }} @endif</span></div>
+                        <div><span>Street : @if(!empty($get_cart->billing_address->street[0])){{ $get_cart->billing_address->street[0] }} @endif</span></div>
                         <div><span>Street2 : @if(!empty($get_cart->billing_address->street[1])){{ $get_cart->billing_address->street[1] }} @endif</span></div>
                         <div><span>Company : @if(!empty($get_cart->billing_address->company)) {{ $get_cart->billing_address->company }} @endif</span></div>
                         <div><span>Telephone : @if(!empty($get_cart->billing_address->telephone)) {{ $get_cart->billing_address->telephone }} @endif</span></div>

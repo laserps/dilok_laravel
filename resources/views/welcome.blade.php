@@ -2476,7 +2476,10 @@ $('body').on('click','.btn_login_customer',function(){
         al_su(rec.content,'success');
         window.location.href = url_gb;
         $('body').loader('hide');
-      }else{
+      } else if(rec.status == 3){
+        $('body').loader('hide');
+        al_su(rec.content,'danger');
+      } else {
       $('body').loader('hide');
         al_su(rec.content,'danger');
       }
@@ -2500,7 +2503,10 @@ $('body').on('click','.btn_login_customer2',function(){
         al_su(rec.content,'success');
         window.location.href = url_gb;
         $('body').loader('hide');
-      }else{
+      } else if(rec.status == 3){
+        $('body').loader('hide');
+        al_su(rec.content,'danger');
+      } else {
       $('body').loader('hide');
         al_su(rec.content,'danger');
       }

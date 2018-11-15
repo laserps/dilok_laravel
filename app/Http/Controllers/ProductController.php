@@ -360,6 +360,8 @@ class ProductController extends Controller
 
             $result3 = json_decode(curl_exec($ch));
 
+              if(empty($result3->parameters)) {
+
             $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/carts/mine");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -450,6 +452,16 @@ class ProductController extends Controller
             $data['token_customer'] = json_decode($result2);
             $data['cart_customer'] = $result3;
             $data['get_cart'] = $get_cart;
+          } else {
+            $data['color_product'] = '';
+            $data['size_products'] = '';
+            $data['products'] = '';
+            $data['products2'] = '';
+            $data['token_customer'] = json_decode($result2);
+            $data['cart_customer'] = '';
+            $data['get_cart'] = '';
+            $data['product_key'][0] = '';
+          }
         } else {
           \Session::flush();
           return redirect('/');
@@ -529,7 +541,7 @@ class ProductController extends Controller
         //
     }
 
-    public function payment_order(){
+    public function payment_order(Request $request){
       $userData = array("username" => "customer", "password" => "customer@01");
       $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/integration/admin/token");
       curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
@@ -537,9 +549,37 @@ class ProductController extends Controller
       curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
       curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . strlen(json_encode($userData))));
 
-      $token = curl_exec($ch);
+      $token = json_decode(curl_exec($ch));
 
       $get_session_all = \Session::all();
+
+      if(!empty($get_session_all[0])){
+          $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/customers/addresses/".$request->data_billing."");
+          curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+          curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+          curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $token));
+
+          $address_bill = json_decode(curl_exec($ch));
+
+          $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/customers/addresses/".$request->data_shipping."");
+          curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+          curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+          curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $token));
+
+          $address_shipping = json_decode(curl_exec($ch));
+
+
+          dd($address_bill,$address_shipping);
+          exit();
+
+      } else {
+          \Session::flush();
+          return redirect('/');
+      }
+
+      dd($request->all());
+      exit();
+
 
         // if(!empty($get_session_all[0])){
             $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/customers/me");
@@ -575,10 +615,22 @@ class ProductController extends Controller
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all[0]));
 
-            $result115 = json_decode(curl_exec($ch));
+            $cart_item = json_decode(curl_exec($ch));
 
-            dd($result5,$result115);
-            exit();
+            foreach($cart_item as $key_item => $value_item){
+              $item[$key_item] = Paypalpayment::item();
+              $item[$key_item] = array(
+                'setName' => $value_item->sku,
+                'setDescription' => $value_item->name,
+                'setCurrency' => "THB",
+                'setQuantity' => $value_item->qty,
+                'setTax' => 0,
+                'setPrice' => $value_item->price,
+              );
+            }
+
+            // dd($item);
+            // exit();
 
             // $data = [
             //   "addressInformation"=> [
@@ -598,16 +650,6 @@ class ProductController extends Controller
 
             $result10 = json_decode(curl_exec($ch));
 
-            // $data =
-
-            $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/guest-carts/".$get_session_all[0]."/estimate-shipping-methods");
-            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-            // curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . json_decode($token)));
-
-
-            $result11 = json_decode(curl_exec($ch));
 
             $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/carts/mine/billing-address");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
@@ -723,126 +765,79 @@ class ProductController extends Controller
             exit();
             */
 
-            ///////// Add Shipping ////////
-            /*$data_shipping = [
-              "addressInformation" => [
-                "shippingAddress" => [
-                  "customer_id" => 1,
-                  "region" => "TH",
-                  "country_id" => "TH",
-                  "street" => [
-                    "1518/4"
-                  ],
-                  "company" => "workbythai",
-                  "telephone" => "021024291",
-                  "postcode" => "10800",
-                  "city" => "bangkok",
-                  "firstname" => "banjong",
-                  "lastname" => "limkluea",
-                  "prefix" => "address_",
-                  "region_code" => "TH",
-                  "sameAsBilling" => 1
-                ],
-                "billingAddress" => [
-                  "customer_id" => 1,
-                  "region" => "TH",
-                  "country_id" => "TH",
-                  "street" => [
-                    "1518/4"
-                  ],
-                  "company" => "workbythai",
-                  "telephone" => "021024291",
-                  "postcode" => "10800",
-                  "city" => "bangkok",
-                  "firstname" => "banjong",
-                  "lastname" => "limkluea",
-                  "prefix" => "address_",
-                  "region_code" => "TH"
-                ],
-                  "shipping_method_code" => "flatrate",
-                  "shipping_carrier_code" => "flatrate"
-                ]
-            ];
 
-            $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/carts/mine/shipping-information");
-            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data_shipping));
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all[0]));
-
-            $result_shipping = json_decode(curl_exec($ch));
 
             dd($result_shipping);
             exit();
-            */
+
 
 
             ///////// Create Order /////////
-            /*$create_order = [
-              "email"=> "hamworkbythai@gmail.com",
-              "paymentMethod"=> [
-                // "po_number"=> "free",
-                "method"=> "checkmo",
-                // "method"=> "paypal_express",
-                // "additional_data"=> [
-                //   "paypal_express_checkout_token" => "EC-xxxxxxxxxxxx",
-                //   "paypal_express_checkout_redirect_required" => false,
-                //   "paypal_express_checkout_payer_id" => "XXXXXXXXXX"
-                // ],
-                // "extension_attributes"=> [
-                //   "agreement_ids"=> [
-                //     "string"
-                //   ]
-                // ]
-              ],
-              "billingAddress"=> [
-                // "id"=> 0,
-                "region"=> "TH",
-                "region_id"=> 0,
-                "region_code"=> "bangkok",
-                "country_id"=> "TH",
-                "street"=> [
-                  "1518/4"
-                ],
-                "company"=> "workbythai",
-                "telephone"=> "021024291",
-                // "fax"=> "string",
-                "postcode"=> "10800",
-                "city"=> "bangkok",
-                "firstname"=> "banjong",
-                "lastname"=> "limkluea",
-                // "middlename"=> "string",
-                // "prefix"=> "string",
-                // "suffix"=> "string",
-                // "vat_id"=> "string",
-                "customer_id"=> 1,
-                "email"=> "hamworkbythai@gmail.com",
-                "same_as_billing"=> 1,
-                "customer_address_id"=> 1,
-                "save_in_address_book"=> 1,
-                "extension_attributes"=> [],
-                // "custom_attributes"=> [
-                //   [
-                //     "attribute_code"=> "string",
-                //     "value"=> "string"
-                //   ]
-                // ]
-              ],
-            ];
+            // $create_order = [
+            //   "email"=> "hamworkbythai@gmail.com",
+            //   "paymentMethod"=> [
+            //     // "po_number"=> "free",
+            //     "method"=> "checkmo",
+            //     // "method"=> "paypal_express",
+            //     // "additional_data"=> [
+            //     //   "paypal_express_checkout_token" => "EC-xxxxxxxxxxxx",
+            //     //   "paypal_express_checkout_redirect_required" => false,
+            //     //   "paypal_express_checkout_payer_id" => "XXXXXXXXXX"
+            //     // ],
+            //     // "extension_attributes"=> [
+            //     //   "agreement_ids"=> [
+            //     //     "string"
+            //     //   ]
+            //     // ]
+            //   ],
+            //   "billingAddress"=> [
+            //     // "id"=> 0,
+            //     "region"=> "TH",
+            //     "region_id"=> 0,
+            //     "region_code"=> "bangkok",
+            //     "country_id"=> "TH",
+            //     "street"=> [
+            //       "1518/4"
+            //     ],
+            //     "company"=> "workbythai",
+            //     "telephone"=> "021024291",
+            //     // "fax"=> "string",
+            //     "postcode"=> "10800",
+            //     "city"=> "bangkok",
+            //     "firstname"=> "banjong",
+            //     "lastname"=> "limkluea",
+            //     // "middlename"=> "string",
+            //     // "prefix"=> "string",
+            //     // "suffix"=> "string",
+            //     // "vat_id"=> "string",
+            //     "customer_id"=> 1,
+            //     "email"=> "hamworkbythai@gmail.com",
+            //     "same_as_billing"=> 1,
+            //     "customer_address_id"=> 1,
+            //     "save_in_address_book"=> 1,
+            //     "extension_attributes"=> [],
+            //     // "custom_attributes"=> [
+            //     //   [
+            //     //     "attribute_code"=> "string",
+            //     //     "value"=> "string"
+            //     //   ]
+            //     // ]
+            //   ],
+            // ];
 
-            $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/carts/mine/payment-information");
-            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($create_order));
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . ($get_session_all[0])));
-
-
-            $result_order = json_decode(curl_exec($ch));
+            // $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/carts/mine/payment-information");
+            // curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+            // curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($create_order));
+            // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            // curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . ($get_session_all[0])));
 
 
-            dd($result_order);
-            exit();
-            */
+            // $result_order = json_decode(curl_exec($ch));
+
+
+            // dd($result_order);
+            // exit();
+
         // }
     }
 }

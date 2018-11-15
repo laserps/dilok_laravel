@@ -59,9 +59,6 @@ class CartController extends Controller
 
                     $create_cart = json_decode(curl_exec($ch));
 
-                    dd($create_cart);
-                    exit();
-
                     if($text_type_product == 'configurable'){
                         $product = [
                             "cartItem" => [
@@ -100,8 +97,6 @@ class CartController extends Controller
                         ];
                     }
 
-                    dd($product);
-                    exit();
 
                     $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/carts/mine/items");
                     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");

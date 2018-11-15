@@ -328,6 +328,7 @@
         </div>
         <div class="col-12 text-center justify-content-center">
             <div class="checkout">
+              <!-- <a href="@if(!empty($cart_customer)) @if(count($cart_customer) > 1 ){{ url('payment') }}@else {{'#'}} @endif @else {{'regist'}} @endif" class="btn checkout-btn">CHECK OUT  ></a> -->
               <a href="{{ url('payment') }}" class="btn checkout-btn">CHECK OUT  ></a>
             </div>
         </div>

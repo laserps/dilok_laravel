@@ -130,8 +130,8 @@
                     </button>
                   </div>
                   <form id="form-add-address">
-                      <input type="text" hidden class="form-control" id="customer_id" name="customer_id" value="{{ $token_customer->id }}" required>
-                      <input type="text" hidden class="form-control" id="email" name="email" value="{{ $token_customer->email }}" required>
+                      <input type="hidden" class="form-control" id="customer_id" name="customer_id" value="{{ $token_customer->id }}" required>
+                      <input type="hidden" class="form-control" id="email" name="email" value="{{ $token_customer->email }}" required>
                     <div class="modal-body">
                       <div class="row">
                         <div class="col-md-6">
@@ -223,7 +223,7 @@
                     </button>
                   </div>
                   <form id="form-edit-profile">
-                      <input type="text" hidden class="form-control" id="customer_id" name="customer_id" value="{{ $token_customer->id }}">
+                      <input type="hidden" class="form-control" id="customer_id2" name="customer_id" value="{{ $token_customer->id }}">
                     <div class="modal-body">
                       <div class="row">
                         <div class="col-md-6">
@@ -244,15 +244,16 @@
                             <input type="text" class="form-control" id="edit_email" name="email" readonly required>
                           </div>
                         </div>
-                        <!-- <div class="col-md-6">
+                        <div class="col-md-6">
                             <label for="text"><span>Date of birth</span></label>
-                            <div class="input-group date" data-provide="datepicker">
-                                <input type="text" id="datepicker" class="form-control" placeholder="dd/mm/yyyy">
-                                <div class="input-group-addon">
+                            <div class="input-group date">
+                                <input type="text" id="datepicker" class="regist-form edit_dob" name="dob" data-date-format="d-m-yyyy" placeholder="dd/mm/yyyy">
+                                <!-- <input type="text" id="datepicker" name="dob" class="form-control" placeholder="dd/mm/yyyy"> -->
+                                <!-- <div class="input-group-addon">
                                     <span class="glyphicon glyphicon-th"></span>
-                                </div>
+                                </div> -->
                             </div>
-                        </div> -->
+                        </div>
                       </div>
 
                       <div class="row mt-md-5 mt-3">
@@ -358,6 +359,7 @@ $('body').on('click','.btn_edit_account',function(){
             $('#edit_firstname').val(rec.customer.firstname);
             $('#edit_lastname').val(rec.customer.lastname);
             $('#edit_email').val(rec.customer.email);
+            $('.edit_dob').val(rec.customer.dob);
             $('#customer_id').val(rec.customer.id);
           } else {
             $('#edit_new_address').modal('hide');
@@ -370,7 +372,7 @@ $('body').on('click','.btn_edit_account',function(){
 
 $('body').on('click','#btn-edit-profile',function(){
   var form = $('#form-edit-profile').serializeArray();
-  var id = $('#customer_id').val();
+  var id = $('#customer_id2').val();
   $('body').loader('show');
     $.ajax({
       method : "POST",

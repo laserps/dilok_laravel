@@ -211,11 +211,11 @@ class ProductController extends Controller
 
         $get_session_all = \Session::all();
 
-        if(!empty($get_session_all[0])){
+        if(!empty($get_session_all['customer_id'])){
           $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/customers/me");
           curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
           curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-          curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . ($get_session_all[0])));
+          curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . ($get_session_all['customer_id'])));
 
           $result2 = json_decode(curl_exec($ch));
 
@@ -224,10 +224,20 @@ class ProductController extends Controller
             $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/carts/mine/items");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all[0]));
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
 
             $result3 = json_decode(curl_exec($ch));
 
+            if(!empty($result3->message)){
+              if($result3->message == '%fieldName is a required field.'){
+                    $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/carts/mine");
+                    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
+
+                    $create_cart = json_decode(curl_exec($ch));
+              }
+            } else {
             if(empty($result3->parameters)) {
               $data['token_customer'] = $result2;
               $data['cart_customer'] = $result3;
@@ -257,6 +267,7 @@ class ProductController extends Controller
                 $data['color_product'] = '';
                 $data['size_products'] = '';
               }
+            }
           } else {
             \Session::flush();
             return redirect('/');
@@ -343,11 +354,11 @@ class ProductController extends Controller
       $token = curl_exec($ch);
 
       $get_session_all = \Session::all();
-        if(!empty($get_session_all[0])){
+        if(!empty($get_session_all['customer_id'])){
             $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/customers/me");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all[0]));
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
 
             $result2 = curl_exec($ch);
 
@@ -356,7 +367,7 @@ class ProductController extends Controller
             $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/carts/mine/items");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all[0]));
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
 
             $result3 = json_decode(curl_exec($ch));
 
@@ -365,7 +376,7 @@ class ProductController extends Controller
             $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/carts/mine");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all[0]));
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
 
             $get_cart = json_decode(curl_exec($ch));
 
@@ -460,7 +471,7 @@ class ProductController extends Controller
             $data['token_customer'] = json_decode($result2);
             $data['cart_customer'] = '';
             $data['get_cart'] = '';
-            $data['product_key'][0] = '';
+            $data['product_key']['customer_id'] = '';
           }
         } else {
           \Session::flush();
@@ -553,7 +564,7 @@ class ProductController extends Controller
 
       $get_session_all = \Session::all();
 
-      if(!empty($get_session_all[0])){
+      if(!empty($get_session_all['customer_id'])){
           $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/customers/addresses/".$request->data_billing."");
           curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
           curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -581,11 +592,11 @@ class ProductController extends Controller
       exit();
 
 
-        // if(!empty($get_session_all[0])){
+        // if(!empty($get_session_all['customer_id'])){
             $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/customers/me");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . ($get_session_all[0])));
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . ($get_session_all['customer_id'])));
 
             $result2 = curl_exec($ch);
 
@@ -606,14 +617,14 @@ class ProductController extends Controller
             $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/carts/mine/payment-information");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . ($get_session_all[0])));
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . ($get_session_all['customer_id'])));
 
             $result5 = json_decode(curl_exec($ch));
 
             $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/carts/mine/items");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all[0]));
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
 
             $cart_item = json_decode(curl_exec($ch));
 
@@ -646,7 +657,7 @@ class ProductController extends Controller
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
             // curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . ($get_session_all[0])));
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . ($get_session_all['customer_id'])));
 
             $result10 = json_decode(curl_exec($ch));
 
@@ -654,7 +665,7 @@ class ProductController extends Controller
             $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/carts/mine/billing-address");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all[0]));
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
 
 
             $result12 = json_decode(curl_exec($ch));
@@ -703,7 +714,7 @@ class ProductController extends Controller
             // curl_setopt($ch,CURLOPT_CUSTOMREQUEST, "POST");
             // curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data_billing));
             // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            // curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all[0]));
+            // curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
 
 
             // $result13 = json_decode(curl_exec($ch));
@@ -740,7 +751,7 @@ class ProductController extends Controller
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
             // curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($totle));
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all[0]));
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
 
 
             $totals = json_decode(curl_exec($ch));
@@ -756,7 +767,7 @@ class ProductController extends Controller
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
             curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($shipping));
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all[0]));
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
 
 
             $result15 = json_decode(curl_exec($ch));
@@ -829,7 +840,7 @@ class ProductController extends Controller
             // curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
             // curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($create_order));
             // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            // curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . ($get_session_all[0])));
+            // curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . ($get_session_all['customer_id'])));
 
 
             // $result_order = json_decode(curl_exec($ch));

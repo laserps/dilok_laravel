@@ -1747,7 +1747,16 @@ $.ajaxSetup({
     }
 });
 
+
+
     $(document).ready(function () {
+
+      $('#datepicker').datepicker({
+         autoclose: true,
+         todayHighlight: true,
+         dateFormat: 'dd-mm-yyyy'
+     });
+
       // when opening the sidebar
       $('.sidebarCollapse').on('click', function () {
           // open sidebar

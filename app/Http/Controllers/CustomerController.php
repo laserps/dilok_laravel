@@ -24,88 +24,84 @@ class CustomerController extends Controller
     public function create(Request $request)
     {
         $validator = \Validator::make($request->all(), [
-            // 'password' => 'required|regex:/(^([a-zA-Z]+)([0-9]+)(\d+)?$)/u|min:1',
-            'password' => 'required|regex:/(^([A-Za-z]+)([0-9]+)(\d+)?$)/u|min:1',
-            // 'password' => 'required|regex:/^([a-z])([A-Z])(\d)).+$/|min:1',
+            'password' => 'required|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/|min:8',
         ]);
 
-        // if ($validator->fails()) {
-        //     return "2";
-        // } else {
-        //     return "1";
-        // }
+        $date = date_create($request->input('dob'));
+        $birdday = date_format($date,"Y-m-d");
 
-
-
-
-        // exit();
-
-        try{
-            $value = [
-                "customer" => [
-                    // 'id' => 29,
-                    'email' => $request->input('email'),
-                    'firstname' => $request->input('firstname'),
-                    'lastname' => $request->input('lastname'),
-                    'website_id' => 1,
-                    'store_id' => 1,
-                    'group_id' => 1,
-                    "default_billing" => 1,
-                    "default_shipping" => 1,
-                    // "gender"=> 0,
-                    // "created_at" => "2018-09-24 06:48:56",
-                    // "updated_at" => "2018-09-24 06:48:56",
-                    "created_in" => "Default Store View",
-                    "addresses"=> [
-                        [
-                            // "id" => 0,
-                            // "customer_id" => 29,
-                            "region" => ["region_code" => $request->input('country'),"region" => $request->input('country_name'),"region_id" => 0],
-                            "region_id" => 0,
-                            "country_id" => $request->input('country'),
-                            "street" => [$request->input('address')],
-                            "telephone" => $request->input('telephone'),
-                            "postcode" => $request->input('postcode'),
-                            "city" => $request->input('city'),
-                            "firstname" => $request->input('firstname'),
-                            "lastname" => $request->input('lastname'),
-                            // "middlename"=> "string",
-                            // "prefix"=> "1",
-                            // "suffix"=> "1",
-                            // "vat_id"=> "1",
-                            "default_shipping"=> true,
-                            "default_billing"=> true,
-                            "extension_attributes"=> [],
-                        ]
+        if ($validator->fails()) {
+            $return['status'] = 2;
+            $return['content'] = 'Password ต้องมีตัวอย่างน้อย 8 ตัวษักษร อัพษรตัวใหญ่ 1 ตัว อักษรเล็ก 1 ตัวและตัวเลข 1 ตัว';
+        } else {
+            try{
+                $value = [
+                    "customer" => [
+                        'email' => $request->input('email'),
+                        'firstname' => $request->input('firstname'),
+                        'lastname' => $request->input('lastname'),
+                        'website_id' => 1,
+                        'store_id' => 1,
+                        'group_id' => 1,
+                        "dob" => $birdday,
+                        "default_billing" => 1,
+                        "default_shipping" => 1,
+                        "gender"=> $request->input('gender'),
+                        "created_in" => "Default Store View",
+                        "addresses"=> [
+                            [
+                                "region" => ["region_code" => $request->input('country'),"region" => $request->input('country_name'),"region_id" => 0],
+                                "region_id" => 0,
+                                "country_id" => $request->input('country'),
+                                "street" => [$request->input('address'),$request->input('address2')],
+                                "telephone" => $request->input('telephone'),
+                                "postcode" => $request->input('postcode'),
+                                "city" => $request->input('city'),
+                                "company" => $request->input('company'),
+                                "firstname" => $request->input('firstname'),
+                                "lastname" => $request->input('lastname'),
+                                "vat_id"=> $request->input('vat'),
+                                "default_shipping"=> true,
+                                "default_billing"=> true,
+                                "extension_attributes"=> [],
+                            ]
+                        ],
                     ],
-                ],
-                "password" => $request->input('password'),
-            ];
+                    "password" => $request->input('password'),
+                ];
 
-            $admin_token = array("username" => "customer", "password" => "customer@01");
-            $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/integration/admin/token");
-            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($admin_token));
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . strlen(json_encode($admin_token))));
+                $admin_token = array("username" => "customer", "password" => "customer@01");
+                $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/integration/admin/token");
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+                curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($admin_token));
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . strlen(json_encode($admin_token))));
 
-            $token = json_decode(curl_exec($ch));
+                $token = json_decode(curl_exec($ch));
 
-            $chch = curl_init("http://192.168.1.27/dilok2/rest/all/V1/customers");
-            curl_setopt($chch, CURLOPT_CUSTOMREQUEST, "POST");
-            curl_setopt($chch, CURLOPT_POSTFIELDS, json_encode($value));
-            curl_setopt($chch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($chch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $token));
+                $chch = curl_init("http://192.168.1.27/dilok2/rest/all/V1/customers");
+                curl_setopt($chch, CURLOPT_CUSTOMREQUEST, "POST");
+                curl_setopt($chch, CURLOPT_POSTFIELDS, json_encode($value));
+                curl_setopt($chch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($chch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $token));
 
-            $result = json_decode(curl_exec($chch));
+                $result = json_decode(curl_exec($chch));
 
-            $return['status'] = 1;
-            $return['customer'] = $result;
-            $return['content'] = 'สำเร็จ';
+                if(!empty($result->message)){
+                    if($result->message == 'A customer with the same email already exists in an associated website.'){
+                        $return['status'] = 3;
+                        $return['content'] = 'Email นี้ได้มีการใช้แล้ว';
+                    }
+                } else {
+                    $return['status'] = 1;
+                    $return['customer'] = $result;
+                    $return['content'] = 'สมัครสมาชิกสำเร็จ';
+                }
 
-        } catch (Exception $e){
-            $return['status'] = 0;
-            $return['content'] = 'ไม่สำรเ็จ'.$e->getMessage();;
+            } catch (Exception $e){
+                $return['status'] = 0;
+                $return['content'] = 'ไม่สำรเ็จ'.$e->getMessage();
+            }
         }
 
         $return['title'] = 'เพิ่มข้อมูล';
@@ -132,11 +128,11 @@ class CustomerController extends Controller
 
         $get_session_all = \Session::all();
 
-        if(!empty($get_session_all[0])){
+        if(!empty($get_session_all['customer_id'])){
                 $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/customers/me");
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all[0]));
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
 
                 $result2 = json_decode(curl_exec($ch));
 
@@ -211,7 +207,7 @@ class CustomerController extends Controller
         curl_setopt($chch, CURLOPT_CUSTOMREQUEST, "PUT");
         curl_setopt($chch, CURLOPT_POSTFIELDS, json_encode($value));
         curl_setopt($chch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($chch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all[0]));
+        curl_setopt($chch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
 
         $result = json_decode(curl_exec($chch));
 
@@ -224,7 +220,7 @@ class CustomerController extends Controller
 
         } catch (Exception $e){
             $return['status'] = 0;
-            $return['content'] = 'ไม่สำรเ็จ'.$e->getMessage();;
+            $return['content'] = 'ไม่สำรเ็จ'.$e->getMessage();
         }
         $return['title'] = 'เพิ่มข้อมูล';
 
@@ -428,11 +424,11 @@ class CustomerController extends Controller
 
             $data['countries'] = $result;
 
-            if(!empty($get_session_all[0])){
+            if(!empty($get_session_all['customer_id'])){
                 $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/customers/me");
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all[0]));
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
 
                 $result2 = json_decode(curl_exec($ch));
 
@@ -440,7 +436,7 @@ class CustomerController extends Controller
                     $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/carts/mine/items");
                     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all[0]));
+                    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
 
                     $result3 = json_decode(curl_exec($ch));
 
@@ -449,7 +445,7 @@ class CustomerController extends Controller
                         $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/carts/mine");
                         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
                         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all[0]));
+                        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
 
                         $get_cart = json_decode(curl_exec($ch));
 
@@ -542,7 +538,7 @@ class CustomerController extends Controller
                         $data['products'] = '';
                         $data['products2'] = '';
                         $data['token_customer'] = $result2;
-                        $data['cart_customer'] = '1';
+                        $data['cart_customer'] = '';
                         $data['get_cart'] = '';
                     }
 
@@ -593,7 +589,9 @@ class CustomerController extends Controller
 
                 $result2 = curl_exec($ch);
 
-                \Session::put(json_decode($result2)->id, json_decode($result));
+                // \Session::put(json_decode($result2)->id, json_decode($result));
+                $request->session()->put('customer_id', json_decode($result));
+
                 $return['status'] = 1;
                 $return['login'] = $result2;
                 $return['content'] = 'เข้าสู่ระบบสำเร็จ';
@@ -630,11 +628,11 @@ class CustomerController extends Controller
 
         $get_session_all = \Session::all();
 
-        if(!empty($get_session_all[0])){
+        if(!empty($get_session_all['customer_id'])){
             $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/customers/me");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all[0]));
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
 
             $result2 = json_decode(curl_exec($ch));
 

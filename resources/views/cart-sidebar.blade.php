@@ -318,12 +318,12 @@
         </div>
         <div class="col-12 my-1 text-center">
             <div class="shipping">
-              <span class="pull-left">Shipping:</span><span class="pull-right">THB</span><span class="pull-right">100</span>
+              <span class="pull-left">Shipping:</span><span class="pull-right">THB</span><span class="pull-right">0</span>
             </div>
         </div>
         <div class="col-12  mb-3 text-center">
             <div class="total">
-              <span class="pull-left">Total:</span><span class="pull-right">THB</span><span class="pull-right">@if(!empty($sum_price)){{ $sum_price+100 }}@endif</span>
+              <span class="pull-left">Total:</span><span class="pull-right">THB</span><span class="pull-right">@if(!empty($sum_price)){{ $sum_price }}@endif</span>
             </div>
         </div>
         <div class="col-12 text-center justify-content-center">

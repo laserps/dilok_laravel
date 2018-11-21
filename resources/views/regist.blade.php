@@ -76,7 +76,7 @@
                                 </label>
                                 <div class="input-group text-center">
                                   <div class="input-group-prepend"></div>
-                                  <input type="text" class="regist-form" name="email" id="validationDefaultUsername2" placeholder="Email" aria-describedby="inputGroupPrepend2" required>
+                                  <input type="text" class="regist-form regisemail" name="email" id="validationDefaultUsername2" placeholder="Email" aria-describedby="inputGroupPrepend2" required>
                                 </div>
                             </div>
                         </div>
@@ -105,6 +105,42 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="form-row mb-3">
+                            <div class="col-xl-6 mb-3">
+                                <label class="regist-font4 d-flex" for="validationDefaultUsername2">
+                                    Date of birth
+                                    <span class="forgot-font3">*</span>
+                                </label>
+
+                                <div class="input-group date">
+                                    <input type="text" id="datepicker" class="regist-form" name="dob" data-date-format="d-m-yyyy" placeholder="dd/mm/yyyy">
+                                    <!-- <div class="input-group-addon">
+                                        <span class="glyphicon glyphicon-th"></span>
+                                    </div> -->
+                                </div>
+                            </div>
+                            <div class="col-xl-6 mb-3">
+                                <label style="margin-bottom: 17px;" class="regist-font4 d-flex" for="gender"> Gender <span class="forgot-font3 ml-1">*</span></label>
+                                <label class="radio-inline">
+                                  <input type="radio" name="gender" id="gender1" value="1"> Male
+                                </label>
+                                <label class="radio-inline">
+                                  <input type="radio" name="gender" id="gender2" value="2"> Female
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-xl-12 mb-3">
+                                <label class="regist-font4 d-flex" for="city">
+                                    VAT Number
+                                    <span class="forgot-font3 ml-1">*</span>
+                                </label>
+                                <div class="input-group text-center">
+                                  <div class="input-group-prepend"></div>
+                                  <input type="text" class="regist-form" name="vat" id="vat" placeholder="VAT Number" required>
+                                </div>
+                            </div>
+                        </div>
                         <div class="form-row">
                             <div class="col-xl-12 mb-3">
                                 <label class="regist-font4 d-flex" for="city">
@@ -119,6 +155,18 @@
                         </div>
                         <div class="form-row">
                             <div class="col-xl-12 mb-3">
+                                <label class="regist-font4 d-flex" for="company">
+                                    Company
+                                    <span class="forgot-font3 ml-1">*</span>
+                                </label>
+                                <div class="input-group text-center">
+                                  <div class="input-group-prepend"></div>
+                                  <input type="text" class="regist-form" name="company" id="company" placeholder="company" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-xl-12 mb-3">
                                 <label class="regist-font4 d-flex" for="address">
                                     Address
                                     <span class="forgot-font3 ml-1">*</span>
@@ -127,6 +175,18 @@
                                   <div class="input-group-prepend"></div>
                                   <!-- <input type="text" class="regist-form" name="city" id="city" placeholder="City" aria-describedby="inputGroupPrepend2" required> -->
                                   <textarea class="regist-form" name="address" id="address" placeholder="address" aria-describedby="inputGroupPrepend6" required></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-xl-12 mb-3">
+                                <label class="regist-font4 d-flex" for="address">
+                                    Address line 2
+                                    <span class="forgot-font3 ml-1">*</span>
+                                </label>
+                                <div class="input-group text-center">
+                                  <div class="input-group-prepend"></div>
+                                  <textarea class="regist-form" name="address2" id="address2" placeholder="address" aria-describedby="inputGroupPrepend6" required></textarea>
                                 </div>
                             </div>
                         </div>
@@ -150,21 +210,6 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- <div class="form-row">
-                            <div class="col-xl-6 mb-3">
-                                <label class="regist-font4 d-flex" for="validationDefaultUsername2">
-                                    Date of birth
-                                    <span class="forgot-font3">*</span>
-                                </label>
-
-                                <div class="input-group date" data-provide="datepicker">
-                                    <input type="text" id="datepicker" class="regist-form" placeholder="dd/mm/yyyy">
-                                    <div class="input-group-addon">
-                                        <span class="glyphicon glyphicon-th"></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> -->
                         <div class="form-row">
                             <div class="col-xl-12 mb-3">
                                 <label class="regist-font4 d-flex" for="validationDefaultUsername2">
@@ -272,37 +317,28 @@ $('body').on('change','.select_country',function(){
 });
 
 $('body').on('click','#btn-submit_form',function(){
-  var nameReg = "/^[A-Za-z]+$/";
-  var numberReg =  "/^[0-9]+$/";
-  var emailReg = "/^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/";
-  var password = $('.password').val();
-
   var form = $('#form_register_customer').serializeArray();
-  var firstname = $('.firstname').val();
-  // $('body').loader('show');
-  var pwdPolicy = "/^\w*(?=\w*\d)(?=\w*[a-z])(?=\w*[A-Z])\w*$/";
-  // alert(password);
-  // if(password.match(nameReg)){
-  //   alert('1');
-  //   return true;
-  // } else {
-  //   alert("Please fallow password policy");
-  //   $('.password').focus();
-  //   return false;
-  // }
+  $('body').loader('show');
     $.ajax({
       method : "POST",
       url : url_gb+"/create_customer",
       dataType: "JSON",
       data: form,
     }).done(function(rec){
-      console.log(rec);
       if(rec.status==1){
         $('#form_register_customer')[0].reset();
         $('body').loader('hide');
         al_su(rec.content,'success');
         // window.location.href = url_gb;
-      }else{
+      } else if(rec.status == 2){
+        $('body').loader('hide');
+        $('.password').focus();
+        al_su(rec.content,'danger');
+      } else if(rec.status == 3){
+        $('body').loader('hide');
+        $('.regisemail').focus();
+        al_su(rec.content,'danger');
+      } else {
         $('body').loader('hide');
         al_su(rec.content,'danger');
       }

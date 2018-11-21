@@ -37,11 +37,11 @@ class RegistController extends Controller
 
         $get_session_all = \Session::all();
 
-        if(!empty($get_session_all[0])){
+        if(!empty($get_session_all['customer_id'])){
             $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/customers/me");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . ($get_session_all[0])));
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . ($get_session_all['customer_id'])));
 
             $result2 = curl_exec($ch);
 

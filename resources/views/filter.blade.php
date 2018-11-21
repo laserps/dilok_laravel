@@ -1,54 +1,6 @@
 @extends('welcome')
 @section('css_bottom')
 <style>
-.checktest {
-    left: 5px;
-    top: 0px;
-    width: 8px;
-    height: 15px;
-    border: 1px solid #d2d2d2;
-    border-top-color: rgb(210, 210, 210);
-    border-top-style: solid;
-    border-top-width: 1px;
-    border-right-color: rgb(210, 210, 210);
-    border-right-style: solid;
-    border-right-width: 1px;
-    border-bottom-color: rgb(210, 210, 210);
-    border-bottom-style: solid;
-    border-bottom-width: 1px;
-    border-left-color: rgb(210, 210, 210);
-    border-left-style: solid;
-    border-left-width: 1px;
-    border-image-source: initial;
-    border-image-slice: initial;
-    border-image-width: initial;
-    border-image-outset: initial;
-    border-image-repeat: initial;
-
-   /* border: solid black;
-    border-top-color: black;
-    border-top-style: solid;
-    border-top-width: 0px;
-    border-right-color: black;
-    border-right-style: solid;
-    border-right-width: 2px;
-    border-bottom-color: black;
-    border-bottom-style: solid;
-    border-bottom-width: 2px;
-    border-left-color: black;
-    border-left-style: solid;
-    border-left-width: 0px;
-    border-image-source: initial;
-    border-image-slice: initial;
-    border-image-width: initial;
-    border-image-outset: initial;
-    border-image-repeat: initial;*/
-    border-width: 0 2px 2px 0;
-    /*-webkit-transform: rotate(45deg);*/
-    /*-ms-transform: rotate(45deg);*/
-    transform: rotate(45deg);
-    box-sizing: border-box;
-}
 .checkboxlist{
   opacity:1 !important;
   position: absolute;
@@ -390,8 +342,10 @@
             @for($i = $main_page2; $i <= $sum_page; $i++)
                   <li class="page-item pr-1"><a @if($main_page == $i) style="background-color: #999;" @endif class="news_page-link page_main" href="{{ url('filter') }}?page={{$i}}">{{ $i }}</a></li>
             @endfor
-            @if($next_page)
-              <li class="page-item pr-1"><a class="news_page-link" href="{{ url('filter') }}?page={{$next_page}}">&raquo;</a></li>
+            @if($i != 1)
+              @if($next_page)
+                <li class="page-item pr-1"><a class="news_page-link" href="{{ url('filter') }}?page={{$next_page}}">&raquo;</a></li>
+              @endif
             @endif
           </ul>
         </div>
@@ -426,11 +380,10 @@ $('body').on('click','.checkmark',function(){
       $('#filter_data').remove();
       $('#filter_data_search').html(rec);
       $('body').loader('hide');
-
-      // $('.data_type2'+data).prop('checked',true);
+      // fa-times
       if($('.data_type2'+data).is(':checked') == true){
         $('.filter_list').append('<span class="fillter-block fillter-select fillter-font3 remove_gender_tag'+data+'">\n\
-                        <a class="fas fa-times fillter-close pr-2 remove_gender" data-remove_gender="'+data+'"></a>'+text+'\n\
+                        <a class="fas fillter-close pr-2 remove_gender" data-remove_gender="'+data+'"></a>'+text+'\n\
                       </span>');
       } else {
         $('.remove_gender_tag'+data).remove();
@@ -439,40 +392,25 @@ $('body').on('click','.checkmark',function(){
       $('body').loader('hide');
       al_su('Error','danger');
     });
-  // } else {
-  //   $('.data_gender2'+data).removeAttr('checked');
-  //   $.ajax({
-  //       method : "GET",
-  //       url : url_gb+"/gender/0",
-  //   }).done(function(rec){
-  //     $('#filter_data').remove();
-  //     $('#filter_data_search').html(rec);
-  //     if($('.data_gender2'+data).is(':checked') == false){
-  //       $('.remove_gender_tag'+data).remove();
-  //     }
-  //   }).fail(function(){
-  //   });
-  // }
 });
 
-$('body').on('click','.remove_gender',function(){
-  var data = $(this).data('remove_gender');
-  $('body').loader('show');
-    $.ajax({
-      method : "POST",
-      url : url_gb+"/gender/"+data,
-      dataType : 'json'
-  }).done(function(rec){
-      if(data == rec.gender_id.value) {
-        $('body').loader('hide');
-        $('.remove_gender_tag'+rec.gender_id.value).remove();
-        // $('.data_gender').removeClass('data_gender');
-      }
-  }).fail(function(){
-    $('body').loader('hide');
-    al_su('Error','danger');
-  });
-});
+// $('body').on('click','.remove_gender',function(){
+//   var data = $(this).data('remove_gender');
+//   $('body').loader('show');
+//     $.ajax({
+//       method : "POST",
+//       url : url_gb+"/gender/"+data,
+//       dataType : 'json'
+//   }).done(function(rec){
+//       if(data == rec.gender_id.value) {
+//         $('body').loader('hide');
+//         $('.remove_gender_tag'+rec.gender_id.value).remove();
+//       }
+//   }).fail(function(){
+//     $('body').loader('hide');
+//     al_su('Error','danger');
+//   });
+// });
 
 function myFunction() {
   var x = document.getElementById("myDIV");

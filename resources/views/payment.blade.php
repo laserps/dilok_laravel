@@ -12,12 +12,13 @@
           <div class="col-xl-6 mt-5">
             <div class="card pay-b-n p-3">
               <div class="pay-font1">Payment Method</div>
-              <form class="pt-3">
-                 <label class="pay-select">
+              <!-- <div class="pt-3"> -->
+            <form id="form_total_cart_product">
+                 <!-- <label class="pay-select">
                      <div class="pay-font4" style="display:inline;">Credit/Debit</div>
                      <img src="{{ asset('assets/images/payment/visa.jpg') }}" class="pay-size2" style="display:inline;">
                      <img src="{{ asset('assets/images/payment/mc.png') }}" class="pay-size3" style="display:inline;">
-                     <input type="radio" name="radio">
+                     <input type="radio" name="radio" class="payment_method" data-payment_method="checkmo2">
                      <span class="checkmark2"></span>
                      <div class="pay-font2 pt-2">
                        It is a long established fact that a reader will be distracted by the
@@ -66,7 +67,7 @@
                  <hr class="mt-5">
                    <label class="pay-select">
                       <div class="pay-font4" style="display:inline;">Online Banking</div>
-                      <input type="radio" name="radio">
+                      <input type="radio" name="radio" class="payment_method" data-payment_method="checkmo">
                       <span class="checkmark2"></span>
                       <div class="flex-sm-row d-lg-inline d-md-inline d-xl-inline">
                         <img src="{{ asset('assets/images/payment/bb.png') }}" class="pay-size " style="display:inline;">
@@ -75,14 +76,15 @@
                         <img src="{{ asset('assets/images/payment/ktb.jpg') }}" class="pay-size" style="display:inline;">
                         <img src="{{ asset('assets/images/payment/mc.png') }}" class="pay-size2" style="display:inline;">
                       </div>
-                   </label>
+                   </label> -->
                  <label class="pay-select">
                      <div class="pay-font4" style="display:inline;">Paypal</div>
                        <img src="{{ asset('assets/images/payment/pp.png') }}" class="pay-size2" style="display:inline;">
-                     <input type="radio" name="radio">
+                     <input type="radio" name="radio" class="payment_method" data-payment_method="paypal_express">
                      <span class="checkmark2"></span>
                  </label>
             </div>
+            <input type="hidden" name="payment_method_value" class="payment_method_value">
           </div>
           <div class="col-xl-3  mt-5">
             <div class="card pay-b-n p-3">
@@ -107,7 +109,7 @@
                       <div><span>Country : </span><span id="bill_country_id">@if(!empty($get_cart->billing_address->country_id)) {{ $get_cart->billing_address->country_id }} @endif</span></div>
                       <div><span>Email : </span><span id="bill_email">@if(!empty($get_cart->billing_address->email)) {{ $get_cart->billing_address->email }} @endif</span></div>
 
-                      <input type="text" name="id_value_billing" id="id_value_billing">
+                      <input type="hidden" name="id_value_billing" id="id_value_billing">
                     </div>
                 </div>
                 <hr>
@@ -132,7 +134,7 @@
                       <div><span>Country : </span><span id="shipping_country_id">@if(!empty($get_cart->billing_address->country_id)) {{ $get_cart->billing_address->country_id }} @endif</span></div>
                       <div><span>Email : </span><span id="shipping_email">@if(!empty($get_cart->billing_address->email)) {{ $get_cart->billing_address->email }} @endif</span></div>
 
-                      <input type="text" name="id_value_shipping" id="id_value_shipping">
+                      <input type="hidden" name="id_value_shipping" id="id_value_shipping">
                     </div>
                 </div>
                 <hr>
@@ -150,24 +152,28 @@
             </div>
           </div>
 
-          <div class="col-xl-3  mt-5">
-            <div class="card pay-b-n">
+        <div class="col-xl-3  mt-5">
+          <div class="card pay-b-n">
               <div class="row">
+                      <input type="hidden" name="chk_false" id="chk_false">
+                      <input type="hidden" name="chk_false_id" id="chk_false_id">
                   <div class="col-xl-12">
                       <div class="row mt-3 pay-padding">
                           <div class="col-xl-8 col-lg-6 col-md-6 col-12 text-center text-lg-left text-md-left pay-m-l-r">
                                <div class="pay-font1">ORDER SUMARY</div>
                           </div>
                           <div class="col-xl-4 col-lg-6  col-md-6 col-12 text-center text-lg-right text-md-right pay-m-l-r">
-                               <div class="pay-font7" >{{ count($cart_customer) }} items</div>
+                               <div class="pay-font7" >@if($cart_customer ==  null) {{ 0 }} @else {{ count($cart_customer) }} @endif items</div>
                           </div>
                       </div>
                       @if(!empty($cart_customer))
                         @php
                           $sum_price = 0;
                         @endphp
-
                       @foreach($cart_customer as $key_cart => $value_cart)
+                      <input type="checkbox" style="width: 50px; height: 20px; position: relative;" class="checkbox" name="c_cart_product_id[{{$key_cart}}]" id="{{ $value_cart->sku }}" value="{{ $value_cart->item_id }}">
+                      <!-- <input type="text" name="cart_product_id[{{$key_cart}}]" value="{{ $value_cart->item_id }}"> -->
+                      <!-- <input type="text" name="chk_false[{{$key_cart}}]" class="chk_false{{$key_cart}}" value=""> -->
                       <div class="row pt-3 pay-padding">
                           @foreach($product_key[$key_cart]->result->customAttributes->item as $key_product_image => $value_image)
                             @if($value_image->attributeCode == 'image')
@@ -230,7 +236,7 @@
                           </div>
                           <div class="col-xl-6 col-lg-6 col-md-6 col-6 pay-m-l-r">
                               <div class="pay-font10 text-right">@if(!empty($sum_price)){{ $sum_price }}@endif THB</div>
-                              <div class="pay-font10 text-right">100 THB</div>
+                              <div class="pay-font10 text-right">0 THB</div>
                           </div>
                       </div>
                       <div class="row mt-3 bg-gray py-3 pay-m-r-l2">
@@ -238,7 +244,7 @@
                               <div class="pay-font10">Total</div>
                           </div>
                           <div class="col-xl-6 col-lg-6  col-md-6 col-6 pay-m-l-r text-right">
-                              <div class="pay-font11" style="display:inline;">@if(!empty($sum_price)){{ $sum_price+100 }}@endif</div>
+                              <div class="pay-font11" style="display:inline;">@if(!empty($sum_price)){{ $sum_price }}@endif</div>
                               <div class="pay-font10" style="display:inline;"> THB</div>
                           </div>
                       </div>
@@ -258,7 +264,7 @@
                     <!-- </a> -->
                     </div>
                 </div>
-                <div class="col-xl-12 mt-2">
+                <!-- <div class="col-xl-12 mt-2">
                     <hr>
                       <a href="#">
                           <div class="promotion-button">
@@ -272,8 +278,9 @@
                           </div>
                       </a>
                     <hr class="mt-0">
-                </div>
+                </div> -->
             </div>
+            </form>
           </div>
         </div>
 
@@ -477,17 +484,24 @@ $('body').on('change','.value_shipping',function(){
     }
 });
 
+$('body').on('change','.payment_method',function(){
+    var data = $(this).data('payment_method');
+    $('.payment_method_value').val(data);
+});
+
 $('body').on('click','#btn_submit_payment',function(){
-    var data_billing = $('#id_value_billing').val();
-    var data_shipping = $('#id_value_shipping').val();
+    // var data_billing = $('#id_value_billing').val();
+    // var data_shipping = $('#id_value_shipping').val();
+    // var payment_method_value = $('.payment_method_value').val();
+    var form = $('#form_total_cart_product').serializeArray();
+    check_chk();
     $.ajax({
       method : "POST",
       url : url_gb+"/payment/paypal",
       dataType: "JSON",
-      data: { 'data_billing': data_billing , 'data_shipping': data_shipping },
+      data: form ,
     }).done(function(rec){
         if(rec.approval_url != null){
-          // window.open(rec.approval_url);
          window.location.href = rec.approval_url;
         } else {
           console.log(2);
@@ -497,6 +511,34 @@ $('body').on('click','#btn_submit_payment',function(){
 
     });
 });
+
+$('body').on('click','[type=checkbox]',function(){
+  var cb = $("[type=checkbox]");
+  var chk_check = [];
+  var chk_false_id = [];
+    $.each(cb,function(key,value){
+        if(value.checked == false){
+          chk_check.push(value.value);
+          chk_false_id.push(value.id);
+        }
+    });
+      $('#chk_false').val(chk_check);
+      $('#chk_false_id').val(chk_false_id);
+});
+
+function check_chk(){
+    var cb = $("[type=checkbox]");
+    var chk_check = [];
+    var chk_false_id = [];
+    $.each(cb,function(key,value){
+        if(value.checked == false){
+          chk_check.push(value.value);
+          chk_false_id.push(value.id);
+        }
+    });
+    return chk_check,chk_false_id;
+}
+
 
 </script>
 @endsection

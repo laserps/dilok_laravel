@@ -60,11 +60,12 @@ curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . strlen(json_encode($userData))));
 
 $token_admin = json_decode(curl_exec($ch));
+$get_session_all = \Session::all();
 
-$ch = curl_init("http://192.168.1.27/dilok2/rest/V1/modules");
+$ch = curl_init("http://192.168.1.27/dilok2/rest/V1/carts/mine/items");
 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $token_admin));
+curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all[0]));
 
 $result2 = json_decode(curl_exec($ch));
 

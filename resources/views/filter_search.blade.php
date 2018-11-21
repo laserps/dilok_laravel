@@ -1,6 +1,7 @@
 <section class="grid-item box box-padding">
   <ul class="row list-unstyled">
 
+  @if(!empty($products->result->items->item))
     @if(count($products->result->items->item) != 1)
       @foreach($products->result->items->item as $key_product => $value_product)
         @foreach($value_product->customAttributes as $key_custom => $value_custom)
@@ -283,7 +284,9 @@
           </li>
         @endforeach
     @endif
-
+  @else
+    ไม่มีสินค้า
+  @endif
 
   </ul>
 

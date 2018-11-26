@@ -61,6 +61,12 @@
               </div>
               <div class="test22"></div>
           <hr>
+            @if(!empty($_GET['brands']))
+                @php $brands = $_GET['brands']; @endphp
+            @else
+                @php $brands = ''; @endphp
+            @endif
+
                 <button class="btn fillter-bg px-0" type="button" data-toggle="collapse" data-target="#collapseExample333" aria-expanded="false" aria-controls="collapseExample">
                     <span class="fillter-font2 pull-left">BRAND</span>
                     <span class="fas fa-chevron-down pull-right" aria-hidden="true"></span>
@@ -69,11 +75,19 @@
                     <div class="filter-scroll">
                         @foreach($category->result->childrenData->item as $key_category => $value_category)
                           @if($value_category->name != 'Default Category')
-                            <label class="check">
-                                <div class="regist-m-l2 pt-1 fillter-font3" data-type="{{ $value_category->id }}">{{ $value_category->name }}</div>
-                                <input name="brand[]" type="checkbox" data-text_gender="{{ $value_category->name }}" data-type="{{ $value_category->id }}" class="checkboxlist checkmark data_type2{{ $value_category->id }}" value="{{ $value_category->id }}" />
-                                <!-- <span class="checkmark data_type{{ $value_category->id }}" data-type="{{ $value_category->id }}" data-text_type="{{ $value_category->name }}"></span> -->
-                            </label>
+                            @if(!empty($brands) && $brands == $value_category->id)
+                              <label class="check">
+                                  <div class="regist-m-l2 pt-1 fillter-font3" data-type="{{ $value_category->id }}">{{ $value_category->name }}</div>
+                                  <input name="brand[]" type="checkbox" data-text_gender="{{ $value_category->name }}" data-type="{{ $value_category->id }}" class="checkboxlist checkmark data_type2{{ $value_category->id }}" value="{{ $value_category->id }}" @if(!empty($brands)) {{ 'checked' }} @endif />
+                                  <!-- <span class="checkmark data_type{{ $value_category->id }}" data-type="{{ $value_category->id }}" data-text_type="{{ $value_category->name }}"></span> -->
+                              </label>
+                              @else
+                                  <label class="check">
+                                    <div class="regist-m-l2 pt-1 fillter-font3" data-type="{{ $value_category->id }}">{{ $value_category->name }}</div>
+                                    <input name="brand[]" type="checkbox" data-text_gender="{{ $value_category->name }}" data-type="{{ $value_category->id }}" class="checkboxlist checkmark data_type2{{ $value_category->id }}" value="{{ $value_category->id }}" />
+                                    <!-- <span class="checkmark data_type{{ $value_category->id }}" data-type="{{ $value_category->id }}" data-text_type="{{ $value_category->name }}"></span> -->
+                                </label>
+                              @endif
                           @endif
                         @endforeach
                     </div>

@@ -24,15 +24,24 @@ class CustomerController extends Controller
     public function create(Request $request)
     {
         $validator = \Validator::make($request->all(), [
-            'password' => 'required|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/|min:8',
+            'password' => 'confirmed|required|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/|min:8',
+            'password_confirmation' => 'required|min:8',
         ]);
 
         $date = date_create($request->input('dob'));
         $birdday = date_format($date,"Y-m-d");
 
+        $errors = $validator->errors();
+
         if ($validator->fails()) {
-            $return['status'] = 2;
-            $return['content'] = 'Password ต้องมีตัวอย่างน้อย 8 ตัวษักษร อัพษรตัวใหญ่ 1 ตัว อักษรเล็ก 1 ตัวและตัวเลข 1 ตัว';
+            if($errors->first('password')){
+                $return['status'] = 2;
+                $return['content'] = 'Password ต้องมีตัวอย่างน้อย 8 ตัวษักษร อัพษรตัวใหญ่ 1 ตัว อักษรเล็ก 1 ตัวและตัวเลข 1 ตัว';
+            }
+            if($errors->first('password_confirmation')){
+                $return['status'] = 2;
+                $return['content'] = 'Password ไม่ตรงกัน';
+            }
         } else {
             try{
                 $value = [
@@ -139,24 +148,30 @@ class CustomerController extends Controller
                 // $data['token_customer'] = $result2;
 
                 foreach($result2->addresses as $key => $value){
-                    $address_value[$key] = [
-                        "id" => $value->id,
-                        "customer_id" => $value->customer_id,
-                        "region" => [
-                          "region_code" => $value->region->region_code,
-                          "region" => $value->region->region,
-                          "region_id" => $value->region->region_id,
-                        ],
-                        "region_id" => $value->region_id,
-                        "country_id" => $value->country_id,
-                        "street" => $value->street,
-                        "company" => !empty($value->company),
-                        "telephone" => $value->telephone,
-                        "postcode" => $value->postcode,
-                        "city" => $value->city,
-                        "firstname" => $value->firstname,
-                        "lastname" => $value->lastname,
-                    ];
+                    if(!empty($value->company)){
+                        $company = $value->company;
+                    } else {
+                        $company = '';
+                    }
+
+                        $address_value[$key] = [
+                            "id" => $value->id,
+                            "customer_id" => $value->customer_id,
+                            "region" => [
+                              "region_code" => $value->region->region_code,
+                              "region" => $value->region->region,
+                              "region_id" => $value->region->region_id,
+                            ],
+                            "region_id" => $value->region_id,
+                            "country_id" => $value->country_id,
+                            "street" => $value->street,
+                            "company" => $company,
+                            "telephone" => $value->telephone,
+                            "postcode" => $value->postcode,
+                            "city" => $value->city,
+                            "firstname" => $value->firstname,
+                            "lastname" => $value->lastname,
+                        ];
                 }
 
 
@@ -273,6 +288,9 @@ class CustomerController extends Controller
     public function edit($id , Request $request)
     {
       try{
+        $date = date_create($request->input('dob'));
+        $birdday = date_format($date,"Y-m-d");
+
         $value = [
             "customer"=>[
                 'id' => $id,
@@ -282,40 +300,8 @@ class CustomerController extends Controller
                 'website_id' => 1,
                 'store_id' => 1,
                 'group_id' => 1,
-                // "default_billing" => 1,
-                // "default_shipping" => 1,
-                // "gender"=> 0,
-                // "created_at" => "2018-09-24 06:48:56",
-                // "updated_at" => "2018-09-24 06:48:56",
-                // "created_in" => "Default Store View",
-                // "addresses"=> [
-                //     [
-                //         // "id" => 0,
-                //         // "customer_id" => 29,
-                //         "region" => ["region_code" => $request->input('country'),"region" => $request->input('country_name'),"region_id" => 0],
-                //         "region_id" => 0,
-                //         "country_id" => $request->input('country'),
-                //         "street" => [$request->input('address')],
-                //         "telephone" => $request->input('telephone'),
-                //         "postcode" => $request->input('postcode'),
-                //         "city" => $request->input('city'),
-                //         "firstname" => $request->input('firstname'),
-                //         "lastname" => $request->input('lastname'),
-                //         // "middlename"=> "string",
-                //         // "prefix"=> "1",
-                //         // "suffix"=> "1",
-                //         // "vat_id"=> "1",
-                //         "default_shipping"=> true,
-                //         "default_billing"=> true,
-                //         "extension_attributes"=> [],
-                //         // "custom_attributes"=> [
-                //         //     [
-                //         //     "attribute_code"=> "string",
-                //         //     "value"=> "string"
-                //         //     ]
-                //         // ]
-                //     ]
-                // ],
+                "gender"=> $request->input('gender'),
+                "dob"=> $birdday,
             ],
             "password" => $request->input('password'),
         ];
@@ -404,6 +390,28 @@ class CustomerController extends Controller
 
     public function profile(){
       try {
+            $opts = array(
+                'ssl' => array('ciphers'=>'RC4-SHA', 'verify_peer'=>false, 'verify_peer_name'=>false)
+            );
+
+            $params = array (
+                'encoding' => 'UTF-8',
+                'verifypeer' => false,
+                'verifyhost' => false,
+                'soap_version' => SOAP_1_2,
+                'trace' => 1,
+                'exceptions' => 1,
+                'connection_timeout' => 180,
+                'stream_context' => stream_context_create($opts),
+                'cache_wsdl' => WSDL_CACHE_NONE
+            );
+
+            $catalog = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=catalogCategoryManagementV1',$params);
+
+            $catalogs = [
+                'rootCategoryId' => 1,
+            ];
+
             $get_session_all = \Session::all();
 
             $userData = array("username" => "customer", "password" => "customer@01");
@@ -413,7 +421,7 @@ class CustomerController extends Controller
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . strlen(json_encode($userData))));
 
-            $token = json_encode(curl_exec($ch));
+            $token = json_decode(curl_exec($ch));
 
             $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/directory/countries");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
@@ -421,6 +429,15 @@ class CustomerController extends Controller
             curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . $token));
 
             $result = json_decode(curl_exec($ch));
+
+            $get_blocks = 'searchCriteria[filter_groups][0][filters][0][field]=is_active&searchCriteria[filter_groups][0][filters][0][value]=1&searchCriteria[filter_groups][0][filters][0][condition_type]=eq&searchCriteria[pageSize]=12&searchCriteria[sortOrders][0][field]=block_id&searchCriteria[sortOrders][0][direction]=DESC';
+
+            $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/cmsBlock/search?".$get_blocks);
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $token));
+
+            $blocks = json_decode(curl_exec($ch));
 
             $data['countries'] = $result;
 
@@ -551,6 +568,11 @@ class CustomerController extends Controller
                 \Session::flush();
                 return redirect('/');
             }
+
+        $data['category'] = $catalog->catalogCategoryManagementV1GetTree($catalogs);
+        $data['blocks'] = $blocks;
+        $data['page_title'] = 'Account';
+
         } catch (Exception $e) {
             $data['products'] = $e->getMessage();
         }
@@ -656,6 +678,156 @@ class CustomerController extends Controller
             $return['content'] = 'เข้าสู่ระบบไม่สำรเ็จ'.$e->getMessage();
         }
         $return['title'] = 'เข้าสู่ระบบ';
+
+        return json_encode($return);
+    }
+
+    public function show_edit_address($id_address){
+        try {
+            $userData = array("username" => "customer", "password" => "customer@01");
+            $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/integration/admin/token");
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . strlen(json_encode($userData))));
+
+            $token = json_decode(curl_exec($ch));
+
+            $chch = curl_init("http://192.168.1.27/dilok2/rest/all/V1/customers/addresses/".$id_address."");
+            curl_setopt($chch, CURLOPT_CUSTOMREQUEST, "GET");
+            curl_setopt($chch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($chch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $token));
+
+            $result = json_decode(curl_exec($chch));
+
+            $return['status'] = 1;
+            $return['customer'] = $result;
+            $return['content'] = 'สำเร็จ';
+
+        } catch (Exception $e) {
+            $return['status'] = 0;
+            $return['content'] = 'ไม่สำรเ็จ'.$e->getMessage();
+        }
+
+        return json_encode($return);
+    }
+
+    public function edit_address_customer($id_address,Request $request){
+        try{
+        $userData = array("username" => "customer", "password" => "customer@01");
+        $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/integration/admin/token");
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . strlen(json_encode($userData))));
+
+        $token = json_decode(curl_exec($ch));
+
+        $get_session_all = \Session::all();
+
+        if(!empty($get_session_all['customer_id'])){
+                $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/customers/me");
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
+
+                $result2 = json_decode(curl_exec($ch));
+
+
+                foreach($result2->addresses as $key => $value){
+                    if(!empty($value->company)){
+                        $company = $value->company;
+                    } else {
+                        $company = '';
+                    }
+                        $address_value[$key] = [
+                            "id" => $value->id,
+                            "customer_id" => $value->customer_id,
+                            "region" => [
+                              "region_code" => $value->region->region_code,
+                              "region" => $value->region->region,
+                              "region_id" => $value->region->region_id,
+                            ],
+                            "region_id" => $value->region_id,
+                            "country_id" => $value->country_id,
+                            "street" => $value->street,
+                            "company" => $company,
+                            "telephone" => $value->telephone,
+                            "postcode" => $value->postcode,
+                            "city" => $value->city,
+                            "firstname" => $value->firstname,
+                            "lastname" => $value->lastname,
+                        ];
+                }
+
+                if(count($address_value) == 1){
+                    $count = 1;
+                } else {
+                    $count = count($address_value);
+                }
+
+                $address_value[$count] =
+                    [
+                        "id" => $request->input('customer_address_id'),
+                        "customer_id" => $id_address,
+                        "region" => ["region_code" => $request->input('country'),"region" => $request->input('country_name'),"region_id" => 0],
+                        "region_id" => 0,
+                        "country_id" => $request->input('country'),
+                        "street" => [$request->input('address'),$request->input('address2')],
+                        "company" => $request->input('company'),
+                        "telephone" => $request->input('telephone'),
+                        "postcode" => $request->input('postcode'),
+                        "city" => $request->input('city'),
+                        "firstname" => $request->input('firstname'),
+                        "lastname" => $request->input('lastname'),
+                ];
+
+                $value = [
+                    "customer" => [
+                        'id' => $id_address,
+                        'email' => $request->input('edit_address_email'),
+                        'firstname' => $request->input('firstname'),
+                        'lastname' => $request->input('lastname'),
+                        'website_id' => 1,
+                        'store_id' => 1,
+                        'group_id' => 1,
+                        "default_billing" => 1,
+                        "default_shipping" => 1,
+                        "addresses" =>
+                            $address_value,
+                    ],
+                ];
+
+
+                // dd($value);
+                // exit();
+
+            } else {
+                \Session::flush();
+                $return['status'] = 2;
+                $return['content'] = 'กรุณาล็อกอินเข้าสู่ระบบ';
+            }
+
+        $chch = curl_init("http://192.168.1.27/dilok2/rest/all/V1/customers/me");
+        curl_setopt($chch, CURLOPT_CUSTOMREQUEST, "PUT");
+        curl_setopt($chch, CURLOPT_POSTFIELDS, json_encode($value));
+        curl_setopt($chch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($chch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
+
+        $result = json_decode(curl_exec($chch));
+
+        // dd($result);
+        // exit();
+
+        $return['status'] = 1;
+        $return['customer'] = $result;
+        $return['content'] = 'สำเร็จ';
+
+        } catch (Exception $e){
+            $return['status'] = 0;
+            $return['content'] = 'ไม่สำรเ็จ'.$e->getMessage();
+        }
+        $return['title'] = 'เพิ่มข้อมูล';
 
         return json_encode($return);
     }

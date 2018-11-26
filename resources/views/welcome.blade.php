@@ -161,7 +161,7 @@
                 <div class="list-container">
                   <div class="row">
                     <!-- col 1 -->
-                    <div class="col-6">
+                    <div class="col-12">
                       <div class="row">
                         <div class="col-12">
                           <div class="w-100">
@@ -170,33 +170,13 @@
                           <div class="column-box">
                             <div class="columns">
                               <ul class="nav-ul-list">
-                                <li>
-                                  <a class="nav-link" href="{{ url('filter') }}">LATEST BRANDS</a>
-                                </li>
-                                <li>
-                                  <a class="nav-link" href="{{ url('adidas') }}">Adidas</a>
-                                </li>
-                                <li>
-                                  <a class="nav-link" href="{{ url('reebok') }}">Reebok</a>
-                                </li>
-                                <li>
-                                  <a class="nav-link" href="{{ url('filter') }}">BRANDS</a>
-                                </li>
-                                <li>
-                                  <a class="nav-link" href="{{ url('adidas') }}">Adidas</a>
-                                </li>
-                                <li>
-                                  <a class="nav-link" href="{{ url('reebok') }}">Reebok</a>
-                                </li>
-                                <li>
-                                  <a class="nav-link" href="{{ url('filter') }}">LATEST BRANDS</a>
-                                </li>
-                                <li>
-                                  <a class="nav-link" href="{{ url('adidas') }}">Adidas</a>
-                                </li>
-                                <li>
-                                  <a class="nav-link" href="{{ url('reebok') }}">Reebok</a>
-                                </li>
+                                @foreach($category->result->childrenData->item as $key_category => $value_category)
+                                  @if($value_category->name != 'Default Category')
+                                    <li>
+                                      <a class="nav-link" href="{{ url('filter/?brands=') }}{{ $value_category->id }}">{{ $value_category->name }}</a>
+                                    </li>
+                                  @endif
+                                @endforeach
                               </ul>
                             </div>
                           </div>
@@ -204,7 +184,7 @@
                       </div>
                     </div>
                     <!-- col 2 -->
-                    <div class="col-2">
+                    <!-- <div class="col-2">
                         <div class="row">
                           <div class="nav-col col-12">
 
@@ -229,18 +209,17 @@
                             </a>
                           </div>
                         </div>
-                    </div>
+                    </div> -->
                   </div>
                 </div><!-- END list container-->
             </div>
           </li> <!-- Brand -->
-          <li class="nav-item">
 
+          <!-- <li class="nav-item">
             <a class="nav-link" href="{{ url('launches') }}"><span style="font-weight : 400;">LAUNCHES</span></a>
             <div class="list">
                 <div class="list-container">
                   <div class="row">
-                    <!-- col 1 -->
                     <div class="col-12">
                           <div class="w-100">
                             <a class="nav-link" href="{{ url('launches') }}">VIEW UPCOMING RELEASES</a>
@@ -433,10 +412,11 @@
 
                     </div>
                   </div>
-                </div><!-- END list container-->
+                </div>
             </div>
-          </li> <!-- Launches -->
-          <li class="nav-item">
+          </li> -->
+
+          <!-- <li class="nav-item">
             <a class="nav-link" href="{{ url('filter') }}"><span style="font-weight : 400;">CATEGORIES</span></a>
             <div class="list">
                 <div class="list-container">
@@ -483,10 +463,11 @@
                         </div>
                       </div>
                     </div>
-                </div><!-- END list container-->
+                </div>
               </div>
             </div>
-          </li> <!-- Categories -->
+          </li> -->
+
           <li class="nav-item">
 
             <a class="nav-link" href="{{ url('filter') }}"><span style="font-weight : 400;">MEN</span></a>
@@ -494,12 +475,25 @@
                 <div class="list-container">
                   <div class="row">
                     <!-- col 1 -->
-                    <div class="col-2 list-first-col">
-                      <ul class="nav flex-column">
-                        <li class="nav-item">
-                          <a class="nav-link main" href="{{ url('filter') }}">NEW PRODUCTS</a>
-                        </li>
-                        <li class="nav-item">
+
+                    <div class="column-box">
+                      <div class="columns">
+                        <ul class="nav-ul-list">
+                          @foreach($category->result->childrenData->item as $key_category => $value_category)
+                            @if($value_category->name != 'Default Category')
+                              <li>
+                                <a class="nav-link" href="{{ url('filter/?brands=') }}{{ $value_category->id }}">{{ $value_category->name }}</a>
+                              </li>
+                            @endif
+                          @endforeach
+                        </ul>
+                      </div>
+                    </div>
+
+
+                    <!-- <div class="col-4 list-first-col"> -->
+                      <!-- <ul class="nav flex-column"> -->
+                        <!-- <li class="nav-item">
                           <a class="nav-link" href="{{ url('filter') }}">Latest Sneakers</a>
                         </li>
                         <li class="nav-item">
@@ -510,11 +504,11 @@
                         </li>
                         <li class="nav-item">
                           <a class="nav-link" href="{{ url('filter') }}">Restocks</a>
-                        </li>
-                      </ul>
-                    </div>
+                        </li> -->
+                      <!-- </ul> -->
+                    <!-- </div> -->
                     <!-- col 2 -->
-                    <div class="col-3 list-first-col">
+                    <!-- <div class="col-3 list-first-col">
                         <div class="row">
                           <div class="col-6">
                             <ul class="nav flex-column">
@@ -561,9 +555,9 @@
                             </ul>
                         </div>
                         </div>
-                    </div>
+                    </div> -->
                     <!-- col  3-->
-                    <div class="col-3">
+                    <!-- <div class="col-3">
                         <div class="row">
                           <div class="col-6">
                             <ul class="nav flex-column">
@@ -604,9 +598,9 @@
                             </ul>
                           </div>
                         </div>
-                    </div>
+                    </div> -->
                     <!-- col 4 -->
-                    <div class="col-2">
+                    <!-- <div class="col-2">
                         <div class="row">
                           <div class="nav-col col-12">
                             <a href="">
@@ -629,7 +623,7 @@
                             </a>
                           </div>
                         </div>
-                    </div>
+                    </div> -->
                   </div>
                 </div>
             </div>
@@ -642,7 +636,20 @@
                 <div class="list-container">
                   <div class="row">
                     <!-- col 1 -->
-                    <div class="col-2 list-first-col">
+                    <div class="column-box">
+                      <div class="columns">
+                        <ul class="nav-ul-list">
+                          @foreach($category->result->childrenData->item as $key_category => $value_category)
+                            @if($value_category->name != 'Default Category')
+                              <li>
+                                <a class="nav-link" href="{{ url('filter/?brands=') }}{{ $value_category->id }}">{{ $value_category->name }}</a>
+                              </li>
+                            @endif
+                          @endforeach
+                        </ul>
+                      </div>
+                    </div>
+                    <!-- <div class="col-12 list-first-col">
                       <ul class="nav flex-column">
                         <li class="nav-item">
                           <a class="nav-link main" href="{{ url('filter') }}">NEW PRODUCTS</a>
@@ -660,9 +667,9 @@
                           <a class="nav-link" href="{{ url('filter') }}">Restocks</a>
                         </li>
                       </ul>
-                    </div>
+                    </div> -->
                     <!-- col 2 -->
-                    <div class="col-3 list-first-col">
+                    <!-- <div class="col-3 list-first-col">
                         <div class="row">
                           <div class="col-6">
                             <ul class="nav flex-column">
@@ -709,9 +716,9 @@
                             </ul>
                         </div>
                         </div>
-                    </div>
+                    </div> -->
                     <!-- col  3-->
-                    <div class="col-3">
+                    <!-- <div class="col-3">
                         <div class="row">
                           <div class="col-6">
                             <ul class="nav flex-column">
@@ -752,9 +759,9 @@
                             </ul>
                           </div>
                         </div>
-                    </div>
+                    </div> -->
                     <!-- col 4 -->
-                    <div class="col-2">
+                    <!-- <div class="col-2">
                         <div class="row">
                           <div class="nav-col col-12">
                             <a href="{{ url('adidas') }}">
@@ -777,7 +784,7 @@
                             </a>
                           </div>
                         </div>
-                    </div>
+                    </div> -->
                   </div>
                 </div>
             </div>
@@ -790,7 +797,20 @@
                 <div class="list-container">
                   <div class="row">
                     <!-- col 1 -->
-                    <div class="col-2 list-first-col">
+                    <div class="column-box">
+                      <div class="columns">
+                        <ul class="nav-ul-list">
+                          @foreach($category->result->childrenData->item as $key_category => $value_category)
+                            @if($value_category->name != 'Default Category')
+                              <li>
+                                <a class="nav-link" href="{{ url('filter/?brands=') }}{{ $value_category->id }}">{{ $value_category->name }}</a>
+                              </li>
+                            @endif
+                          @endforeach
+                        </ul>
+                      </div>
+                    </div>
+                    <!-- <div class="col-12 list-first-col">
                       <ul class="nav flex-column">
                         <li class="nav-item">
                           <a class="nav-link main" href="{{ url('filter') }}">NEW PRODUCTS</a>
@@ -808,9 +828,9 @@
                           <a class="nav-link" href="{{ url('filter') }}">Restocks</a>
                         </li>
                       </ul>
-                    </div>
+                    </div> -->
                     <!-- col 2 -->
-                    <div class="col-3 list-first-col">
+                    <!-- <div class="col-3 list-first-col">
                         <div class="row">
                           <div class="col-6">
                             <ul class="nav flex-column">
@@ -857,9 +877,9 @@
                             </ul>
                         </div>
                         </div>
-                    </div>
+                    </div> -->
                     <!-- col  3-->
-                    <div class="col-3">
+                    <!-- <div class="col-3">
                         <div class="row">
                           <div class="col-6">
                             <ul class="nav flex-column">
@@ -900,9 +920,9 @@
                             </ul>
                           </div>
                         </div>
-                    </div>
+                    </div> -->
                     <!-- col 4 -->
-                    <div class="col-2">
+                    <!-- <div class="col-2">
                         <div class="row">
                           <div class="nav-col col-12">
                             <a href="{{ url('adidas') }}">
@@ -925,20 +945,18 @@
                             </a>
                           </div>
                         </div>
-                    </div>
+                    </div> -->
                   </div>
                 </div>
             </div>
 
           </li> <!-- KID -->
 
-          <li class="nav-item">
-
+         <!--  <li class="nav-item">
             <a class="nav-link" href="{{ url('sale') }}"><span style="font-weight : 400;">SALE</span></a>
             <div class="list">
                 <div class="list-container">
                   <div class="row">
-                    <!-- col 1 -->
                     <div class="col-2 list-first-col">
                       <ul class="nav flex-column">
                         <li class="nav-item">
@@ -961,7 +979,6 @@
                         </li>
                       </ul>
                     </div>
-                    <!-- col 2 -->
                     <div class="col-2">
                       <ul class="nav flex-column">
                         <li class="nav-item">
@@ -975,7 +992,6 @@
                         </li>
                       </ul>
                     </div>
-                    <!-- col  3-->
                     <div class="col-2">
                       <ul class="nav flex-column">
                         <li class="nav-item">
@@ -989,7 +1005,6 @@
                         </li>
                       </ul>
                     </div>
-                    <!-- col 4 -->
                     <div class="col-2">
                         <div class="row">
                           <div class="nav-col col-12">
@@ -1019,7 +1034,8 @@
                   </div>
                 </div>
             </div>
-          </li> <!-- SALE -->
+          </li> -->
+
           <li class="nav-item">
 
             <a class="nav-link" href="{{ url('blog') }}"><span style="font-weight : 400;">BLOG</span></a>
@@ -1029,31 +1045,38 @@
                     <span>READ DILOK. BLOG</span>
                   </div>
                       <div class="row">
-                        <div class="col-5 blog-box">
+                        <div class="col-12 blog-box">
                           <div class="row ">
 
-                              <div class="col-6 blog-row mb-3">
+                            @foreach($blocks->items as $key_blocks => $value_blocks)
+                            @php
+                              preg_match('/<img.+url=[\'"](?P<src>.+?)[\'"].*>/i', $value_blocks->content, $image);
+                            @endphp
+                              <div class="col-3 blog-row mb-3">
                                 <div class="row blog-row">
                                   <div class="col-4 blog-col">
-
-                                    <a href="#">
+                                    <a href="{{ url('single-blog') }}/{{ $value_blocks->id }}">
                                       <div class="nav-blog">
-                                        <img class="nav-product" src="assets/images/index/navbrand/9.jpg" alt="Card image cap">
+                                        @if(!empty($image['src']))
+                                          <img class="nav-product" src="http://127.0.0.1/dilok2/pub/media/{{ $image['src'] }}"/>
+                                        @else
+                                          <img class="nav-product" src="{{ url('assets/images/index/blog1.jpg') }}">
+                                        @endif
                                       </div>
                                     </a>
                                   </div>
                                   <div class="col-8 blog-row">
-
-                                    <a href="#">
+                                    <a href="{{ url('single-blog') }}/{{ $value_blocks->id }}">
                                       <div class="center-table nav-blog-text">
-                                        <span>I'm vertically reatee layout.</span>
+                                        <span>{{ $value_blocks->title }}</span>
                                       </div>
                                     </a>
                                   </div>
                                 </div>
                               </div>
+                            @endforeach
 
-                              <div class="col-6 blog-row mb-3">
+                              <!-- <div class="col-6 blog-row mb-3">
                                 <div class="row blog-row">
                                   <div class="col-4 blog-col">
 
@@ -1135,11 +1158,11 @@
                                     </a>
                                   </div>
                                 </div>
-                              </div>
+                              </div> -->
 
                           </div>
                         </div>
-                        <div class="col-2 nav-col-single">
+                        <!-- <div class="col-2 nav-col-single">
                           <div class="nav-blog-single mb-2">
 
                             <a href="#">
@@ -1152,7 +1175,7 @@
                              <span>This is dummy topic name.</span>
                             </a>
                           </div>
-                        </div>
+                        </div> -->
 
                       </div>
                 </div>
@@ -1263,7 +1286,7 @@
           <ol class="breadcrumb pull-left" style="top:0;">
 
             <li class="breadcrumb-item "><a href="{{ url('/') }}" class="text-dark">Home</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Data</li>
+            <li class="breadcrumb-item active" aria-current="page">{{ $page_title }}</li>
           </ol>
         </div>
         <div class="col-6 pt-3">
@@ -1271,7 +1294,7 @@
             <div class="centering-logo mx-auto h-100">
               <a href="{{ url('/') }}">
                 <div class="logo-lg-frame">
-                  <img class="logo-lg" src="assets/images/logo/logo.jpg" alt="">
+                  <img class="logo-lg" src="{{ url('assets/images/logo/logo.jpg') }}" alt="">
                 </div>
               </a>
             </div>
@@ -1306,7 +1329,7 @@
         <div class="centering-logo mx-auto h-100">
           <a href="{{ url('/') }}">
             <div class="logo-lg-frame">
-              <img class="logo-lg" src="assets/images/logo/logo-invert.png" alt="">
+              <img class="logo-lg" src="{{ url('assets/images/logo/logo-invert.png') }}" alt="">
             </div>
           </a>
         </div>
@@ -1347,7 +1370,7 @@
             <div class="centering-logo h-100 mb-5">
                 <div class="logo-lg-frame-footer mx-lg-0 mx-md-auto text-lg-left text-md-center">
                   <a href="{{ url('/') }}">
-                  <img class="logo-lg-footer" src="assets/images/logo/logo-invert.png" alt="">
+                  <img class="logo-lg-footer" src="{{ url('assets/images/logo/logo-invert.png') }}" alt="">
                   </a>
                 </div>
             </div>
@@ -2489,7 +2512,7 @@ $('body').on('click','.btn_login_customer',function(){
         $('body').loader('hide');
         al_su(rec.content,'danger');
       } else {
-      $('body').loader('hide');
+        $('body').loader('hide');
         al_su(rec.content,'danger');
       }
     }).fail(function(e){
@@ -2540,6 +2563,10 @@ $('body').on('click','.btn_add_to_cart',function(){
         al_su(rec.content,'success');
         location.reload();
         $('body').loader('hide');
+      } else if(rec.status == 2){
+        $('body').loader('hide');
+        al_su(rec.content,'danger');
+        window.location.href = url_gb+'/regist';
       }else{
         $('body').loader('hide');
         al_su(rec.content,'danger');

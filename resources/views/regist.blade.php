@@ -231,7 +231,7 @@
                                 </label>
                                 <div class="input-group text-center">
                                     <div class="input-group-prepend"></div>
-                                    <input type="password" class="regist-form" name="confirm-password" id="validationDefaultUsername2" placeholder="Confirm Password" aria-describedby="inputGroupPrepend2" required>
+                                    <input type="password" class="regist-form" name="password_confirmation" id="validationDefaultUsername2" placeholder="Confirm Password" aria-describedby="inputGroupPrepend2" required>
                                 </div>
                             </div>
                         </div>

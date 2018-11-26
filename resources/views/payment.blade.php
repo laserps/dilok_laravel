@@ -109,7 +109,7 @@
                       <div><span>Country : </span><span id="bill_country_id">@if(!empty($get_cart->billing_address->country_id)) {{ $get_cart->billing_address->country_id }} @endif</span></div>
                       <div><span>Email : </span><span id="bill_email">@if(!empty($get_cart->billing_address->email)) {{ $get_cart->billing_address->email }} @endif</span></div>
 
-                      <input type="hidden" name="id_value_billing" id="id_value_billing">
+                      <input type="hidden" name="id_value_billing" id="id_value_billing" required>
                     </div>
                 </div>
                 <hr>
@@ -134,11 +134,11 @@
                       <div><span>Country : </span><span id="shipping_country_id">@if(!empty($get_cart->billing_address->country_id)) {{ $get_cart->billing_address->country_id }} @endif</span></div>
                       <div><span>Email : </span><span id="shipping_email">@if(!empty($get_cart->billing_address->email)) {{ $get_cart->billing_address->email }} @endif</span></div>
 
-                      <input type="hidden" name="id_value_shipping" id="id_value_shipping">
+                      <input type="hidden" name="id_value_shipping" id="id_value_shipping" required>
                     </div>
                 </div>
                 <hr>
-                <div class="row">
+                <!-- <div class="row">
                   <div class="col-xl-12">
                       <div class="pay-font1"style="display:inline;">Shipping Method</div>
                       <div class="pay-font1 pay-m-l4 w-100" style="display:inline;">
@@ -148,7 +148,7 @@
                 </div>
                 <div class="pt-3">
                     <div class="pay-font6">EMS</div>
-                </div>
+                </div> -->
             </div>
           </div>
 
@@ -490,25 +490,29 @@ $('body').on('change','.payment_method',function(){
 });
 
 $('body').on('click','#btn_submit_payment',function(){
-    // var data_billing = $('#id_value_billing').val();
-    // var data_shipping = $('#id_value_shipping').val();
-    // var payment_method_value = $('.payment_method_value').val();
     var form = $('#form_total_cart_product').serializeArray();
     check_chk();
+    $('body').loader('show');
     $.ajax({
       method : "POST",
       url : url_gb+"/payment/paypal",
       dataType: "JSON",
       data: form ,
     }).done(function(rec){
-        if(rec.approval_url != null){
+        if(rec.approval_url != null && rec.approval_url == 1){
          window.location.href = rec.approval_url;
+        } else if(rec.status == 2){
+          $('body').loader('hide');
+          al_su(rec.content,'danger');
+          // window.location.href = url_gb;
         } else {
-          console.log(2);
+          $('body').loader('hide');
+          al_su('Error','danger');
         }
 
     }).fail(function(e){
-
+        $('body').loader('hide');
+        al_su('Error','danger');
     });
 });
 

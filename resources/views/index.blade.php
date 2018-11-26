@@ -142,15 +142,17 @@
                   </div>
                   <div class="brand-slide owl-carousel owl-theme">
                     <!-- บังคับ first child มัclass first    last child มี class last  -->
+
+
                     <div class="item first">
                       <div class="slide-brand-frame">
-
                         <a href="{{ url('filter') }}">
                           <img class="slide-brand-img" src='assets/images/logo/adidas.png'>
                         </a>
                       </div>
                     </div>
-                    <div class="item">
+
+                    <!-- <div class="item">
                       <div class="slide-brand-frame">
 
                         <a href="{{ url('filter') }}">
@@ -179,7 +181,8 @@
                           <img class="slide-brand-img" src='assets/images/logo/reebok.png'>
                         </a>
                       </div>
-                    </div>
+                    </div> -->
+
                   </div>
                 </section>
 
@@ -306,25 +309,33 @@
                         </div>
                       </div>
 
+                  @foreach($sum_blocks->items as $key_block => $value_block)
+                    @php
+                      preg_match('/<img.+url=[\'"](?P<src>.+?)[\'"].*>/i', $value_block->content, $image);
+                      $date=date_create($value_block->creation_time);
+                    @endphp
                       <div class="col-lg-6 col-12 blog-img-col">
                         <div class="card_new mr-0 px-1">
                             <div class="blog-img-frame">
-                              <a href="{{ url('single-blog') }}">
-                                <img class="blog-img" src='assets/images/index/blog1.jpg'/>
+                              <a href="{{ url('single-blog') }}/{{ $value_block->id }}">
+                                @if(!empty($image['src']))
+                                  <img class="blog-img" src="http://127.0.0.1/dilok2/pub/media/{{ $image['src'] }}"/>
+                                @else
+                                  <img class="blog-img" src="assets/images/index/blog1.jpg">
+                                @endif
                               </a>
                             </div>
                             <div class="card-body">
-
                               <div class="blog-excerpt mb-2">
-                                <span class="launches_font_30 line-h-20">Sports fashion retailer Dilok has opened a new store at Chula Soi7 Sports fashion retailer Dilok has opened a new store at Chula Soi7</span>
+                                <span class="launches_font_30 line-h-20">{!! str_limit(strip_tags($value_block->content),200) !!}</span>
                               </div>
-
-                                <span class="line-h-20 grey text-small">22/06/2018</span>
+                                <span class="line-h-20 grey text-small">{{ date_format($date,"d/m/Y") }}</span>
                             </div>
                         </div>
                       </div>
+                  @endforeach
 
-                      <div class="col-lg-6 col-12 blog-img-col">
+                      <!-- <div class="col-lg-6 col-12 blog-img-col">
                         <div class="card_new mr-0  px-1">
                             <div class="blog-img-frame">
                               <a href="{{ url('single-blog') }}">
@@ -340,7 +351,7 @@
                                 <span class="line-h-20 grey text-small">20/06/2018</span>
                             </div>
                         </div>
-                      </div>
+                      </div> -->
 
 
                       <div class="col-12 res-414-down">

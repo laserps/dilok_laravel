@@ -30,6 +30,8 @@ $get_stock_product = new SoapClient('http://192.168.1.27/dilok2/soap/default?wsd
 $get_type_products = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=catalogProductAttributeOptionManagementV1',$params);
 $category = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=catalogCategoryManagementV1',$params);
 $category2 = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=catalogCategoryRepositoryV1',$params);
+
+$blocks = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=catalogCategoryRepositoryV1',$params);
 // $login_customer22 = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl_list&services=catalogCategoryRepositoryV1',$params);
 // $get_products_type = new SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=quoteGuestCartRepositoryV1',$params);
 
@@ -62,10 +64,36 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Co
 $token_admin = json_decode(curl_exec($ch));
 $get_session_all = \Session::all();
 
-$ch = curl_init("http://192.168.1.27/dilok2/rest/V1/carts/mine/items");
+$get_product_page = [
+    'searchCriteria' => [
+        'filterGroups' => [
+            [
+                'filters' => [
+                    [
+                        'field' => 'active',
+                        'value' => true,
+                        'condition_type' => 'eq',
+                    ],
+                ],
+            ],
+        ],
+        // 'sortOrders' => [
+        //     [
+        //         'field' => 'entity_id',
+        //         'direction' => 'DESC',
+        //     ],
+        // ],
+        // 'pageSize' => 12,
+        // 'currentPage' => 1,
+    ],
+];
+
+$get_blocks_page = 'searchCriteria[filter_groups][0][filters][0][field]=is_active&searchCriteria[filter_groups][0][filters][0][value]=1&searchCriteria[filter_groups][0][filters][0][condition_type]=eq&searchCriteria[pageSize]=6&searchCriteria[currentPage]=1';
+
+$ch = curl_init("http://192.168.1.27/dilok2/rest/V1/categories/1");
 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all[0]));
+curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $token_admin));
 
 $result2 = json_decode(curl_exec($ch));
 

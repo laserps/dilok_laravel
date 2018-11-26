@@ -37,11 +37,14 @@
                     <div class="card-body account-line-height text-md-left text-center">
                         <div><span>Fristname : {{ $token_customer->firstname }}</span></div>
                         <div><span>Lastname : {{ $token_customer->lastname }}</span></div>
-                        <div><span>Middlename : @if(!empty($token_customer->middlename)) {{ $token_customer->middlename }} @endif</span></div>
+                        <!-- <div><span>Middlename : @if(!empty($token_customer->middlename)) {{ $token_customer->middlename }} @endif</span></div> -->
                         <div><span>Email : {{ $token_customer->email }}</span></div>
                         <div><span>Gender : @if(!empty($token_customer->gender)) @if($token_customer->gender == 1) Male @elseif($token_customer->gender == 2) Female @else - @endif @endif</span></div>
-                        <div><span>Tax Vat : @if(!empty($token_customer->taxvat)) {{ $token_customer->taxvat }} @endif</span></div>
-                        <div><span>Date of Birth : @if(!empty($token_customer->dob)) {{ $token_customer->dob }} @endif</span></div>
+                        <!-- <div><span>Tax Vat : @if(!empty($token_customer->taxvat)) {{ $token_customer->taxvat }} @endif</span></div> -->
+                        @php
+                          $date = date_create($token_customer->dob);
+                        @endphp
+                        <div><span>Date of Birth : @if(!empty($token_customer->dob)) {{ date_format($date,"d-m-Y") }} @endif</span></div>
                     </div>
                   </div>
                 </div>
@@ -55,7 +58,8 @@
                 @foreach($token_customer->addresses as $key_address => $value_address)
                   <div class="col-12 px-0 my-3">
                     <div class="card account-card">
-                        <a href="#" style="right: 15%;" class="account-edit address_edit" data-address_id="{{$value_address->id}}" data-toggle="modal" data-target="#edit_edit_address">Edit</a>
+                        <!-- <a href="#" style="right: 15%;" class="account-edit address_edit" data-address_id="{{$value_address->id}}" data-toggle="modal" data-target="#edit_edit_address">Edit</a> -->
+                        <a href="#" style="right: 15%;" class="account-edit address_edit" data-address_edit_id="{{$value_address->id}}">Edit</a>
                         <a href="#" class="account-edit del_address_edit" data-del_address_id="{{$value_address->id}}">Delete</a>
                       <div class="card-body account-line-height text-md-left text-center">
                           <div><span>Firstname : {{ $value_address->firstname }}</span></div>
@@ -211,6 +215,99 @@
             </div>
 
 
+            <!-- #Modal EDIT NEW ADDRESS -->
+            <div class="modal fade px-0" id="edit_address" tabindex="-1" role="dialog" aria-labelledby="edit_address" aria-hidden="true">
+              <div class="modal-dialog account-modal-dialog " role="document">
+                <div class="modal-content rounded-0 px-md-5 py-md-4">
+                  <div class="modal-header border-0 mx-md-0 mx-auto">
+                    <h5 class="modal-title" id="edit_address">ADD NEW ADDRESS</h5>
+                    <button type="button" class="close account-close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">x</span>
+                    </button>
+                  </div>
+                  <form id="form_edit_address_customer">
+                      <input type="hidden" class="form-control" id="edit_address_customer_id" name="customer_id" value="{{ $token_customer->id }}" required>
+                      <input type="hidden" class="form-control" id="edit_address_email" name="edit_address_email" value="{{ $token_customer->email }}" required>
+                      <input type="hidden" class="form-control" id="customer_address_id" name="customer_address_id" required>
+                    <div class="modal-body">
+                      <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="text"><span>First Name</span> <span class="text-danger">*</span></label>
+                              <input type="text" class="form-control" name="firstname" id="edit_address_customer_firstname" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                           <div class="form-group">
+                              <label for="text"> <span>Last Name</span> <span class="text-danger">*</span> <span class="account-requited text-danger">Required fields</span></label>
+                              <input type="text" class="form-control" name="lastname" id="edit_address_customer_lastname" required>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                              <label for="text"><span>Phone Number</span> <span class="text-danger">*</span> <span class="account-text-xsmall">(We'll only content you regarding your order)</span></label>
+                              <input type="text" name="telephone" class="form-control" id="edit_address_customer_phone" required>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                           <div class="form-group">
+                              <label for="text"><span>Address line 1</span> <span class="text-danger">*</span></label>
+                              <input type="text" name="address" class="form-control" id="edit_address_customer_address_line1" required>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                           <div class="form-group">
+                              <label for="text"><span>Address line 2</span> <span class="account-text-xsmall">(Optional)</span></label>
+                              <input type="text" name="address2" class="form-control" id="edit_address_customer_address_line2" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="text"><span>Town or City</span> <span class="text-danger">*</span></label>
+                              <input type="text" name="city" class="form-control" id="edit_address_customer_city" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                           <div class="form-group">
+                              <label for="text"><span>Company</span> <span class="account-text-xsmall">(Optional)</span></label>
+                              <input type="text" name="company" class="form-control" id="edit_address_customer_company" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="text"><span>Postcode</span> <span class="text-danger">*</span></label>
+                              <input type="text" name="postcode" class="form-control" id="edit_address_customer_postcode" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                           <div class="form-group">
+                              <label for="text"><span>Country</span></label>
+                              <select class="form-control rounded-0 select_country" id="edit_address_customer_country" name="country" id="sel1" required>
+                                <option>---- Select ----</option>
+                                @foreach($countries as $key_country => $value_country)
+                                  @if($value_country->full_name_english != null)
+                                    <option value="{{ $value_country->id }}" data_name="{{ $value_country->full_name_english }}">{{ $value_country->full_name_english }}</option>
+                                  @endif
+                                @endforeach
+                                  <input type="hidden" name="edit_address_country_name" id="edit_address_country_name" class="regist-form" placeholder="country_name" required>
+                              </select>
+                            </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="modal-footer account-modal-footer border-0">
+                      <div class="col-md-4">
+                        <div>
+                          <button type="button" class="btn account-btn-save-ad w-100" id="btn_edit_address_customer">Save changes</button>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+
+
 
           <!-- #Modal EDIT NEW ADDRESS -->
             <div class="modal fade px-0" id="edit_new_address" role="dialog" aria-labelledby="edit_new_address" aria-hidden="true">
@@ -254,19 +351,29 @@
                                 </div> -->
                             </div>
                         </div>
+                        <div class="col-md-6">
+                          <label style="margin-bottom: 17px;" class="regist-font4 d-flex" for="gender"> Gender <span class="forgot-font3 ml-1">*</span></label>
+                          <label class="radio-inline">
+                            <input type="radio" class="gender_selecte" name="gender" id="gender_selecte1" value="1"> Male
+                          </label>
+                          <label class="radio-inline">
+                            <input type="radio" class="gender_selecte" name="gender" id="gender_selecte2" value="2"> Female
+                          </label>
+                        </div>
+
                       </div>
 
-                      <div class="row mt-md-5 mt-3">
+                      <!-- <div class="row mt-md-5 mt-3">
                         <div class="col-12 mb-3 text-md-left text-center">
                          <h5 class="modal-title">CHANGE PASSWORD</h5>
                         </div>
 
-                       <!-- <div class="col-12">
+                       <div class="col-12">
                         <div class="form-group">
                           <label for="text"><span>Current Password</span> <span class="text-danger">*</span></label>
                           <input type="password" class="form-control">
                         </div>
-                       </div> -->
+                       </div>
                        <div class="col-12">
                         <div class="form-group">
                           <label for="text"><span>New Password</span> <span class="text-danger">*</span></label>
@@ -279,7 +386,7 @@
                           <input type="password" name="confirm-password" class="form-control">
                         </div>
                        </div>
-                      </div>
+                      </div> -->
 
                     </div>
                     <div class="modal-footer account-modal-footer border-0">
@@ -349,18 +456,24 @@ $('body').on('click','#btn-add-address',function(){
 
 $('body').on('click','.btn_edit_account',function(){
     var customer_id = $(this).data('btn_customer_id');
+
       $.ajax({
           method : "GET",
           url : url_gb+"/page_edit_account/"+customer_id,
           dataType : "JSON",
       }).done(function(rec){
           if(rec.status == 1){
+            var parts = rec.customer.dob.split('-');
+            var dmyDate = parts[2] + '-' + parts[1] + '-' + parts[0];
             $('#edit_new_address').modal('show');
             $('#edit_firstname').val(rec.customer.firstname);
             $('#edit_lastname').val(rec.customer.lastname);
             $('#edit_email').val(rec.customer.email);
-            $('.edit_dob').val(rec.customer.dob);
+            $('.edit_dob').val(dmyDate);
             $('#customer_id').val(rec.customer.id);
+            if($('#gender_selecte'+rec.customer.gender).val() == rec.customer.gender){
+              $('#gender_selecte'+rec.customer.gender).attr('checked',true);
+            }
           } else {
             $('#edit_new_address').modal('hide');
             al_su(rec.content,'danger');
@@ -393,6 +506,58 @@ $('body').on('click','#btn-edit-profile',function(){
     }).fail(function(){
         $('body').loader('hide');
         al_su('Error','danger');
+  });
+});
+
+$('body').on('click','.address_edit',function(){
+  var data = $(this).data('address_edit_id');
+  $.ajax({
+      method : "GET",
+      url : url_gb+"/get_address_customer/"+data,
+      dataType : "JSON",
+  }).done(function(rec){
+      if(rec.status == 1){
+        $('#edit_address').modal('show');
+        $('#edit_address_customer_firstname').val(rec.customer.firstname);
+        $('#edit_address_customer_lastname').val(rec.customer.lastname);
+        $('#edit_address_customer_phone').val(rec.customer.telephone);
+        $('#edit_address_customer_address_line1').val(rec.customer.street[0]);
+        if(rec.customer.street[1] != null){
+          $('#edit_address_customer_address_line2').val(rec.customer.street[1]);
+        }
+        $('#edit_address_customer_city').val(rec.customer.city);
+        $('#edit_address_customer_company').val(rec.customer.company);
+        $('#edit_address_customer_postcode').val(rec.customer.postcode);
+        $('#edit_address_customer_country').val(rec.customer.country_id);
+        $('#customer_address_id').val(rec.customer.id);
+        $('#edit_address_country_name').val(rec.customer.region.region_code);
+      } else {
+        al_su(rec.content,'danger');
+      }
+  }).fail(function(){
+      al_su('Error','danger');
+  });
+});
+
+$('body').on('click','#btn_edit_address_customer',function(){
+  var form = $('#form_edit_address_customer').serializeArray();
+  var customer_id = $('#edit_address_customer_id').val();
+  $.ajax({
+      method : "POST",
+      url : url_gb+"/edit_address_customer/"+customer_id,
+      dataType : "JSON",
+      data: form,
+  }).done(function(rec){
+      if(rec.status == 1){
+        window.location.href = url_gb+"/account";
+        $('body').loader('hide');
+        al_su(rec.content,'success');
+      } else {
+        $('body').loader('hide');
+        al_su(rec.content,'danger');
+      }
+  }).fail(function(){
+      al_su('Error','danger');
   });
 });
 

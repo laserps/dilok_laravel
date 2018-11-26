@@ -26,10 +26,6 @@ class PaypalPaymentController extends Controller{
 
         $token = json_decode(curl_exec($ch));
 
-        $get_session_all = \Session::all();
-
-
-        $aa = $request->all();
         $false_chk = explode(",",$request->chk_false);
         $chk_false_id = explode(",",$request->chk_false_id);
 
@@ -41,236 +37,235 @@ class PaypalPaymentController extends Controller{
 
         $check = $request->c_cart_product_id;
 
+        $get_session_all = \Session::all();
 
-        if(!empty($get_session_all['customer_id'])){
-
-            foreach($value_product_ids as $key_product_id => $value_product_id){
-                $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/carts/mine/items/".$value_product_id);
-                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "delete");
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
-
-                $delete_item_product = curl_exec($ch);
-
-            }
-
-            $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/carts/mine/items");
-            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
-
-            $result2 = json_decode(curl_exec($ch));
-
-            $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/customers/addresses/".$request->id_value_billing."");
-            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $token));
-
-            $address_bill = json_decode(curl_exec($ch));
-
-            $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/customers/addresses/".$request->id_value_shipping."");
-            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $token));
-
-            $address_shipping = json_decode(curl_exec($ch));
-
-            // dd($address_shipping->region->region);
-            // exit();
+        $validator = \Validator::make($request->all(), [
+            'id_value_billing' => 'required',
+            'id_value_shipping' => 'required',
+        ]);
 
 
-            if(!empty($address_bill->street[1])){
-                $street_bill = $address_bill->street[1];
-            } else {
-                $street_bill = '';
-            }
+        $errors = $validator->errors();
 
-            if(!empty($address_shipping->street[1])){
-                $street_ship = $address_shipping->street[1];
-            } else {
-                $street_ship = '';
-            }
+        if ($validator->fails()) {
+            $status['status'] = 2;
+            $status['content'] = 'กรุณาเลือกที่อยู่';
+        } else {
+            if(!empty($get_session_all['customer_id'])){
 
-            if(!empty($address_shipping->company)){
-                $company_shipping = $address_shipping->company;
-            } else {
-                $company_shipping = '';
-            }
+                foreach($value_product_ids as $key_product_id => $value_product_id){
+                    $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/carts/mine/items/".$value_product_id);
+                    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "delete");
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
 
-            if(!empty($address_bill->company)){
-                $company_bill = $address_bill->company;
-            } else {
-                $company_bill = '';
-            }
+                    $delete_item_product = curl_exec($ch);
 
-            ///////// Add Shipping ////////
-                $data_shipping = [
-                  "addressInformation" => [
-                    "shippingAddress" => [
-                      "customer_id" => $address_shipping->customer_id,
-                      "region" => $address_shipping->region->region,
-                      "country_id" => $address_shipping->country_id,
-                      "street" => [
-                        $address_shipping->street[0],$street_ship
-                      ],
-                      "company" => $company_shipping,
-                      "telephone" => $address_shipping->telephone,
-                      "postcode" => $address_shipping->postcode,
-                      "city" => $address_shipping->city,
-                      "firstname" => $address_shipping->firstname,
-                      "lastname" => $address_shipping->lastname,
-                      "region_code" => $address_shipping->region->region_code,
-                      "sameAsBilling" => 1
-                    ],
-                    "billingAddress" => [
-                      "customer_id" => $address_bill->customer_id,
-                      "region" => $address_bill->region->region,
-                      "country_id" => $address_bill->country_id,
-                      "street" => [
-                        $address_bill->street[0],$street_bill
-                      ],
-                      "company" => $company_bill,
-                      "telephone" => $address_bill->telephone,
-                      "postcode" => $address_bill->postcode,
-                      "city" => $address_bill->city,
-                      "firstname" => $address_bill->firstname,
-                      "lastname" => $address_bill->lastname,
-                      "region_code" => $address_bill->region->region_code
-                    ],
-                      "shipping_method_code" => "flatrate",
-                      "shipping_carrier_code" => "flatrate"
-                    ]
-                ];
-
-                // dd($data_shipping);
-                // exit();
-
-                $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/carts/mine/shipping-information");
-                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-                curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data_shipping));
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
-
-                $result_shipping = json_decode(curl_exec($ch));
-
-                $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/carts/mine/items");
-                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
-
-                $cart_item = json_decode(curl_exec($ch));
-
-                $sum = 0;
-
-
-                // exit();
-
-            if(!empty($address_shipping->street[1])){
-                $street2 = $address_shipping->street[1];
-            } else {
-                $street2 = '';
-            }
-
-            // ### Address
-            // Base Address object used as shipping or billing
-            // address in a payment. [Optional]
-            $shippingAddress = Paypalpayment::shippingAddress();
-            $shippingAddress->setLine1($address_shipping->street[0])
-                ->setLine2($street2)
-                ->setCity($address_shipping->city)
-                ->setState($address_shipping->country_id)
-                ->setPostalCode($address_shipping->postcode)
-                ->setCountryCode($address_shipping->country_id)
-                ->setPhone($address_shipping->telephone)
-                ->setRecipientName($address_shipping->firstname);
-
-            // ### Payer
-            // A resource representing a Payer that funds a payment
-            // Use the List of `FundingInstrument` and the Payment Method
-            // as 'credit_card'
-            $payer = Paypalpayment::payer();
-            $payer->setPaymentMethod("paypal");
-
-                foreach($cart_item as $key_item => $value_item){
-                    $cart_item[$key_item] = Paypalpayment::item();
-                    $cart_item[$key_item]->setName($value_item->sku)
-                    ->setDescription($value_item->sku)
-                    ->setCurrency('THB')
-                    ->setQuantity($value_item->qty)
-                    ->setTax(0)
-                    ->setPrice($value_item->price);
-
-                    $sum += $value_item->price;
                 }
 
-            $itemList = Paypalpayment::itemList();
-            $itemList->setItems($cart_item)
-                ->setShippingAddress($shippingAddress);
+                    $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/carts/mine/items");
+                    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
 
-            $details = Paypalpayment::details();
-            $details->setShipping("0")
-                    ->setTax("0")
-                    //total of items prices
-                    ->setSubtotal($sum);
+                    $result2 = json_decode(curl_exec($ch));
 
-            //Payment Amount
-            $amount = Paypalpayment::amount();
-            $amount->setCurrency("THB")
-                    // the total is $17.8 = (16 + 0.6) * 1 ( of quantity) + 1.2 ( of Shipping).
-                    ->setTotal($sum)
-                    ->setDetails($details);
+                    $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/customers/addresses/".$request->id_value_billing."");
+                    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $token));
 
-            // ### Transaction
-            // A transaction defines the contract of a
-            // payment - what is the payment for and who
-            // is fulfilling it. Transaction is created with
-            // a `Payee` and `Amount` types
+                    $address_bill = json_decode(curl_exec($ch));
 
-            $transaction = Paypalpayment::transaction();
-            $transaction->setAmount($amount)
-                ->setItemList($itemList)
-                ->setDescription("Payment description")
-                ->setInvoiceNumber(uniqid());
+                    $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/customers/addresses/".$request->id_value_shipping."");
+                    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $token));
 
-            // ### Payment
-            // A Payment Resource; create one using
-            // the above types and intent as 'sale'
+                    $address_shipping = json_decode(curl_exec($ch));
 
-            $redirectUrls = Paypalpayment::redirectUrls();
-            $redirectUrls->setReturnUrl(url("/payments/success"))
-                ->setCancelUrl(url("/payments/fails"));
+                    if(!empty($address_bill->street[1])){
+                        $street_bill = $address_bill->street[1];
+                    } else {
+                        $street_bill = '';
+                    }
 
-            $payment = Paypalpayment::payment();
+                    if(!empty($address_shipping->street[1])){
+                        $street_ship = $address_shipping->street[1];
+                    } else {
+                        $street_ship = '';
+                    }
 
-            $payment->setIntent("sale")
-                ->setPayer($payer)
-                ->setRedirectUrls($redirectUrls)
-                ->setTransactions([$transaction]);
+                    if(!empty($address_shipping->company)){
+                        $company_shipping = $address_shipping->company;
+                    } else {
+                        $company_shipping = '';
+                    }
+
+                    if(!empty($address_bill->company)){
+                        $company_bill = $address_bill->company;
+                    } else {
+                        $company_bill = '';
+                    }
+
+                ///////// Add Shipping ////////
+                    $data_shipping = [
+                      "addressInformation" => [
+                        "shippingAddress" => [
+                            "customer_id" => $address_shipping->customer_id,
+                            "region" => $address_shipping->region->region,
+                            "country_id" => $address_shipping->country_id,
+                            "street" => [
+                                $address_shipping->street[0],$street_ship
+                            ],
+                            "company" => $company_shipping,
+                            "telephone" => $address_shipping->telephone,
+                            "postcode" => $address_shipping->postcode,
+                            "city" => $address_shipping->city,
+                            "firstname" => $address_shipping->firstname,
+                            "lastname" => $address_shipping->lastname,
+                            "region_code" => $address_shipping->region->region_code,
+                            "sameAsBilling" => 1
+                        ],
+                        "billingAddress" => [
+                            "customer_id" => $address_bill->customer_id,
+                            "region" => $address_bill->region->region,
+                            "country_id" => $address_bill->country_id,
+                            "street" => [
+                                $address_bill->street[0],$street_bill
+                            ],
+                            "company" => $company_bill,
+                            "telephone" => $address_bill->telephone,
+                            "postcode" => $address_bill->postcode,
+                            "city" => $address_bill->city,
+                            "firstname" => $address_bill->firstname,
+                            "lastname" => $address_bill->lastname,
+                            "region_code" => $address_bill->region->region_code
+                        ],
+                            "shipping_method_code" => "flatrate",
+                            "shipping_carrier_code" => "flatrate"
+                        ]
+                    ];
+
+                    $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/carts/mine/shipping-information");
+                    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+                    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data_shipping));
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
+
+                    $result_shipping = json_decode(curl_exec($ch));
+
+                    $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/carts/mine/items");
+                    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
+
+                    $cart_item = json_decode(curl_exec($ch));
+
+                    $sum = 0;
+
+                if(!empty($address_shipping->street[1])){
+                    $street2 = $address_shipping->street[1];
+                } else {
+                    $street2 = '';
+                }
+
+                // ### Address
+                // Base Address object used as shipping or billing
+                // address in a payment. [Optional]
+                $shippingAddress = Paypalpayment::shippingAddress();
+                $shippingAddress->setLine1($address_shipping->street[0])
+                    ->setLine2($street2)
+                    ->setCity($address_shipping->city)
+                    ->setState($address_shipping->country_id)
+                    ->setPostalCode($address_shipping->postcode)
+                    ->setCountryCode($address_shipping->country_id)
+                    ->setPhone($address_shipping->telephone)
+                    ->setRecipientName($address_shipping->firstname);
+
+                // ### Payer
+                // A resource representing a Payer that funds a payment
+                // Use the List of `FundingInstrument` and the Payment Method
+                // as 'credit_card'
+                $payer = Paypalpayment::payer();
+                $payer->setPaymentMethod("paypal");
+
+                    foreach($cart_item as $key_item => $value_item){
+                        $cart_item[$key_item] = Paypalpayment::item();
+                        $cart_item[$key_item]->setName($value_item->sku)
+                        ->setDescription($value_item->sku)
+                        ->setCurrency('THB')
+                        ->setQuantity($value_item->qty)
+                        ->setTax(0)
+                        ->setPrice($value_item->price);
+
+                        $sum += $value_item->price;
+                    }
+
+                $itemList = Paypalpayment::itemList();
+                $itemList->setItems($cart_item)
+                    ->setShippingAddress($shippingAddress);
+
+                $details = Paypalpayment::details();
+                $details->setShipping("0")
+                        ->setTax("0")
+                        //total of items prices
+                        ->setSubtotal($sum);
+
+                //Payment Amount
+                $amount = Paypalpayment::amount();
+                $amount->setCurrency("THB")
+                        // the total is $17.8 = (16 + 0.6) * 1 ( of quantity) + 1.2 ( of Shipping).
+                        ->setTotal($sum)
+                        ->setDetails($details);
+
+                // ### Transaction
+                // A transaction defines the contract of a
+                // payment - what is the payment for and who
+                // is fulfilling it. Transaction is created with
+                // a `Payee` and `Amount` types
+
+                $transaction = Paypalpayment::transaction();
+                $transaction->setAmount($amount)
+                    ->setItemList($itemList)
+                    ->setDescription("Payment description")
+                    ->setInvoiceNumber(uniqid());
+
+                // ### Payment
+                // A Payment Resource; create one using
+                // the above types and intent as 'sale'
+
+                $redirectUrls = Paypalpayment::redirectUrls();
+                $redirectUrls->setReturnUrl(url("/payments/success"))
+                    ->setCancelUrl(url("/payments/fails"));
+
+                $payment = Paypalpayment::payment();
+
+                $payment->setIntent("sale")
+                    ->setPayer($payer)
+                    ->setRedirectUrls($redirectUrls)
+                    ->setTransactions([$transaction]);
+
+                $status['status'] = 1;
+            } else {
+                session()->forget('customer_id');
+                $status['status'] = 2;
+            }
 
 
-                // dd($payment);
-                // exit();
-
-            $status['status'] = 1;
-        } else {
-            $status['status'] = 0;
-        }
-
-        try {
-            // ### Create Payment
-            // Create a payment by posting to the APIService
-            // using a valid ApiContext
-            // The return object contains the status;
-            $payment->create(Paypalpayment::apiContext());
-        } catch (\PPConnectionException $ex) {
-            return response()->json(["error" => $ex->getMessage()], 400);
+            try {
+                // ### Create Payment
+                // Create a payment by posting to the APIService
+                // using a valid ApiContext
+                // The return object contains the status;
+                $payment->create(Paypalpayment::apiContext());
+                $status['approval_url'] = $payment->getApprovalLink();
+            } catch (\PPConnectionException $ex) {
+                return response()->json(["error" => $ex->getMessage()], 400);
+            }
         }
 
         // $respon = response()->json([$payment->toArray(), 'approval_url' => $payment->getApprovalLink()], 200);
-        $status['approval_url'] = $payment->getApprovalLink();
-
-        // dd($payment);
-        // exit();
 
         return json_encode($status);
     }
@@ -318,7 +313,7 @@ class PaypalPaymentController extends Controller{
             $result = $payment->execute($execution, $apiContext);
 
             $create_order = [
-              "email"=> "hamworkbythai@gmail.com",
+              // "email"=> "hamworkbythai@gmail.com",
               "paymentMethod"=> [
                 "method"=> "paypal_express",
                 "additional_data"=> [
@@ -350,8 +345,6 @@ class PaypalPaymentController extends Controller{
               // ],
             ];
 
-            $get_session_all = \Session::all();
-
             $userData = array("username" => "customer", "password" => "customer@01");
             $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/integration/admin/token");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
@@ -361,50 +354,59 @@ class PaypalPaymentController extends Controller{
 
             $token = json_decode(curl_exec($ch));
 
-            $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/carts/mine/payment-information");
-            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($create_order));
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
+            $get_session_all = \Session::all();
 
+            if(!empty($get_session_all['customer_id'])){
 
-            $result_order = json_decode(curl_exec($ch));
-
-            $value_sku_products = session()->get('sku_product');
-
-            $get_products = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
-
-            foreach($value_sku_products as $key_sku_product => $value_sku_product){
-                $get_product_detail = array(
-                    'sku' => $value_sku_product
-                );
-                $data_product = $get_products->catalogProductRepositoryV1Get($get_product_detail);
-
-                $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/carts/mine");
+                $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/carts/mine/payment-information");
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+                curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($create_order));
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                 curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
 
-                $create_cart = json_decode(curl_exec($ch));
 
-                $product = [
-                    "cartItem" => [
-                      "sku"=> $data_product->result->sku,
-                      "qty"=> 1,
-                      "name" => $data_product->result->sku,
-                      "price" => 1,
-                      "product_type" => "simple",
-                      "quote_id"=> $create_cart,
-                    ]
-                  ];
+                $result_order = json_decode(curl_exec($ch));
 
-                $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/carts/mine/items");
-                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-                curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($product));
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
+                $value_sku_products = session()->get('sku_product');
 
-                $post_items = json_decode(curl_exec($ch));
+                $get_products = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
+
+                foreach($value_sku_products as $key_sku_product => $value_sku_product){
+                    $get_product_detail = array(
+                        'sku' => $value_sku_product
+                    );
+                    $data_product = $get_products->catalogProductRepositoryV1Get($get_product_detail);
+
+                    $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/carts/mine");
+                    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
+
+                    $create_cart = json_decode(curl_exec($ch));
+
+                    $product = [
+                        "cartItem" => [
+                          "sku"=> $data_product->result->sku,
+                          "qty"=> 1,
+                          "name" => $data_product->result->sku,
+                          "price" => 1,
+                          "product_type" => "simple",
+                          "quote_id"=> $create_cart,
+                        ]
+                      ];
+
+                    $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/carts/mine/items");
+                    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+                    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($product));
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
+
+                    $post_items = json_decode(curl_exec($ch));
+                }
+
+            } else {
+                session()->forget('customer_id');
+                return redirect('/');
             }
 
             return redirect('/');

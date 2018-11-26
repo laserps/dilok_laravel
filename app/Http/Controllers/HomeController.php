@@ -29,6 +29,7 @@ class HomeController extends Controller
           'cache_wsdl' => WSDL_CACHE_NONE
         );
         try{
+        $catalog = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=catalogCategoryManagementV1',$params);
         $get_products = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
         $get_products2 = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=catalogProductRenderListV1',$params);
         $get_product_page = [
@@ -70,6 +71,10 @@ class HomeController extends Controller
         $get_product_page['storeId'] = "1";
         $get_product_page['currencyCode'] = "THB";
 
+        $catalogs = [
+            'rootCategoryId' => 1,
+        ];
+
 
         $userData = array("username" => "customer", "password" => "customer@01");
         $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/integration/admin/token");
@@ -78,7 +83,26 @@ class HomeController extends Controller
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . strlen(json_encode($userData))));
 
-        $token = curl_exec($ch);
+        $token = json_decode(curl_exec($ch));
+
+        $get_blocks_page = 'searchCriteria[filter_groups][0][filters][0][field]=is_active&searchCriteria[filter_groups][0][filters][0][value]=1&searchCriteria[filter_groups][0][filters][0][condition_type]=eq&searchCriteria[pageSize]=2&searchCriteria[sortOrders][0][field]=block_id&searchCriteria[sortOrders][0][direction]=DESC';
+        $get_blocks = 'searchCriteria[filter_groups][0][filters][0][field]=is_active&searchCriteria[filter_groups][0][filters][0][value]=1&searchCriteria[filter_groups][0][filters][0][condition_type]=eq&searchCriteria[pageSize]=12&searchCriteria[sortOrders][0][field]=block_id&searchCriteria[sortOrders][0][direction]=DESC';
+
+            $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/cmsBlock/search?".$get_blocks_page);
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $token));
+
+            $sum_blocks = json_decode(curl_exec($ch));
+
+            $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/cmsBlock/search?".$get_blocks);
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $token));
+
+            $blocks = json_decode(curl_exec($ch));
+
+            $data['sum_blocks'] = $sum_blocks;
 
         $get_session_all = \Session::all();
 
@@ -137,6 +161,9 @@ class HomeController extends Controller
 
         $data['products'] = $get_products->catalogProductRepositoryV1GetList($get_product_page);
         $data['products2'] = $get_products2->catalogProductRenderListV1GetList($get_product_page);
+        $data['category'] = $catalog->catalogCategoryManagementV1GetTree($catalogs);
+        $data['blocks'] = $blocks;
+        $data['page_title'] = 'Main';
 
         }catch(Exception $e){
           $data['products'] = $e->getMessage();

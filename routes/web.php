@@ -25,7 +25,7 @@ Route::get('/testrestpost','MeeController@addCustomer');
 
 Route::get('/','HomeController@index');
 Route::get('/blog','BlogController@index');
-Route::get('/single-blog','BlogController@detailblog');
+Route::get('/single-blog/{id}','BlogController@detailblog');
 Route::get('/launches','LauncheController@index');
 Route::get('/launches-detail','LauncheController@detail');
 Route::get('/filter','FilterController@index');
@@ -68,6 +68,8 @@ Route::get('/payments/fails',function(){
     echo "fails";
 });
 Route::post('/add_address_customer/{id}','CustomerController@store');
+Route::get('/get_address_customer/{id}','CustomerController@show_edit_address');
+Route::post('/edit_address_customer/{id}','CustomerController@edit_address_customer');
 Route::post('/del_address_customer/{id}','CustomerController@destroy');
 
 //logout

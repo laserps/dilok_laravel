@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" type="text/css" href="{{ asset('node_modules/font-awesome/css/font-awesome.min.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('node_modules/fontawesome5/css/all.css') }}">
-<link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/animate.css-master/animate.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor2/animate.css-master/animate.css') }}">
 
 
 <!-- CUSTOM CSS -->
@@ -37,12 +37,12 @@
 
 
 <!-- CUSTOM CSS -->
-<link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/owlcarousel/css/owl.carousel.min.css') }}">
-<link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/owlcarousel/css/owl.theme.default.min.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor2/owlcarousel/css/owl.carousel.min.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor2/owlcarousel/css/owl.theme.default.min.css') }}">
 <!-- zoom- -->
 <link rel="stylesheet" type="text/css" href="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.0/aos.css') }}">
 
-<link href="{{ asset('assets/vendor/datepic/dist/css/bootstrap-datepicker.css') }}" rel="stylesheet"/>
+<link href="{{ asset('assets/vendor2/datepic/dist/css/bootstrap-datepicker.css') }}" rel="stylesheet"/>
 
 @yield('css_bottom')
 <!-- Select2 -->
@@ -1751,12 +1751,12 @@
     <script type="text/javascript" src="{{ asset('node_modules/jquery/dist/jquery.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('node_modules/popper.js/dist/umd/popper.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('node_modules/bootstrap/dist/js/bootstrap.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('assets/vendor/owlcarousel/js/owl.carousel.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/vendor2/owlcarousel/js/owl.carousel.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('https://cdn.rawgit.com/jackmoore/zoom/master/jquery.zoom.min.js') }}"></script>
 
 
-    <script src="{{ asset('assets/vendor/datepic/dist/js/bootstrap-datepicker.min.js') }}"></script>
-    <script src="{{ asset('assets/vendor/datepic/dist/locales/bootstrap-datepicker.th.min.js') }}" charset="UTF-8"></script>
+    <script src="{{ asset('assets/vendor2/datepic/dist/js/bootstrap-datepicker.min.js') }}"></script>
+    <script src="{{ asset('assets/vendor2/datepic/dist/locales/bootstrap-datepicker.th.min.js') }}" charset="UTF-8"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="{{ asset('assets/js/jquery.loader.min.js') }}"></script>
     <script src="{{ asset('assets/js/jquery.bootstrap-growl.min.js') }}"></script>

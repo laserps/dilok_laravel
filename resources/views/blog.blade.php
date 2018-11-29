@@ -24,7 +24,7 @@
                       @if(!empty($image['src']))
                         <img class="blog-img-auto" src="http://127.0.0.1/dilok2/pub/media/{{ $image['src'] }}"/>
                       @else
-                        <img class="blog-img-auto" src="assets/images/index/blog1.jpg">
+                        <img class="blog-img-auto" src="{{ url('assets/images/No_Image_Available.jpg') }}">
                       @endif
                     </a>
                   </div>

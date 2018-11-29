@@ -14,22 +14,16 @@
             <div class="promotion-collapse collapse mb-2" id="collapseExample1">
               <ul class="navbar-nav sidenav-list-text">
                 <li class="nav-item">
-                  <a href="filter.php"><span>View all Latest</span></a>
+                  <a href="{{ url('filter') }}"><span>View all Latest</span></a>
                 </li>
                 <li class="nav-item">
-                  <a  href="filter.php"><span>New This Week</span></a>
+                  <a  href="{{ url('filter/?genders=25') }}"><span>Latest Male</span></a>
                 </li>
                 <li class="nav-item">
-                  <a  href="filter.php"><span>Latest Sneakers</span></a>
+                  <a  href="{{ url('filter/?genders=26') }}"><span>Latest Women's</span></a>
                 </li>
                 <li class="nav-item">
-                  <a  href="filter.php"><span>Restocks</span></a>
-                </li>
-                <li class="nav-item">
-                  <a  href="filter.php"><span>Latest Women's</span></a>
-                </li>
-                <li class="nav-item">
-                  <a  href="filter.php"><span>Latest Kid's</span></a>
+                  <a  href="{{ url('filter/?genders=2') }}"><span>Latest Kid's</span></a>
                 </li>
               </ul>
             </div>
@@ -45,19 +39,20 @@
             <div class="promotion-collapse collapse mb-2" id="collapseExample2">
               <ul class="navbar-nav sidenav-list-text">
                 <li class="nav-item">
-                  <a href="filter.php"><span>View All Brand</span></a>
+                  <a href="{{ url('filter') }}"><span>View All Brand</span></a>
                 </li>
-                <li class="nav-item">
-                  <a  href="filter.php"><span>Adidas</span></a>
-                </li>
-                <li class="nav-item">
-                  <a  href="reebok.php"><span>Reebok</span></a>
-                </li>
+                @foreach($category->result->childrenData->item as $key_category => $value_category)
+                  @if($value_category->name != 'Default Category')
+                    <li class="nav-item">
+                      <a  href="{{ url('filter/?brands=') }}{{ $value_category->id }}"><span>{{ $value_category->name }}</span></a>
+                    </li>
+                  @endif
+                @endforeach
               </ul>
             </div>
           </div>
         </div>
-        <div class="col-12 py-1 menu-list">
+        <!-- <div class="col-12 py-1 menu-list">
           <div class="promotion">
             <a class="mobile-nav-list" data-toggle="collapse" href="#collapseExample3" role="button" aria-expanded="false" aria-controls="collapseExample">
                 <div class="promotion-button">
@@ -81,7 +76,7 @@
               </ul>
             </div>
           </div>
-        </div>
+        </div> -->
         <div class="col-12 py-1 menu-list">
           <div class="promotion">
             <a class="mobile-nav-list" data-toggle="collapse" href="#collapseExample4" role="button" aria-expanded="false" aria-controls="collapseExample">
@@ -91,18 +86,13 @@
             </a>
             <div class="promotion-collapse collapse mb-2" id="collapseExample4">
               <ul class="navbar-nav sidenav-list-text">
-                <li class="nav-item">
-                  <a href="filter.php"><span>Clothes</span></a>
-                </li>
-                <li class="nav-item">
-                  <a href="filter.php"><span>Schoes</span></a>
-                </li>
-                <li class="nav-item">
-                  <a  href="filter.php"><span>Latest Sneakers</span></a>
-                </li>
-                <li class="nav-item">
-                  <a  href="filter.php"><span>Restocks</span></a>
-                </li>
+                @foreach($category->result->childrenData->item as $key_category => $value_category)
+                  @if($value_category->name != 'Default Category')
+                    <li class="nav-item">
+                      <a class="nav-link" href="{{ url('filter/?genders=25&brands=') }}{{ $value_category->id }}">{{ $value_category->name }}</a>
+                    </li>
+                  @endif
+                @endforeach
               </ul>
             </div>
           </div>
@@ -116,18 +106,13 @@
             </a>
             <div class="promotion-collapse collapse mb-2" id="collapseExample5">
               <ul class="navbar-nav sidenav-list-text">
-                <li class="nav-item">
-                  <a href="filter.php"><span>Clothes</span></a>
-                </li>
-                <li class="nav-item">
-                  <a href="filter.php"><span>Schoes</span></a>
-                </li>
-                <li class="nav-item">
-                  <a  href="filter.php"><span>Latest Sneakers</span></a>
-                </li>
-                <li class="nav-item">
-                  <a  href="filter.php"><span>Restocks</span></a>
-                </li>
+                @foreach($category->result->childrenData->item as $key_category => $value_category)
+                  @if($value_category->name != 'Default Category')
+                    <li class="nav-item">
+                      <a class="nav-link" href="{{ url('filter/?genders=26&brands=') }}{{ $value_category->id }}">{{ $value_category->name }}</a>
+                    </li>
+                  @endif
+                @endforeach
               </ul>
             </div>
           </div>
@@ -141,24 +126,19 @@
             </a>
             <div class="promotion-collapse collapse mb-2" id="collapseExample6">
               <ul class="navbar-nav sidenav-list-text">
-                <li class="nav-item">
-                  <a href="filter.php"><span>Clothes</span></a>
-                </li>
-                <li class="nav-item">
-                  <a href="filter.php"><span>Schoes</span></a>
-                </li>
-                <li class="nav-item">
-                  <a  href="filter.php"><span>Latest Sneakers</span></a>
-                </li>
-                <li class="nav-item">
-                  <a  href="filter.php"><span>Restocks</span></a>
-                </li>
+                @foreach($category->result->childrenData->item as $key_category => $value_category)
+                  @if($value_category->name != 'Default Category')
+                    <li class="nav-item">
+                      <a class="nav-link" href="{{ url('filter/?genders=27&brands=') }}{{ $value_category->id }}">{{ $value_category->name }}</a>
+                    </li>
+                  @endif
+                @endforeach
               </ul>
             </div>
           </div>
         </div>
 
-        <div class="col-12 py-1 menu-list">
+        <!-- <div class="col-12 py-1 menu-list">
           <div class="promotion">
             <a class="mobile-nav-list" data-toggle="collapse" href="#collapseExample8" role="button" aria-expanded="false" aria-controls="collapseExample">
                 <div class="promotion-button">
@@ -182,9 +162,9 @@
               </ul>
             </div>
           </div>
-        </div>
+        </div> -->
 
-        <div class="col-12 py-1 menu-list">
+        <!-- <div class="col-12 py-1 menu-list">
           <div class="promotion">
             <div class="promotion-button">
               <a href="launches.php">
@@ -192,22 +172,49 @@
               </a>
             </div>
           </div>
-        </div>
+        </div> -->
 
         <div class="col-12 py-1 menu-list">
           <div class="promotion">
             <div class="promotion-button">
-              <a href="add.blank.php">
+              <a href="{{ url('blog') }}">
                 <span class="pull-left">BLOG</span>
               </a>
             </div>
           </div>
         </div>
 
+        <!-- <div class="col-12 py-1 menu-list">
+          <div class="promotion">
+            <div class="promotion-button with-icon">
+                <a href="{{ url('cart') }}">
+                <span class="pull-left"><i class="fas fa-shopping-cart"></i> MY CART</span>
+                </a>
+            </div>
+          </div>
+        </div> -->
+      @if(!empty($token_customer))
+        <div class="col-12 py-1 menu-list">
+          <div class="promotion">
+            <a class="mobile-nav-list" data-toggle="collapse" href="#collapseExample11" role="button" aria-expanded="false" aria-controls="collapseExample">
+                <div class="promotion-button with-icon">
+                   <span class="pull-left"><i class="fas fa-user"></i> {{ $token_customer->firstname }}</span><span class="icon-collpase fa fa-plus pull-right side-navbar-plus" aria-hidden="true"></span>
+                </div>
+            </a>
+            <div class="promotion-collapse collapse mb-2" id="collapseExample11">
+              <ul class="navbar-nav sidenav-list-text">
+                <!-- modal อยู่ใน add-account -->
+                <li class="nav-item"><a href="{{ url('account') }}"><span>Profile</span></a></li>
+                <li class="nav-item"><a href="{{ url('logout') }}"><span>Log out</span></a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      @else
         <div class="col-12 py-1 menu-list">
           <div class="promotion">
             <div class="promotion-button with-icon">
-                <a href="regist.php">
+                <a href="{{ url('regist') }}">
                 <span class="pull-left"><i class="fas fa-sign-in-alt"></i> LOG IN</span>
                 <!-- <a class="btn login-btn" type="button">
                    <span><i class="fa fa-sign-in" aria-hidden="true"></i> Log in</span>
@@ -216,33 +223,7 @@
             </div>
           </div>
         </div>
-
-        <div class="col-12 py-1 menu-list">
-          <div class="promotion">
-            <div class="promotion-button with-icon">
-                <a href="cart.php">
-                <span class="pull-left"><i class="fas fa-shopping-cart"></i> MY CART</span>
-                </a>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-12 py-1 menu-list">
-          <div class="promotion">
-            <a class="mobile-nav-list" data-toggle="collapse" href="#collapseExample11" role="button" aria-expanded="false" aria-controls="collapseExample">
-                <div class="promotion-button with-icon">
-                   <span class="pull-left"><i class="fas fa-user"></i> Suradech Srisukdee</span><span class="icon-collpase fa fa-plus pull-right side-navbar-plus" aria-hidden="true"></span>
-                </div>
-            </a>
-            <div class="promotion-collapse collapse mb-2" id="collapseExample11">
-              <ul class="navbar-nav sidenav-list-text">
-                <!-- modal อยู่ใน add-account -->
-                <li class="nav-item"><a href="#" data-toggle="modal" data-target="#edit_new_address"><span>Edit profile</span></a></li>
-                <li class="nav-item"><a href="logout.php"><span>Log out</span></a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
+      @endif
 
         <div class="col-12 py-1 menu-list">
           <div class="promotion">
@@ -270,8 +251,8 @@
             </a>
             <div class="promotion-collapse collapse mb-2" id="collapseExample13">
               <ul class="navbar-nav sidenav-list-text">
-                <a href="add-our-story.php"><li class="nav-item"><span>OUR STORY</span></li></a>
-                <a href="add-branch.php"><li class="nav-item"><span>BRANCH</span></li></a>
+                <a href="{{ url('add-out-story') }}"><li class="nav-item"><span>OUR STORY</span></li></a>
+                <a href="{{ url('add-branch') }}"><li class="nav-item"><span>BRANCH</span></li></a>
               </ul>
             </div>
           </div>

@@ -41,6 +41,12 @@
             </div>
         </form>
         <hr>
+        @if(!empty($_GET['genders']))
+            @php $genders = $_GET['genders']; @endphp
+        @else
+            @php $genders = ''; @endphp
+        @endif
+
         <form class="form-group" id="type">
               <button class="btn fillter-bg px-0" type="button" data-toggle="collapse" data-target="#collapseExample222" aria-expanded="false" aria-controls="collapseExample">
                   <span class="fillter-font2 pull-left">GENDER</span>
@@ -50,11 +56,19 @@
                   <div class="filter-scroll">
                       @foreach($gender->result->item as $key_category => $value_category)
                         @if($value_category->label != ' ')
-                          <label class="check">
-                              <div class="regist-m-l2 pt-1 fillter-font3 " data-type="{{ $value_category->value }}">{{ $value_category->label }}</div>
-                              <input style="" name="gender[]" data-text_gender="{{ $value_category->label }}" class="checkboxlist checkmark data_type2{{ $value_category->value }}" data-type="{{ $value_category->value }}"  type="checkbox" value="{{ $value_category->value }}" />
-                              <!-- <span class="checkmark data_type{{ $value_category->value }}" data-type="{{ $value_category->value }}" data-text_type="{{ $value_category->label }}"></span> -->
-                          </label>
+                          @if(!empty($genders) && $genders == $value_category->value)
+                            <label class="check">
+                                <div class="regist-m-l2 pt-1 fillter-font3 " data-type="{{ $value_category->value }}">{{ $value_category->label }}</div>
+                                <input style="" name="gender[]" data-text_gender="{{ $value_category->label }}" class="checkboxlist checkmark data_type2{{ $value_category->value }}" data-type="{{ $value_category->value }}"  type="checkbox" value="{{ $value_category->value }}" @if(!empty($genders)) {{ 'checked' }} @endif />
+                                <!-- <span class="checkmark data_type{{ $value_category->value }}" data-type="{{ $value_category->value }}" data-text_type="{{ $value_category->label }}"></span> -->
+                            </label>
+                          @else
+                            <label class="check">
+                                <div class="regist-m-l2 pt-1 fillter-font3 " data-type="{{ $value_category->value }}">{{ $value_category->label }}</div>
+                                <input style="" name="gender[]" data-text_gender="{{ $value_category->label }}" class="checkboxlist checkmark data_type2{{ $value_category->value }}" data-type="{{ $value_category->value }}"  type="checkbox" value="{{ $value_category->value }}" />
+                                <!-- <span class="checkmark data_type{{ $value_category->value }}" data-type="{{ $value_category->value }}" data-text_type="{{ $value_category->label }}"></span> -->
+                            </label>
+                          @endif
                         @endif
                       @endforeach
                   </div>

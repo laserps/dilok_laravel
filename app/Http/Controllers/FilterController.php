@@ -36,6 +36,11 @@ class FilterController extends Controller
             } else {
                 $brands = '';
             }
+            if(!empty($_GET['genders'])){
+                $genders = $_GET['genders'];
+            } else {
+                $genders = '';
+            }
             if(!empty($_GET['page'])){
                 $page = $_GET['page'];
             } else {
@@ -52,6 +57,13 @@ class FilterController extends Controller
                     'field' => 'category_id',
                     'value' => $brands,
                     'conditionType' => 'eq',
+                ];
+            }
+            if(!empty($genders)){
+                $gender[] = [
+                    'field' => 'gender',
+                    'value' => '%25'.$genders.'%25',
+                    'conditionType' => 'like',
                 ];
             }
 
@@ -92,7 +104,7 @@ class FilterController extends Controller
             //     }
             // }
 
-            // dd($page);
+            // dd($gender);
             // exit();
 
             $catalog = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=catalogCategoryManagementV1',$params);
@@ -112,6 +124,12 @@ class FilterController extends Controller
                                     ],
                                 ],
                             ],
+                            // 4 => [
+                            //     'filters' => $size
+                            // ],
+                            // 5 => [
+                            //     'filters' => $colorproduct
+                            // ],
                             1 => [
                                 'filters' => [
                                     [
@@ -122,17 +140,11 @@ class FilterController extends Controller
                                 ],
                             ],
                             2 => [
+                                'filters' => $gender
+                            ],
+                            3 => [
                                 'filters' => $brand
                             ],
-                            // 3 => [
-                            //     'filters' => $gender
-                            // ],
-                            // 4 => [
-                            //     'filters' => $size
-                            // ],
-                            // 5 => [
-                            //     'filters' => $colorproduct
-                            // ],
                         ],
                         'sortOrders' => [
                             [
@@ -146,6 +158,9 @@ class FilterController extends Controller
                 ];
                 $get_product_page['storeId'] = "1";
                 $get_product_page['currencyCode'] = "THB";
+
+                // dd($get_product_page);
+                // exit();
 
             $catalogs = [
                 'rootCategoryId' => 1,
@@ -327,7 +342,7 @@ class FilterController extends Controller
           'soap_version' => SOAP_1_2,
           'trace' => 1,
           'exceptions' => 1,
-          "connection_timeout" => 180,
+          'connection_timeout' => 180,
           'stream_context' => stream_context_create($opts),
           'cache_wsdl' => WSDL_CACHE_NONE
         );
@@ -404,30 +419,7 @@ class FilterController extends Controller
                                         'conditionType' => 'eq',
                                     ],
                                 ],
-                                // 'filters' => [
-                                //     [
-                                //         'field' => 'visibility',
-                                //         'value' => '4',
-                                //         'condition_type' => 'eq',
-                                //     ],
-                                // ],
-                                // 'filters' => [
-                                //     [
-                                //         'field' => 'type_id',
-                                //         'value' => 'configurable',
-                                //         'condition_type' => 'eq',
-                                //     ],
-                                // ],
                             ],
-                            // 2 => [
-                            //     'filters' => [
-                            //         [
-                            //             'field' => 'visibility',
-                            //             'value' => '4',
-                            //             'condition_type' => 'eq',
-                            //         ],
-                            //     ],
-                            // ],
                             1 => [
                                 'filters' => $gender
                             ],
@@ -449,6 +441,15 @@ class FilterController extends Controller
                                     ],
                                 ],
                             ],
+                            // 6 => [
+                            //     'filters' => [
+                            //         [
+                            //             'field' => 'visibility',
+                            //             'value' => '4',
+                            //             'condition_type' => 'eq',
+                            //         ],
+                            //     ],
+                            // ],
                         ],
                         'pageSize' => 12,
                         'currentPage' => $page,
@@ -534,6 +535,9 @@ class FilterController extends Controller
             $get_product_page['storeId'] = "1";
             $get_product_page['currencyCode'] = "THB";
 
+            // dd($get_product_page);
+            // exit();
+
         $data['products'] = $get_products->catalogProductRepositoryV1GetList($get_product_page);
         $data['products2'] = $get_products2->catalogProductRenderListV1GetList($get_product_page);
 
@@ -556,7 +560,7 @@ class FilterController extends Controller
           'soap_version' => SOAP_1_2,
           'trace' => 1,
           'exceptions' => 1,
-          "connection_timeout" => 180,
+          'connection_timeout' => 180,
           'stream_context' => stream_context_create($opts),
           'cache_wsdl' => WSDL_CACHE_NONE
         );

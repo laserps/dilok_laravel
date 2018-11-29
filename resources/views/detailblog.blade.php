@@ -30,7 +30,7 @@
                   @if(!empty($image['src']))
                     <img class="w-100" src="http://127.0.0.1/dilok2/pub/media/{{ $image['src'] }}"/>
                   @else
-                    <img class="w-100" src="assets/images/index/blog1.jpg">
+                    <img class="w-100" src="{{ url('assets/images/No_Image_Available.jpg') }}">
                   @endif
                 </div>
                 <div class="my-3">

@@ -28,7 +28,7 @@ class ProductController extends Controller
           'soap_version' => SOAP_1_2,
           'trace' => 1,
           'exceptions' => 1,
-          "connection_timeout" => 180,
+          'connection_timeout' => 180,
           'stream_context' => stream_context_create($opts),
           'cache_wsdl' => WSDL_CACHE_NONE
         );
@@ -39,6 +39,7 @@ class ProductController extends Controller
           $get_color_products = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=catalogProductAttributeOptionManagementV1',$params);
           $get_products_option = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=configurableProductOptionRepositoryV1',$params);
           $get_stock_product = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=catalogInventoryStockRegistryV1',$params);
+          $catalog = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=catalogCategoryManagementV1',$params);
 
           $get_product_detail = [
               'searchCriteria' => [
@@ -200,6 +201,10 @@ class ProductController extends Controller
             // }
           // }
 
+        $catalogs = [
+            'rootCategoryId' => 1,
+        ];
+
         $userData = array("username" => "customer", "password" => "customer@01");
         $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/integration/admin/token");
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
@@ -207,7 +212,17 @@ class ProductController extends Controller
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . strlen(json_encode($userData))));
 
-        $token = curl_exec($ch);
+        $token = json_decode(curl_exec($ch));
+
+        $get_blocks = 'searchCriteria[filter_groups][0][filters][0][field]=is_active&searchCriteria[filter_groups][0][filters][0][value]=1&searchCriteria[filter_groups][0][filters][0][condition_type]=eq&searchCriteria[pageSize]=12&searchCriteria[sortOrders][0][field]=block_id&searchCriteria[sortOrders][0][direction]=DESC';
+
+        $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/cmsBlock/search?".$get_blocks);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $token));
+
+        $blocks = json_decode(curl_exec($ch));
+
 
         $get_session_all = \Session::all();
 
@@ -289,6 +304,8 @@ class ProductController extends Controller
 
           // dd($data);
           // exit();
+        $data['category'] = $catalog->catalogCategoryManagementV1GetTree($catalogs);
+        $data['blocks'] = $blocks;
         $data['page_title'] = 'ProductDetail';
 
         }catch(Exception $e){
@@ -309,11 +326,12 @@ class ProductController extends Controller
           'soap_version' => SOAP_1_2,
           'trace' => 1,
           'exceptions' => 1,
-          "connection_timeout" => 180,
+          'connection_timeout' => 180,
           'stream_context' => stream_context_create($opts),
           'cache_wsdl' => WSDL_CACHE_NONE
         );
         try{
+        $catalog = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=catalogCategoryManagementV1',$params);
         $get_products = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
         $get_product_page = [
             'searchCriteria' => [
@@ -324,7 +342,33 @@ class ProductController extends Controller
                 'pageSize' => 20,
             ],
         ];
-          $data['products'] = $get_products->catalogProductRepositoryV1GetList($get_product_page);
+        $catalogs = [
+            'rootCategoryId' => 1,
+        ];
+
+        $userData = array("username" => "customer", "password" => "customer@01");
+        $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/integration/admin/token");
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . strlen(json_encode($userData))));
+
+        $token = json_decode(curl_exec($ch));
+
+        $get_blocks = 'searchCriteria[filter_groups][0][filters][0][field]=is_active&searchCriteria[filter_groups][0][filters][0][value]=1&searchCriteria[filter_groups][0][filters][0][condition_type]=eq&searchCriteria[pageSize]=12&searchCriteria[sortOrders][0][field]=block_id&searchCriteria[sortOrders][0][direction]=DESC';
+
+        $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/cmsBlock/search?".$get_blocks);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $token));
+
+        $blocks = json_decode(curl_exec($ch));
+
+        $data['category'] = $catalog->catalogCategoryManagementV1GetTree($catalogs);
+        $data['products'] = $get_products->catalogProductRepositoryV1GetList($get_product_page);
+        $data['blocks'] = $blocks;
+        $data['page_title'] = 'Fillter';
+
         }catch(Exception $e){
           $data['products'] = $e->getMessage();
         }
@@ -425,7 +469,7 @@ class ProductController extends Controller
               'soap_version' => SOAP_1_2,
               'trace' => 1,
               'exceptions' => 1,
-              "connection_timeout" => 180,
+              'connection_timeout' => 180,
               'stream_context' => stream_context_create($opts),
               'cache_wsdl' => WSDL_CACHE_NONE
             );

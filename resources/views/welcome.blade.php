@@ -60,35 +60,35 @@
       <div class="container-fluid black-bg">
         <ul class="desktop-nav navbar-nav mr-auto">
           <li class="nav-item active">
-            <a class="nav-link" href="#"><span style="font-weight : 400;">LATEST</span></a>
+            <a class="nav-link" href="{{ url('filter') }}"><span style="font-weight : 400;">LATEST</span></a>
             <div class="list">
                 <div class="list-container">
                   <div class="row">
                     <!-- col 1 -->
-                    <div class="col-2 list-first-col">
+                    <div class="col-4 list-first-col">
                       <ul class="nav flex-column">
                         <li class="nav-item">
                           <a class="nav-link main" href="{{ url('filter') }}">View all Latest</a>
                         </li>
                         <li class="nav-item">
-                          <a class="nav-link" href="{{ url('filter') }}">Latest Sneakers</a>
+                          <a class="nav-link" href="{{ url('filter/?genders=25') }}">Latest Male</a>
                         </li>
                         <li class="nav-item">
-                          <a class="nav-link" href="{{ url('filter') }}">Latest Kid's</a>
+                          <a class="nav-link" href="{{ url('filter?genders=27') }}">Latest Kid's</a>
                         </li>
                         <li class="nav-item">
-                          <a class="nav-link" href="{{ url('filter') }}">Latest Women's</a>
+                          <a class="nav-link" href="{{ url('filter?genders=26') }}">Latest Women's</a>
                         </li>
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                           <a class="nav-link" href="{{ url('filter') }}">New This Week</a>
                         </li>
                         <li class="nav-item">
                           <a class="nav-link" href="{{ url('filter') }}">Restocks</a>
-                        </li>
+                        </li> -->
                       </ul>
                     </div>
                     <!-- col 2 -->
-                    <div class="col-2">
+                    <!-- <div class="col-2">
                       <ul class="nav flex-column">
                         <li class="nav-item">
                           <a class="nav-link" href="{{ url('filter') }}">LATEST BRANDS</a>
@@ -100,9 +100,9 @@
                           <a class="nav-link" href="{{ url('filter') }}">Reebok</a>
                         </li>
                       </ul>
-                    </div>
+                    </div> -->
                     <!-- col  3-->
-                    <div class="col-2">
+                    <!-- <div class="col-2">
                       <div class="row">
                         <div class="nav-col col-12">
                           <a href="{{ url('adidas') }}">
@@ -125,9 +125,9 @@
                           </a>
                         </div>
                       </div>
-                    </div>
+                    </div> -->
                     <!-- col 4 -->
-                    <div class="col-2">
+                    <!-- <div class="col-2">
                         <div class="row">
                           <div class="nav-col col-12">
                             <a href="{{ url('adidas') }}">
@@ -150,7 +150,7 @@
                             </a>
                           </div>
                         </div>
-                    </div>
+                    </div> -->
                   </div>
                 </div>
             </div>
@@ -470,7 +470,7 @@
 
           <li class="nav-item">
 
-            <a class="nav-link" href="{{ url('filter') }}"><span style="font-weight : 400;">MEN</span></a>
+            <a class="nav-link" href="{{ url('filter/?genders=25') }}"><span style="font-weight : 400;">MEN</span></a>
             <div class="list">
                 <div class="list-container">
                   <div class="row">
@@ -482,7 +482,7 @@
                           @foreach($category->result->childrenData->item as $key_category => $value_category)
                             @if($value_category->name != 'Default Category')
                               <li>
-                                <a class="nav-link" href="{{ url('filter/?brands=') }}{{ $value_category->id }}">{{ $value_category->name }}</a>
+                                <a class="nav-link" href="{{ url('filter/?genders=25&brands=') }}{{ $value_category->id }}">{{ $value_category->name }}</a>
                               </li>
                             @endif
                           @endforeach
@@ -631,7 +631,7 @@
 
 
           <li class="nav-item">
-            <a class="nav-link" href="{{ url('filter') }}"><span style="font-weight : 400;">WOMEN</span></a>
+            <a class="nav-link" href="{{ url('filter/?genders=26') }}"><span style="font-weight : 400;">WOMEN</span></a>
             <div class="list">
                 <div class="list-container">
                   <div class="row">
@@ -642,7 +642,7 @@
                           @foreach($category->result->childrenData->item as $key_category => $value_category)
                             @if($value_category->name != 'Default Category')
                               <li>
-                                <a class="nav-link" href="{{ url('filter/?brands=') }}{{ $value_category->id }}">{{ $value_category->name }}</a>
+                                <a class="nav-link" href="{{ url('filter/?genders=26&brands=') }}{{ $value_category->id }}">{{ $value_category->name }}</a>
                               </li>
                             @endif
                           @endforeach
@@ -792,7 +792,7 @@
           </li> <!-- WOMEN -->
           <li class="nav-item">
 
-            <a class="nav-link" href="{{ url('filter') }}"><span style="font-weight : 400;">KID</span></a>
+            <a class="nav-link" href="{{ url('filter/?genders=27') }}"><span style="font-weight : 400;">KID</span></a>
             <div class="list">
                 <div class="list-container">
                   <div class="row">
@@ -803,7 +803,7 @@
                           @foreach($category->result->childrenData->item as $key_category => $value_category)
                             @if($value_category->name != 'Default Category')
                               <li>
-                                <a class="nav-link" href="{{ url('filter/?brands=') }}{{ $value_category->id }}">{{ $value_category->name }}</a>
+                                <a class="nav-link" href="{{ url('filter/?genders=27&brands=') }}{{ $value_category->id }}">{{ $value_category->name }}</a>
                               </li>
                             @endif
                           @endforeach
@@ -1214,26 +1214,26 @@
           <!-- logged in -->
           @if(!empty($token_customer))
 
-                  <li class="nav-item" style="margin-top: 5px;">
-                    <div class="btn-group">
-                      <button class="btn profile-btn p-0" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <li class="nav-item" style="margin-top: 5px;">
+              <div class="btn-group">
+                <button class="btn profile-btn p-0" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 
-                        <div class="center-table">
-                          <!-- <span class="image-cropper">
-                              <img class="profile-pic rounded" src="assets/images/index/person/1.jpg"/>
-                          </span> -->
-                          <span class="profile-name pl-2">Welcome {{ $token_customer->firstname }}</span>
-                        </div>
+                  <div class="center-table">
+                    <!-- <span class="image-cropper">
+                        <img class="profile-pic rounded" src="assets/images/index/person/1.jpg"/>
+                    </span> -->
+                    <span class="profile-name pl-2">{{ $token_customer->firstname }}</span>
+                  </div>
 
-                      </button>
-                      <div class="dropdown-menu dropdown-menu-right">
-                          <a class="dropdown-item" href="{{ url('account') }}"><i class="fa fa-user" aria-hidden="true"></i> Profile</a>
-                          <!-- <a class="dropdown-item" href="#">Action</a> -->
-                          <!-- <a class="dropdown-item" href="#">Another action</a> -->
-                          <a class="dropdown-item" href="{{ url('logout') }}"><i class="fa fa-sign-out-alt" aria-hidden="true"></i> Log out</a>
-                      </div>
-                    </div>
-                  </li>
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a class="dropdown-item" href="{{ url('account') }}"><i class="fa fa-user" aria-hidden="true"></i> Profile</a>
+                    <!-- <a class="dropdown-item" href="#">Action</a> -->
+                    <!-- <a class="dropdown-item" href="#">Another action</a> -->
+                    <a class="dropdown-item" href="{{ url('logout') }}"><i class="fa fa-sign-out-alt" aria-hidden="true"></i> Log out</a>
+                </div>
+              </div>
+            </li>
           <!-- end loged in -->
 
             <!-- <li class="nav-item">
@@ -1352,97 +1352,96 @@
 
   </div>
 
-
 </nav>
-
-
 
 @yield('body')
 
-
 <footer class="footer">
   <div class="container-fluid">
-      <div class="row pt-lg-5 pt-md-5 pt-3 pb-2">
+    <div class="row pt-lg-5 pt-md-5 pt-3 pb-2">
+      <div class="col-xl-3 col-lg-3 col-md-12 col-12 d-lg-block d-none">
+        <div class="w-100">
+          <div class="centering-logo h-100 mb-5">
+              <div class="logo-lg-frame-footer mx-lg-0 mx-md-auto text-lg-left text-md-center">
+                <a href="{{ url('/') }}">
+                <img class="logo-lg-footer" src="{{ url('assets/images/logo/logo-invert.png') }}" alt="">
+                </a>
+              </div>
+          </div>
 
-
-        <div class="col-xl-3 col-lg-3 col-md-12 col-12 d-lg-block d-none">
-          <div class="w-100">
-            <div class="centering-logo h-100 mb-5">
-                <div class="logo-lg-frame-footer mx-lg-0 mx-md-auto text-lg-left text-md-center">
-                  <a href="{{ url('/') }}">
-                  <img class="logo-lg-footer" src="{{ url('assets/images/logo/logo-invert.png') }}" alt="">
-                  </a>
-                </div>
-            </div>
-
-            <div class="contact-info row white mx-0">
-               <div class="col-xl-1 col-lg-1 col-md-12 col-1 text-center"><i class="fa fa-map-marker" aria-hidden="true"></i></div><div class="col-xl-11 col-lg-11 col-md-12 col-12 pr-xl-5 pl-lg-1 pr-lg-5 pl-md-0 mb-2 text-lg-left text-md-center">Street No. 12m Newyouk 12 md-123, USA Postcode 9706</div>
-               <div class="col-xl-1 col-lg-1 col-md-12 col-1 text-center"><i class="fa fa-phone" aria-hidden="true"></i></div><div class="col-xl-11 col-lg-11 col-md-12 col-12 pr-xl-5 pl-lg-1 pr-lg-5 pl-md-0 mb-2 text-lg-left text-md-center">+66 89-123-4567</div>
-               <div class="col-xl-1 col-lg-1 col-md-12 col-1 text-center"><i class="fa fa-envelope" aria-hidden="true"></i></div><div class="col-xl-11 col-lg-11 col-md-12 col-12 pr-xl-5 pl-lg-1 pr-lg-5 pl-md-0 mb-2 text-lg-left text-md-center">admin@dilok.com</div>
-            </div>
+          <div class="contact-info row white mx-0">
+             <div class="col-xl-1 col-lg-1 col-md-12 col-1 text-center"><i class="fa fa-map-marker" aria-hidden="true"></i></div><div class="col-xl-11 col-lg-11 col-md-12 col-12 pr-xl-5 pl-lg-1 pr-lg-5 pl-md-0 mb-2 text-lg-left text-md-center">Street No. 12m Newyouk 12 md-123, USA Postcode 9706</div>
+             <div class="col-xl-1 col-lg-1 col-md-12 col-1 text-center"><i class="fa fa-phone" aria-hidden="true"></i></div><div class="col-xl-11 col-lg-11 col-md-12 col-12 pr-xl-5 pl-lg-1 pr-lg-5 pl-md-0 mb-2 text-lg-left text-md-center">+66 89-123-4567</div>
+             <div class="col-xl-1 col-lg-1 col-md-12 col-1 text-center"><i class="fa fa-envelope" aria-hidden="true"></i></div><div class="col-xl-11 col-lg-11 col-md-12 col-12 pr-xl-5 pl-lg-1 pr-lg-5 pl-md-0 mb-2 text-lg-left text-md-center">admin@dilok.com</div>
           </div>
         </div>
-
-
-        <div class="col-xl-3 col-lg-3 col-md-4 pt-5 d-lg-block d-none">
-          <div class="row white mx-0 text-lg-left text-md-center">
-             <div class="col-12 pr-lg-5 px-md-0 mb-lg-2 mb-md-1"><a href="#" class="footer-link">BRAND</a></div>
-             <div class="col-12 mb-1 footer-submenu"><a href="{{ url('filter') }}" class="footer-link">Adidas</a></div>
-             <div class="col-12 mb-1 footer-submenu"><a href="{{ url('filter') }}" class="footer-link">Onisuka</a></div>
-             <div class="col-12 mb-1 footer-submenu"><a href="{{ url('filter') }}" class="footer-link">Puma</a></div>
-             <div class="col-12 mb-1 footer-submenu"><a href="{{ url('filter') }}" class="footer-link">Reebok</a></div>
-          </div>
-        </div>
-
-
-        <div class="col-xl-3 col-lg-3 col-md-4 pt-5 d-lg-block d-none">
-          <div class="row white mx-0 text-lg-left text-md-center">
-             <div class="col-12 pr-lg-5 px-md-0 mb-lg-2 mb-md-1"><a href="#" class="footer-link">CAREGORIES</a></div>
-             <div class="col-12 mb-1 footer-submenu"><a href="{{ url('filter') }}" class="footer-link">Basketball</a></div>
-             <div class="col-12 mb-1 footer-submenu"><a href="{{ url('filter') }}" class="footer-link">Golf</a></div>
-             <div class="col-12 mb-1 footer-submenu"><a href="{{ url('filter') }}" class="footer-link">Outdoor</a></div>
-             <div class="col-12 mb-1 footer-submenu"><a href="{{ url('filter') }}" class="footer-link">Running</a></div>
-             <div class="col-12 mb-1 footer-submenu"><a href="{{ url('filter') }}" class="footer-link">Tennis</a></div>
-             <div class="col-12 mb-1 footer-submenu"><a href="{{ url('filter') }}" class="footer-link">Training</a></div>
-          </div>
-        </div>
-
-
-        <div class="col-xl-3 col-lg-3 col-md-4 pt-5 d-lg-block d-none">
-          <div class="row white mx-0 text-lg-left text-md-center">
-             <div class="col-12 pr-lg-5 px-md-0 mb-lg-2 mb-md-1">ABOUT US</div>
-              <div class="col-12 footer-submenu"><a href="{{ url('add-branch') }}" class="footer-link">Brach</a></div>
-             <div class="col-12 mb-1 footer-submenu"><a href="{{ url('add-out-story') }}" class="footer-link">Out Story</a></div>
-
-             <div class="col-12 pr-lg-5 px-md-0 my-md-2 my-lg-2 my-md-1"><a href="#" class="footer-link" data-toggle="modal" data-target="#helpful">HELPFUL</a></div>
-             <div class="col-12 mb-1 footer-submenu"><a href="{{ url('add-blank') }}" class="footer-link">Policy</a></div>
-             <div class="col-12 mb-1 footer-submenu"><a href="{{ url('add-blank') }}" class="footer-link">Term of use</a></div>
-          </div>
-        </div>
-
-        <div class="col-12 py-1 mb-2 d-lg-none d-md-block">
-          <div class="row justify-content-center text-center">
-            <div class="col-11">
-              <a class="icon-link round facebook"><i class="fab fa-facebook"></i></a>
-              <a class="icon-link round twitter"><i class="fab fa-twitter"></i></a>
-              <a class="icon-link round instagram"><i class="fab fa-instagram"></i></a>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-12 text-center white d-lg-none d-md-block">
-          <button type="button" class="btn btn-primary language-picker" data-toggle="modal" data-target="#exampleModal">
-            Language : <img class="pb-2 pr-2" src="http://i65.tinypic.com/2d0kyno.png"/><u>Nederlands</u>
-          </button>
-        </div>
-
-        <div class="col-12 pt-2 text-center white">
-            <span>Copyright 2018 © Dilok.com All right reserved<span>
-            <p class="white d-lg-none d-md-block mb-0"><a class="white" href="{{ url('add-blank') }}">Term of use</a> | <a class="white" href="{{ url('add-blank') }}">Policy</a></p>
-        </div>
-
-
       </div>
+
+
+      <div class="col-xl-6 col-lg-6 col-md-4 pt-5 d-lg-block d-none">
+        <div class="row white mx-0 text-lg-left text-md-center">
+           <div class="col-12 pr-lg-5 px-md-0 mb-lg-2 mb-md-1"><a href="{{ url('filter') }}" class="footer-link">BRAND</a></div>
+           @foreach($category->result->childrenData->item as $key_category => $value_category)
+              @if($value_category->name != 'Default Category')
+                <div class="col-6 mb-1 footer-submenu"><a href="{{ url('filter/?brands=') }}{{ $value_category->id }}" class="footer-link">{{ $value_category->name }}</a></div>
+              @endif
+            @endforeach
+           <!-- <div class="col-12 mb-1 footer-submenu"><a href="{{ url('filter') }}" class="footer-link">Adidas</a></div> -->
+           <!-- <div class="col-12 mb-1 footer-submenu"><a href="{{ url('filter') }}" class="footer-link">Onisuka</a></div>
+           <div class="col-12 mb-1 footer-submenu"><a href="{{ url('filter') }}" class="footer-link">Puma</a></div>
+           <div class="col-12 mb-1 footer-submenu"><a href="{{ url('filter') }}" class="footer-link">Reebok</a></div> -->
+        </div>
+      </div>
+
+
+      <!-- <div class="col-xl-3 col-lg-3 col-md-4 pt-5 d-lg-block d-none">
+        <div class="row white mx-0 text-lg-left text-md-center">
+           <div class="col-12 pr-lg-5 px-md-0 mb-lg-2 mb-md-1"><a href="#" class="footer-link">CAREGORIES</a></div>
+           <div class="col-12 mb-1 footer-submenu"><a href="{{ url('filter') }}" class="footer-link">Basketball</a></div>
+           <div class="col-12 mb-1 footer-submenu"><a href="{{ url('filter') }}" class="footer-link">Golf</a></div>
+           <div class="col-12 mb-1 footer-submenu"><a href="{{ url('filter') }}" class="footer-link">Outdoor</a></div>
+           <div class="col-12 mb-1 footer-submenu"><a href="{{ url('filter') }}" class="footer-link">Running</a></div>
+           <div class="col-12 mb-1 footer-submenu"><a href="{{ url('filter') }}" class="footer-link">Tennis</a></div>
+           <div class="col-12 mb-1 footer-submenu"><a href="{{ url('filter') }}" class="footer-link">Training</a></div>
+        </div>
+      </div> -->
+
+
+      <div class="col-xl-3 col-lg-3 col-md-4 pt-5 d-lg-block d-none">
+        <div class="row white mx-0 text-lg-left text-md-center">
+           <div class="col-12 pr-lg-5 px-md-0 mb-lg-2 mb-md-1">ABOUT US</div>
+            <div class="col-12 footer-submenu"><a href="{{ url('add-branch') }}" class="footer-link">Brach</a></div>
+           <div class="col-12 mb-1 footer-submenu"><a href="{{ url('add-out-story') }}" class="footer-link">Out Story</a></div>
+
+           <div class="col-12 pr-lg-5 px-md-0 my-md-2 my-lg-2 my-md-1"><a href="#" class="footer-link" data-toggle="modal" data-target="#helpful">HELPFUL</a></div>
+           <div class="col-12 mb-1 footer-submenu"><a href="{{ url('add-blank') }}" class="footer-link">Policy</a></div>
+           <div class="col-12 mb-1 footer-submenu"><a href="{{ url('add-blank') }}" class="footer-link">Term of use</a></div>
+        </div>
+      </div>
+
+      <div class="col-12 py-1 mb-2 d-lg-none d-md-block">
+        <div class="row justify-content-center text-center">
+          <div class="col-11">
+            <a class="icon-link round facebook"><i class="fab fa-facebook"></i></a>
+            <a class="icon-link round twitter"><i class="fab fa-twitter"></i></a>
+            <a class="icon-link round instagram"><i class="fab fa-instagram"></i></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 text-center white d-lg-none d-md-block">
+        <button type="button" class="btn btn-primary language-picker" data-toggle="modal" data-target="#exampleModal">
+          Language : <img class="pb-2 pr-2" src="http://i65.tinypic.com/2d0kyno.png"/><u>Nederlands</u>
+        </button>
+      </div>
+
+      <div class="col-12 pt-2 text-center white">
+          <span>Copyright 2018 © Dilok.com All right reserved<span>
+          <p class="white d-lg-none d-md-block mb-0"><a class="white" href="{{ url('add-blank') }}">Term of use</a> | <a class="white" href="{{ url('add-blank') }}">Policy</a></p>
+      </div>
+
+
+    </div>
   </div>
 </footer>
 

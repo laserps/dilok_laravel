@@ -28,7 +28,7 @@
               <div class="col-12 my-3 sb-font-respon">
                 <div class="my-3">
                   @if(!empty($image['src']))
-                    <img class="w-100" src="http://127.0.0.1/dilok2/pub/media/{{ $image['src'] }}"/>
+                    <img class="w-100" src="http://dilokstore.com/magento/pub/media/{{ $image['src'] }}"/>
                   @else
                     <img class="w-100" src="{{ url('assets/images/No_Image_Available.jpg') }}">
                   @endif

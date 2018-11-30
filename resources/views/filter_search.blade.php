@@ -82,9 +82,9 @@
                 @endif
                   <div class="latest-product-frame filter-frame filter-product-frame ">
                       <a href="{{ url('product/'.$value_product->id) }}">
-                        <img class="latest-product-pic" style="width: 100%; height: auto;" src="http://localhost/dilok2/pub/media/catalog/product\{{$image}}" alt="Card image cap">
+                        <img class="latest-product-pic" style="width: 100%; height: auto;" src="http://dilokstore.com/magento/pub/media/catalog/product\{{$image}}" alt="Card image cap">
                       </a>
-                      <a href="{{ url('product/'.$value_product->id) }}"> <img style="width: 100%; height: auto;" class="latest-product-pic second-latest-product" src="http://localhost/dilok2/pub/media/catalog/product\{{$small_image}}" alt="Card image cap"> </a>
+                      <a href="{{ url('product/'.$value_product->id) }}"> <img style="width: 100%; height: auto;" class="latest-product-pic second-latest-product" src="http://dilokstore.com/magento/pub/media/catalog/product\{{$small_image}}" alt="Card image cap"> </a>
                   </div>
                   <div class="card-body p-1 filter-a filter-position-a">
                     <div class="row px-0 mx-0">
@@ -223,9 +223,9 @@
                 @endif
                   <div class="latest-product-frame filter-frame filter-product-frame ">
                       <a href="{{ url('product/'.$products->result->items->item->id) }}">
-                        <img class="latest-product-pic" style="width: 100%; height: auto;" src="http://localhost/dilok2/pub/media/catalog/product\{{$image}}" alt="Card image cap">
+                        <img class="latest-product-pic" style="width: 100%; height: auto;" src="http://dilokstore.com/magento/pub/media/catalog/product\{{$image}}" alt="Card image cap">
                       </a>
-                      <a href="{{ url('product/'.$products->result->items->item->id) }}"> <img style="width: 100%; height: auto;" class="latest-product-pic second-latest-product" src="http://localhost/dilok2/pub/media/catalog/product\{{$small_image}}" alt="Card image cap"> </a>
+                      <a href="{{ url('product/'.$products->result->items->item->id) }}"> <img style="width: 100%; height: auto;" class="latest-product-pic second-latest-product" src="http://dilokstore.com/magento/pub/media/catalog/product\{{$small_image}}" alt="Card image cap"> </a>
                   </div>
                   <div class="card-body p-1 filter-a filter-position-a">
                     <div class="row px-0 mx-0">

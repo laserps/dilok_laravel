@@ -1058,7 +1058,7 @@
                                     <a href="{{ url('single-blog') }}/{{ $value_blocks->id }}">
                                       <div class="nav-blog">
                                         @if(!empty($image['src']))
-                                          <img class="nav-product" src="http://127.0.0.1/dilok2/pub/media/{{ $image['src'] }}"/>
+                                          <img class="nav-product" src="http://dilokstore.com/magento/pub/media/{{ $image['src'] }}"/>
                                         @else
                                           <img class="nav-product" src="{{ url('assets/images/index/blog1.jpg') }}">
                                         @endif

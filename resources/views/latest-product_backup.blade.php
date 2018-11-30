@@ -50,9 +50,9 @@
             <div class="card p-1">
                 <div class="latest-product-frame">
                   <a href="{{ url('product/'.$value_product->id) }}">
-                    <img class="latest-product-pic" src="http://localhost/dilok2/pub/media/catalog/product\{{$image}}" alt="Card image cap">
+                    <img class="latest-product-pic" src="http://dilokstore.com/magento/pub/media/catalog/product\{{$image}}" alt="Card image cap">
                   </a>
-                  <a href="{{ url('product/'.$value_product->id) }}"> <img class="latest-product-pic second-latest-product" src="http://localhost/dilok2/pub/media/catalog/product\{{$small_image}}" alt="Card image cap"> </a>
+                  <a href="{{ url('product/'.$value_product->id) }}"> <img class="latest-product-pic second-latest-product" src="http://dilokstore.com/magento/pub/media/catalog/product\{{$small_image}}" alt="Card image cap"> </a>
                 </div>
                 <div class="card-body p-0">
                   <div class="row px-0 mx-0">

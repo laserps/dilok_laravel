@@ -100,7 +100,7 @@
                   <!-- @if(!empty($image))
                     <div class="product-desktop-col col-xl-6 col-lg-12 px-1 mb-2">
                         <div class="product-desktop-frame zoom1 cur" id="zoom1" data-toggle="modal" data-target="#full-screen-product-1">
-                          <img class="product-desktop-img" src="http://localhost/dilok2/pub/media/catalog/product\{{$image}}">
+                          <img class="product-desktop-img" src="http://dilokstore.com/magento/pub/media/catalog/product\{{$image}}">
                         </div>
                     </div>
                   @endif -->
@@ -119,7 +119,7 @@
                         @foreach($value_gallerys->item as $key_gallery => $value_gallery)
                           <div class="product-desktop-col col-xl-6 col-lg-12 px-1 mb-2">
                             <div class="product-desktop-frame zoom3 cur" id="zoom3" data-toggle="modal" data-target="#full-screen-product-1">
-                              <img class="product-desktop-img" src="http://localhost/dilok2/pub/media/catalog/product\{{$value_gallery->file}}">
+                              <img class="product-desktop-img" src="http://dilokstore.com/magento/pub/media/catalog/product\{{$value_gallery->file}}">
                             </div>
                           </div>
                         @endforeach
@@ -127,7 +127,7 @@
                     @else
                       <div class="product-desktop-col col-xl-6 col-lg-12 px-1 mb-2">
                           <div class="product-desktop-frame zoom3 cur" id="zoom3" data-toggle="modal" data-target="#full-screen-product-1">
-                            <img class="product-desktop-img" src="http://localhost/dilok2/pub/media/catalog/product\{{$products_gallery->result->item->file}}">
+                            <img class="product-desktop-img" src="http://dilokstore.com/magento/pub/media/catalog/product\{{$products_gallery->result->item->file}}">
                           </div>
                         </div>
                     @endif
@@ -135,21 +135,21 @@
                   <!-- @if(!empty($small_image))
                     <div class="product-desktop-col col-xl-6 col-lg-12 px-1 mb-2">
                       <div class="product-desktop-frame zoom3 cur" id="zoom3" data-toggle="modal" data-target="#full-screen-product-1">
-                        <img class="product-desktop-img" src="http://localhost/dilok2/pub/media/catalog/product\{{$small_image}}">
+                        <img class="product-desktop-img" src="http://dilokstore.com/magento/pub/media/catalog/product\{{$small_image}}">
                       </div>
                     </div>
                   @endif
                   @if(!empty($thumbnail))
                     <div class="product-desktop-col col-xl-6 col-lg-12 px-1 mb-2">
                       <div class="product-desktop-frame zoom4 cur" id="zoom4" data-toggle="modal" data-target="#full-screen-product-1">
-                        <img class="product-desktop-img" src="http://localhost/dilok2/pub/media/catalog/product\{{$thumbnail}}">
+                        <img class="product-desktop-img" src="http://dilokstore.com/magento/pub/media/catalog/product\{{$thumbnail}}">
                       </div>
                     </div>
                   @endif
                   @if(!empty($swatch_image))
                     <div class="product-desktop-col col-xl-6 col-lg-12 px-1 mb-2">
                       <div class="product-desktop-frame zoom5 cur" id="zoom5" data-toggle="modal" data-target="#full-screen-product-1">
-                        <img class="product-desktop-img" src="http://localhost/dilok2/pub/media/catalog/product\{{$swatch_image}}">
+                        <img class="product-desktop-img" src="http://dilokstore.com/magento/pub/media/catalog/product\{{$swatch_image}}">
                       </div>
                     </div>
                   @endif -->
@@ -168,17 +168,17 @@
                         @if(is_array($products_gallery->result->item))
                           @foreach($products_gallery as $key_gallerys => $value_gallerys)
                             @foreach($value_gallerys->item as $key_gallery => $value_gallery)
-                              <img width="100%" src="http://localhost/dilok2/pub/media/catalog/product\{{$value_gallery->file}}">
+                              <img width="100%" src="http://dilokstore.com/magento/pub/media/catalog/product\{{$value_gallery->file}}">
                             @endforeach
                           @endforeach
                         @else
-                            <img width="100%" src="http://localhost/dilok2/pub/media/catalog/product\{{$products_gallery->result->item->file}}">
+                            <img width="100%" src="http://dilokstore.com/magento/pub/media/catalog/product\{{$products_gallery->result->item->file}}">
                         @endif
                       @endif
-                      <!-- <img width="100%" src="http://localhost/dilok2/pub/media/catalog/product\{{$image}}"> -->
-                      <!-- <img width="100%" src="http://localhost/dilok2/pub/media/catalog/product\{{$small_image}}"> -->
-                      <!-- <img width="100%" src="http://localhost/dilok2/pub/media/catalog/product\{{$thumbnail}}"> -->
-                      <!-- <img width="100%" src="http://localhost/dilok2/pub/media/catalog/product\{{$swatch_image}}"> -->
+                      <!-- <img width="100%" src="http://dilokstore.com/magento/pub/media/catalog/product\{{$image}}"> -->
+                      <!-- <img width="100%" src="http://dilokstore.com/magento/pub/media/catalog/product\{{$small_image}}"> -->
+                      <!-- <img width="100%" src="http://dilokstore.com/magento/pub/media/catalog/product\{{$thumbnail}}"> -->
+                      <!-- <img width="100%" src="http://dilokstore.com/magento/pub/media/catalog/product\{{$swatch_image}}"> -->
                     </div>
                   </div>
                 </div>
@@ -198,7 +198,7 @@
                             @foreach($value_gallerys->item as $key_gallery => $value_gallery)
                               <div class="item">
                                 <div class="product-ipad-frame" data-toggle="modal" data-target="#full-screen-product-1">
-                                  <img width="100%" src="http://localhost/dilok2/pub/media/catalog/product\{{$value_gallery->file}}">
+                                  <img width="100%" src="http://dilokstore.com/magento/pub/media/catalog/product\{{$value_gallery->file}}">
                                 </div>
                               </div>
                             @endforeach
@@ -206,7 +206,7 @@
                         @else
                             <div class="item">
                                 <div class="product-ipad-frame" data-toggle="modal" data-target="#full-screen-product-1">
-                                  <img width="100%" src="http://localhost/dilok2/pub/media/catalog/product\{{$products_gallery->result->item->file}}">
+                                  <img width="100%" src="http://dilokstore.com/magento/pub/media/catalog/product\{{$products_gallery->result->item->file}}">
                                 </div>
                               </div>
                         @endif
@@ -480,7 +480,7 @@
                                         <div class="row detail-product-frame">
                                           <div class="col-md-3 col-4 p-md-0 p-2">
                                              <div class="detail-product-frame">
-                                               <img class="detail-product-img" src="http://localhost/dilok2/pub/media/catalog/product\{{$small_image}}">
+                                               <img class="detail-product-img" src="http://dilokstore.com/magento/pub/media/catalog/product\{{$small_image}}">
                                              </div>
                                           </div>
                                           <div class="col-md-9 col-8 px-lg-2 px-lg-0 px-md-1 px-0">

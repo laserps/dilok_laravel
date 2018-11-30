@@ -179,7 +179,7 @@
                             @if($value_image->attributeCode == 'image')
                               <div class="col-xl-6 col-lg-6 col-md-6 pay-m-l-r">
                                   <div class="overlay-img2">
-                                    <img class="image-full" src="http://192.168.1.27/dilok2/pub/media/catalog/product\{{ $value_image->value }}">
+                                    <img class="image-full" src="http://dilokstore.com/magento/pub/media/catalog/product\{{ $value_image->value }}">
                                   </div>
                               </div>
                             @endif

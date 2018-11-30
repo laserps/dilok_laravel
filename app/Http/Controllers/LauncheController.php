@@ -30,7 +30,7 @@ class LauncheController extends Controller
         );
 
         try{
-            $get_type_products = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=catalogProductAttributeOptionManagementV1',$params);
+            $get_type_products = new \SoapClient('http://dilokstore.com/magento/soap/default?wsdl&services=catalogProductAttributeOptionManagementV1',$params);
 
             $get_size_products = [
                 'attributeCode' => 'size',
@@ -43,7 +43,7 @@ class LauncheController extends Controller
         $get_session_all = \Session::all();
 
             if(!empty($get_session_all['customer_id'])){
-                $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/customers/me");
+                $ch = curl_init("http://dilokstore.com/magento/rest/V1/customers/me");
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                 curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
@@ -52,7 +52,7 @@ class LauncheController extends Controller
 
                 if(empty($customer_me->parameters)){
 
-                    $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/carts/mine/items");
+                    $ch = curl_init("http://dilokstore.com/magento/rest/V1/carts/mine/items");
                     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                     curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
@@ -65,7 +65,7 @@ class LauncheController extends Controller
                         $data['login'] = $customer_me;
                         $data['cart_customer'] = $customer_item;
 
-                        $get_products = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
+                        $get_products = new \SoapClient('http://dilokstore.com/magento/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
 
                             foreach($customer_item as $key => $value){
                                 $get_key_product = array(
@@ -118,8 +118,8 @@ class LauncheController extends Controller
           'cache_wsdl' => WSDL_CACHE_NONE
         );
         try{
-        $get_products = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
-        $get_products2 = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=catalogProductRenderListV1',$params);
+        $get_products = new \SoapClient('http://dilokstore.com/magento/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
+        $get_products2 = new \SoapClient('http://dilokstore.com/magento/soap/default?wsdl&services=catalogProductRenderListV1',$params);
 
         $get_product_page = [
             'searchCriteria' => [
@@ -160,7 +160,7 @@ class LauncheController extends Controller
         $get_product_page['storeId'] = "1";
         $get_product_page['currencyCode'] = "THB";
 
-        $get_type_products = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=catalogProductAttributeOptionManagementV1',$params);
+        $get_type_products = new \SoapClient('http://dilokstore.com/magento/soap/default?wsdl&services=catalogProductAttributeOptionManagementV1',$params);
 
             $get_size_products = [
                 'attributeCode' => 'size',
@@ -173,7 +173,7 @@ class LauncheController extends Controller
         $get_session_all = \Session::all();
 
         if(!empty($get_session_all['customer_id'])){
-            $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/customers/me");
+            $ch = curl_init("http://dilokstore.com/magento/rest/V1/customers/me");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
@@ -182,7 +182,7 @@ class LauncheController extends Controller
 
             if(empty($customer_me->parameters)){
 
-                $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/carts/mine/items");
+                $ch = curl_init("http://dilokstore.com/magento/rest/V1/carts/mine/items");
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                 curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
@@ -195,7 +195,7 @@ class LauncheController extends Controller
                     $data['login'] = $customer_me;
                     $data['cart_customer'] = $result3;
 
-                    $get_products = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
+                    $get_products = new \SoapClient('http://dilokstore.com/magento/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
 
                         foreach($result3 as $key => $value){
                             $get_key_product = array(

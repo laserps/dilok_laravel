@@ -24,7 +24,7 @@ class CartController extends Controller
     public function create(Request $request)
     {
         $userData = array("username" => "customer", "password" => "customer@01");
-        $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/integration/admin/token");
+        $ch = curl_init("http://dilokstore.com/magento/rest/V1/integration/admin/token");
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -45,14 +45,14 @@ class CartController extends Controller
         try {
             if(!empty($get_session_all['customer_id'])){
                 if($text_color_product != '' && $text_size_product != '' && $text_name_product != '' && $text_price_product != '' && $text_valuecolor_product != '' && $text_valuesize_product != ''){
-                    $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/customers/me");
+                    $ch = curl_init("http://dilokstore.com/magento/rest/V1/customers/me");
                     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                     curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
 
                     $customer = json_decode(curl_exec($ch));
 
-                    $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/carts/mine");
+                    $ch = curl_init("http://dilokstore.com/magento/rest/V1/carts/mine");
                     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                     curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
@@ -98,7 +98,7 @@ class CartController extends Controller
                     }
 
 
-                    $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/carts/mine/items");
+                    $ch = curl_init("http://dilokstore.com/magento/rest/V1/carts/mine/items");
                     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
                     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($product));
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);

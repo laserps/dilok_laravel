@@ -30,7 +30,7 @@ class BlogController extends Controller
                 'cache_wsdl' => WSDL_CACHE_NONE
             );
 
-            $catalog = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=catalogCategoryManagementV1',$params);
+            $catalog = new \SoapClient('http://dilokstore.com/magento/soap/default?wsdl&services=catalogCategoryManagementV1',$params);
 
             $catalogs = [
                 'rootCategoryId' => 1,
@@ -38,7 +38,7 @@ class BlogController extends Controller
 
 
             $userData = array("username" => "customer", "password" => "customer@01");
-            $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/integration/admin/token");
+            $ch = curl_init("http://dilokstore.com/magento/rest/V1/integration/admin/token");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
             curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -55,14 +55,14 @@ class BlogController extends Controller
             $get_blocks_page = 'searchCriteria[filter_groups][0][filters][0][field]=is_active&searchCriteria[filter_groups][0][filters][0][value]=1&searchCriteria[filter_groups][0][filters][0][condition_type]=eq&searchCriteria[pageSize]=6&searchCriteria[currentPage]='.$page.'';
             $get_blocks = 'searchCriteria[filter_groups][0][filters][0][field]=is_active&searchCriteria[filter_groups][0][filters][0][value]=1&searchCriteria[filter_groups][0][filters][0][condition_type]=eq&searchCriteria[pageSize]=12&searchCriteria[sortOrders][0][field]=block_id&searchCriteria[sortOrders][0][direction]=DESC';
 
-            $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/cmsBlock/search?".$get_blocks);
+            $ch = curl_init("http://dilokstore.com/magento/rest/V1/cmsBlock/search?".$get_blocks);
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $token_admin));
 
             $blocks = json_decode(curl_exec($ch));
 
-            $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/cmsBlock/search?".$get_blocks_page);
+            $ch = curl_init("http://dilokstore.com/magento/rest/V1/cmsBlock/search?".$get_blocks_page);
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $token_admin));
@@ -71,7 +71,7 @@ class BlogController extends Controller
 
             $data['sum_blocks'] = $sum_blocks;
 
-            $get_type_products = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=catalogProductAttributeOptionManagementV1',$params);
+            $get_type_products = new \SoapClient('http://dilokstore.com/magento/soap/default?wsdl&services=catalogProductAttributeOptionManagementV1',$params);
             $get_size_products = [
                 'attributeCode' => 'size',
             ];
@@ -83,7 +83,7 @@ class BlogController extends Controller
             $get_session_all = \Session::all();
 
         if(!empty($get_session_all['customer_id'])){
-            $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/customers/me");
+            $ch = curl_init("http://dilokstore.com/magento/rest/V1/customers/me");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
@@ -92,7 +92,7 @@ class BlogController extends Controller
 
             if(empty($customer_me->parameters)){
 
-                $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/carts/mine/items");
+                $ch = curl_init("http://dilokstore.com/magento/rest/V1/carts/mine/items");
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                 curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
@@ -105,7 +105,7 @@ class BlogController extends Controller
                     $data['login'] = $customer_me;
                     $data['cart_customer'] = $customer_item;
 
-                    $get_products = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
+                    $get_products = new \SoapClient('http://dilokstore.com/magento/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
 
                         foreach($customer_item as $key => $value){
                             $get_key_product = array(
@@ -164,8 +164,8 @@ class BlogController extends Controller
                 'cache_wsdl' => WSDL_CACHE_NONE
             );
 
-            $catalog = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=catalogCategoryManagementV1',$params);
-            $get_type_products = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=catalogProductAttributeOptionManagementV1',$params);
+            $catalog = new \SoapClient('http://dilokstore.com/magento/soap/default?wsdl&services=catalogCategoryManagementV1',$params);
+            $get_type_products = new \SoapClient('http://dilokstore.com/magento/soap/default?wsdl&services=catalogProductAttributeOptionManagementV1',$params);
             $get_size_products = [
                 'attributeCode' => 'size',
             ];
@@ -178,7 +178,7 @@ class BlogController extends Controller
             ];
 
             $userData = array("username" => "customer", "password" => "customer@01");
-            $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/integration/admin/token");
+            $ch = curl_init("http://dilokstore.com/magento/rest/V1/integration/admin/token");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
             curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -188,14 +188,14 @@ class BlogController extends Controller
 
             $get_blocks = 'searchCriteria[filter_groups][0][filters][0][field]=is_active&searchCriteria[filter_groups][0][filters][0][value]=1&searchCriteria[filter_groups][0][filters][0][condition_type]=eq&searchCriteria[pageSize]=12&searchCriteria[sortOrders][0][field]=block_id&searchCriteria[sortOrders][0][direction]=DESC';
 
-            $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/cmsBlock/search?".$get_blocks);
+            $ch = curl_init("http://dilokstore.com/magento/rest/V1/cmsBlock/search?".$get_blocks);
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $token_admin));
 
             $blocks = json_decode(curl_exec($ch));
 
-            $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/cmsBlock/".$id_block);
+            $ch = curl_init("http://dilokstore.com/magento/rest/V1/cmsBlock/".$id_block);
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $token_admin));
@@ -207,7 +207,7 @@ class BlogController extends Controller
             $get_session_all = \Session::all();
 
         if(!empty($get_session_all['customer_id'])){
-            $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/customers/me");
+            $ch = curl_init("http://dilokstore.com/magento/rest/V1/customers/me");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
@@ -216,7 +216,7 @@ class BlogController extends Controller
 
             if(empty($customer_me->parameters)){
 
-                $ch = curl_init("http://192.168.1.27/dilok2/rest/V1/carts/mine/items");
+                $ch = curl_init("http://dilokstore.com/magento/rest/V1/carts/mine/items");
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                 curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
@@ -229,7 +229,7 @@ class BlogController extends Controller
                     $data['login'] = $customer_me;
                     $data['cart_customer'] = $customer_item;
 
-                    $get_products = new \SoapClient('http://192.168.1.27/dilok2/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
+                    $get_products = new \SoapClient('http://dilokstore.com/magento/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
 
                         foreach($customer_item as $key => $value){
                             $get_key_product = array(

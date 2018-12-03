@@ -501,13 +501,13 @@ $('body').on('click','#btn_submit_payment',function(){
     }).done(function(rec){
         if(rec.approval_url != null && rec.approval_url == 1){
          window.location.href = rec.approval_url;
-        } else if(rec.status == 2){
-          $('body').loader('hide');
-          al_su(rec.content,'danger');
-          // window.location.href = url_gb;
-        } else {
-          $('body').loader('hide');
-          al_su('Error','danger');
+        // } else if(rec.status == 2){
+        //   $('body').loader('hide');
+        //   al_su(rec.content,'danger');
+        //   // window.location.href = url_gb;
+        // } else {
+        //   $('body').loader('hide');
+        //   al_su('Error','danger');
         }
 
     }).fail(function(e){

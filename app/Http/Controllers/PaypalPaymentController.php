@@ -403,6 +403,8 @@ class PaypalPaymentController extends Controller{
                         curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
 
                         $post_items = json_decode(curl_exec($ch));
+
+                        session()->forget('sku_product');
                     }
                 }
 

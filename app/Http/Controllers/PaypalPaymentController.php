@@ -413,6 +413,8 @@ class PaypalPaymentController extends Controller{
                 return redirect('/');
             }
 
+            session()->forget('sku_product');
+
             return redirect('/');
 
             // dd($result,$result_order,$payerId,$token_payment,$create_order);

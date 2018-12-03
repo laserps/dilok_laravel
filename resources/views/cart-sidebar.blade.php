@@ -40,7 +40,7 @@
                       <div class="col-lg-5 col-md-5 col-5 p-md-0 p-2 cart-col">
                         <a href="{{ url('product-details2') }}">
                           <div class="cart-product-frame">
-                            <img class="cart-product" src="http://192.168.1.27/dilok2/pub/media/catalog/product\{{ $value_image->value }}">
+                            <img class="cart-product" src="http://dilokstore.com/magento/pub/media/catalog/product\{{ $value_image->value }}">
                           </div>
                         </a>
                       </div>

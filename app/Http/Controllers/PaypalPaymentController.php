@@ -371,37 +371,39 @@ class PaypalPaymentController extends Controller{
 
                 $get_products = new \SoapClient('http://dilokstore.com/magento/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
 
-                foreach($value_sku_products as $key_sku_product => $value_sku_product){
-                    $get_product_detail = array(
-                        'sku' => $value_sku_product
-                    );
-                    $data_product = $get_products->catalogProductRepositoryV1Get($get_product_detail);
+                if(!empty($value_sku_products)){
+                    foreach($value_sku_products as $key_sku_product => $value_sku_product){
+                        $get_product_detail = array(
+                            'sku' => $value_sku_product
+                        );
+                        $data_product = $get_products->catalogProductRepositoryV1Get($get_product_detail);
 
-                    $ch = curl_init("http://dilokstore.com/magento/rest/V1/carts/mine");
-                    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
+                        $ch = curl_init("http://dilokstore.com/magento/rest/V1/carts/mine");
+                        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
 
-                    $create_cart = json_decode(curl_exec($ch));
+                        $create_cart = json_decode(curl_exec($ch));
 
-                    $product = [
-                        "cartItem" => [
-                          "sku"=> $data_product->result->sku,
-                          "qty"=> 1,
-                          "name" => $data_product->result->sku,
-                          "price" => 1,
-                          "product_type" => "simple",
-                          "quote_id"=> $create_cart,
-                        ]
-                      ];
+                        $product = [
+                            "cartItem" => [
+                              "sku"=> $data_product->result->sku,
+                              "qty"=> 1,
+                              "name" => $data_product->result->sku,
+                              "price" => 1,
+                              "product_type" => "simple",
+                              "quote_id"=> $create_cart,
+                            ]
+                          ];
 
-                    $ch = curl_init("http://dilokstore.com/magento/rest/V1/carts/mine/items");
-                    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-                    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($product));
-                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
+                        $ch = curl_init("http://dilokstore.com/magento/rest/V1/carts/mine/items");
+                        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+                        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($product));
+                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
 
-                    $post_items = json_decode(curl_exec($ch));
+                        $post_items = json_decode(curl_exec($ch));
+                    }
                 }
 
             } else {

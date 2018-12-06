@@ -384,10 +384,6 @@
                                     @endforeach
                                   @endif
                                 @endif
-                              @else
-                                <div class="col-1 mr-2 px-2 mb-2 text-center">
-                                   <button type="button" class="btn color-btn color-active" style="background-color:black;"></button>
-                                </div>
                               @endif
                                 <!-- <div class="col-1 mr-2 px-2 mb-2 text-center">
                                   <button type="button" class="btn color-btn" style="background-color:white"></button>
@@ -447,10 +443,6 @@
                                     @endforeach
                                   @endif
                                 @endif
-                              @else
-                                <div class="col-xl-4 col-6 px-0 size-select">
-                                  <span>7</span>
-                                </div>
                               @endif
                                 <!-- <div class="col-xl-4 col-6 px-0 size-select disabled">
                                   <span>US 7.5</span>

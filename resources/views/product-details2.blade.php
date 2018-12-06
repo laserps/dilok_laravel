@@ -667,7 +667,7 @@ $('body').on('click','.btn_add_to_cart_config',function(){
   var text_valuesize_product = $('.text_valuesize_product').val();
   var text_type_product = $('.text_type_product').val();
   // $('body').loader('show');
-  if(text_color_product != '' && text_size_product != '' && text_name_product != '' && text_price_product != '' && text_valuecolor_product != '' && text_valuesize_product != ''){
+  // if(text_color_product != '' && text_size_product != '' && text_name_product != '' && text_price_product != '' && text_valuecolor_product != '' && text_valuesize_product != ''){
     $('body').loader('show');
     $.ajax({
       method : "POST",
@@ -689,10 +689,10 @@ $('body').on('click','.btn_add_to_cart_config',function(){
         $('body').loader('hide');
         al_su('Error','danger');
     });
-  } else {
-    al_su('กรุณาเลือกประเภทสินค้า','danger');
-    // $('body').loader('hide');
-  }
+  // } else {
+  //   al_su('กรุณาเลือกประเภทสินค้า','danger');
+  //   // $('body').loader('hide');
+  // }
 });
 </script>
 

@@ -44,7 +44,7 @@ class CartController extends Controller
 
         try {
             if(!empty($get_session_all['customer_id'])){
-                if($text_color_product != '' && $text_size_product != '' && $text_name_product != '' && $text_price_product != '' && $text_valuecolor_product != '' && $text_valuesize_product != ''){
+                // if($text_color_product != '' && $text_size_product != '' && $text_name_product != '' && $text_price_product != '' && $text_valuecolor_product != '' && $text_valuesize_product != ''){
                     $ch = curl_init("http://dilokstore.com/magento/rest/V1/customers/me");
                     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -109,10 +109,10 @@ class CartController extends Controller
                     $return['result'] = $create_cart;
                     $return['status'] = 1;
                     $return['content'] = 'เพิ่มสินค้าสำเร็จ';
-                } else {
-                    $return['status'] = 0;
-                    $return['content'] = 'กรุณาเลือกประเภทสินค้าให้ถูกต้อง';
-                }
+                // } else {
+                //     $return['status'] = 0;
+                //     $return['content'] = 'กรุณาเลือกประเภทสินค้าให้ถูกต้อง';
+                // }
             } else {
                 \Session::flush();
                 $return['status'] = 2;

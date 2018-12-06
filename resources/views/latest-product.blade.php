@@ -46,10 +46,18 @@
               @endforeach
 
               @if(!empty($products2->result->items->item[$key_product]->priceInfo->regularPrice))
-                @php $price_defult = $products2->result->items->item[$key_product]->priceInfo->regularPrice; @endphp
+                @if($value_product->id == $products2->result->items->item[$key_product]->id)
+                  @php $price_defult = $products2->result->items->item[$key_product]->priceInfo->regularPrice; @endphp
+                @else
+                  @php $price_defult = ''; @endphp
+                @endif
               @endif
               @if(!empty($products2->result->items->item[$key_product]->priceInfo->finalPrice))
-                @php $price_special = $products2->result->items->item[$key_product]->priceInfo->finalPrice; @endphp
+                @if($value_product->id == $products2->result->items->item[$key_product]->id)
+                  @php $price_special = $products2->result->items->item[$key_product]->priceInfo->finalPrice; @endphp
+                @else
+                  @php $price_special = ''; @endphp
+                @endif
               @endif
 
 

@@ -68,16 +68,26 @@
     @endif
   @endforeach
 
-  @if(!empty($products3->result->items->item->priceInfo->regularPrice))
-    @php $price_defult = $products3->result->items->item->priceInfo->regularPrice; @endphp
+  @if(isset($products3->result->items->item))
+    @if(!empty($products3->result->items->item->priceInfo->regularPrice))
+        @php $price_defult = $products3->result->items->item->priceInfo->regularPrice; @endphp
+    @endif
+  @else
+    @php $price_defult = ''; @endphp
   @endif
-  @if(!empty($products3->result->items->item->priceInfo->finalPrice))
-    @php $price_special = $products3->result->items->item->priceInfo->finalPrice; @endphp
+
+  @if(isset($products3->result->items->item))
+    @if(!empty($products3->result->items->item->priceInfo->finalPrice))
+        @php $price_special = $products3->result->items->item->priceInfo->finalPrice; @endphp
+    @endif
+  @else
+    @php $price_special = ''; @endphp
   @endif
 
 
-@if(!empty($products_gallery))
+@if(!empty($products_gallery->result))
   @foreach($products_gallery as $key_gallerys => $value_gallerys)
+    @if(!empty($value_gallerys->item))
     @foreach($value_gallerys->item as $key_gallery => $value_gallery)
       @if(!empty($value_gallery->mediaType))
         @if($value_gallery->mediaType == 'external-video' && !empty($value_gallery->extensionAttributes->videoContent->videoUrl))
@@ -85,6 +95,7 @@
         @endif
       @endif
     @endforeach
+    @endif
   @endforeach
 @endif
 
@@ -113,7 +124,7 @@
                      </div>
                   </div>
                   @endif -->
-                  @if(!empty($products_gallery))
+                  @if(isset($products_gallery->result->item))
                     @if(is_array($products_gallery->result->item))
                       @foreach($products_gallery as $key_gallerys => $value_gallerys)
                         @foreach($value_gallerys->item as $key_gallery => $value_gallery)
@@ -164,7 +175,7 @@
                       <button type="button" class="close custom-close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                       </button>
-                      @if(!empty($products_gallery))
+                      @if(isset($products_gallery->result->item))
                         @if(is_array($products_gallery->result->item))
                           @foreach($products_gallery as $key_gallerys => $value_gallerys)
                             @foreach($value_gallerys->item as $key_gallery => $value_gallery)
@@ -192,7 +203,7 @@
 
                   <div class="col-12 px-0">
                     <div class="productdetail2-carousel owl-carousel owl-theme">
-                      @if(!empty($products_gallery))
+                      @if(isset($products_gallery->result->item))
                         @if(is_array($products_gallery->result->item))
                           @foreach($products_gallery as $key_gallerys => $value_gallerys)
                             @foreach($value_gallerys->item as $key_gallery => $value_gallery)
@@ -310,7 +321,7 @@
                               </div>
                             </div>
 
-                            <div class="">
+                            <div class="" style="width: 100%;">
                               <span class="ml-2">
                                  Color
                               </span>
@@ -321,10 +332,12 @@
                                @php $color = explode(',',$colorproduct); $size_product = explode(',',$size); @endphp
 
                               <div class="row mx-0 mt-2 mb-3">
+                              @if(isset($product_options->result->item))
                                 @if(!empty($product_options))
                                   @if(!empty($color_product))
                                     @foreach($color_product->result->item as $key_color => $value_color)
                                       @foreach($color as $key_product_color => $value_product_color)
+                                        @if(is_array($product_options->result->item))
                                           @foreach($product_options->result->item as $key_options => $value_options)
                                             @if($value_options->attributeId == '93' && $value_options->label == 'Color')
                                               @foreach($value_options->values->item as $key_value => $value_value)
@@ -344,6 +357,19 @@
                                               @endforeach
                                             @endif
                                           @endforeach
+                                        @else
+                                          @if($product_options->result->item->attributeId == '93' && $product_options->result->item->label == 'Color')
+                                            @foreach($product_options->result->item->values->item as $key_value => $value_value)
+                                                @if(count($product_options->result->item->values->item) > 1)
+                                                  @if($value_value->valueIndex == $value_color->value)
+                                                    <div class="col-1 mr-2 px-2 mb-2 text-center">
+                                                       <a class="btn color-btn btn_color_active" data-btncolor="{{$value_color->label}}" data-valuecolor="{{$value_color->value}}" style="background-color:{{$value_color->label}}"></a>
+                                                    </div>
+                                                  @endif
+                                                @endif
+                                            @endforeach
+                                          @endif
+                                        @endif
                                       @endforeach
                                     @endforeach
                                   @endif
@@ -358,6 +384,11 @@
                                     @endforeach
                                   @endif
                                 @endif
+                              @else
+                                <div class="col-1 mr-2 px-2 mb-2 text-center">
+                                   <button type="button" class="btn color-btn color-active" style="background-color:black;"></button>
+                                </div>
+                              @endif
                                 <!-- <div class="col-1 mr-2 px-2 mb-2 text-center">
                                   <button type="button" class="btn color-btn" style="background-color:white"></button>
                                 </div> -->
@@ -366,9 +397,11 @@
                                  Size
                               </span>
                               <div class="row mx-0 mt-2 mb-3 size-select-box">
+                              @if(isset($product_options->result->item))
                                 @if(!empty($product_options))
                                   @if(!empty($size_products))
                                     @foreach($size_products->result->item as $key_sizes => $value_sizes)
+                                      @if(is_array($product_options->result->item))
                                         @foreach($product_options->result->item as $key_options => $value_options)
                                           @if($value_options->attributeId == '136' && $value_options->label == 'Size')
                                             @foreach($value_options->values->item as $key_value => $value_value)
@@ -388,6 +421,19 @@
                                             @endforeach
                                           @endif
                                         @endforeach
+                                      @else
+                                        @if($product_options->result->item->attributeId == '136' && $product_options->result->item->label == 'Size')
+                                          @foreach($product_options->result->item->values->item as $key_value => $value_value)
+                                              @if(count($product_options->result->item->values->item) > 1)
+                                                @if($value_value->valueIndex == $value_sizes->value)
+                                                  <div class="col-xl-4 col-6 px-0 size-select btn_size_active @if($value_value->valueIndex != $value_sizes->value) {{ 'disabled' }} @endif" data-btnsize="{{ $value_sizes->label }}" data-valuesize="{{$value_sizes->value}}">
+                                                    <span>{{ $value_sizes->label }}</span>
+                                                  </div>
+                                                @endif
+                                              @endif
+                                          @endforeach
+                                        @endif
+                                      @endif
                                     @endforeach
                                   @endif
                                 @else
@@ -401,6 +447,11 @@
                                     @endforeach
                                   @endif
                                 @endif
+                              @else
+                                <div class="col-xl-4 col-6 px-0 size-select">
+                                  <span>7</span>
+                                </div>
+                              @endif
                                 <!-- <div class="col-xl-4 col-6 px-0 size-select disabled">
                                   <span>US 7.5</span>
                                 </div>
@@ -420,7 +471,7 @@
                               @endforeach
                             @endif
 
-                            <div class="row my-3 mx-0 pb-3 sticky-product-picker">
+                            <div class="row my-3 mx-0 pb-3 sticky-product-picker" style="width: 100%;">
                               <div class="col-xl-6 col-lg-12 col-6 px-xl-1 px-lg-0 px-md-2 px-1 latest-product-btn mb-2">
                                 @if($products_detail->result->items->item->typeId == 'simple')
                                   <button type="button" class="btn_add_to_cart" data-product_detail="{{ $products_detail->result->items->item->name }}" data-product_id="{{ $products_detail->result->items->item->id }}" data-price_product="@if($price_special != $price_defult)

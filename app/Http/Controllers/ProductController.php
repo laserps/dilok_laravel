@@ -171,6 +171,7 @@ class ProductController extends Controller
             $get_products_gallery = [
                   'sku' => $data['products_detail']->result->items->item->sku,
               ];
+
             $data['products_gallery'] = $get_products_gallerys->catalogProductAttributeMediaGalleryManagementV1GetList($get_products_gallery);
             $data['color_product'] = $get_color_products->catalogProductAttributeOptionManagementV1GetItems($get_color_product);
             $data['size_products'] = $get_color_products->catalogProductAttributeOptionManagementV1GetItems($get_size_products);

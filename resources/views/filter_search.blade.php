@@ -76,8 +76,12 @@
                   @if($price_special != 0)
                       @php $before = 'before'; @endphp
                   @endif
-                  @if($price_defult != $price_special)
-                    @php $percen_sum = (100-(($price_special*100)/$price_defult)); @endphp
+                  @if(!empty($price_special))
+                    @if($price_defult != $price_special)
+                      @php $percen_sum = (100-(($price_special*100)/$price_defult)); @endphp
+                    @else
+                      @php $percen_sum = '0'; @endphp
+                    @endif
                   @else
                     @php $percen_sum = '0'; @endphp
                   @endif
@@ -86,8 +90,8 @@
                 @endif
 
                 @if($price_defult != $price_special)
-                  @if($percen_sum != null || $percen_sum != '')
-                    <div id="ribbon2" class="red-ribbon" style="@if($price_defult == $price_special) {{ 'display: none;' }} @else {{ '' }} @endif">{{number_format($percen_sum,0)}}%
+                  @if($percen_sum != null)
+                    <div id="ribbon2" class="red-ribbon" style="@if($percen_sum == '0') {{ 'display: none;' }} @else {{ '' }} @endif">{{number_format($percen_sum,0)}}%
                     </div>
                   @endif
                 @endif

@@ -51,6 +51,8 @@
                 @else
                   @php $price_defult = ''; @endphp
                 @endif
+              @else
+                @php $price_defult = ''; @endphp
               @endif
 
               @if(!empty($products2->result->items->item[$key_product]->priceInfo->finalPrice))
@@ -62,6 +64,7 @@
               @else
                 @php $price_special = ''; @endphp
               @endif
+
           <div class="item first">
             <div class="card p-1">
                 <div class="latest-product-frame">
@@ -127,11 +130,11 @@
                           </span>
                         @endif
                           <span style="@if(!empty($price_special)) @if($price_defult != $price_special){{$pan}} {{"color:red"}} @endif @endif" class="@if($date >= $special_from_date && $date <= $special_to_date){{$after}}@endif">
-                          
-                              
-                                {{ $price_special }}
-                              
-                             
+
+                              @if($price_defult != $price_special)
+                                {{ number_format($price_special,2) }}
+                              @endif
+
                           </span>
                           <span class="currency">THB</span>
                       </div>

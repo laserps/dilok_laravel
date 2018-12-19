@@ -52,15 +52,16 @@
                   @php $price_defult = ''; @endphp
                 @endif
               @endif
+
               @if(!empty($products2->result->items->item[$key_product]->priceInfo->finalPrice))
                 @if($value_product->id == $products2->result->items->item[$key_product]->id)
                   @php $price_special = $products2->result->items->item[$key_product]->priceInfo->finalPrice; @endphp
                 @else
                   @php $price_special = ''; @endphp
                 @endif
+              @else
+                @php $price_special = ''; @endphp
               @endif
-
-
           <div class="item first">
             <div class="card p-1">
                 <div class="latest-product-frame">
@@ -91,12 +92,14 @@
                       @php $percen_sum = ''; $before = ''; @endphp
                     @endif
 
+                  @if(!empty($price_defult))
                     @if($price_defult != $price_special)
-                      @if($percen_sum != null || $percen_sum != '') 
+                      @if($percen_sum != null || $percen_sum != '')
                         <div id="ribbon2" class="red-ribbon">{{number_format($percen_sum,0)}}%
-                        </div> 
+                        </div>
                       @endif
                     @endif
+                  @endif
                       <div class="col-8 px-xl-2 px-0 mb-2">
                           <div class="product-title">
                             <span>{{ $value_product->name }}<span>
@@ -123,12 +126,12 @@
                               {{ number_format($price_defult,2) }}
                           </span>
                         @endif
-                          <span style="@if($price_defult != $price_special){{$pan}} {{"color:red"}} @endif" class="@if($date >= $special_from_date && $date <= $special_to_date){{$after}}@endif">
-                            @if($price_special != 0)
-                              @if($price_defult != $price_special)
-                                {{ number_format($price_special,2) }}
-                              @endif
-                            @endif
+                          <span style="@if(!empty($price_special)) @if($price_defult != $price_special){{$pan}} {{"color:red"}} @endif @endif" class="@if($date >= $special_from_date && $date <= $special_to_date){{$after}}@endif">
+                          
+                              
+                                {{ $price_special }}
+                              
+                             
                           </span>
                           <span class="currency">THB</span>
                       </div>

@@ -97,6 +97,9 @@ class CartController extends Controller
                         ];
                     }
 
+                    // dd($product);
+                    // exit();
+
 
                     $ch = curl_init("http://dilokstore.com/magento/rest/V1/carts/mine/items");
                     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
@@ -105,6 +108,9 @@ class CartController extends Controller
                     curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
 
                     $add_product_to_cart = curl_exec($ch);
+
+                    // dd($add_product_to_cart);
+                    // exit();
 
                     $return['result'] = $create_cart;
                     $return['status'] = 1;

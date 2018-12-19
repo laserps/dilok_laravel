@@ -669,6 +669,8 @@ class FilterController extends Controller
                 ]
             ];
 
+            // dd($product);
+
             $ch = curl_init("http://dilokstore.com/magento/rest/V1/carts/mine/items");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
             curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($product));

@@ -137,10 +137,10 @@
                       @endforeach
                     @else
                       <div class="product-desktop-col col-xl-6 col-lg-12 px-1 mb-2">
-                          <div class="product-desktop-frame zoom3 cur" id="zoom3" data-toggle="modal" data-target="#full-screen-product-1">
-                            <img class="product-desktop-img" src="http://dilokstore.com/magento/pub/media/catalog/product\{{$products_gallery->result->item->file}}">
-                          </div>
+                        <div class="product-desktop-frame zoom3 cur" id="zoom3" data-toggle="modal" data-target="#full-screen-product-1">
+                          <img class="product-desktop-img" src="http://dilokstore.com/magento/pub/media/catalog/product\{{$products_gallery->result->item->file}}">
                         </div>
+                      </div>
                     @endif
                   @endif
                   <!-- @if(!empty($small_image))
@@ -315,7 +315,7 @@
                                             @endif
                                           @endif
                                         </span>
-                                        <span class="currency">THB</span>
+                                        <span class="currency">THBss</span>
                                   </div>
                                 </div>
                               </div>

@@ -1,5 +1,6 @@
 <section class="grid-item box box-padding">
   <ul class="row list-unstyled">
+ 
 
   @if(!empty($products->result->items->item))
     @if(count($products->result->items->item) != 1)
@@ -44,12 +45,22 @@
             @endif
           @endforeach
 
-          @if(!empty($products2->result->items->item[$key_product]->priceInfo->regularPrice))
-            @php $price_defult = $products2->result->items->item[$key_product]->priceInfo->regularPrice; @endphp
+        @if(isset($products->result->items->item))
+          @if(!empty($products->result->items->item[$key_product]))
+            @php $price_defult = $products->result->items->item[$key_product]->price; @endphp
           @endif
+        @else
+          @php $price_defult = ''; @endphp
+        @endif
+ 
+
+        @if(isset($products2->result->items->item))
           @if(!empty($products2->result->items->item[$key_product]->priceInfo->finalPrice))
             @php $price_special = $products2->result->items->item[$key_product]->priceInfo->finalPrice; @endphp
           @endif
+        @else
+          @php $price_special = ''; @endphp
+        @endif
 
             <div class="item">
               <div class="card p-1 fillter-m filter-r filter-position-r">
@@ -106,19 +117,21 @@
                         </div>
                         <div class="col-xl-4 col-md-4 col-0 col-lg-3 px-xl-2 px-0 mb-2 filtered-item3 d-md-flex d-none"></div>
                         <div class="col-xl-8 col-md-8 col-lg-9 col-12 px-xl-2 px-0 mb-2 latest-product-price filtered-item3">
-                          @if(!empty($price_defult))
-                            <span class="@if($price_special != $price_defult){{'before'}}@endif">{{ number_format($price_defult,2) }}</span>
-                            @endif
+                           
+                            <span class="@if(!empty($price_special)) @if($price_special != $price_defult){{'before'}}@endif @endif">{{ number_format($price_defult,2) }}</span>
+                           
                               <span style="@if($price_special != $price_defult){{'padding-right: 0px;'}}@endif" class="@if($price_special != $price_defult){{'after'}}@endif">
                                 @if($price_special != $price_defult)
-                                    {{ number_format($price_special,2) }}
+                                    {{ $price_special }}
                                 @endif
                               </span>
                               <span class="currency filter-font-product1">THB</span>
                         </div>
                         <div class="d-none d-lg-block d-md-none col-xl-6 col-lg-12 px-xl-1 px-lg-0 mb-xl-0 mb-2 mt-2 latest-product-btn latest-product-btn-pond fillter-btn-width">
-                          <button type="button" class="btn_add_to_cart" data-product_detail="{{ $value_product->name }}" data-product_id="{{ $value_product->id }}" data-price_product="@if($price_special != $price_defult)
+                          <button type="button" class="btn_add_to_cart" data-product_detail="{{ $value_product->name }}" data-product_id="{{ $value_product->id }}" data-price_product="@if(!empty($price_special))
                                     {{ $price_special }}
+                          @else 
+                          {{ $price_defult }}
                                 @endif" class="btn add-to-cart p-2">
                             <label class="mb-0 d-flex pr-2">
                               <span>Add to cart</span>
@@ -185,12 +198,21 @@
             @endif
           @endforeach
 
+        @if(isset($products2->result->items->item))
           @if(!empty($products2->result->items->item->priceInfo->regularPrice))
             @php $price_defult = $products2->result->items->item->priceInfo->regularPrice; @endphp
           @endif
+        @else
+          @php $price_defult = ''; @endphp
+        @endif
+
+        @if(isset($products2->result->items->item))
           @if(!empty($products2->result->items->item->priceInfo->finalPrice))
             @php $price_special = $products2->result->items->item->priceInfo->finalPrice; @endphp
           @endif
+        @else
+          @php $price_special = ''; @endphp
+        @endif
 
             <div class="item">
               <div class="card p-1 fillter-m filter-r filter-position-r">

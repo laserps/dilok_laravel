@@ -315,7 +315,7 @@
                                             @endif
                                           @endif
                                         </span>
-                                        <span class="currency">THBss</span>
+                                        <span class="currency">THB</span>
                                   </div>
                                 </div>
                               </div>

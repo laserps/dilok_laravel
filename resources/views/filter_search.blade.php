@@ -70,14 +70,14 @@
                     New
                     </div>
                   @endif
-                @endif 
+                @endif
 
                 @if(!empty($price_defult))
                   @if($price_special != 0)
                       @php $before = 'before'; @endphp
                   @endif
                   @if($price_defult != $price_special)
-                    @php $percen_sum = 100; @endphp
+                    @php $percen_sum = (100-(($price_special*100)/$price_defult)); @endphp
                   @else
                     @php $percen_sum = '0'; @endphp
                   @endif

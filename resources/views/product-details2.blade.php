@@ -332,6 +332,7 @@
                                @php $color = explode(',',$colorproduct); $size_product = explode(',',$size); @endphp
 
                               <div class="row mx-0 mt-2 mb-3">
+
                               @if(isset($product_options->result->item))
                                 @if(!empty($product_options))
                                   @if(!empty($color_product))
@@ -349,8 +350,11 @@
                                                   @endif
                                                 @else
                                                   @if($value_value == $value_color->value)
-                                                    <div class="col-1 mr-2 px-2 mb-2 text-center">
+                                                    <!-- <div class="col-1 mr-2 px-2 mb-2 text-center">
                                                        <a type="button" class="btn color-btn color-active" style="background-color:{{$value_color->label}}"></a>
+                                                    </div> -->
+                                                    <div class="col-1 mr-2 px-2 mb-2 text-center">
+                                                       <a class="btn color-btn btn_color_active" data-btncolor="{{$value_color->label}}" data-valuecolor="{{$value_color->value}}" style="background-color:{{$value_color->label}}"></a>
                                                     </div>
                                                   @endif
                                                 @endif
@@ -384,6 +388,17 @@
                                     @endforeach
                                   @endif
                                 @endif
+
+                              @else
+                                  @if(!empty($color_product))
+                                    @foreach($color_product->result->item as $key_color_product => $value_color_product)
+                                      @if($value_color_product->value == $colorproduct2)
+                                        <div class="col-1 mr-2 px-2 mb-2 text-center">
+                                           <button type="button" class="btn color-btn color-active" style="background-color:{{ $value_color_product->label }}"></button>
+                                        </div>
+                                      @endif
+                                    @endforeach
+                                  @endif
                               @endif
                                 <!-- <div class="col-1 mr-2 px-2 mb-2 text-center">
                                   <button type="button" class="btn color-btn" style="background-color:white"></button>
@@ -443,6 +458,16 @@
                                     @endforeach
                                   @endif
                                 @endif
+                              @else
+                                @if(!empty($size_products))
+                                  @foreach($size_products->result->item as $key_color_product => $value_size_product)
+                                    @if($value_size_product->value == $size)
+                                      <div class="col-xl-4 col-6 px-0 size-select active">
+                                        <span>{{ $value_size_product->label }}</span>
+                                      </div>
+                                    @endif
+                                  @endforeach
+                                @endif
                               @endif
                                 <!-- <div class="col-xl-4 col-6 px-0 size-select disabled">
                                   <span>US 7.5</span>
@@ -491,7 +516,6 @@
                                   </label>
                                 </button>
                               </div>
-
 
                               <input type="hidden" name="text_type_product" class="text_type_product" value="{{ $products_detail->result->items->item->typeId }}" readonly>
                               <input type="hidden" name="text_color_product" class="text_color_product" readonly>

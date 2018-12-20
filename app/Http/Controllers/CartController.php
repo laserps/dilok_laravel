@@ -107,7 +107,14 @@ class CartController extends Controller
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                     curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
 
-                    $add_product_to_cart = curl_exec($ch);
+                    $add_product_to_cart = json_decode(curl_exec($ch));
+
+                    if(!empty($add_product_to_cart->message)){
+                        if($add_product_to_cart->message == 'This product is out of stock.'){
+                            $return['status'] = 2;
+                            $return['content'] = 'สินค้าหมด';
+                        }
+                    }
 
                     // dd($add_product_to_cart);
                     // exit();

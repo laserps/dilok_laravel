@@ -206,7 +206,7 @@ class ProductController extends Controller
             'rootCategoryId' => 1,
         ];
 
-        $userData = array("username" => "customer", "password" => "customer@01");
+        $userData = array("username" => "customerdilok", "password" => "dilokstore@1234");
         $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
@@ -347,7 +347,7 @@ class ProductController extends Controller
             'rootCategoryId' => 1,
         ];
 
-        $userData = array("username" => "customer", "password" => "customer@01");
+        $userData = array("username" => "customerdilok", "password" => "dilokstore@1234");
         $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
@@ -414,7 +414,7 @@ class ProductController extends Controller
           'rootCategoryId' => 1,
       ];
 
-      $userData = array("username" => "customer", "password" => "customer@01");
+      $userData = array("username" => "customerdilok", "password" => "dilokstore@1234");
       $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
       curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
       curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
@@ -636,7 +636,7 @@ class ProductController extends Controller
     }
 
     public function payment_order(Request $request){
-      $userData = array("username" => "customer", "password" => "customer@01");
+      $userData = array("username" => "customerdilok", "password" => "dilokstore@1234");
       $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
       curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
       curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));

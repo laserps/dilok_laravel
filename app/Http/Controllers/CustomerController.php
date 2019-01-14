@@ -79,7 +79,7 @@ class CustomerController extends Controller
                     "password" => $request->input('password'),
                 ];
 
-                $admin_token = array("username" => "customer", "password" => "customer@01");
+                $admin_token = array("username" => "customerdilok", "password" => "dilokstore@1234");
                 $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
                 curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($admin_token));
@@ -126,7 +126,7 @@ class CustomerController extends Controller
     public function store(Request $request , $id)
     {
       try{
-        $userData = array("username" => "customer", "password" => "customer@01");
+        $userData = array("username" => "customerdilok", "password" => "dilokstore@1234");
         $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
@@ -251,7 +251,7 @@ class CustomerController extends Controller
     public function show($id)
     {
         try {
-            $userData = array("username" => "customer", "password" => "customer@01");
+            $userData = array("username" => "customerdilok", "password" => "dilokstore@1234");
             $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
             curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
@@ -306,7 +306,7 @@ class CustomerController extends Controller
             "password" => $request->input('password'),
         ];
 
-        $userData = array("username" => "customer", "password" => "customer@01");
+        $userData = array("username" => "customerdilok", "password" => "dilokstore@1234");
         $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
@@ -360,7 +360,7 @@ class CustomerController extends Controller
         try {
             $get_session_all = \Session::all();
 
-            $userData = array("username" => "customer", "password" => "customer@01");
+            $userData = array("username" => "customerdilok", "password" => "dilokstore@1234");
             $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
             curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
@@ -414,7 +414,7 @@ class CustomerController extends Controller
 
             $get_session_all = \Session::all();
 
-            $userData = array("username" => "customer", "password" => "customer@01");
+            $userData = array("username" => "customerdilok", "password" => "dilokstore@1234");
             $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
             curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
@@ -586,7 +586,7 @@ class CustomerController extends Controller
                 'password' => $request->input('password_login')
             );
 
-            $userData = array("username" => "customer", "password" => "customer@01");
+            $userData = array("username" => "customerdilok", "password" => "dilokstore@1234");
             $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
             curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
@@ -639,7 +639,7 @@ class CustomerController extends Controller
 
     public function get_billing($id_address){
         try{
-            $userData = array("username" => "customer", "password" => "customer@01");
+            $userData = array("username" => "customerdilok", "password" => "dilokstore@1234");
             $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
             curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
@@ -684,7 +684,7 @@ class CustomerController extends Controller
 
     public function show_edit_address($id_address){
         try {
-            $userData = array("username" => "customer", "password" => "customer@01");
+            $userData = array("username" => "customerdilok", "password" => "dilokstore@1234");
             $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
             curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
@@ -714,7 +714,7 @@ class CustomerController extends Controller
 
     public function edit_address_customer($id_address,Request $request){
         try{
-        $userData = array("username" => "customer", "password" => "customer@01");
+        $userData = array("username" => "customerdilok", "password" => "dilokstore@1234");
         $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));

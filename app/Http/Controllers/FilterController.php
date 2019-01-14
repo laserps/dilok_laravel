@@ -42,13 +42,13 @@ class FilterController extends Controller
                 $brands = '';
             } elseif($brands == "Men" || $brands == "Women" || $brands == "Kid") {
                 if($brands == "Men"){
-                    $genders = 14;
+                    $genders = 306;
                     $brands = '';
                 } elseif($brands == "Women"){
-                    $genders = 15;
+                    $genders = 307;
                     $brands = '';
                 } elseif($brands == "Kid"){
-                    $genders = 16;
+                    $genders = 308;
                     $brands = '';
                 } else {
                     $genders = '';
@@ -64,11 +64,11 @@ class FilterController extends Controller
 
             if($genders == "Men" || $genders == "Women" || $genders == "Kid") {
                 if($genders == "Men"){
-                    $genders = 14;
+                    $genders = 306;
                 } elseif($genders == "Women"){
-                    $genders = 15;
+                    $genders = 307;
                 } elseif($genders == "Kid"){
-                    $genders = 16;
+                    $genders = 308;
                 } else {
                     $genders = '';
                 }
@@ -225,7 +225,7 @@ class FilterController extends Controller
                 'attributeCode' => 'gender',
             ];
 
-            $userData = array("username" => "customer", "password" => "customer@01");
+            $userData = array("username" => "customerdilok", "password" => "dilokstore@1234");
             $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
             curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
@@ -585,8 +585,8 @@ class FilterController extends Controller
             $get_product_page['storeId'] = "1";
             $get_product_page['currencyCode'] = "THB";
 
-            // dd($get_product_page);
-            // exit();
+            dd($get_product_page);
+            exit();
 
         $data['products'] = $get_products->catalogProductRepositoryV1GetList($get_product_page);
         $data['products2'] = $get_products2->catalogProductRenderListV1GetList($get_product_page);
@@ -676,7 +676,7 @@ class FilterController extends Controller
             $price_product = $request->input('price');
             $product_id = $request->input('product_id');
 
-            $userData = array("username" => "customer", "password" => "customer@01");
+            $userData = array("username" => "customerdilok", "password" => "dilokstore@1234");
             $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
             curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));

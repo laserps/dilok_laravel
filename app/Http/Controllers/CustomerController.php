@@ -80,7 +80,7 @@ class CustomerController extends Controller
                 ];
 
                 $admin_token = array("username" => "customer", "password" => "customer@01");
-                $ch = curl_init("http://dilokstore.com/magento/rest/V1/integration/admin/token");
+                $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
                 curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($admin_token));
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -88,7 +88,7 @@ class CustomerController extends Controller
 
                 $token = json_decode(curl_exec($ch));
 
-                $chch = curl_init("http://dilokstore.com/magento/rest/all/V1/customers");
+                $chch = curl_init("http://128.199.235.248/magento/rest/all/V1/customers");
                 curl_setopt($chch, CURLOPT_CUSTOMREQUEST, "POST");
                 curl_setopt($chch, CURLOPT_POSTFIELDS, json_encode($value));
                 curl_setopt($chch, CURLOPT_RETURNTRANSFER, true);
@@ -127,7 +127,7 @@ class CustomerController extends Controller
     {
       try{
         $userData = array("username" => "customer", "password" => "customer@01");
-        $ch = curl_init("http://dilokstore.com/magento/rest/V1/integration/admin/token");
+        $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -138,7 +138,7 @@ class CustomerController extends Controller
         $get_session_all = \Session::all();
 
         if(!empty($get_session_all['customer_id'])){
-                $ch = curl_init("http://dilokstore.com/magento/rest/V1/customers/me");
+                $ch = curl_init("http://128.199.235.248/magento/rest/V1/customers/me");
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                 curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
@@ -218,7 +218,7 @@ class CustomerController extends Controller
                 $return['content'] = 'กรุณาล็อกอินเข้าสู่ระบบ';
             }
 
-        $chch = curl_init("http://dilokstore.com/magento/rest/all/V1/customers/me");
+        $chch = curl_init("http://128.199.235.248/magento/rest/all/V1/customers/me");
         curl_setopt($chch, CURLOPT_CUSTOMREQUEST, "PUT");
         curl_setopt($chch, CURLOPT_POSTFIELDS, json_encode($value));
         curl_setopt($chch, CURLOPT_RETURNTRANSFER, true);
@@ -252,7 +252,7 @@ class CustomerController extends Controller
     {
         try {
             $userData = array("username" => "customer", "password" => "customer@01");
-            $ch = curl_init("http://dilokstore.com/magento/rest/V1/integration/admin/token");
+            $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
             curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -260,7 +260,7 @@ class CustomerController extends Controller
 
             $token = json_decode(curl_exec($ch));
 
-            $chch = curl_init("http://dilokstore.com/magento/rest/all/V1/customers/".$id."");
+            $chch = curl_init("http://128.199.235.248/magento/rest/all/V1/customers/".$id."");
             curl_setopt($chch, CURLOPT_CUSTOMREQUEST, "GET");
             curl_setopt($chch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($chch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $token));
@@ -307,7 +307,7 @@ class CustomerController extends Controller
         ];
 
         $userData = array("username" => "customer", "password" => "customer@01");
-        $ch = curl_init("http://dilokstore.com/magento/rest/V1/integration/admin/token");
+        $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -316,7 +316,7 @@ class CustomerController extends Controller
         $token = curl_exec($ch);
 
 
-        $chch = curl_init("http://dilokstore.com/magento/rest/all/V1/customers/".$id."");
+        $chch = curl_init("http://128.199.235.248/magento/rest/all/V1/customers/".$id."");
         curl_setopt($chch, CURLOPT_CUSTOMREQUEST, "PUT");
         curl_setopt($chch, CURLOPT_POSTFIELDS, json_encode($value));
         curl_setopt($chch, CURLOPT_RETURNTRANSFER, true);
@@ -361,7 +361,7 @@ class CustomerController extends Controller
             $get_session_all = \Session::all();
 
             $userData = array("username" => "customer", "password" => "customer@01");
-            $ch = curl_init("http://dilokstore.com/magento/rest/V1/integration/admin/token");
+            $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
             curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -369,7 +369,7 @@ class CustomerController extends Controller
 
             $token = json_decode(curl_exec($ch));
 
-            $ch = curl_init("http://dilokstore.com/magento/rest/V1/addresses/".$id."");
+            $ch = curl_init("http://128.199.235.248/magento/rest/V1/addresses/".$id."");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "delete");
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $token));
@@ -406,7 +406,7 @@ class CustomerController extends Controller
                 'cache_wsdl' => WSDL_CACHE_NONE
             );
 
-            $catalog = new \SoapClient('http://dilokstore.com/magento/soap/default?wsdl&services=catalogCategoryManagementV1',$params);
+            $catalog = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogCategoryManagementV1',$params);
 
             $catalogs = [
                 'rootCategoryId' => 1,
@@ -415,7 +415,7 @@ class CustomerController extends Controller
             $get_session_all = \Session::all();
 
             $userData = array("username" => "customer", "password" => "customer@01");
-            $ch = curl_init("http://dilokstore.com/magento/rest/V1/integration/admin/token");
+            $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
             curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -423,7 +423,7 @@ class CustomerController extends Controller
 
             $token = json_decode(curl_exec($ch));
 
-            $ch = curl_init("http://dilokstore.com/magento/rest/V1/directory/countries");
+            $ch = curl_init("http://128.199.235.248/magento/rest/V1/directory/countries");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . $token));
@@ -432,7 +432,7 @@ class CustomerController extends Controller
 
             $get_blocks = 'searchCriteria[filter_groups][0][filters][0][field]=is_active&searchCriteria[filter_groups][0][filters][0][value]=1&searchCriteria[filter_groups][0][filters][0][condition_type]=eq&searchCriteria[pageSize]=12&searchCriteria[sortOrders][0][field]=block_id&searchCriteria[sortOrders][0][direction]=DESC';
 
-            $ch = curl_init("http://dilokstore.com/magento/rest/V1/cmsBlock/search?".$get_blocks);
+            $ch = curl_init("http://128.199.235.248/magento/rest/V1/cmsBlock/search?".$get_blocks);
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $token));
@@ -442,7 +442,7 @@ class CustomerController extends Controller
             $data['countries'] = $result;
 
             if(!empty($get_session_all['customer_id'])){
-                $ch = curl_init("http://dilokstore.com/magento/rest/V1/customers/me");
+                $ch = curl_init("http://128.199.235.248/magento/rest/V1/customers/me");
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                 curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
@@ -450,7 +450,7 @@ class CustomerController extends Controller
                 $result2 = json_decode(curl_exec($ch));
 
                 if(!empty($result2->id)){
-                    $ch = curl_init("http://dilokstore.com/magento/rest/V1/carts/mine/items");
+                    $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine/items");
                     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                     curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
@@ -459,7 +459,7 @@ class CustomerController extends Controller
 
                     if(empty($result3->parameters)) {
 
-                        $ch = curl_init("http://dilokstore.com/magento/rest/V1/carts/mine");
+                        $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine");
                         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
                         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                         curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
@@ -482,8 +482,8 @@ class CustomerController extends Controller
                             'cache_wsdl' => WSDL_CACHE_NONE
                         );
 
-                        $get_products = new \SoapClient('http://dilokstore.com/magento/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
-                        $get_products2 = new \SoapClient('http://dilokstore.com/magento/soap/default?wsdl&services=catalogProductRenderListV1',$params);
+                        $get_products = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
+                        $get_products2 = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductRenderListV1',$params);
                         $get_product_page = [
                             'searchCriteria' => [
                                 'filterGroups' => [
@@ -523,7 +523,7 @@ class CustomerController extends Controller
                         $get_product_page['storeId'] = "1";
                         $get_product_page['currencyCode'] = "THB";
 
-                        $get_products = new \SoapClient('http://dilokstore.com/magento/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
+                        $get_products = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
 
                         foreach($result3 as $key => $value){
                             $get_key_product = array(
@@ -533,7 +533,7 @@ class CustomerController extends Controller
                             $data['product_key'][$key] = $get_products->catalogProductRepositoryV1Get($get_key_product);
                         }
 
-                        $get_type_products = new \SoapClient('http://dilokstore.com/magento/soap/default?wsdl&services=catalogProductAttributeOptionManagementV1',$params);
+                        $get_type_products = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductAttributeOptionManagementV1',$params);
 
                         $get_color_product = [
                             'attributeCode' => 'color',
@@ -587,7 +587,7 @@ class CustomerController extends Controller
             );
 
             $userData = array("username" => "customer", "password" => "customer@01");
-            $ch = curl_init("http://dilokstore.com/magento/rest/V1/integration/admin/token");
+            $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
             curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -595,7 +595,7 @@ class CustomerController extends Controller
 
             $token = curl_exec($ch);
 
-            $ch = curl_init("http://dilokstore.com/magento/rest/V1/integration/customer/token");
+            $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/customer/token");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
             curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($login_customers));
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -604,7 +604,7 @@ class CustomerController extends Controller
             $result = curl_exec($ch);
 
             if(empty(json_decode($result)->message)){
-                $ch = curl_init("http://dilokstore.com/magento/rest/V1/customers/me");
+                $ch = curl_init("http://128.199.235.248/magento/rest/V1/customers/me");
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                 curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . json_decode($result)));
@@ -640,7 +640,7 @@ class CustomerController extends Controller
     public function get_billing($id_address){
         try{
             $userData = array("username" => "customer", "password" => "customer@01");
-            $ch = curl_init("http://dilokstore.com/magento/rest/V1/integration/admin/token");
+            $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
             curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -651,14 +651,14 @@ class CustomerController extends Controller
         $get_session_all = \Session::all();
 
         if(!empty($get_session_all['customer_id'])){
-            $ch = curl_init("http://dilokstore.com/magento/rest/V1/customers/me");
+            $ch = curl_init("http://128.199.235.248/magento/rest/V1/customers/me");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
 
             $result2 = json_decode(curl_exec($ch));
 
-            $ch = curl_init("http://dilokstore.com/magento/rest/V1/customers/addresses/".$id_address."");
+            $ch = curl_init("http://128.199.235.248/magento/rest/V1/customers/addresses/".$id_address."");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $token));
@@ -685,7 +685,7 @@ class CustomerController extends Controller
     public function show_edit_address($id_address){
         try {
             $userData = array("username" => "customer", "password" => "customer@01");
-            $ch = curl_init("http://dilokstore.com/magento/rest/V1/integration/admin/token");
+            $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
             curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -693,7 +693,7 @@ class CustomerController extends Controller
 
             $token = json_decode(curl_exec($ch));
 
-            $chch = curl_init("http://dilokstore.com/magento/rest/all/V1/customers/addresses/".$id_address."");
+            $chch = curl_init("http://128.199.235.248/magento/rest/all/V1/customers/addresses/".$id_address."");
             curl_setopt($chch, CURLOPT_CUSTOMREQUEST, "GET");
             curl_setopt($chch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($chch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $token));
@@ -715,7 +715,7 @@ class CustomerController extends Controller
     public function edit_address_customer($id_address,Request $request){
         try{
         $userData = array("username" => "customer", "password" => "customer@01");
-        $ch = curl_init("http://dilokstore.com/magento/rest/V1/integration/admin/token");
+        $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -726,7 +726,7 @@ class CustomerController extends Controller
         $get_session_all = \Session::all();
 
         if(!empty($get_session_all['customer_id'])){
-                $ch = curl_init("http://dilokstore.com/magento/rest/V1/customers/me");
+                $ch = curl_init("http://128.199.235.248/magento/rest/V1/customers/me");
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                 curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
@@ -808,7 +808,7 @@ class CustomerController extends Controller
                 $return['content'] = 'กรุณาล็อกอินเข้าสู่ระบบ';
             }
 
-        $chch = curl_init("http://dilokstore.com/magento/rest/all/V1/customers/me");
+        $chch = curl_init("http://128.199.235.248/magento/rest/all/V1/customers/me");
         curl_setopt($chch, CURLOPT_CUSTOMREQUEST, "PUT");
         curl_setopt($chch, CURLOPT_POSTFIELDS, json_encode($value));
         curl_setopt($chch, CURLOPT_RETURNTRANSFER, true);

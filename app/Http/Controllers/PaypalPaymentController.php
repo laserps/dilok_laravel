@@ -18,7 +18,7 @@ class PaypalPaymentController extends Controller{
     public function paywithPaypal(Request $request)
     {
         $userData = array("username" => "customer", "password" => "customer@01");
-        $ch = curl_init("http://dilokstore.com/magento/rest/V1/integration/admin/token");
+        $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -54,7 +54,7 @@ class PaypalPaymentController extends Controller{
             if(!empty($get_session_all['customer_id'])){
 
                 foreach($value_product_ids as $key_product_id => $value_product_id){
-                    $ch = curl_init("http://dilokstore.com/magento/rest/V1/carts/mine/items/".$value_product_id);
+                    $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine/items/".$value_product_id);
                     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "delete");
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                     curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
@@ -63,21 +63,21 @@ class PaypalPaymentController extends Controller{
 
                 }
 
-                    $ch = curl_init("http://dilokstore.com/magento/rest/V1/carts/mine/items");
+                    $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine/items");
                     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                     curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
 
                     $result2 = json_decode(curl_exec($ch));
 
-                    $ch = curl_init("http://dilokstore.com/magento/rest/V1/customers/addresses/".$request->id_value_billing."");
+                    $ch = curl_init("http://128.199.235.248/magento/rest/V1/customers/addresses/".$request->id_value_billing."");
                     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                     curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $token));
 
                     $address_bill = json_decode(curl_exec($ch));
 
-                    $ch = curl_init("http://dilokstore.com/magento/rest/V1/customers/addresses/".$request->id_value_shipping."");
+                    $ch = curl_init("http://128.199.235.248/magento/rest/V1/customers/addresses/".$request->id_value_shipping."");
                     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                     curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $token));
@@ -147,7 +147,7 @@ class PaypalPaymentController extends Controller{
                         ]
                     ];
 
-                    $ch = curl_init("http://dilokstore.com/magento/rest/V1/carts/mine/shipping-information");
+                    $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine/shipping-information");
                     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
                     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data_shipping));
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -155,7 +155,7 @@ class PaypalPaymentController extends Controller{
 
                     $result_shipping = json_decode(curl_exec($ch));
 
-                    $ch = curl_init("http://dilokstore.com/magento/rest/V1/carts/mine/items");
+                    $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine/items");
                     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                     curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
@@ -346,7 +346,7 @@ class PaypalPaymentController extends Controller{
             ];
 
             $userData = array("username" => "customer", "password" => "customer@01");
-            $ch = curl_init("http://dilokstore.com/magento/rest/V1/integration/admin/token");
+            $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
             curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -358,7 +358,7 @@ class PaypalPaymentController extends Controller{
 
             if(!empty($get_session_all['customer_id'])){
 
-                $ch = curl_init("http://dilokstore.com/magento/rest/V1/carts/mine/payment-information");
+                $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine/payment-information");
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
                 curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($create_order));
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -369,7 +369,7 @@ class PaypalPaymentController extends Controller{
 
                 $value_sku_products = session()->get('sku_product');
 
-                $get_products = new \SoapClient('http://dilokstore.com/magento/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
+                $get_products = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
 
                 if(!empty($value_sku_products)){
                     foreach($value_sku_products as $key_sku_product => $value_sku_product){
@@ -378,7 +378,7 @@ class PaypalPaymentController extends Controller{
                         );
                         $data_product = $get_products->catalogProductRepositoryV1Get($get_product_detail);
 
-                        $ch = curl_init("http://dilokstore.com/magento/rest/V1/carts/mine");
+                        $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine");
                         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
                         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                         curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
@@ -396,7 +396,7 @@ class PaypalPaymentController extends Controller{
                             ]
                           ];
 
-                        $ch = curl_init("http://dilokstore.com/magento/rest/V1/carts/mine/items");
+                        $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine/items");
                         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
                         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($product));
                         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);

@@ -17,6 +17,7 @@
             $after = '';
             $before = '';
             $price_special = '';
+            $price_defult = '';
             $special_from_date = '';
             $special_to_date = '';
             $pan = 'padding-right: 5px;';

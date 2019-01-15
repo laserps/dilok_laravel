@@ -16,6 +16,7 @@
             $news_to_date = '';
             $after = '';
             $before = '';
+            $price_special = '';
             $special_from_date = '';
             $special_to_date = '';
             $pan = 'padding-right: 5px;';

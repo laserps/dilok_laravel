@@ -316,7 +316,7 @@
                                 <div class="col-xl-8 col-md-8 col-lg-9 col-12 px-xl-2 px-0 mb-2 latest-product-price filtered-item3">
                                   @if(!empty($price_defult))
                                     <span class="@if($price_special != $price_defult){{'before'}}@endif">{{ number_format($price_defult,2) }}</span>
-                                    @endif
+                                  @endif
                                       <span style="@if($price_special != $price_defult){{'padding-right: 0px;'}}@endif" class="@if($price_special != $price_defult){{'after'}}@endif">
                                         @if($price_special != $price_defult)
                                             {{ number_format($price_special,2) }}

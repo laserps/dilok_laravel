@@ -286,9 +286,13 @@
                         @endif
                           <div class="latest-product-frame filter-frame filter-product-frame ">
                               <a href="{{ url('product/'.$value_product->id) }}">
-                                <img class="latest-product-pic" src="http://dilokstore.com/magento/pub/media/catalog/product\{{$image}}" alt="Card image cap">
+                                @if(!empty($image))
+                                  <img class="latest-product-pic" src="http://128.199.235.248/magento/pub/media/catalog/product\{{$image}}" alt="Card image cap">
+                                @else
+                                  <img class="latest-product-pic" src="{{ url('assets/images/No_Image_Available.jpg') }}" alt="Card image cap">
+                                @endif
                               </a>
-                              <a href="{{ url('product/'.$value_product->id) }}"> <img class="latest-product-pic second-latest-product" src="http://dilokstore.com/magento/pub/media/catalog/product\{{$small_image}}" alt="Card image cap"> </a>
+                              <a href="{{ url('product/'.$value_product->id) }}"> <img class="latest-product-pic second-latest-product" src="http://128.199.235.248/magento/pub/media/catalog/product\{{$small_image}}" alt="Card image cap"> </a>
                           </div>
                           <div class="card-body p-1 filter-a filter-position-a">
                             <div class="row px-0 mx-0">
@@ -378,14 +382,17 @@
               @php $main_page-4; @endphp
             @endif
             @if($prev_page)
-              <li class="page-item pr-1"><a class="news_page-link" href="{{ url('filter') }}?page={{$prev_page}}">&laquo;</a></li>
+              <li class="page-item pr-1"><a class="news_page-link" href="{{ url('brands') }}/{{$brands2}}?page={{$prev_page}}">&laquo;</a></li>
+              <!-- <li class="page-item pr-1"><a class="news_page-link" href="{{ url('filter') }}?page={{$prev_page}}">&laquo;</a></li> -->
             @endif
             @for($i = $main_page2; $i <= $sum_page; $i++)
-                  <li class="page-item pr-1"><a @if($main_page == $i) style="background-color: #999;" @endif class="news_page-link page_main" href="{{ url('filter') }}?page={{$i}}">{{ $i }}</a></li>
+                  <li class="page-item pr-1"><a @if($main_page == $i) style="background-color: #999;" @endif class="news_page-link page_main" href="{{ url('brands') }}/{{$brands2}}?page={{$i}}">{{ $i }}</a></li>
+                  <!-- <li class="page-item pr-1"><a @if($main_page == $i) style="background-color: #999;" @endif class="news_page-link page_main" href="{{ url('filter') }}?page={{$i}}">{{ $i }}</a></li> -->
             @endfor
             @if($i != 1)
               @if($next_page)
-                <li class="page-item pr-1"><a class="news_page-link" href="{{ url('filter') }}?page={{$next_page}}">&raquo;</a></li>
+                <li class="page-item pr-1"><a class="news_page-link" href="{{ url('brands') }}/{{$brands2}}?page={{$next_page}}">&raquo;</a></li>
+                <!-- <li class="page-item pr-1"><a class="news_page-link" href="{{ url('filter') }}?page={{$next_page}}">&raquo;</a></li> -->
               @endif
             @endif
           </ul>

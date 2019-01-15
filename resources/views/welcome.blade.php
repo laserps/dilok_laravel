@@ -173,7 +173,8 @@
                                 @foreach($category->result->childrenData->item as $key_category => $value_category)
                                   @if($value_category->name != 'Default Category')
                                     <li>
-                                      <a class="nav-link" href="{{ url('filter/?brands=') }}{{ $value_category->id }}">{{ $value_category->name }}</a>
+                                      <!-- <a class="nav-link" href="{{ url('filter/?brands=') }}{{ $value_category->id }}">{{ $value_category->name }}</a> -->
+                                      <a class="nav-link" href="{{ url('brands') }}/{{ $value_category->name }}">{{ $value_category->name }}</a>
                                     </li>
                                   @endif
                                 @endforeach
@@ -470,7 +471,8 @@
 
           <li class="nav-item">
 
-            <a class="nav-link" href="{{ url('filter/?genders=25') }}"><span style="font-weight : 400;">MEN</span></a>
+            <!-- <a class="nav-link" href="{{ url('filter/?genders=25') }}"><span style="font-weight : 400;">MEN</span></a> -->
+            <a class="nav-link" href="{{ url('brands/Men') }}"><span style="font-weight : 400;">MEN</span></a>
             <div class="list">
                 <div class="list-container">
                   <div class="row">
@@ -482,7 +484,8 @@
                           @foreach($category->result->childrenData->item as $key_category => $value_category)
                             @if($value_category->name != 'Default Category')
                               <li>
-                                <a class="nav-link" href="{{ url('filter/?genders=25&brands=') }}{{ $value_category->id }}">{{ $value_category->name }}</a>
+                                <!-- <a class="nav-link" href="{{ url('filter/?genders=25&brands=') }}{{ $value_category->id }}">{{ $value_category->name }}</a> -->
+                                <a class="nav-link" href="{{ url('brands') }}/{{ $value_category->name }}/{{ ('Men') }}">{{ $value_category->name }}</a>
                               </li>
                             @endif
                           @endforeach
@@ -631,7 +634,8 @@
 
 
           <li class="nav-item">
-            <a class="nav-link" href="{{ url('filter/?genders=26') }}"><span style="font-weight : 400;">WOMEN</span></a>
+            <!-- <a class="nav-link" href="{{ url('filter/?genders=26') }}"><span style="font-weight : 400;">WOMEN</span></a> -->
+            <a class="nav-link" href="{{ url('brands/Women') }}"><span style="font-weight : 400;">WOMEN</span></a>
             <div class="list">
                 <div class="list-container">
                   <div class="row">
@@ -792,7 +796,8 @@
           </li> <!-- WOMEN -->
           <li class="nav-item">
 
-            <a class="nav-link" href="{{ url('filter/?genders=27') }}"><span style="font-weight : 400;">KID</span></a>
+            <!-- <a class="nav-link" href="{{ url('filter/?genders=27') }}"><span style="font-weight : 400;">KID</span></a> -->
+            <a class="nav-link" href="{{ url('brands/Kid') }}"><span style="font-weight : 400;">KID</span></a>
             <div class="list">
                 <div class="list-container">
                   <div class="row">
@@ -1058,7 +1063,7 @@
                                     <a href="{{ url('single-blog') }}/{{ $value_blocks->id }}">
                                       <div class="nav-blog">
                                         @if(!empty($image['src']))
-                                          <img class="nav-product" src="http://dilokstore.com/magento/pub/media/{{ $image['src'] }}"/>
+                                          <img class="nav-product" src="http://128.199.235.248/magento/pub/media/{{ $image['src'] }}"/>
                                         @else
                                           <img class="nav-product" src="{{ url('assets/images/index/blog1.jpg') }}">
                                         @endif

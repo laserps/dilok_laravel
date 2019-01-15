@@ -585,11 +585,14 @@ class FilterController extends Controller
             $get_product_page['storeId'] = "1";
             $get_product_page['currencyCode'] = "THB";
 
-            dd($get_product_page);
-            exit();
+            // dd($get_product_page);
+            // exit();
 
         $data['products'] = $get_products->catalogProductRepositoryV1GetList($get_product_page);
         $data['products2'] = $get_products2->catalogProductRenderListV1GetList($get_product_page);
+
+        // dd($data);
+        // exit();
 
         } catch(Exception $e){
           $data['products'] = $e->getMessage();

@@ -76,7 +76,7 @@ class CartController extends Controller
                                                 "option_value" => $text_valuecolor_product
                                             ],
                                             [
-                                                "option_id" => "136",
+                                                "option_id" => "135",
                                                 "option_value" => $text_valuesize_product
                                             ]
                                         ]

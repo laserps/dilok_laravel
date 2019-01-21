@@ -37,6 +37,8 @@ class PaypalPaymentController extends Controller{
 
         $check = $request->c_cart_product_id;
 
+        // dd($value_sku_products);
+
         $get_session_all = \Session::all();
 
         $validator = \Validator::make($request->all(), [
@@ -155,6 +157,9 @@ class PaypalPaymentController extends Controller{
 
                     $result_shipping = json_decode(curl_exec($ch));
 
+                    // dd($data_shipping,$result_shipping);
+                    // exit();
+
                     $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine/items");
                     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -181,6 +186,8 @@ class PaypalPaymentController extends Controller{
                     ->setPostalCode($address_shipping->postcode)
                     ->setCountryCode($address_shipping->country_id)
                     ->setPhone($address_shipping->telephone)
+                    // ->setCountryCode("TH")
+                    // ->setPhone("6657000516")
                     ->setRecipientName($address_shipping->firstname);
 
                 // ### Payer
@@ -354,7 +361,11 @@ class PaypalPaymentController extends Controller{
 
             $token = json_decode(curl_exec($ch));
 
+
             $get_session_all = \Session::all();
+
+            // dd($get_session_all,$get_session_all['customer_id']);
+            // exit();
 
             if(!empty($get_session_all['customer_id'])){
 
@@ -369,42 +380,50 @@ class PaypalPaymentController extends Controller{
 
                 $value_sku_products = session()->get('sku_product');
 
+                // dd($create_order,$result_order,$value_sku_products);
+                // exit();
+
+                $get_product_detail = null;
+
                 $get_products = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
 
                 if(!empty($value_sku_products)){
                     foreach($value_sku_products as $key_sku_product => $value_sku_product){
-                        $get_product_detail = array(
-                            'sku' => $value_sku_product
-                        );
-                        $data_product = $get_products->catalogProductRepositoryV1Get($get_product_detail);
+                        if(!empty($value_sku_product)){
+                            $get_product_detail = array(
+                                'sku' => $value_sku_product
+                            );
 
-                        $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine");
-                        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
+                            $data_product = $get_products->catalogProductRepositoryV1Get($get_product_detail);
 
-                        $create_cart = json_decode(curl_exec($ch));
+                            $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine");
+                            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+                            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
 
-                        $product = [
-                            "cartItem" => [
-                              "sku"=> $data_product->result->sku,
-                              "qty"=> 1,
-                              "name" => $data_product->result->sku,
-                              "price" => 1,
-                              "product_type" => "simple",
-                              "quote_id"=> $create_cart,
-                            ]
-                          ];
+                            $create_cart = json_decode(curl_exec($ch));
 
-                        $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine/items");
-                        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-                        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($product));
-                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
+                            $product = [
+                                "cartItem" => [
+                                  "sku"=> $data_product->result->sku,
+                                  "qty"=> 1,
+                                  "name" => $data_product->result->sku,
+                                  "price" => 1,
+                                  "product_type" => "simple",
+                                  "quote_id"=> $create_cart,
+                                ]
+                              ];
 
-                        $post_items = json_decode(curl_exec($ch));
+                            $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine/items");
+                            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+                            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($product));
+                            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
 
-                        session()->forget('sku_product');
+                            $post_items = json_decode(curl_exec($ch));
+
+                            session()->forget('sku_product');
+                        }
                     }
                 }
 

@@ -414,7 +414,7 @@
                                     @foreach($size_products->result->item as $key_sizes => $value_sizes)
                                       @if(is_array($product_options->result->item))
                                         @foreach($product_options->result->item as $key_options => $value_options)
-                                          @if($value_options->attributeId == '136' && $value_options->label == 'Size')
+                                          @if($value_options->attributeId == '135' && $value_options->label == 'Size')
                                             @foreach($value_options->values->item as $key_value => $value_value)
                                               @if(count($value_options->values->item) > 1)
                                                 @if($value_value->valueIndex == $value_sizes->value)
@@ -433,7 +433,7 @@
                                           @endif
                                         @endforeach
                                       @else
-                                        @if($product_options->result->item->attributeId == '136' && $product_options->result->item->label == 'Size')
+                                        @if($product_options->result->item->attributeId == '135' && $product_options->result->item->label == 'Size')
                                           @foreach($product_options->result->item->values->item as $key_value => $value_value)
                                               @if(count($product_options->result->item->values->item) > 1)
                                                 @if($value_value->valueIndex == $value_sizes->value)

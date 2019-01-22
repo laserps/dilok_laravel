@@ -722,7 +722,6 @@ class FilterController extends Controller
                 ]
             ];
 
-            // dd($product);
 
             $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine/items");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
@@ -732,9 +731,15 @@ class FilterController extends Controller
 
             $customer_item = json_decode(curl_exec($ch));
 
-            $return['status'] = 1;
-            $return['login'] = $customer_item;
-            $return['content'] = 'เพิ่มสินค้าสำเร็จ';
+            if(!empty($customer_item->message)){
+                $return['status'] = 3;
+                $return['content'] = 'สินค้าชิ้นนี้หมด';
+            } else {
+                $return['status'] = 1;
+                $return['login'] = $customer_item;
+                $return['content'] = 'เพิ่มสินค้าสำเร็จ';
+            }
+
         } else {
             \Session::flush();
             $return['status'] = 2;

@@ -2571,6 +2571,9 @@ $('body').on('click','.btn_add_to_cart',function(){
         $('body').loader('hide');
         al_su(rec.content,'danger');
         window.location.href = url_gb+'/regist';
+      } else if(rec.status == 3){
+        al_su(rec.content,'danger');
+        $('body').loader('hide');
       }else{
         $('body').loader('hide');
         al_su(rec.content,'danger');

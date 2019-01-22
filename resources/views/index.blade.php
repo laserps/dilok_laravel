@@ -188,7 +188,7 @@
 
 
                 <section class="upcoming-launches mb-lg-5 mb-md-5 mb-4">
-                   <div class="row mx-0">
+                   <!-- <div class="row mx-0">
                      <div class="col-12 px-lg-3 px-0 mb-md-3">
                        <h3 class="mb-1 pull-left">UPCOMING LAUNCES</h3>
                        <div class="latest-product-btn pull-right mb-2">
@@ -290,7 +290,7 @@
                          </div>
                        </div>
                      </div>
-                   </div>
+                   </div> -->
 
 
                   <section class="blog-launches mb-lg-5 mb-md-5 mb-4">

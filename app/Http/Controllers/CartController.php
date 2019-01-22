@@ -111,17 +111,15 @@ class CartController extends Controller
 
                     if(!empty($add_product_to_cart->message)){
                         if($add_product_to_cart->message == 'This product is out of stock.'){
-                            $return['status'] = 2;
+                            $return['status'] = 3;
                             $return['content'] = 'สินค้าหมด';
                         }
+                    } else {
+                        $return['result'] = $create_cart;
+                        $return['status'] = 1;
+                        $return['content'] = 'เพิ่มสินค้าสำเร็จ';
                     }
 
-                    // dd($add_product_to_cart);
-                    // exit();
-
-                    $return['result'] = $create_cart;
-                    $return['status'] = 1;
-                    $return['content'] = 'เพิ่มสินค้าสำเร็จ';
                 // } else {
                 //     $return['status'] = 0;
                 //     $return['content'] = 'กรุณาเลือกประเภทสินค้าให้ถูกต้อง';

@@ -705,6 +705,9 @@ $('body').on('click','.btn_add_to_cart_config',function(){
         $('body').loader('hide');
       } else if(rec.status == 2) {
         window.location.href = url_gb+'/regist';
+      } else if(rec.status == 3) {
+        $('body').loader('hide');
+        al_su(rec.content,'danger');
       } else {
         $('body').loader('hide');
         al_su(rec.content,'danger');

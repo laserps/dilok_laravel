@@ -36,7 +36,7 @@ class CustomerController extends Controller
         if ($validator->fails()) {
             if($errors->first('password')){
                 $return['status'] = 2;
-                $return['content'] = 'Password ต้องมีตัวอย่างน้อย 8 ตัวษักษร อัพษรตัวใหญ่ 1 ตัว อักษรเล็ก 1 ตัวและตัวเลข 1 ตัว';
+                $return['content'] = 'Password ต้องมีอย่างน้อย 8 ตัวอักษร อักษรตัวใหญ่ 1 ตัว อักษรเล็ก 1 ตัวและตัวเลข 1 ตัว';
             }
             if($errors->first('password_confirmation')){
                 $return['status'] = 2;

@@ -184,9 +184,9 @@ class PaypalPaymentController extends Controller{
                     ->setCity($address_shipping->city)
                     ->setState($address_shipping->country_id)
                     ->setPostalCode($address_shipping->postcode)
-                    ->setCountryCode($address_shipping->country_id)
+                    // ->setCountryCode($address_shipping->country_id)
                     ->setPhone($address_shipping->telephone)
-                    // ->setCountryCode("TH")
+                    ->setCountryCode("US")
                     // ->setPhone("6657000516")
                     ->setRecipientName($address_shipping->firstname);
 
@@ -214,8 +214,8 @@ class PaypalPaymentController extends Controller{
                     ->setShippingAddress($shippingAddress);
 
                 $details = Paypalpayment::details();
-                $details->setShipping("0")
-                        ->setTax("0")
+                $details->setShipping(0)
+                        ->setTax(0)
                         //total of items prices
                         ->setSubtotal($sum);
 
@@ -252,6 +252,9 @@ class PaypalPaymentController extends Controller{
                     ->setPayer($payer)
                     ->setRedirectUrls($redirectUrls)
                     ->setTransactions([$transaction]);
+
+                // dd($payment);
+                // exit();
 
                 $status['status'] = 1;
             } else {

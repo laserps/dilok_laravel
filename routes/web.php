@@ -47,7 +47,8 @@ Route::post('/payment_order','ProductController@payment_order');
 Route::post('/gender','FilterController@get_gender');
 Route::post('/addproducttocart','FilterController@add_to_cart');
 Route::post('/deleteproducttocart','FilterController@del_to_cart');
-Route::post('/gender/{id}','FilterController@get_gender');
+// Route::post('/gender/{gender}/{brand}/{size}/{colorproduct}','FilterController@get_gender');
+Route::get('/filter/{gender}','FilterController@get_gender');
 Route::get('/filter_search','FilterController@filter_search');
 // Route::get('/Login',[ 'as' => 'login', 'uses' => 'CheckController@index']);
 
@@ -76,3 +77,21 @@ Route::post('/del_address_customer/{id}','CustomerController@destroy');
 Route::get('/logout','CustomerController@logout');
 
 Route::post('/get_billing/{id}','CustomerController@get_billing');
+
+// Route::get('size','TestapiController@getresize');
+Route::get('size','TestapiController@getresize');
+
+Route::get('size2/{id}','TestapiController@resize');
+Route::get('apitest','TestapiController@index');
+
+Route::get('/brands/{brands}','FilterController@index');
+Route::get('/brands/{brands}/{genders}','FilterController@index');
+
+Route::get('phpinfo',function(){
+	return phpinfo();
+});
+
+Route::get('imagemake',function(){
+    $img = Image::make('D:\TOTAL2\8.1289650-703\TON_7198.jpg')->resize(300, 200);
+    return $img->response('jpg');
+});

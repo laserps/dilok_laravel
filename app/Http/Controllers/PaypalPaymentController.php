@@ -178,17 +178,17 @@ class PaypalPaymentController extends Controller{
                 // ### Address
                 // Base Address object used as shipping or billing
                 // address in a payment. [Optional]
-                $shippingAddress = Paypalpayment::shippingAddress();
-                $shippingAddress->setLine1($address_shipping->street[0])
-                    ->setLine2($street2)
-                    ->setCity($address_shipping->city)
-                    ->setState($address_shipping->country_id)
-                    ->setPostalCode($address_shipping->postcode)
-                    // ->setCountryCode($address_shipping->country_id)
-                    ->setPhone($address_shipping->telephone)
-                    ->setCountryCode("US")
-                    // ->setPhone("6657000516")
-                    ->setRecipientName($address_shipping->firstname);
+                // $shippingAddress = Paypalpayment::shippingAddress();
+                // $shippingAddress->setLine1($address_shipping->street[0])
+                //     ->setLine2($street2)
+                //     ->setCity($address_shipping->city)
+                //     ->setState($address_shipping->country_id)
+                //     ->setPostalCode($address_shipping->postcode)
+                //     ->setCountryCode($address_shipping->country_id)
+                //     ->setPhone($address_shipping->telephone)
+                //     // ->setCountryCode("TH")
+                //     // ->setPhone("6657000516")
+                //     ->setRecipientName($address_shipping->firstname);
 
                 // ### Payer
                 // A resource representing a Payer that funds a payment
@@ -210,12 +210,12 @@ class PaypalPaymentController extends Controller{
                     }
 
                 $itemList = Paypalpayment::itemList();
-                $itemList->setItems($cart_item)
-                    ->setShippingAddress($shippingAddress);
+                $itemList->setItems($cart_item);
+                    // ->setShippingAddress($shippingAddress);
 
                 $details = Paypalpayment::details();
-                $details->setShipping(0)
-                        ->setTax(0)
+                $details->setShipping("0")
+                        ->setTax("0")
                         //total of items prices
                         ->setSubtotal($sum);
 
@@ -252,9 +252,6 @@ class PaypalPaymentController extends Controller{
                     ->setPayer($payer)
                     ->setRedirectUrls($redirectUrls)
                     ->setTransactions([$transaction]);
-
-                // dd($payment);
-                // exit();
 
                 $status['status'] = 1;
             } else {
@@ -383,7 +380,7 @@ class PaypalPaymentController extends Controller{
 
                 $value_sku_products = session()->get('sku_product');
 
-                // dd($create_order,$result_order,$value_sku_products);
+                // dd($create_order,$result_order,$value_sku_products,$get_session_all['customer_id']);
                 // exit();
 
                 $get_product_detail = null;

@@ -1065,7 +1065,7 @@
                                         @if(!empty($image['src']))
                                           <img class="nav-product" src="http://128.199.235.248/magento/pub/media/{{ $image['src'] }}"/>
                                         @else
-                                          <img class="nav-product" src="{{ url('assets/images/index/blog1.jpg') }}">
+                                          <img class="nav-product" src="{{ url('assets/images/No_Image_Available.jpg') }}">
                                         @endif
                                       </div>
                                     </a>

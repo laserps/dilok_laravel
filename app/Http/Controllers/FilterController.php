@@ -243,6 +243,9 @@ class FilterController extends Controller
 
             $blocks = json_decode(curl_exec($ch));
 
+            // dd($token);
+            // exit();
+
             $get_session_all = \Session::all();
 
         if(!empty($get_session_all['customer_id'])){

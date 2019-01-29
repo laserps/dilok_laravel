@@ -109,7 +109,7 @@
                       <div><span>Country : </span><span id="bill_country_id">@if(!empty($get_cart->billing_address->country_id)) {{ $get_cart->billing_address->country_id }} @endif</span></div>
                       <div><span>Email : </span><span id="bill_email">@if(!empty($get_cart->billing_address->email)) {{ $get_cart->billing_address->email }} @endif</span></div>
 
-                      <input type="hidden" name="id_value_billing" id="id_value_billing" required>
+                      <input type="text" name="id_value_billing" id="id_value_billing" required>
                     </div>
                 </div>
                 <hr>
@@ -134,7 +134,7 @@
                       <div><span>Country : </span><span id="shipping_country_id">@if(!empty($get_cart->billing_address->country_id)) {{ $get_cart->billing_address->country_id }} @endif</span></div>
                       <div><span>Email : </span><span id="shipping_email">@if(!empty($get_cart->billing_address->email)) {{ $get_cart->billing_address->email }} @endif</span></div>
 
-                      <input type="hidden" name="id_value_shipping" id="id_value_shipping" required>
+                      <input type="text" name="id_value_shipping" id="id_value_shipping" required>
                     </div>
                 </div>
                 <hr>

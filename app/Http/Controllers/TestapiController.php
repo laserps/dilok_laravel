@@ -266,10 +266,11 @@ class TestapiController extends Controller
                     }else{
                         $for = $folder;
                     }
-                    // if($folder != $for){
+                    if($folder != $value){
                         // echo $path.'/'.$folder. ' <br/> ' .$path.'/'.$for."<hr>";
-                    // rename($path.'/'.$folder, $path.'/'.$for);
-                    // }
+                    // rename($path.'/'.$folder, $path.'/'.$value);
+                    echo $path.'/'.$folder. ' <br/> ' .$path.'/'.$value."<hr>";
+                    }
                     if(count($infolders)!=0){
                         $valuein=null;
                         foreach($infolders as $keyin => $infolder){
@@ -351,8 +352,8 @@ class TestapiController extends Controller
         // ]);
         // $return['title'] = $items;
         // $aa['aa'] = $items;
-        $data['items'] = $items;
-        return dd($data);
+        // $data['items'] = $items;
+        // return dd($data);
 
 
     }

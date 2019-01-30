@@ -535,6 +535,12 @@ class FilterController extends Controller
                             //     ],
                             // ],
                         ],
+                        'sortOrders' => [
+                            [
+                                'field' => 'entity_id',
+                                'direction' => 'DESC',
+                            ],
+                        ],
                         'pageSize' => 12,
                         'currentPage' => $page,
                     ],
@@ -575,6 +581,12 @@ class FilterController extends Controller
                                         'condition_type' => 'eq',
                                     ],
                                 ],
+                            ],
+                        ],
+                        'sortOrders' => [
+                            [
+                                'field' => 'entity_id',
+                                'direction' => 'DESC',
                             ],
                         ],
                         'pageSize' => 12,

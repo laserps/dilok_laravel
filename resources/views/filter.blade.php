@@ -307,7 +307,8 @@
                           <div class="card-body p-1 filter-a filter-position-a">
                             <div class="row px-0 mx-0">
                                 <div class="col-xl-8 col-lg-9 col-md-9 col-8 px-xl-2 px-0 mb-2">
-                                    <div class="product-title filter-font-product1">
+                                    <!-- <div class="product-title filter-font-product1"> -->
+                                    <div class="filter-font-product1">
                                       <span>{{ $value_product->name }}<span>
                                     </div>
                                     <div class="product-categories filter-font-product1">
@@ -320,7 +321,7 @@
                                 </div>
                                 <div class="col-xl-4 col-lg-3 col-md-3 col-4 mb-2 px-0 text-right">
                                   <!-- <button type="button" class="btn heart-btn"><i name="like-button" class="fa-2x fa-heart liked fas liked-shaked"></i></button> -->
-                                  <button type="button" class="btn heart-btn"><i name="like-button" class="far fa-2x fa-heart not-liked"></i></button>
+                                  <!-- <button type="button" class="btn heart-btn"><i name="like-button" class="far fa-2x fa-heart not-liked"></i></button> -->
                                 </div>
                                 <div class="col-xl-4 col-md-4 col-0 col-lg-3 px-xl-2 px-0 mb-2 filtered-item3 d-md-flex d-none"></div>
                                 <div class="col-xl-8 col-md-8 col-lg-9 col-12 px-xl-2 px-0 mb-2 latest-product-price filtered-item3">

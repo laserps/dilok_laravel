@@ -127,7 +127,7 @@
                         </div>
                         <div class="col-xl-4 col-lg-3 col-md-3 col-4 mb-2 px-0 text-right">
                           <!-- <button type="button" class="btn heart-btn"><i name="like-button" class="fa-2x fa-heart liked fas liked-shaked"></i></button> -->
-                          <button type="button" class="btn heart-btn"><i name="like-button" class="far fa-2x fa-heart not-liked"></i></button>
+                          <!-- <button type="button" class="btn heart-btn"><i name="like-button" class="far fa-2x fa-heart not-liked"></i></button> -->
                         </div>
                         <div class="col-xl-4 col-md-4 col-0 col-lg-3 px-xl-2 px-0 mb-2 filtered-item3 d-md-flex d-none"></div>
                         <div class="col-xl-8 col-md-8 col-lg-9 col-12 px-xl-2 px-0 mb-2 latest-product-price filtered-item3">
@@ -270,7 +270,8 @@
                   <div class="card-body p-1 filter-a filter-position-a">
                     <div class="row px-0 mx-0">
                         <div class="col-xl-8 col-lg-9 col-md-9 col-8 px-xl-2 px-0 mb-2">
-                            <div class="product-title filter-font-product1">
+                            <!-- <div class="product-title filter-font-product1"> -->
+                            <div class="filter-font-product1">
                               <span>{{ $products->result->items->item->name }}<span>
                             </div>
                             <div class="product-categories filter-font-product1">
@@ -330,6 +331,12 @@
 
   </ul>
 
+@if(!empty($_GET['genders']))
+    @php $genders = $_GET['genders']; @endphp
+@else
+    @php $genders = ''; @endphp
+@endif
+
 <div class="container">
   <ul class="pagination justify-content-center">
     @php
@@ -356,13 +363,25 @@
       @php $sum_page = 1; @endphp
     @endif
     @if($prev_page)
-      <li class="page-item pr-1"><a class="news_page-link" href="{{ url('filter') }}?page={{$prev_page}}">&laquo;</a></li>
+      @if(!empty($brands2))
+        <li class="page-item pr-1"><a class="news_page-link" href="{{ url('brands') }}/{{$brands2}}?page={{$prev_page}}">&laquo;</a></li>
+      @else
+        <li class="page-item pr-1"><a class="news_page-link" href="{{ url('filter') }}?page={{$prev_page}}">&laquo;</a></li>
+      @endif
     @endif
     @for($i = $main_page2; $i <= $sum_page; $i++)
-          <li class="page-item pr-1"><a @if($main_page == $i) style="background-color: #999;" @endif class="news_page-link page_main" href="{{ url('filter') }}?page={{$i}}">{{ $i }}</a></li>
+      @if(!empty($brands2))
+        <li class="page-item pr-1"><a @if($main_page == $i) style="background-color: #999;" @endif class="news_page-link page_main" href="{{ url('filter') }}/{{$brands2}}?page={{$i}}">{{ $i }}</a></li>
+      @else
+        <li class="page-item pr-1"><a @if($main_page == $i) style="background-color: #999;" @endif class="news_page-link page_main" href="{{ url('filter') }}?page={{$i}}">{{ $i }}</a></li>
+      @endif
     @endfor
     @if($next_page)
-      <li class="page-item pr-1"><a class="news_page-link" href="{{ url('filter') }}?page={{$next_page}}">&raquo;</a></li>
+      @if(!empty($brands2))
+        <li class="page-item pr-1"><a class="news_page-link" href="{{ url('brands') }}/{{$brands2}}?page={{$prev_page}}">&raquo;</a></li>
+      @else
+        <li class="page-item pr-1"><a class="news_page-link" href="{{ url('filter') }}?page={{$next_page}}">&raquo;</a></li>
+      @endif
     @endif
   </ul>
 </div>

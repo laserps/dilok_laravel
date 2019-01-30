@@ -1362,7 +1362,7 @@
 
 @yield('body')
 
-<footer class="footer">
+<footer class="footer" style="height: 500px;">
   <div class="container-fluid">
     <div class="row pt-lg-5 pt-md-5 pt-3 pb-2">
       <div class="col-xl-3 col-lg-3 col-md-12 col-12 d-lg-block d-none">

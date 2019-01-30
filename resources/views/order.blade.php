@@ -91,14 +91,21 @@
                                 @endphp
                                 @foreach($value_custom as $key => $value)
                                   @if($value->attributeCode == 'image' && !empty($value->value))
-                                    @php $image = $value->value; @endphp
+                                    @php
+                                      $images = $value->value;
+                                      preg_match('/<img.+url=[\'"](?P<src>.+?)[\'"].*>/i', $value_blocks->content, $image);
+                                    @endphp
                                   @endif
                                 @endforeach
                               @endforeach
                             @endif
                             <div class="col-xl-6 col-lg-6 col-md-8">
                               <div class="overlay-img" style="height:160px;">
-                                <img class="image-full" src="http://128.199.235.248/magento/pub/media/catalog/product\{{$image}}">
+                                @if(!empty($image['src']))
+                                  <img class="image-full" src="http://128.199.235.248/magento/pub/media/catalog/product\{{$image}}">
+                                @else
+                                  <img class="image-full" src="{{ url('assets/images/No_Image_Available.jpg') }}">
+                                @endif
                               </div>
                            </div>
                           </div>

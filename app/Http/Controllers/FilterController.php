@@ -35,23 +35,32 @@ class FilterController extends Controller
         ];
         $category = $catalog->catalogCategoryManagementV1GetTree($catalogs);
 
-        try{
-            $data['brands2'] = $brands;
 
+        try{
+            if($brands == "Men" || $brands == "Women" || $brands == "Kid") {
+                $data['brands2'] = '';
+            } else {
+                $data['brands2'] = $brands;
+            }
+            $genderss = '';
             if(is_int($brands)){
                 $brands = '';
             } elseif($brands == "Men" || $brands == "Women" || $brands == "Kid") {
                 if($brands == "Men"){
                     $genders = 306;
+                    $genderss = 'Male';
                     $brands = '';
                 } elseif($brands == "Women"){
                     $genders = 307;
+                    $genderss = 'Female';
                     $brands = '';
                 } elseif($brands == "Kid"){
                     $genders = 308;
+                    $genderss = 'Kids';
                     $brands = '';
                 } else {
                     $genders = '';
+                    $genderss = '';
                     $brands = '';
                 }
             } else {
@@ -62,15 +71,26 @@ class FilterController extends Controller
                 }
             }
 
+
+                $data['genders22'] = $genderss;
+
             if($genders == "Men" || $genders == "Women" || $genders == "Kid") {
                 if($genders == "Men"){
                     $genders = 306;
+                    $data['genders22'] = 'Male';
+                    $genders_text = 'Male';
                 } elseif($genders == "Women"){
                     $genders = 307;
+                    $data['genders22'] = 'Female';
+                    $genders_text = 'Female';
                 } elseif($genders == "Kid"){
                     $genders = 308;
+                    $data['genders22'] = 'Kids';
+                    $genders_text = 'Kids';
                 } else {
                     $genders = '';
+                    $data['genders22'] = '';
+                    $genders_text = '';
                 }
             }
 
@@ -113,7 +133,8 @@ class FilterController extends Controller
             if(!empty($_GET)){
                 $type = 'simple';
             } else {
-                $type = 'configurable';
+                // $type = 'configurable';
+                $type = 'simple';
             }
 
             // if(!empty($input_all['gender'])){
@@ -428,11 +449,20 @@ class FilterController extends Controller
 
         if(!empty($input_all['brand'])){
             foreach($input_all['brand'] as $key => $value){
-                $brand[] = [
-                    'field' => 'category_id',
-                    'value' => $value,
-                    'conditionType' => 'eq',
+                $brand = [
+                    'filters' => [
+                        [
+                            'field' => 'category_id',
+                            'value' => $value,
+                            'condition_type' => 'eq',
+                        ],
+                    ],
                 ];
+                // $brand[] = [
+                //     'field' => 'category_id',
+                //     'value' => $value,
+                //     'conditionType' => 'finset',
+                // ];
             }
         }
 
@@ -476,16 +506,16 @@ class FilterController extends Controller
                             1 => [
                                 'filters' => $gender
                             ],
+                            // 2 => [
+                            //     'filters' => $brand
+                            // ],
                             2 => [
-                                'filters' => $brand
-                            ],
-                            3 => [
                                 'filters' => $size
                             ],
-                            4 => [
+                            3 => [
                                 'filters' => $colorproduct
                             ],
-                            5 => [
+                            4 => [
                                 'filters' => [
                                     [
                                         'field' => 'type_id',
@@ -494,6 +524,7 @@ class FilterController extends Controller
                                     ],
                                 ],
                             ],
+                            $brand
                             // 6 => [
                             //     'filters' => [
                             //         [

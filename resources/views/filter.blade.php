@@ -36,6 +36,16 @@
                 <div class="mt-2">
                     <div class="row flex-xl-row">
                         <span class="filter_list"></span>
+                        @if(!empty($brands2))
+                          <span class="fillter-block fillter-select fillter-font3 remove_gender_tag'+data+'">
+                            <a class="fas fillter-close pr-2 remove_gender" data-remove_gender="'+data+'"></a>{{ $brands2 }}
+                          </span>
+                        @endif
+                        @if(!empty($genders22))
+                          <span class="fillter-block fillter-select fillter-font3 remove_gender_tag'+data+'">
+                            <a class="fas fillter-close pr-2 remove_gender" data-remove_gender="'+data+'"></a>{{ $genders22 }}
+                          </span>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -49,17 +59,17 @@
 
         <form class="form-group" id="type">
               <button class="btn fillter-bg px-0" type="button" data-toggle="collapse" data-target="#collapseExample222" aria-expanded="false" aria-controls="collapseExample">
-                  <span class="fillter-font2 pull-left">GENDER</span>
+                  <span class="fillter-font2 pull-left">GENDER {{ $brands2 }} {{ $genders22 }}</span>
                   <span class="fas fa-chevron-down pull-right" aria-hidden="true"></span>
               </button>
               <div class="collapse show" id="collapseExample222">
                   <div class="filter-scroll">
                       @foreach($gender->result->item as $key_category => $value_category)
                         @if($value_category->label != ' ')
-                          @if(!empty($genders) && $genders == $value_category->value)
+                          @if(!empty($genders) && $genders == $value_category->value || !empty($genders22) && $genders22 == $value_category->label)
                             <label class="check">
                                 <div class="regist-m-l2 pt-1 fillter-font3 " data-type="{{ $value_category->value }}">{{ $value_category->label }}</div>
-                                <input style="" name="gender[]" data-text_gender="{{ $value_category->label }}" class="checkboxlist checkmark data_type2{{ $value_category->value }}" data-type="{{ $value_category->value }}"  type="checkbox" value="{{ $value_category->value }}" @if(!empty($genders)) {{ 'checked' }} @endif />
+                                <input style="" name="gender[]" data-text_gender="{{ $value_category->label }}" class="checkboxlist checkmark data_type2{{ $value_category->value }}" data-type="{{ $value_category->value }}"  type="checkbox" value="{{ $value_category->value }}" @if(!empty($genders22)) {{ 'checked' }} @endif @if(!empty($genders)) {{ 'checked' }} @endif />
                                 <!-- <span class="checkmark data_type{{ $value_category->value }}" data-type="{{ $value_category->value }}" data-text_type="{{ $value_category->label }}"></span> -->
                             </label>
                           @else
@@ -89,10 +99,10 @@
                     <div class="filter-scroll">
                         @foreach($category->result->childrenData->item as $key_category => $value_category)
                           @if($value_category->name != 'Default Category')
-                            @if(!empty($brands) && $brands == $value_category->id)
+                            @if(!empty($brands) && $brands == $value_category->id || !empty($brands2) && $brands2 == $value_category->name)
                               <label class="check">
                                   <div class="regist-m-l2 pt-1 fillter-font3" data-type="{{ $value_category->id }}">{{ $value_category->name }}</div>
-                                  <input name="brand[]" type="checkbox" data-text_gender="{{ $value_category->name }}" data-type="{{ $value_category->id }}" class="checkboxlist checkmark data_type2{{ $value_category->id }}" value="{{ $value_category->id }}" @if(!empty($brands)) {{ 'checked' }} @endif />
+                                  <input name="brand[]" type="checkbox" data-text_gender="{{ $value_category->name }}" data-type="{{ $value_category->id }}" class="checkboxlist checkmark data_type2{{ $value_category->id }}" value="{{ $value_category->id }}" @if(!empty($brands2)) {{ 'checked' }} @endif @if(!empty($brands)) {{ 'checked' }} @endif />
                                   <!-- <span class="checkmark data_type{{ $value_category->id }}" data-type="{{ $value_category->id }}" data-text_type="{{ $value_category->name }}"></span> -->
                               </label>
                               @else
@@ -382,17 +392,26 @@
               @php $main_page-4; @endphp
             @endif
             @if($prev_page)
-              <!-- <li class="page-item pr-1"><a class="news_page-link" href="{{ url('brands') }}/{{$brands2}}?page={{$prev_page}}">&laquo;</a></li> -->
-              <li class="page-item pr-1"><a class="news_page-link" href="{{ url('filter') }}?page={{$prev_page}}">&laquo;</a></li>
+              @if(!empty($brands2))
+                <li class="page-item pr-1"><a class="news_page-link" href="{{ url('brands') }}/{{$brands2}}?page={{$prev_page}}">&laquo;</a></li>
+              @else
+                <li class="page-item pr-1"><a class="news_page-link" href="{{ url('filter') }}?page={{$prev_page}}">&laquo;</a></li>
+              @endif
             @endif
             @for($i = $main_page2; $i <= $sum_page; $i++)
-                  <!-- <li class="page-item pr-1"><a @if($main_page == $i) style="background-color: #999;" @endif class="news_page-link page_main" href="{{ url('brands') }}/{{$brands2}}?page={{$i}}">{{ $i }}</a></li> -->
-                  <li class="page-item pr-1"><a @if($main_page == $i) style="background-color: #999;" @endif class="news_page-link page_main" href="{{ url('filter') }}?page={{$i}}">{{ $i }}</a></li>
+              @if(!empty($brands2))
+                <li class="page-item pr-1"><a @if($main_page == $i) style="background-color: #999;" @endif class="news_page-link page_main" href="{{ url('brands') }}/{{$brands2}}?page={{$i}}">{{ $i }}</a></li>
+              @else
+                <li class="page-item pr-1"><a @if($main_page == $i) style="background-color: #999;" @endif class="news_page-link page_main" href="{{ url('filter') }}?page={{$i}}">{{ $i }}</a></li>
+              @endif
             @endfor
             @if($i != 1)
               @if($next_page)
-                <!-- <li class="page-item pr-1"><a class="news_page-link" href="{{ url('brands') }}/{{$brands2}}?page={{$next_page}}">&raquo;</a></li> -->
-                <li class="page-item pr-1"><a class="news_page-link" href="{{ url('filter') }}?page={{$next_page}}">&raquo;</a></li>
+                @if(!empty($brands2))
+                  <li class="page-item pr-1"><a class="news_page-link" href="{{ url('brands') }}/{{$brands2}}?page={{$next_page}}">&raquo;</a></li>
+                @else
+                  <li class="page-item pr-1"><a class="news_page-link" href="{{ url('filter') }}?page={{$next_page}}">&raquo;</a></li>
+                @endif
               @endif
             @endif
           </ul>

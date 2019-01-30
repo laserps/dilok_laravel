@@ -87,6 +87,7 @@ class OrderProductController extends Controller
 
                 if(empty($customer_me->parameters)){
 
+
                     $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine/items");
                     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -134,10 +135,7 @@ class OrderProductController extends Controller
                 }
 
             } else {
-                $data['token_customer'] = '';
-                $data['cart_customer'] = '';
-                $data['color_product'] = '';
-                $data['size_products'] = '';
+                return redirect('/');
             }
 
         } catch (Exception $e) {

@@ -44,6 +44,8 @@ Route::get('/reebok','ProductController@reebok');
 Route::get('/payment','ProductController@payment');
 Route::post('/payment_order','ProductController@payment_order');
 
+Route::get('/order','OrderProductController@index');
+
 Route::post('/gender','FilterController@get_gender');
 Route::post('/addproducttocart','FilterController@add_to_cart');
 Route::post('/deleteproducttocart','FilterController@del_to_cart');

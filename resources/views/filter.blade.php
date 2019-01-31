@@ -379,15 +379,15 @@
                                   <!-- <button type="button" class="btn_add_to_cart" data-product_detail="{{ $value_product->name }}" data-product_id="{{ $value_product->id }}" data-price_product="@if($price_special != $price_defult)
                                     {{ $price_special }}
                                   @endif" class="btn add-to-cart p-2"> -->
-                                  <input type="hidden" name="price_product_main" value="@if($price_special != $price_defult){{number_format($price_special,2)}}@else @if(!empty($price_defult)) {{number_format($price_defult,2)}} @endif @endif">
-                                  <a href="{{ url('product/'.$value_product->id) }}">
+                                  <!-- <a href="{{ url('product/'.$value_product->id) }}"> -->
+                                    <input type="hidden" name="price_product_main" value="@if($price_special != $price_defult){{number_format($price_special,2)}}@else @if(!empty($price_defult)) {{number_format($price_defult,2)}} @endif @endif">
                                     <button type="button" class="btn add-to-cart p-2">
                                       <label class="mb-0 d-flex pr-2">
                                         <span>Add to cart</span>
                                         <i class="fas fa-plus ml-auto pt-1" aria-hidden="true"></i>
                                       </label>
                                     </button>
-                                  </a>
+                                  <!-- </a> -->
                                   <!-- </button> -->
                                 </div>
                                 <div class="d-none d-lg-block d-md-none col-xl-6 col-lg-12 px-xl-1 px-lg-0 mt-2 latest-product-btn latest-product-btn-pond fillter-btn-width">

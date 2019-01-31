@@ -60,12 +60,12 @@
 
                         @if(!empty($brands2) || !empty($chk_brand))
                           <span class="fillter-block fillter-select fillter-font3 remove_gender_tag'+data+'">
-                            <a class="fas fillter-close pr-2 remove_gender" data-remove_gender="'+data+'"></a>{{ $brands2 }} {{ $chk_brand }}
+                            <a class="fas fillter-close pr-2 remove_gender" data-remove_gender="'+data+'"></a>{{ $brands2 }}
                           </span>
                         @endif
                         @if(!empty($genders22) || !empty($chk_gender))
                           <span class="fillter-block fillter-select fillter-font3 remove_gender_tag'+data+'">
-                            <a class="fas fillter-close pr-2 remove_gender" data-remove_gender="'+data+'"></a>{{ $genders22 }} {{ $chk_gender }}
+                            <a class="fas fillter-close pr-2 remove_gender" data-remove_gender="'+data+'"></a>{{ $genders22 }}
                           </span>
                         @endif
 

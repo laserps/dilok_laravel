@@ -36,7 +36,13 @@
                 <div class="mt-2">
                     <div class="row flex-xl-row">
                         <span class="filter_list"></span>
-                        @php $session_chk = session()->all(); @endphp
+                        @php
+                          $session_chk = session()->all();
+                          $chk_brand  = '';
+                          $chk_gender  = '';
+                          $chk_size  = '';
+                          $chk_colorproduct  = '';
+                        @endphp
                         @if(!empty($session_chk['session_brand']))
                           @foreach($session_chk['session_brand'] as $key => $value)
                             @php $chk_brand = $value @endphp
@@ -58,12 +64,12 @@
                           @endforeach
                         @endif
 
-                        @if(!empty($brands2) || !empty($chk_brand))
+                        @if(!empty($brands2))
                           <span class="fillter-block fillter-select fillter-font3 remove_gender_tag'+data+'">
                             <a class="fas fillter-close pr-2 remove_gender" data-remove_gender="'+data+'"></a>{{ $brands2 }}
                           </span>
                         @endif
-                        @if(!empty($genders22) || !empty($chk_gender))
+                        @if(!empty($genders22))
                           <span class="fillter-block fillter-select fillter-font3 remove_gender_tag'+data+'">
                             <a class="fas fillter-close pr-2 remove_gender" data-remove_gender="'+data+'"></a>{{ $genders22 }}
                           </span>

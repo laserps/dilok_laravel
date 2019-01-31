@@ -213,7 +213,7 @@ class FilterController extends Controller
                         'sortOrders' => [
                             [
                                 'field' => 'entity_id',
-                                'direction' => 'DESC',
+                                'direction' => 'ASC',
                             ],
                         ],
                         'pageSize' => 12,
@@ -425,6 +425,13 @@ class FilterController extends Controller
         $input_all['size'] = $request->input('size');
         $input_all['colorproduct'] = $request->input('colorproduct');
 
+        $request->session()->put('session_gender', $input_all['gender']);
+        $request->session()->put('session_brand', $input_all['brand']);
+        $request->session()->put('session_size', $input_all['size']);
+        $request->session()->put('session_colorproduct', $input_all['colorproduct']);
+
+        $session_all = session()->all();
+
         // $input_all['gender'][] = $gender;
         // $input_all['brand'][] = $brand;
         // $input_all['size'][] = $size;
@@ -439,11 +446,20 @@ class FilterController extends Controller
 
         if(!empty($input_all['gender'])){
             foreach($input_all['gender'] as $key => $value){
-                $gender[] = [
-                    'field' => 'gender',
-                    'value' => '%25'.$value.'%25',
-                    'conditionType' => 'like',
+                $gender = [
+                    'filters' => [
+                        [
+                            'field' => 'gender',
+                            'value' => '%25'.$value.'%25',
+                            'condition_type' => 'like',
+                        ],
+                    ],
                 ];
+                // $gender[] = [
+                //     'field' => 'gender',
+                //     'value' => '%25'.$value.'%25',
+                //     'conditionType' => 'like',
+                // ];
             }
         }
 
@@ -468,21 +484,39 @@ class FilterController extends Controller
 
         if(!empty($input_all['size'])){
             foreach($input_all['size'] as $key => $value){
-                $size[] = [
-                    'field' => 'size',
-                    'value' => $value,
-                    'conditionType' => 'eq',
+                $size = [
+                    'filters' => [
+                        [
+                            'field' => 'size',
+                            'value' => $value,
+                            'condition_type' => 'eq',
+                        ],
+                    ],
                 ];
+                // $size[] = [
+                //     'field' => 'size',
+                //     'value' => $value,
+                //     'conditionType' => 'eq',
+                // ];
             }
         }
 
         if(!empty($input_all['colorproduct'])){
             foreach($input_all['colorproduct'] as $key => $value){
-                $colorproduct[] = [
-                    'field' => 'color',
-                    'value' => '%25'.$value.'%25',
-                    'conditionType' => 'like',
+                $colorproduct = [
+                    'filters' => [
+                        [
+                            'field' => 'color',
+                            'value' => '%25'.$value.'%25',
+                            'condition_type' => 'like',
+                        ],
+                    ],
                 ];
+                // $colorproduct[] = [
+                //     'field' => 'color',
+                //     'value' => '%25'.$value.'%25',
+                //     'conditionType' => 'like',
+                // ];
             }
         }
 
@@ -503,19 +537,19 @@ class FilterController extends Controller
                                     ],
                                 ],
                             ],
-                            1 => [
-                                'filters' => $gender
-                            ],
+                            // 1 => [
+                            //     'filters' => $gender
+                            // ],
                             // 2 => [
                             //     'filters' => $brand
                             // ],
-                            2 => [
-                                'filters' => $size
-                            ],
-                            3 => [
-                                'filters' => $colorproduct
-                            ],
-                            4 => [
+                            // 2 => [
+                            //     'filters' => $size
+                            // ],
+                            // 3 => [
+                            //     'filters' => $colorproduct
+                            // ],
+                            1 => [
                                 'filters' => [
                                     [
                                         'field' => 'type_id',
@@ -524,6 +558,9 @@ class FilterController extends Controller
                                     ],
                                 ],
                             ],
+                            $gender,
+                            $size,
+                            $colorproduct,
                             $brand
                             // 6 => [
                             //     'filters' => [
@@ -538,7 +575,7 @@ class FilterController extends Controller
                         'sortOrders' => [
                             [
                                 'field' => 'entity_id',
-                                'direction' => 'DESC',
+                                'direction' => 'ASC',
                             ],
                         ],
                         'pageSize' => 12,
@@ -577,7 +614,8 @@ class FilterController extends Controller
                                 'filters' => [
                                     [
                                         'field' => 'type_id',
-                                        'value' => 'configurable',
+                                        // 'value' => 'configurable',
+                                        'value' => 'simple',
                                         'condition_type' => 'eq',
                                     ],
                                 ],
@@ -594,40 +632,7 @@ class FilterController extends Controller
                     ],
                 ];
             }
-        // } else {
-        //     $get_product_page = [
-        //             'searchCriteria' => [
-        //                 'filterGroups' => [
-        //                     [
-        //                         'filters' => [
-        //                             [
-        //                                 'field' => 'status',
-        //                                 'value' => '1',
-        //                                 'conditionType' => 'eq',
-        //                             ],
-        //                         ],
-        //                         'filters' => [
-        //                             [
-        //                                 'field' => 'visibility',
-        //                                 'value' => '4',
-        //                                 'condition_type' => 'eq',
-        //                             ],
-        //                         ],
-                                // 'filters' => [
-                                //     [
-                                //         'field' => 'type_id',
-                                //         'value' => 'configurable',
-                                //         'condition_type' => 'eq',
-                                //     ],
-                                // ],
-        //                     ],
-        //                 ],
-        //                 'pageSize' => 12,
-        //                 'currentPage' => $page,
-        //             ],
-        //         ];
-        //     $data['id_product'] = $id;
-        // }
+
             $get_product_page['storeId'] = "1";
             $get_product_page['currencyCode'] = "THB";
 
@@ -643,6 +648,8 @@ class FilterController extends Controller
         } catch(Exception $e){
           $data['products'] = $e->getMessage();
         }
+
+        $data['session_chk'] = $session_all;
 
         return view('filter_search',$data);
     }
@@ -722,7 +729,8 @@ class FilterController extends Controller
 
         try{
             $product = $request->input('product');
-            $price_product = $request->input('price');
+            // $price_product = $request->input('price');
+            $price_product = $request->input('price_product_main');
             $product_id = $request->input('product_id');
 
             $userData = array("username" => "customerdilok", "password" => "dilokstore@1234");

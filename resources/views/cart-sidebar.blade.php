@@ -22,9 +22,9 @@
                 @foreach($cart_customer as $key_cart => $value_cart)
 
                 @foreach($product_key[$key_cart]->result->customAttributes->item as $key_product => $value_product)
-                  @if($value_product->attributeCode == 'special_from_date')
-                    @php $start_date = $value_product->value; @endphp
-                  @endif
+                    @if($value_product->attributeCode == 'special_from_date')
+                      @php $start_date = $value_product->value; @endphp
+                    @endif
 
                   @if($value_product->attributeCode == 'special_to_date')
                     @php $end_date = $value_product->value; @endphp
@@ -34,6 +34,7 @@
                     @php $special_price = $value_product->value; @endphp
                   @endif
                 @endforeach
+
 
                   @foreach($product_key[$key_cart]->result->customAttributes->item as $key_product_image => $value_image)
                     @if($value_image->attributeCode == 'image')
@@ -89,14 +90,16 @@
                             <input class="input-group-field" name="quantity" type="number" value="{{ $value_cart->qty }}"/>
                             <!-- <a class="plus" onclick="plusfunction()"> + </a> -->
                             <span class="pull-right">THB</span>
-                            @if($date >= $start_date && $date <= $end_date)
+                            @if($special_price == $value_cart->price)
                               <span class="pull-right discount mx-1">
                                 {{ number_format($special_price,2) }}
                               </span>
                             @endif
-                            <span class="pull-right @if($date >= $start_date && $date <= $end_date) {{'discounted'}} @endif">
+                            <!-- <span class="pull-right @if($date >= $start_date && $date <= $end_date) {{'discounted'}} @endif"> -->
+                            <span style="padding-right: 5px;" class="pull-right @if($special_price == $value_cart->price) {{'discounted'}} @endif">
                               @if($date >= $start_date && $date <= $end_date)
-                                {{ number_format($product_key[$key_cart]->result->price,2) }}
+                                <!-- bb : {{ number_format($product_key[$key_cart]->result->price,2) }} -->
+                                {{ number_format($value_cart->price,2) }}
                               @endif
                             </span>
                       </div>

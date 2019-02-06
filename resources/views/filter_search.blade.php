@@ -1,4 +1,5 @@
-<section class="grid-item box box-padding">
+<div id="filter_data_search_page_list"></div>
+<section class="grid-item box box-padding" id="filter_data_page_main">
   <ul class="row list-unstyled">
 
 
@@ -142,6 +143,7 @@
                               <span class="currency filter-font-product1">THB</span>
                         </div>
                         <div class="d-none d-lg-block d-md-none col-xl-6 col-lg-12 px-xl-1 px-lg-0 mb-xl-0 mb-2 mt-2 latest-product-btn latest-product-btn-pond fillter-btn-width">
+                          <input type="hidden" name="price_product_main" value="@if(!empty($price_special)){{ number_format($price_special,2) }}@else{{number_format($price_defult,2)}}@endif">
                           <button type="button" class="btn_add_to_cart" data-product_detail="{{ $value_product->name }}" data-product_id="{{ $value_product->id }}" data-price_product="@if(!empty($price_special))
                                     {{ $price_special }}
                           @else
@@ -299,6 +301,7 @@
                               <span class="currency filter-font-product1">THB</span>
                         </div>
                         <div class="d-none d-lg-block d-md-none col-xl-6 col-lg-12 px-xl-1 px-lg-0 mb-xl-0 mb-2 mt-2 latest-product-btn latest-product-btn-pond fillter-btn-width">
+                          <input type="hidden" name="price_product_main" value="@if($price_special != $price_defult){{number_format($price_special,2)}}@else @if(!empty($price_defult)) {{number_format($price_defult,2)}} @endif @endif">
                           <button type="button" class="btn_add_to_cart" data-product_detail="{{ $products->result->items->item->name }}" data-product_id="{{ $products->result->items->item->id }}" data-price_product="@if($price_special != $price_defult)
                                     {{ $price_special }}
                                 @endif" class="btn add-to-cart p-2">
@@ -362,22 +365,38 @@
     @if(empty($sum_page))
       @php $sum_page = 1; @endphp
     @endif
+    @if(!empty($genders22))
+      @if($genders22 == 'Male')
+        @php $gender_list_page = 'Men'; @endphp
+      @elseif($genders22 == 'Female')
+        @php $gender_list_page = 'Women'; @endphp
+      @elseif($genders22 == 'Kids')
+        @php $gender_list_page = 'Kid'; @endphp
+      @endif
+    @endif
     @if($prev_page)
-      @if(!empty($brands2))
+      @if(!empty($brands2) && !empty($gender_list_page))
+        <li class="page-item pr-1"><a class="news_page-link" href="{{ url('brands') }}/{{$brands2}}/{{$gender_list_page}}?page={{$prev_page}}">&laquo;</a></li>
+      @elseif(!empty($brands2))
         <li class="page-item pr-1"><a class="news_page-link" href="{{ url('brands') }}/{{$brands2}}?page={{$prev_page}}">&laquo;</a></li>
       @else
         <li class="page-item pr-1"><a class="news_page-link" href="{{ url('filter') }}?page={{$prev_page}}">&laquo;</a></li>
       @endif
     @endif
     @for($i = $main_page2; $i <= $sum_page; $i++)
-      @if(!empty($brands2))
+      @if(!empty($brands2) && !empty($gender_list_page))
+        <li class="page-item pr-1"><a @if($main_page == $i) style="background-color: #999;" @endif class="news_page-link page_main" href="{{ url('brands') }}/{{$brands2}}/{{$gender_list_page}}?page={{$i}}">{{ $i }}</a></li>
+      @elseif(!empty($brands2))
         <li class="page-item pr-1"><a @if($main_page == $i) style="background-color: #999;" @endif class="news_page-link page_main" href="{{ url('filter') }}/{{$brands2}}?page={{$i}}">{{ $i }}</a></li>
       @else
         <li class="page-item pr-1"><a @if($main_page == $i) style="background-color: #999;" @endif class="news_page-link page_main" href="{{ url('filter') }}?page={{$i}}">{{ $i }}</a></li>
+        <!-- <li class="page-item pr-1"><a @if($main_page == $i) style="background-color: #999;" @endif class="news_page-link pageination_list page_main" data-page_list="{{$i}}" data-pageination_detail="{{$products_list_pages}}">{{ $i }}</a></li> -->
       @endif
     @endfor
     @if($next_page)
-      @if(!empty($brands2))
+      @if(!empty($brands2) && !empty($gender_list_page))
+        <li class="page-item pr-1"><a class="news_page-link" href="{{ url('brands') }}/{{$brands2}}/{{$gender_list_page}}?page={{$next_page}}">&raquo;</a></li>
+      @elseif(!empty($brands2))
         <li class="page-item pr-1"><a class="news_page-link" href="{{ url('brands') }}/{{$brands2}}?page={{$prev_page}}">&raquo;</a></li>
       @else
         <li class="page-item pr-1"><a class="news_page-link" href="{{ url('filter') }}?page={{$next_page}}">&raquo;</a></li>

@@ -71,13 +71,16 @@
                           <a class="nav-link main" href="{{ url('filter') }}">View all Latest</a>
                         </li>
                         <li class="nav-item">
-                          <a class="nav-link" href="{{ url('filter/?genders=25') }}">Latest Male</a>
+                          <a class="nav-link" href="{{ url('brands') }}/{{ ('Men') }}">Latest Male</a>
+                          <!-- <a class="nav-link" href="{{ url('filter/?genders=25') }}">Latest Male</a> -->
                         </li>
                         <li class="nav-item">
-                          <a class="nav-link" href="{{ url('filter?genders=27') }}">Latest Kid's</a>
+                          <a class="nav-link" href="{{ url('brands') }}/{{ ('Kid') }}">Latest Kid's</a>
+                          <!-- <a class="nav-link" href="{{ url('filter?genders=27') }}">Latest Kid's</a> -->
                         </li>
                         <li class="nav-item">
-                          <a class="nav-link" href="{{ url('filter?genders=26') }}">Latest Women's</a>
+                          <a class="nav-link" href="{{ url('brands') }}/{{ ('Women') }}">Latest Women's</a>
+                          <!-- <a class="nav-link" href="{{ url('filter?genders=26') }}">Latest Women's</a> -->
                         </li>
                         <!-- <li class="nav-item">
                           <a class="nav-link" href="{{ url('filter') }}">New This Week</a>
@@ -646,7 +649,8 @@
                           @foreach($category->result->childrenData->item as $key_category => $value_category)
                             @if($value_category->name != 'Default Category')
                               <li>
-                                <a class="nav-link" href="{{ url('filter/?genders=26&brands=') }}{{ $value_category->id }}">{{ $value_category->name }}</a>
+                                <!-- <a class="nav-link" href="{{ url('filter/?genders=26&brands=') }}{{ $value_category->id }}">{{ $value_category->name }}</a> -->
+                                <a class="nav-link" href="{{ url('brands') }}/{{ $value_category->name }}/{{ ('Women') }}">{{ $value_category->name }}</a>
                               </li>
                             @endif
                           @endforeach
@@ -808,7 +812,8 @@
                           @foreach($category->result->childrenData->item as $key_category => $value_category)
                             @if($value_category->name != 'Default Category')
                               <li>
-                                <a class="nav-link" href="{{ url('filter/?genders=27&brands=') }}{{ $value_category->id }}">{{ $value_category->name }}</a>
+                                <!-- <a class="nav-link" href="{{ url('filter/?genders=27&brands=') }}{{ $value_category->id }}">{{ $value_category->name }}</a> -->
+                                <a class="nav-link" href="{{ url('brands') }}/{{ $value_category->name }}/{{ ('Kid') }}">{{ $value_category->name }}</a>
                               </li>
                             @endif
                           @endforeach
@@ -2607,6 +2612,26 @@ $('body').on('click','.delete_cart_product',function(){
         $('body').loader('hide');
         al_su('Error','danger');
   });
+});
+
+$('body').on('click','.pageination_list',function(){
+  var data = $(this).data('pageination_detail');
+  var page_list = $(this).data('page_list');
+  $('body').loader('show');
+    $.ajax({
+      method : "POST",
+      url : url_gb+"/filter_page_list",
+      dataType : "JSON",
+      data : { 'product_main_page' : data , 'page_list' : page_list},
+    }).done(function(rec){
+      console.log(rec.status);
+      $('#filter_data_page_main').remove();
+      $('#filter_data_search_page_list').html(rec);
+      $('body').loader('hide');
+    }).fail(function(){
+      console.log('Error');
+      $('body').loader('hide');
+    });
 });
 
 </script>

@@ -38,7 +38,7 @@ class FilterController extends Controller
 
         try{
             if($brands == "Men" || $brands == "Women" || $brands == "Kid") {
-                $data['brands2'] = '';
+                $data['brands2'] = $brands;
             } else {
                 $data['brands2'] = $brands;
             }
@@ -118,15 +118,20 @@ class FilterController extends Controller
             if(!empty($brands)){
                 $brand[] = [
                     'field' => 'category_id',
-                    'value' => $brands,
-                    'conditionType' => 'eq',
+                    'value' => $brands.",",
+                    'conditionType' => 'in',
                 ];
             }
             if(!empty($genders)){
+                // $gender[] = [
+                //     'field' => 'gender',
+                //     'value' => '%25'.$genders.'%25',
+                //     'conditionType' => 'like',
+                // ];
                 $gender[] = [
                     'field' => 'gender',
-                    'value' => '%25'.$genders.'%25',
-                    'conditionType' => 'like',
+                    'value' => $genders.",",
+                    'conditionType' => 'in',
                 ];
             }
 
@@ -182,9 +187,9 @@ class FilterController extends Controller
                             0 => [
                                 'filters' => [
                                     [
-                                        'field' => 'visibility',
-                                        'value' => '4',
-                                        'condition_type' => 'eq',
+                                        'field' => 'status',
+                                        'value' => '1',
+                                        'conditionType' => 'eq',
                                     ],
                                 ],
                             ],
@@ -199,7 +204,7 @@ class FilterController extends Controller
                                     [
                                         'field' => 'type_id',
                                         'value' => $type,
-                                        'condition_type' => 'eq',
+                                        'conditionType' => 'eq',
                                     ],
                                 ],
                             ],
@@ -213,7 +218,7 @@ class FilterController extends Controller
                         'sortOrders' => [
                             [
                                 'field' => 'entity_id',
-                                'direction' => 'ASC',
+                                'direction' => 'DESC',
                             ],
                         ],
                         'pageSize' => 12,
@@ -263,9 +268,6 @@ class FilterController extends Controller
             curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $token));
 
             $blocks = json_decode(curl_exec($ch));
-
-            // dd($token);
-            // exit();
 
             $get_session_all = \Session::all();
 
@@ -318,7 +320,6 @@ class FilterController extends Controller
             $data['category'] = $catalog->catalogCategoryManagementV1GetTree($catalogs);
             $data['color_product'] = $get_type_products->catalogProductAttributeOptionManagementV1GetItems($get_color_product);
             $data['size_products'] = $get_type_products->catalogProductAttributeOptionManagementV1GetItems($get_size_products);
-            // $data['clothing_size'] = $get_type_products->catalogProductAttributeOptionManagementV1GetItems($get_clothing_products);
             $data['gender'] = $get_type_products->catalogProductAttributeOptionManagementV1GetItems($get_gender_products);
             $data['blocks'] = $blocks;
             $data['page_title'] = 'Fillter';
@@ -425,105 +426,166 @@ class FilterController extends Controller
         $input_all['size'] = $request->input('size');
         $input_all['colorproduct'] = $request->input('colorproduct');
 
-        $request->session()->put('session_gender', $input_all['gender']);
-        $request->session()->put('session_brand', $input_all['brand']);
-        $request->session()->put('session_size', $input_all['size']);
-        $request->session()->put('session_colorproduct', $input_all['colorproduct']);
+        // $request->session()->put('session_gender', $input_all['gender']);
+        // $request->session()->put('session_brand', $input_all['brand']);
+        // $request->session()->put('session_size', $input_all['size']);
+        // $request->session()->put('session_colorproduct', $input_all['colorproduct']);
 
         $session_all = session()->all();
-
-        // $input_all['gender'][] = $gender;
-        // $input_all['brand'][] = $brand;
-        // $input_all['size'][] = $size;
-        // $input_all['colorproduct'][] = $colorproduct;
 
         $gender = array();
         $brand = array();
         $size = array();
         $colorproduct = array();
+        $main_array = array();
 
-        // dd($input_all);
+        $brand_text = null;
+        $gender_text = null;
+        $size_text = null;
+        $color_text = null;
+
+        // dd($input_all['gender']);
+        // if(count($input_all['gender']) >= 2){
+        //     foreach($input_all['gender'] as $key => $value){
+        //         echo $value.',',;
+        //     }
+        // } else {
+        //     dd($input_all['gender']);
+        // }
+        // exit();
+
+        $status = [
+            'filters' => [
+                [
+                    'field' => 'status',
+                    'value' => '1',
+                    'conditionType' => 'eq',
+                ],
+            ],
+        ];
+        $type = [
+            'filters' => [
+                [
+                    'field' => 'type_id',
+                    'value' => 'simple',
+                    'conditionType' => 'eq',
+                ],
+            ],
+        ];
+
+        array_push($main_array, $status);
+        array_push($main_array, $type);
 
         if(!empty($input_all['gender'])){
             foreach($input_all['gender'] as $key => $value){
-                $gender = [
-                    'filters' => [
-                        [
-                            'field' => 'gender',
-                            'value' => '%25'.$value.'%25',
-                            'condition_type' => 'like',
-                        ],
-                    ],
-                ];
+                // $gender = [
+                //     'filters' => [
+                //         [
+                //             'field' => 'gender',
+                //             'value' => '%25'.$value.'%25',
+                //             'conditionType' => 'like',
+                //         ],
+                //     ],
+                // ];
                 // $gender[] = [
                 //     'field' => 'gender',
                 //     'value' => '%25'.$value.'%25',
                 //     'conditionType' => 'like',
                 // ];
+                $gender_text .= $value.",";
             }
+                $gender[] = [
+                    'field' => 'gender',
+                    'value' => $gender_text,
+                    'conditionType' => 'in',
+                ];
+                array_push($main_array, $gender);
         }
 
         if(!empty($input_all['brand'])){
             foreach($input_all['brand'] as $key => $value){
-                $brand = [
-                    'filters' => [
-                        [
-                            'field' => 'category_id',
-                            'value' => $value,
-                            'condition_type' => 'eq',
-                        ],
-                    ],
-                ];
+                // $brand = [
+                //     'filters' => [
+                //         [
+                //             'field' => 'category_id',
+                //             'value' => $value.',',
+                //             'conditionType' => 'in',
+                //         ],
+                //     ],
+                // ];
                 // $brand[] = [
                 //     'field' => 'category_id',
                 //     'value' => $value,
-                //     'conditionType' => 'finset',
+                //     'conditionType' => 'eq',
                 // ];
+                $brand_text .= $value.",";
             }
+                $brand[] = [
+                    'field' => 'category_id',
+                    'value' => $brand_text,
+                    'conditionType' => 'in',
+                ];
+                array_push($main_array, $brand);
         }
 
         if(!empty($input_all['size'])){
             foreach($input_all['size'] as $key => $value){
-                $size = [
-                    'filters' => [
-                        [
-                            'field' => 'size',
-                            'value' => $value,
-                            'condition_type' => 'eq',
-                        ],
-                    ],
-                ];
+                // $size = [
+                //     'filters' => [
+                //         [
+                //             'field' => 'size',
+                //             'value' => $value,
+                //             'conditionType' => 'eq',
+                //         ],
+                //     ],
+                // ];
                 // $size[] = [
                 //     'field' => 'size',
                 //     'value' => $value,
                 //     'conditionType' => 'eq',
                 // ];
+                $size_text .= $value.",";
             }
+                $size[] = [
+                    'field' => 'size',
+                    'value' => $size_text,
+                    'conditionType' => 'in',
+                ];
+                array_push($main_array, $size);
         }
 
         if(!empty($input_all['colorproduct'])){
             foreach($input_all['colorproduct'] as $key => $value){
-                $colorproduct = [
-                    'filters' => [
-                        [
-                            'field' => 'color',
-                            'value' => '%25'.$value.'%25',
-                            'condition_type' => 'like',
-                        ],
-                    ],
-                ];
+                // $colorproduct = [
+                //     'filters' => [
+                //         [
+                //             'field' => 'color',
+                //             'value' => '%25'.$value.'%25',
+                //             'conditionType' => ' ',
+                //         ],
+                //     ],
+                // ];
                 // $colorproduct[] = [
                 //     'field' => 'color',
                 //     'value' => '%25'.$value.'%25',
                 //     'conditionType' => 'like',
                 // ];
+                $color_text .= $value.",";
             }
+                $colorproduct[] = [
+                    'field' => 'color',
+                    'value' => $color_text,
+                    'conditionType' => 'in',
+                ];
+                array_push($main_array, $colorproduct);
         }
+
+        // dd($main_array);
+        // exit();
 
         $get_products = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
         $get_products2 = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductRenderListV1',$params);
 
-        // if($id != null){
             if(!empty($input_all['gender']) || !empty($input_all['brand']) || !empty($input_all['size']) || !empty($input_all['colorproduct'])){
                 $get_product_page = [
                     'searchCriteria' => [
@@ -537,31 +599,31 @@ class FilterController extends Controller
                                     ],
                                 ],
                             ],
-                            // 1 => [
-                            //     'filters' => $gender
-                            // ],
-                            // 2 => [
-                            //     'filters' => $brand
-                            // ],
-                            // 2 => [
-                            //     'filters' => $size
-                            // ],
-                            // 3 => [
-                            //     'filters' => $colorproduct
-                            // ],
                             1 => [
                                 'filters' => [
                                     [
                                         'field' => 'type_id',
                                         'value' => 'simple',
-                                        'condition_type' => 'eq',
+                                        'conditionType' => 'eq',
                                     ],
                                 ],
                             ],
-                            $gender,
-                            $size,
-                            $colorproduct,
-                            $brand
+                            2 => [
+                                'filters' => $gender
+                            ],
+                            3 => [
+                                'filters' => $brand
+                            ],
+                            4 => [
+                                'filters' => $size
+                            ],
+                            5 => [
+                                'filters' => $colorproduct
+                            ],
+                            // $gender,
+                            // $size,
+                            // $colorproduct,
+                            // $brand
                             // 6 => [
                             //     'filters' => [
                             //         [
@@ -570,12 +632,11 @@ class FilterController extends Controller
                             //             'condition_type' => 'eq',
                             //         ],
                             //     ],
-                            // ],
-                        ],
+                            ],
                         'sortOrders' => [
                             [
                                 'field' => 'entity_id',
-                                'direction' => 'ASC',
+                                'direction' => 'DESC',
                             ],
                         ],
                         'pageSize' => 12,
@@ -599,13 +660,6 @@ class FilterController extends Controller
                                 //     [
                                 //         'field' => 'visibility',
                                 //         'value' => '4',
-                                //         'condition_type' => 'eq',
-                                //     ],
-                                // ],
-                                // 'filters' => [
-                                //     [
-                                //         'field' => 'type_id',
-                                //         'value' => 'configurable',
                                 //         'condition_type' => 'eq',
                                 //     ],
                                 // ],
@@ -641,6 +695,7 @@ class FilterController extends Controller
 
         $data['products'] = $get_products->catalogProductRepositoryV1GetList($get_product_page);
         $data['products2'] = $get_products2->catalogProductRenderListV1GetList($get_product_page);
+        $data['products_list_pages'] = json_encode($get_product_page);
 
         // dd($data);
         // exit();
@@ -678,9 +733,6 @@ class FilterController extends Controller
         }
 
         $get_products = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
-
-
-        // $get_products = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
         $get_product_page = [
             'searchCriteria' => [
                 'filterGroups' => [
@@ -729,7 +781,6 @@ class FilterController extends Controller
 
         try{
             $product = $request->input('product');
-            // $price_product = $request->input('price');
             $price_product = $request->input('price_product_main');
             $product_id = $request->input('product_id');
 
@@ -784,6 +835,8 @@ class FilterController extends Controller
             curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
 
             $customer_item = json_decode(curl_exec($ch));
+
+            // dd($customer_item->message);
 
             if(!empty($customer_item->message)){
                 $return['status'] = 3;
@@ -866,5 +919,65 @@ class FilterController extends Controller
             $return['title'] = 'ลบสินค้า';
 
         return json_encode($return);
+    }
+
+    public function filter_page_list(Request $request){
+        try {
+            $data = $request->all();
+            // $data = $request->input('filter_page_list');
+            $list_product_page = $data['product_main_page'];
+            $page_list = $data['page_list'];
+
+            $opts = array(
+                'ssl' => array('ciphers'=>'RC4-SHA', 'verify_peer'=>false, 'verify_peer_name'=>false)
+            );
+
+            $params = array (
+              'encoding' => 'UTF-8',
+              'verifypeer' => false,
+              'verifyhost' => false,
+              'soap_version' => SOAP_1_2,
+              'trace' => 1,
+              'exceptions' => 1,
+              'connection_timeout' => 180,
+              'stream_context' => stream_context_create($opts),
+              'cache_wsdl' => WSDL_CACHE_NONE
+            );
+
+            $get_product_page = [
+                    'searchCriteria' => [
+                        'filterGroups' =>
+                            $list_product_page['searchCriteria']['filterGroups'],
+                        'sortOrders' => [
+                            [
+                                'field' => 'entity_id',
+                                'direction' => 'DESC',
+                            ],
+                        ],
+                        'pageSize' => 12,
+                        'currentPage' => $page_list,
+                    ],
+                ];
+            $get_product_page['storeId'] = "1";
+            $get_product_page['currencyCode'] = "THB";
+            $data['page'] = $page_list;
+
+
+            // dd($list_product_page,$get_product_page);
+
+            $get_products = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
+            $get_products2 = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductRenderListV1',$params);
+
+            $data['products'] = $get_products->catalogProductRepositoryV1GetList($get_product_page);
+            $data['products2'] = $get_products2->catalogProductRenderListV1GetList($get_product_page);
+            $data['products_list_pages'] = json_encode($get_product_page);
+            $data['status'] = 1;
+        } catch (Exception $e) {
+            $data['products'] = $e->getMessage();
+        }
+
+    // return view('filter_search2',$data);
+        return json_encode($data);
+
     }
 }

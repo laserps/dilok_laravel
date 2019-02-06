@@ -52,6 +52,7 @@ Route::post('/deleteproducttocart','FilterController@del_to_cart');
 // Route::post('/gender/{gender}/{brand}/{size}/{colorproduct}','FilterController@get_gender');
 Route::get('/filter/{gender}','FilterController@get_gender');
 Route::get('/filter_search','FilterController@filter_search');
+Route::post('/filter_page_list','FilterController@filter_page_list');
 // Route::get('/Login',[ 'as' => 'login', 'uses' => 'CheckController@index']);
 
 // Route::post('/login_customer',[ 'as' => 'login', 'uses' => 'CustomerController@login_customer']);

@@ -65,14 +65,19 @@
                         @endif
 
                         @if(!empty($brands2))
-                          <span class="fillter-block fillter-select fillter-font3 remove_gender_tag'+data+'">
-                            <a class="fas fillter-close pr-2 remove_gender" data-remove_gender="'+data+'"></a>{{ $brands2 }}
-                          </span>
+                          @if($brands2 == 'Men' || $brands2 == 'Women' || $brands2 == 'Kid')
+                          @else
+                            <span class="fillter-block fillter-select fillter-font3 remove_gender_tag'+data+'">
+                              <a class="fas fillter-close pr-2 remove_gender" data-remove_gender="'+data+'"></a>{{ $brands2 }}
+                            </span>
+                          @endif
                         @endif
                         @if(!empty($genders22))
+                          @if($genders22 != 'Men' || $genders22 != 'Women' || $genders22 != 'Kid')
                           <span class="fillter-block fillter-select fillter-font3 remove_gender_tag'+data+'">
                             <a class="fas fillter-close pr-2 remove_gender" data-remove_gender="'+data+'"></a>{{ $genders22 }}
                           </span>
+                          @endif
                         @endif
 
                     </div>
@@ -121,7 +126,7 @@
             @endif
 
                 <button class="btn fillter-bg px-0" type="button" data-toggle="collapse" data-target="#collapseExample333" aria-expanded="false" aria-controls="collapseExample">
-                    <span class="fillter-font2 pull-left">BRAND</span>
+                    <span class="fillter-font2 pull-left">BRAND {{ $chk_brand }} {{ $brands2 }}</span>
                     <span class="fas fa-chevron-down pull-right" aria-hidden="true"></span>
                 </button>
                 <div class="collapse show" id="collapseExample333">
@@ -131,7 +136,7 @@
                             @if(!empty($brands) && $brands == $value_category->id || !empty($brands2) && $brands2 == $value_category->name || !empty($chk_brand))
                               <label class="check">
                                   <div class="regist-m-l2 pt-1 fillter-font3" data-type="{{ $value_category->id }}">{{ $value_category->name }}</div>
-                                  <input name="brand[]" type="checkbox" data-text_gender="{{ $value_category->name }}" data-type="{{ $value_category->id }}" class="checkboxlist checkmark data_type2{{ $value_category->id }}" value="{{ $value_category->id }}" @if(!empty($brands2)) {{ 'checked' }} @endif @if(!empty($brands)) {{ 'checked' }} @endif @if($chk_brand == $value_category->id) {{ 'checked' }} @endif />
+                                  <input name="brand[]" type="checkbox" data-text_gender="{{ $value_category->name }}" data-type="{{ $value_category->id }}" class="checkboxlist checkmark data_type2{{ $value_category->id }}" value="{{ $value_category->id }}" @if(!empty($brands2)) @if($brands2 == $value_category->name) {{ 'checked' }} @endif @endif @if(!empty($brands)) {{ 'checked' }} @endif @if(!empty($brands2)) @if($chk_brand == $value_category->id) {{ 'checked' }} @endif @endif />
                                   <!-- <span class="checkmark data_type{{ $value_category->id }}" data-type="{{ $value_category->id }}" data-text_type="{{ $value_category->name }}"></span> -->
                               </label>
                               @else
@@ -265,6 +270,7 @@
                     $special_to_date = '';
                     $pan = 'padding-right: 5px;';
                     $date = date('Y-m-d H:i:s');
+                    $price_defult = 0;
                   @endphp
                   @foreach($value_custom as $key => $value)
                     @if($value->attributeCode == 'image' && !empty($value->value))
@@ -294,20 +300,20 @@
                     @if($value_product->id == $products2->result->items->item[$key_product]->id)
                       @php $price_defult = $products2->result->items->item[$key_product]->priceInfo->regularPrice; @endphp
                     @else
-                      @php $price_defult = ''; @endphp
+                      @php $price_defult = $value_product->price; @endphp
                     @endif
                   @else
-                    @php $price_defult = ''; @endphp
+                    @php $price_defult = $value_product->price; @endphp
                   @endif
 
                   @if(!empty($products2->result->items->item[$key_product]->priceInfo->finalPrice))
                     @if($value_product->id == $products2->result->items->item[$key_product]->id)
                       @php $price_special = $products2->result->items->item[$key_product]->priceInfo->finalPrice; @endphp
                     @else
-                      @php $price_special = ''; @endphp
+                      @php $price_special = $value_product->price; @endphp
                     @endif
                   @else
-                    @php $price_special = ''; @endphp
+                    @php $price_special = $value_product->price; @endphp
                   @endif
 
                     <div class="item">
@@ -382,12 +388,15 @@
                                 </div>
                                 <div class="d-none d-lg-block d-md-none col-xl-6 col-lg-12 px-xl-1 px-lg-0 mb-xl-0 mb-2 mt-2 latest-product-btn latest-product-btn-pond fillter-btn-width">
                                   <!-- <button type="button" class="btn add-to-cart p-2"> -->
-                                  <!-- <button type="button" class="btn_add_to_cart" data-product_detail="{{ $value_product->name }}" data-product_id="{{ $value_product->id }}" data-price_product="@if($price_special != $price_defult)
+                                  <button type="button" class="btn_add_to_cart" data-product_detail="{{ $value_product->name }}" data-product_id="{{ $value_product->id }}" data-price_product="@if($price_special != $price_defult)
                                     {{ $price_special }}
-                                  @endif" class="btn add-to-cart p-2"> -->
+                                  @endif" class="btn add-to-cart p-2">
                                   <!-- <a href="{{ url('product/'.$value_product->id) }}"> -->
                                     <input type="hidden" name="price_product_main" value="@if($price_special != $price_defult){{number_format($price_special,2)}}@else @if(!empty($price_defult)) {{number_format($price_defult,2)}} @endif @endif">
-                                    <button type="button" class="btn add-to-cart p-2">
+                                    <!-- <button type="button" class="btn add-to-cart p-2"> -->
+                                    <!-- <button type="button" class="btn_add_to_cart" data-product_detail="{{ $value_product->name }}" data-product_id="{{ $value_product->id }}" data-price_product="@if($price_special != $price_defult) -->
+                                    <!-- {{ $price_special }} -->
+                                <!-- @endif" class="btn add-to-cart p-2"> -->
                                       <label class="mb-0 d-flex pr-2">
                                         <span>Add to cart</span>
                                         <i class="fas fa-plus ml-auto pt-1" aria-hidden="true"></i>
@@ -427,6 +436,7 @@
               $page_number = number_format($sum_products/$products);
               $sum_page = ($page_number-$main_page);
               $main_page2 = $main_page-4;
+              $gender_list_page = null;
             @endphp
             @if($sum_page <= 4)
               @php $sum_page = $main_page+$sum_page; $main_page2 = $main_page; @endphp
@@ -438,15 +448,28 @@
             @else
               @php $main_page-4; @endphp
             @endif
+            @if(!empty($genders22))
+              @if($genders22 == 'Male')
+                @php $gender_list_page = 'Men'; @endphp
+              @elseif($genders22 == 'Female')
+                @php $gender_list_page = 'Women'; @endphp
+              @elseif($genders22 == 'Kids')
+                @php $gender_list_page = 'Kid'; @endphp
+              @endif
+            @endif
             @if($prev_page)
-              @if(!empty($brands2))
+              @if(!empty($brands2) && !empty($gender_list_page))
+                <li class="page-item pr-1"><a class="news_page-link" href="{{ url('brands') }}/{{$brands2}}/{{$gender_list_page}}?page={{$prev_page}}">&laquo;</a></li>
+              @elseif(!empty($brands2))
                 <li class="page-item pr-1"><a class="news_page-link" href="{{ url('brands') }}/{{$brands2}}?page={{$prev_page}}">&laquo;</a></li>
               @else
                 <li class="page-item pr-1"><a class="news_page-link" href="{{ url('filter') }}?page={{$prev_page}}">&laquo;</a></li>
               @endif
             @endif
             @for($i = $main_page2; $i <= $sum_page; $i++)
-              @if(!empty($brands2))
+              @if(!empty($brands2) && !empty($gender_list_page))
+                <li class="page-item pr-1"><a @if($main_page == $i) style="background-color: #999;" @endif class="news_page-link page_main" href="{{ url('brands') }}/{{$brands2}}/{{$gender_list_page}}?page={{$i}}">{{ $i }}</a></li>
+              @elseif(!empty($brands2))
                 <li class="page-item pr-1"><a @if($main_page == $i) style="background-color: #999;" @endif class="news_page-link page_main" href="{{ url('brands') }}/{{$brands2}}?page={{$i}}">{{ $i }}</a></li>
               @else
                 <li class="page-item pr-1"><a @if($main_page == $i) style="background-color: #999;" @endif class="news_page-link page_main" href="{{ url('filter') }}?page={{$i}}">{{ $i }}</a></li>
@@ -454,7 +477,9 @@
             @endfor
             @if($i != 1)
               @if($next_page)
-                @if(!empty($brands2))
+                @if(!empty($brands2) && !empty($gender_list_page))
+                  <li class="page-item pr-1"><a class="news_page-link" href="{{ url('brands') }}/{{$brands2}}/{{$gender_list_page}}?page={{$next_page}}">&raquo;</a></li>
+                @elseif(!empty($brands2))
                   <li class="page-item pr-1"><a class="news_page-link" href="{{ url('brands') }}/{{$brands2}}?page={{$next_page}}">&raquo;</a></li>
                 @else
                   <li class="page-item pr-1"><a class="news_page-link" href="{{ url('filter') }}?page={{$next_page}}">&raquo;</a></li>

@@ -236,7 +236,7 @@
                     <div class="filter-scroll">
                       <label class="check">
                         <div class="regist-m-l2 pt-1 fillter-font3">HIGHLIGHT</div>
-                        <input name="highlight[]" data-text_gender="HIGHLIGHT" data-type="{{ $highlight->result->item[0]->value }}" type="checkbox" class="checkboxlist checkmark data_type2{{ $highlight->result->item[0]->value }}" value="HIGHLIGHT"/>
+                        <input name="highlight[]" data-text_gender="HIGHLIGHT" data-type="{{ $highlight->result->item[0]->value }}" type="checkbox" class="checkboxlist checkmark data_type2{{ $highlight->result->item[0]->value }}" value="HIGHLIGHT" @if($brands2 == 'highlight') {{ 'checked' }} @endif />
                       </label>
 
 

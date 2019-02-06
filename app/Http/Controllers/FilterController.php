@@ -37,6 +37,10 @@ class FilterController extends Controller
 
 
         try{
+            if($brands == 'htglight'){
+                $data['brands2'] = $brands;
+            }
+
             if($brands == "Men" || $brands == "Women" || $brands == "Kid") {
                 $data['brands2'] = $brands;
             } else {
@@ -116,11 +120,19 @@ class FilterController extends Controller
             $colorproduct = array();
 
             if(!empty($brands)){
-                $brand[] = [
-                    'field' => 'category_id',
-                    'value' => $brands.",",
-                    'conditionType' => 'in',
-                ];
+                if($brands == 'highlight'){
+                    $brand[] = [
+                        'field' => 'highlight',
+                        'value' => "1",
+                        'conditionType' => 'eq',
+                    ];
+                } else {
+                    $brand[] = [
+                        'field' => 'category_id',
+                        'value' => $brands.",",
+                        'conditionType' => 'in',
+                    ];
+                }
             }
             if(!empty($genders)){
                 // $gender[] = [
@@ -251,6 +263,10 @@ class FilterController extends Controller
                 'attributeCode' => 'gender',
             ];
 
+            $get_highlight_products = [
+                'attributeCode' => 'highlight',
+            ];
+
             $userData = array("username" => "customerdilok", "password" => "dilokstore@1234");
             $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
@@ -321,6 +337,7 @@ class FilterController extends Controller
             $data['color_product'] = $get_type_products->catalogProductAttributeOptionManagementV1GetItems($get_color_product);
             $data['size_products'] = $get_type_products->catalogProductAttributeOptionManagementV1GetItems($get_size_products);
             $data['gender'] = $get_type_products->catalogProductAttributeOptionManagementV1GetItems($get_gender_products);
+            $data['highlight'] = $get_type_products->catalogProductAttributeOptionManagementV1GetItems($get_highlight_products);
             $data['blocks'] = $blocks;
             $data['page_title'] = 'Fillter';
 
@@ -425,6 +442,7 @@ class FilterController extends Controller
         $input_all['brand'] = $request->input('brand');
         $input_all['size'] = $request->input('size');
         $input_all['colorproduct'] = $request->input('colorproduct');
+        $input_all['highlight'] = $request->input('highlight');
 
         // $request->session()->put('session_gender', $input_all['gender']);
         // $request->session()->put('session_brand', $input_all['brand']);
@@ -437,12 +455,14 @@ class FilterController extends Controller
         $brand = array();
         $size = array();
         $colorproduct = array();
+        $highlight = array();
         $main_array = array();
 
         $brand_text = null;
         $gender_text = null;
         $size_text = null;
         $color_text = null;
+        $highlight_text = null;
 
         // dd($input_all['gender']);
         // if(count($input_all['gender']) >= 2){
@@ -580,13 +600,25 @@ class FilterController extends Controller
                 array_push($main_array, $colorproduct);
         }
 
-        // dd($main_array);
+        if(!empty($input_all['highlight'])){
+            foreach($input_all['highlight'] as $key => $value){
+                $highlight_text .= $value.",";
+            }
+                $highlight[] = [
+                    'field' => 'highlight',
+                    'value' => '1',
+                    'conditionType' => 'eq',
+                ];
+                array_push($main_array, $highlight);
+        }
+
+        // dd($colorproduct,$highlight);
         // exit();
 
         $get_products = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
         $get_products2 = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductRenderListV1',$params);
 
-            if(!empty($input_all['gender']) || !empty($input_all['brand']) || !empty($input_all['size']) || !empty($input_all['colorproduct'])){
+            if(!empty($input_all['gender']) || !empty($input_all['brand']) || !empty($input_all['size']) || !empty($input_all['colorproduct']) || !empty($input_all['highlight'])){
                 $get_product_page = [
                     'searchCriteria' => [
                         'filterGroups' => [
@@ -619,6 +651,9 @@ class FilterController extends Controller
                             ],
                             5 => [
                                 'filters' => $colorproduct
+                            ],
+                            6 => [
+                                'filters' => $highlight
                             ],
                             // $gender,
                             // $size,

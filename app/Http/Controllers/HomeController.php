@@ -53,7 +53,8 @@ class HomeController extends Controller
                         'filters' => [
                             [
                                 'field' => 'type_id',
-                                'value' => 'configurable',
+                                // 'value' => 'configurable',
+                                'value' => 'simple',
                                 'condition_type' => 'eq',
                             ],
                         ],
@@ -70,6 +71,53 @@ class HomeController extends Controller
         ];
         $get_product_page['storeId'] = "1";
         $get_product_page['currencyCode'] = "THB";
+
+        $get_product_highlight = [
+            'searchCriteria' => [
+                'filterGroups' => [
+                    [
+                        'filters' => [
+                            [
+                                'field' => 'visibility',
+                                'value' => '4',
+                                'condition_type' => 'eq',
+                            ],
+                        ],
+                        'filters' => [
+                            [
+                                'field' => 'status',
+                                'value' => '1',
+                                'condition_type' => 'eq',
+                            ],
+                        ],
+                        'filters' => [
+                            [
+                                'field' => 'type_id',
+                                // 'value' => 'configurable',
+                                'value' => 'simple',
+                                'condition_type' => 'eq',
+                            ],
+                        ],
+                        'filters' => [
+                            [
+                                'field' => 'highlight',
+                                'value' => '1',
+                                'condition_type' => 'eq',
+                            ],
+                        ],
+                    ],
+                ],
+                'sortOrders' => [
+                    [
+                        'field' => 'entity_id',
+                        'direction' => 'DESC',
+                    ],
+                ],
+                'pageSize' => 20,
+            ],
+        ];
+        $get_product_highlight['storeId'] = "1";
+        $get_product_highlight['currencyCode'] = "THB";
 
         $catalogs = [
             'rootCategoryId' => 1,
@@ -162,6 +210,8 @@ class HomeController extends Controller
 
         $data['products'] = $get_products->catalogProductRepositoryV1GetList($get_product_page);
         $data['products2'] = $get_products2->catalogProductRenderListV1GetList($get_product_page);
+        $data['products_highlight'] = $get_products->catalogProductRepositoryV1GetList($get_product_highlight);
+        $data['products2_highlight'] = $get_products2->catalogProductRenderListV1GetList($get_product_highlight);
         $data['category'] = $catalog->catalogCategoryManagementV1GetTree($catalogs);
         $data['blocks'] = $blocks;
         $data['page_title'] = 'Main';

@@ -35,18 +35,18 @@
                   @endif
                 @endforeach
 
-
+            <div class="col-lg-5 col-md-5 col-5 p-md-0 p-2 cart-col">
+              <!-- <a href="{{ url('product-details2') }}"> -->
+              <a>
+                <div class="cart-product-frame">
                   @foreach($product_key[$key_cart]->result->customAttributes->item as $key_product_image => $value_image)
                     @if($value_image->attributeCode == 'image')
-                      <div class="col-lg-5 col-md-5 col-5 p-md-0 p-2 cart-col">
-                        <a href="{{ url('product-details2') }}">
-                          <div class="cart-product-frame">
-                            <img class="cart-product" src="http://dilokstore.com/magento/pub/media/catalog/product\{{ $value_image->value }}">
-                          </div>
-                        </a>
-                      </div>
+                      <img class="cart-product" src="http://dilokstore.com/magento/pub/media/catalog/product\{{ $value_image->value }}">
                     @endif
                   @endforeach
+                </div>
+              </a>
+            </div>
 
                 <div class="col-lg-7 col-md-7 col-7 cart-col cart-col-414 px-lg-2 px-md-2 px-0">
                     <div class="cart-product-detail">

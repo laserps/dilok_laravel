@@ -35,6 +35,25 @@
             <div class="collapse show" id="collapseExample111">
                 <div class="mt-2">
                     <div class="row flex-xl-row">
+                        @if(!empty($brands2))
+                          @if($brands2 == 'Men' || $brands2 == 'Women' || $brands2 == 'Kid')
+                          @else
+                          <span>
+                            <span class="fillter-block fillter-select fillter-font3">
+                              <a class="fas fillter-close pr-2 remove_gender"></a>{{ $brands2 }}
+                            </span>
+                          </span>
+                          @endif
+                        @endif
+                        @if(!empty($genders22))
+                          @if($genders22 != 'Men' || $genders22 != 'Women' || $genders22 != 'Kid')
+                          <span>
+                            <span class="fillter-block fillter-select fillter-font3">
+                              <a class="fas fillter-close pr-2 remove_gender"></a>{{ $genders22 }}
+                            </span>
+                          </span>
+                          @endif
+                        @endif
                         <span class="filter_list"></span>
                         @php
                           $session_chk = session()->all();
@@ -64,21 +83,6 @@
                           @endforeach
                         @endif
 
-                        @if(!empty($brands2))
-                          @if($brands2 == 'Men' || $brands2 == 'Women' || $brands2 == 'Kid')
-                          @else
-                            <span class="fillter-block fillter-select fillter-font3 remove_gender_tag'+data+'">
-                              <a class="fas fillter-close pr-2 remove_gender" data-remove_gender="'+data+'"></a>{{ $brands2 }}
-                            </span>
-                          @endif
-                        @endif
-                        @if(!empty($genders22))
-                          @if($genders22 != 'Men' || $genders22 != 'Women' || $genders22 != 'Kid')
-                          <span class="fillter-block fillter-select fillter-font3 remove_gender_tag'+data+'">
-                            <a class="fas fillter-close pr-2 remove_gender" data-remove_gender="'+data+'"></a>{{ $genders22 }}
-                          </span>
-                          @endif
-                        @endif
 
                     </div>
                 </div>
@@ -222,8 +226,25 @@
                           @endforeach
                         </div>
                     </div>
-              </form>
             <hr>
+
+            <button class="btn fillter-bg px-0" type="button" data-toggle="collapse" data-target="#collapseExample666" aria-expanded="false" aria-controls="collapseExample">
+                    <span class="fillter-font2 pull-left">HIGHLIGHT</span>
+                    <span class="fas fa-chevron-down pull-right" aria-hidden="true"></span>
+                </button>
+                <div class="collapse show" id="collapseExample666">
+                    <div class="filter-scroll">
+                      <label class="check">
+                        <div class="regist-m-l2 pt-1 fillter-font3">HIGHLIGHT</div>
+                        <input name="highlight[]" data-text_gender="HIGHLIGHT" data-type="{{ $highlight->result->item[0]->value }}" type="checkbox" class="checkboxlist checkmark data_type2{{ $highlight->result->item[0]->value }}" value="HIGHLIGHT"/>
+                      </label>
+
+
+                    </div>
+                </div>
+          </form>
+        <hr>
+
          </div>
     </section>
 

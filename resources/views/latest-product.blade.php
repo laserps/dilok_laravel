@@ -49,7 +49,7 @@
                 @if($value_product->id == $products2->result->items->item[$key_product]->id)
                   @php $price_defult = $products2->result->items->item[$key_product]->priceInfo->regularPrice; @endphp
                 @else
-                  @php $price_defult = ''; @endphp
+                  @php $price_defult = $value_product->price; @endphp
                 @endif
               @else
                 @php $price_defult = ''; @endphp
@@ -59,7 +59,7 @@
                 @if($value_product->id == $products2->result->items->item[$key_product]->id)
                   @php $price_special = $products2->result->items->item[$key_product]->priceInfo->finalPrice; @endphp
                 @else
-                  @php $price_special = ''; @endphp
+                  @php $price_special = $value_product->price; @endphp
                 @endif
               @else
                 @php $price_special = ''; @endphp
@@ -122,7 +122,7 @@
                       <div class="col-2 mb-2 px-0"></div>
                       <div class="col-2 mb-2 px-0">
                         <!-- <button type="button" class="btn heart-btn"><i name="like-button" class="fa-2x fa-heart liked fas liked-shaked"></i></button> -->
-                        <button type="button" class="btn heart-btn"><i name="like-button" class="far fa-2x fa-heart not-liked"></i></button>
+                        <!-- <button type="button" class="btn heart-btn"><i name="like-button" class="far fa-2x fa-heart not-liked"></i></button> -->
                       </div>
                       <div class="col-4 px-xl-2 px-0 mb-2">
                       </div>

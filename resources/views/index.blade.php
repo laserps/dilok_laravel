@@ -298,13 +298,13 @@
         <h3 class="mb-1 mt-2 pull-left">HIGHLIGHT</h3>
         <div class="latest-product-btn pull-right mb-2">
 
-          <a href="{{ url('brands/highlight') }}" class="btn view-all p-2 res-414-up">
+          <!-- <a href="{{ url('brands/highlight') }}" class="btn view-all p-2 res-414-up">
             <label class="mb-0 d-flex px-2">
               <span>view all</span>
               <i class="fas fa-plus ml-auto pl-3 pt-1" aria-hidden="true"></i>
             </label>
+          </a> -->
 
-          </a>
         </div>
       </div>
       <div class="clearfix"></div>
@@ -425,7 +425,7 @@
                           <div class="product-categories">
                             @foreach($value_custom as $key => $value)
                               @if(!empty($value->attributeCode) && !empty($value->value) && $value->attributeCode == 'short_description')
-                                <span>{!! $value->value !!}</span>
+                                <div>{!! str_limit(strip_tags($value->value),70) !!}</div>
                               @endif
                             @endforeach
                           </div>

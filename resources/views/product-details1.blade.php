@@ -615,9 +615,6 @@
             </div>
           </section>
 
-          <section class="latest-product mb-lg-5 mb-md-5 mb-4">
-              @include('latest-product')
-          </section>
         </div>
 
 @endforeach

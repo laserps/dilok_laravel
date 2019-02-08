@@ -275,12 +275,12 @@
                                     <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
                                   @endif
                                  </ol>
-                                 <div class="carousel-inner w-50 mx-auto">
+                                 <div class="carousel-inner w-100 mx-auto">
                                     @if(isset($products_gallery->result->item))
                                       @if(is_array($products_gallery->result->item))
                                         @foreach($products_gallery->result->item as $key_gallerys => $value_gallerys)
                                           <div class="carousel-item h-100 @if(isset($value_gallerys->types->item)) {{ 'active' }} @endif">
-                                            <img class="d-block h-100 w-100" src="http://128.199.235.248/magento/pub/media/catalog/product\{{$value_gallerys->file}}">
+                                            <img style="margin: auto;" class="d-block text-center" src="http://128.199.235.248/magento/pub/media/catalog/product\{{$value_gallerys->file}}">
                                           </div>
                                         @endforeach
                                       @else
@@ -289,31 +289,10 @@
                                         </div>
                                       @endif
                                     @else
-                                      <div class="carousel-item h-100 active">
+                                      <div class="carousel-item h-100">
                                         <img class="d-block h-100 w-100" src="{{ url('assets/images/No_Image_Available.jpg') }}">
                                       </div>
                                     @endif
-                                      <!-- <div class="carousel-item">
-                                        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/iGEUCPnw4Po?rel=0&amp;showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-                                      </div>
-                                      <div class="carousel-item">
-                                        <img class="d-block h-100 w-100" src="assets/images/product/1/33.jpg">
-                                      </div>
-                                      <div class="carousel-item">
-                                        <img class="d-block h-100 w-100" src="assets/images/product/1/44.jpg">
-                                      </div>
-                                      <div class="carousel-item">
-                                        <img class="d-block h-100 w-100" src="assets/images/product/1/55.jpg">
-                                      </div>
-                                      <div class="carousel-item">
-                                        <img class="d-block h-100 w-100" src="assets/images/product/1/66.jpg">
-                                      </div>
-                                      <div class="carousel-item">
-                                        <img class="d-block h-100 w-100" src="assets/images/product/1/55.jpg">
-                                      </div>
-                                      <div class="carousel-item">
-                                        <img class="d-block h-100 w-100" src="assets/images/product/1/44.jpg">
-                                      </div> -->
                                  </div>
                                  <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
                                    <span class="carousel-control-prev-icon custom-carousel-prev" aria-hidden="true"></span>
@@ -343,8 +322,8 @@
                         <div class="col-12 pr-lg-0">
                           <div class="sticky-product-title w-100">
                               <h2>{{ $products_detail->result->items->item->name }}
-                                <!-- <button type="button" class="btn top-btn heart-btn pull-right"><i name="like-button" class="fa-1x fa-heart liked fas liked-shaked"></i></button> -->
-                                <!-- <button type="button" class="btn top-btn pull-right"><i class="fa-1x fa-share-alt fas"></i></button> -->
+                                <button type="button" class="btn top-btn heart-btn pull-right"><i name="like-button" class="fa-1x fa-heart liked fas liked-shaked"></i></button>
+                                <button type="button" class="btn top-btn pull-right"><i class="fa-1x fa-share-alt fas"></i></button>
                               </h2>
                           </div>
 
@@ -587,7 +566,7 @@
                               </button>
                             </div>
                             <div class="col-xl-4 col-lg-3 col-md-6 col-12 px-xl-1 px-lg-1 px-md-2 px-1 latest-product-btn latest-product-btn-detail1">
-                              <button type="button" class="btn fast-buy p-2 btn_add_to_cart_config">
+                              <button type="button" class="btn fast-buy p-2">
                                 <label class="mb-0 d-flex px-2">
                                   <span>BUY NOW</span>
                                   <i class="icon-collpase fas fa-angle-right ml-auto pt-1" aria-hidden="true"></i>
@@ -615,6 +594,9 @@
             </div>
           </section>
 
+          <section class="latest-product mb-lg-5 mb-md-5 mb-4">
+              @include('latest-product')
+          </section>
         </div>
 
 @endforeach

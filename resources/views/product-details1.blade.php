@@ -118,7 +118,7 @@
                               @foreach($products_gallery->result->item as $key_gallerys => $value_gallerys)
                                 <div class="carousel-item @if(isset($value_gallerys->types->item)) {{ 'active' }} @endif">
                                   <div class="product-carousel-frame" data-toggle="modal" data-target="#full-screen-product-1">
-                                    <img class="product-carousel-img" style="width: auto; height: 100%;" src="http://128.199.235.248/magento/pub/media/catalog/product\{{$value_gallerys->file}}">
+                                    <img class="product-carousel-img" src="http://128.199.235.248/magento/pub/media/catalog/product\{{$value_gallerys->file}}">
                                   </div>
                                 </div>
                               @endforeach

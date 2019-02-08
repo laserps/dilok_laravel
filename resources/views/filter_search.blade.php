@@ -1,4 +1,5 @@
-<section class="grid-item box box-padding">
+<div id="filter_data_search_page_list"></div>
+<section class="grid-item box box-padding" id="filter_data_page_main">
   <ul class="row list-unstyled">
 
 
@@ -16,6 +17,8 @@
             $news_to_date = '';
             $after = '';
             $before = '';
+            $price_special = '';
+            $price_defult = '';
             $special_from_date = '';
             $special_to_date = '';
             $pan = 'padding-right: 5px;';
@@ -56,7 +59,11 @@
 
         @if(isset($products2->result->items->item))
           @if(!empty($products2->result->items->item[$key_product]->priceInfo->finalPrice))
-            @php $price_special = $products2->result->items->item[$key_product]->priceInfo->finalPrice; @endphp
+            @if($value_product->id == $products2->result->items->item[$key_product]->id)
+              @php $price_special = $products2->result->items->item[$key_product]->priceInfo->finalPrice; @endphp
+            @else
+              @php $price_special = ''; @endphp
+            @endif
           @endif
         @else
           @php $price_special = ''; @endphp
@@ -97,9 +104,13 @@
                 @endif
                   <div class="latest-product-frame filter-frame filter-product-frame ">
                       <a href="{{ url('product/'.$value_product->id) }}">
-                        <img class="latest-product-pic" style="width: 100%; height: auto;" src="http://dilokstore.com/magento/pub/media/catalog/product\{{$image}}" alt="Card image cap">
+                        @if(!empty($image))
+                          <img class="latest-product-pic" style="width: 100%; height: auto;" src="http://128.199.235.248/magento/pub/media/catalog/product\{{$image}}" alt="Card image cap">
+                        @else
+                          <img class="latest-product-pic" style="width: 100%; height: auto;" src="{{ url('assets/images/No_Image_Available.jpg') }}" alt="Card image cap">
+                        @endif
                       </a>
-                      <a href="{{ url('product/'.$value_product->id) }}"> <img style="width: 100%; height: auto;" class="latest-product-pic second-latest-product" src="http://dilokstore.com/magento/pub/media/catalog/product\{{$small_image}}" alt="Card image cap"> </a>
+                      <a href="{{ url('product/'.$value_product->id) }}"> <img style="width: 100%; height: auto;" class="latest-product-pic second-latest-product" src="http://128.199.235.248/magento/pub/media/catalog/product\{{$small_image}}" alt="Card image cap"> </a>
                   </div>
                   <div class="card-body p-1 filter-a filter-position-a">
                     <div class="row px-0 mx-0">
@@ -117,7 +128,7 @@
                         </div>
                         <div class="col-xl-4 col-lg-3 col-md-3 col-4 mb-2 px-0 text-right">
                           <!-- <button type="button" class="btn heart-btn"><i name="like-button" class="fa-2x fa-heart liked fas liked-shaked"></i></button> -->
-                          <button type="button" class="btn heart-btn"><i name="like-button" class="far fa-2x fa-heart not-liked"></i></button>
+                          <!-- <button type="button" class="btn heart-btn"><i name="like-button" class="far fa-2x fa-heart not-liked"></i></button> -->
                         </div>
                         <div class="col-xl-4 col-md-4 col-0 col-lg-3 px-xl-2 px-0 mb-2 filtered-item3 d-md-flex d-none"></div>
                         <div class="col-xl-8 col-md-8 col-lg-9 col-12 px-xl-2 px-0 mb-2 latest-product-price filtered-item3">
@@ -132,6 +143,7 @@
                               <span class="currency filter-font-product1">THB</span>
                         </div>
                         <div class="d-none d-lg-block d-md-none col-xl-6 col-lg-12 px-xl-1 px-lg-0 mb-xl-0 mb-2 mt-2 latest-product-btn latest-product-btn-pond fillter-btn-width">
+                          <input type="hidden" name="price_product_main" value="@if(!empty($price_special)){{ number_format($price_special,2) }}@else{{number_format($price_defult,2)}}@endif">
                           <button type="button" class="btn_add_to_cart" data-product_detail="{{ $value_product->name }}" data-product_id="{{ $value_product->id }}" data-price_product="@if(!empty($price_special))
                                     {{ $price_special }}
                           @else
@@ -249,14 +261,19 @@
                 @endif
                   <div class="latest-product-frame filter-frame filter-product-frame ">
                       <a href="{{ url('product/'.$products->result->items->item->id) }}">
-                        <img class="latest-product-pic" style="width: 100%; height: auto;" src="http://dilokstore.com/magento/pub/media/catalog/product\{{$image}}" alt="Card image cap">
+                        @if(!empty($image))
+                          <img class="latest-product-pic" style="width: 100%; height: auto;" src="http://128.199.235.248/magento/pub/media/catalog/product\{{$image}}" alt="Card image cap">
+                        @else
+                          <img class="latest-product-pic" style="width: 100%; height: auto;" src="{{ url('assets/images/No_Image_Available.jpg') }}" alt="Card image cap">
+                        @endif
                       </a>
-                      <a href="{{ url('product/'.$products->result->items->item->id) }}"> <img style="width: 100%; height: auto;" class="latest-product-pic second-latest-product" src="http://dilokstore.com/magento/pub/media/catalog/product\{{$small_image}}" alt="Card image cap"> </a>
+                      <a href="{{ url('product/'.$products->result->items->item->id) }}"> <img style="width: 100%; height: auto;" class="latest-product-pic second-latest-product" src="http://128.199.235.248/magento/pub/media/catalog/product\{{$small_image}}" alt="Card image cap"> </a>
                   </div>
                   <div class="card-body p-1 filter-a filter-position-a">
                     <div class="row px-0 mx-0">
                         <div class="col-xl-8 col-lg-9 col-md-9 col-8 px-xl-2 px-0 mb-2">
-                            <div class="product-title filter-font-product1">
+                            <!-- <div class="product-title filter-font-product1"> -->
+                            <div class="filter-font-product1">
                               <span>{{ $products->result->items->item->name }}<span>
                             </div>
                             <div class="product-categories filter-font-product1">
@@ -284,6 +301,7 @@
                               <span class="currency filter-font-product1">THB</span>
                         </div>
                         <div class="d-none d-lg-block d-md-none col-xl-6 col-lg-12 px-xl-1 px-lg-0 mb-xl-0 mb-2 mt-2 latest-product-btn latest-product-btn-pond fillter-btn-width">
+                          <input type="hidden" name="price_product_main" value="@if($price_special != $price_defult){{number_format($price_special,2)}}@else @if(!empty($price_defult)) {{number_format($price_defult,2)}} @endif @endif">
                           <button type="button" class="btn_add_to_cart" data-product_detail="{{ $products->result->items->item->name }}" data-product_id="{{ $products->result->items->item->id }}" data-price_product="@if($price_special != $price_defult)
                                     {{ $price_special }}
                                 @endif" class="btn add-to-cart p-2">
@@ -316,6 +334,12 @@
 
   </ul>
 
+@if(!empty($_GET['genders']))
+    @php $genders = $_GET['genders']; @endphp
+@else
+    @php $genders = ''; @endphp
+@endif
+
 <div class="container">
   <ul class="pagination justify-content-center">
     @php
@@ -341,14 +365,42 @@
     @if(empty($sum_page))
       @php $sum_page = 1; @endphp
     @endif
+    @if(!empty($genders22))
+      @if($genders22 == 'Male')
+        @php $gender_list_page = 'Men'; @endphp
+      @elseif($genders22 == 'Female')
+        @php $gender_list_page = 'Women'; @endphp
+      @elseif($genders22 == 'Kids')
+        @php $gender_list_page = 'Kid'; @endphp
+      @endif
+    @endif
     @if($prev_page)
-      <li class="page-item pr-1"><a class="news_page-link" href="{{ url('filter') }}?page={{$prev_page}}">&laquo;</a></li>
+      @if(!empty($brands2) && !empty($gender_list_page))
+        <li class="page-item pr-1"><a class="news_page-link" href="{{ url('brands') }}/{{$brands2}}/{{$gender_list_page}}?page={{$prev_page}}">&laquo;</a></li>
+      @elseif(!empty($brands2))
+        <li class="page-item pr-1"><a class="news_page-link" href="{{ url('brands') }}/{{$brands2}}?page={{$prev_page}}">&laquo;</a></li>
+      @else
+        <li class="page-item pr-1"><a class="news_page-link" href="{{ url('filter') }}?page={{$prev_page}}">&laquo;</a></li>
+      @endif
     @endif
     @for($i = $main_page2; $i <= $sum_page; $i++)
-          <li class="page-item pr-1"><a @if($main_page == $i) style="background-color: #999;" @endif class="news_page-link page_main" href="{{ url('filter') }}?page={{$i}}">{{ $i }}</a></li>
+      @if(!empty($brands2) && !empty($gender_list_page))
+        <li class="page-item pr-1"><a @if($main_page == $i) style="background-color: #999;" @endif class="news_page-link page_main" href="{{ url('brands') }}/{{$brands2}}/{{$gender_list_page}}?page={{$i}}">{{ $i }}</a></li>
+      @elseif(!empty($brands2))
+        <li class="page-item pr-1"><a @if($main_page == $i) style="background-color: #999;" @endif class="news_page-link page_main" href="{{ url('filter') }}/{{$brands2}}?page={{$i}}">{{ $i }}</a></li>
+      @else
+        <li class="page-item pr-1"><a @if($main_page == $i) style="background-color: #999;" @endif class="news_page-link page_main" href="{{ url('filter') }}?page={{$i}}">{{ $i }}</a></li>
+        <!-- <li class="page-item pr-1"><a @if($main_page == $i) style="background-color: #999;" @endif class="news_page-link pageination_list page_main" data-page_list="{{$i}}" data-pageination_detail="{{$products_list_pages}}">{{ $i }}</a></li> -->
+      @endif
     @endfor
     @if($next_page)
-      <li class="page-item pr-1"><a class="news_page-link" href="{{ url('filter') }}?page={{$next_page}}">&raquo;</a></li>
+      @if(!empty($brands2) && !empty($gender_list_page))
+        <li class="page-item pr-1"><a class="news_page-link" href="{{ url('brands') }}/{{$brands2}}/{{$gender_list_page}}?page={{$next_page}}">&raquo;</a></li>
+      @elseif(!empty($brands2))
+        <li class="page-item pr-1"><a class="news_page-link" href="{{ url('brands') }}/{{$brands2}}?page={{$prev_page}}">&raquo;</a></li>
+      @else
+        <li class="page-item pr-1"><a class="news_page-link" href="{{ url('filter') }}?page={{$next_page}}">&raquo;</a></li>
+      @endif
     @endif
   </ul>
 </div>

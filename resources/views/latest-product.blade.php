@@ -49,7 +49,7 @@
                 @if($value_product->id == $products2->result->items->item[$key_product]->id)
                   @php $price_defult = $products2->result->items->item[$key_product]->priceInfo->regularPrice; @endphp
                 @else
-                  @php $price_defult = ''; @endphp
+                  @php $price_defult = $value_product->price; @endphp
                 @endif
               @else
                 @php $price_defult = ''; @endphp
@@ -59,7 +59,7 @@
                 @if($value_product->id == $products2->result->items->item[$key_product]->id)
                   @php $price_special = $products2->result->items->item[$key_product]->priceInfo->finalPrice; @endphp
                 @else
-                  @php $price_special = ''; @endphp
+                  @php $price_special = $value_product->price; @endphp
                 @endif
               @else
                 @php $price_special = ''; @endphp
@@ -69,9 +69,13 @@
             <div class="card p-1">
                 <div class="latest-product-frame">
                   <a href="{{ url('product/'.$value_product->id) }}">
-                    <img class="latest-product-pic" src="http://dilokstore.com/magento/pub/media/catalog/product\{{$image}}" alt="Card image cap">
+                    @if(!empty($image))
+                      <img class="latest-product-pic" src="http://128.199.235.248/magento/pub/media/catalog/product\{{$image}}" alt="Card image cap">
+                    @else
+                      <img class="latest-product-pic" src="{{ url('assets/images/No_Image_Available.jpg') }}" alt="Card image cap">
+                    @endif
                   </a>
-                  <a href="{{ url('product/'.$value_product->id) }}"> <img class="latest-product-pic second-latest-product" src="http://dilokstore.com/magento/pub/media/catalog/product\{{$small_image}}" alt="Card image cap"> </a>
+                  <a href="{{ url('product/'.$value_product->id) }}"> <img class="latest-product-pic second-latest-product" src="http://128.199.235.248/magento/pub/media/catalog/product\{{$small_image}}" alt="Card image cap"> </a>
                 </div>
                 <div class="card-body p-0">
                   <div class="row px-0 mx-0">
@@ -118,7 +122,7 @@
                       <div class="col-2 mb-2 px-0"></div>
                       <div class="col-2 mb-2 px-0">
                         <!-- <button type="button" class="btn heart-btn"><i name="like-button" class="fa-2x fa-heart liked fas liked-shaked"></i></button> -->
-                        <button type="button" class="btn heart-btn"><i name="like-button" class="far fa-2x fa-heart not-liked"></i></button>
+                        <!-- <button type="button" class="btn heart-btn"><i name="like-button" class="far fa-2x fa-heart not-liked"></i></button> -->
                       </div>
                       <div class="col-4 px-xl-2 px-0 mb-2">
                       </div>

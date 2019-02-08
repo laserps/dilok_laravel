@@ -29,9 +29,9 @@ class HomeController extends Controller
           'cache_wsdl' => WSDL_CACHE_NONE
         );
         try{
-        $catalog = new \SoapClient('http://dilokstore.com/magento/soap/default?wsdl&services=catalogCategoryManagementV1',$params);
-        $get_products = new \SoapClient('http://dilokstore.com/magento/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
-        $get_products2 = new \SoapClient('http://dilokstore.com/magento/soap/default?wsdl&services=catalogProductRenderListV1',$params);
+        $catalog = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogCategoryManagementV1',$params);
+        $get_products = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
+        $get_products2 = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductRenderListV1',$params);
         $get_product_page = [
             'searchCriteria' => [
                 'filterGroups' => [
@@ -53,7 +53,8 @@ class HomeController extends Controller
                         'filters' => [
                             [
                                 'field' => 'type_id',
-                                'value' => 'configurable',
+                                // 'value' => 'configurable',
+                                'value' => 'simple',
                                 'condition_type' => 'eq',
                             ],
                         ],
@@ -71,13 +72,65 @@ class HomeController extends Controller
         $get_product_page['storeId'] = "1";
         $get_product_page['currencyCode'] = "THB";
 
+        $get_product_highlight = [
+            'searchCriteria' => [
+                'filterGroups' => [
+                      [
+                        'filters' => [
+                            [
+                                'field' => 'visibility',
+                                'value' => '4',
+                                'condition_type' => 'eq',
+                            ],
+                        ],
+                      ],
+                      [
+                        'filters' => [
+                            [
+                                'field' => 'status',
+                                'value' => '1',
+                                'condition_type' => 'eq',
+                            ],
+                        ],
+                      ],
+                      [
+                        'filters' => [
+                            [
+                                'field' => 'type_id',
+                                'value' => 'configurable',
+                                // 'value' => 'simple',
+                                'condition_type' => 'eq',
+                            ],
+                        ],
+                      ],
+                      [
+                        'filters' => [
+                            [
+                                'field' => 'highlight',
+                                'value' => '1',
+                                'condition_type' => 'eq',
+                            ],
+                        ],
+                    ],
+                ],
+                'sortOrders' => [
+                    [
+                        'field' => 'entity_id',
+                        'direction' => 'DESC',
+                    ],
+                ],
+                'pageSize' => 20,
+            ],
+        ];
+        $get_product_highlight['storeId'] = "1";
+        $get_product_highlight['currencyCode'] = "THB";
+
         $catalogs = [
             'rootCategoryId' => 1,
         ];
 
-
-        $userData = array("username" => "customer", "password" => "customer@01");
-        $ch = curl_init("http://dilokstore.com/magento/rest/V1/integration/admin/token");
+        $userData = array("username" => "customerdilok", "password" => "dilokstore@1234");
+        $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -88,14 +141,15 @@ class HomeController extends Controller
         $get_blocks_page = 'searchCriteria[filter_groups][0][filters][0][field]=is_active&searchCriteria[filter_groups][0][filters][0][value]=1&searchCriteria[filter_groups][0][filters][0][condition_type]=eq&searchCriteria[pageSize]=2&searchCriteria[sortOrders][0][field]=block_id&searchCriteria[sortOrders][0][direction]=DESC';
         $get_blocks = 'searchCriteria[filter_groups][0][filters][0][field]=is_active&searchCriteria[filter_groups][0][filters][0][value]=1&searchCriteria[filter_groups][0][filters][0][condition_type]=eq&searchCriteria[pageSize]=12&searchCriteria[sortOrders][0][field]=block_id&searchCriteria[sortOrders][0][direction]=DESC';
 
-            $ch = curl_init("http://dilokstore.com/magento/rest/V1/cmsBlock/search?".$get_blocks_page);
+            $ch = curl_init("http://128.199.235.248/magento/rest/V1/cmsBlock/search?".$get_blocks_page);
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $token));
 
             $sum_blocks = json_decode(curl_exec($ch));
 
-            $ch = curl_init("http://dilokstore.com/magento/rest/V1/cmsBlock/search?".$get_blocks);
+
+            $ch = curl_init("http://128.199.235.248/magento/rest/V1/cmsBlock/search?".$get_blocks);
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $token));
@@ -107,7 +161,7 @@ class HomeController extends Controller
         $get_session_all = \Session::all();
 
         if(!empty($get_session_all['customer_id'])){
-            $ch = curl_init("http://dilokstore.com/magento/rest/V1/customers/me");
+            $ch = curl_init("http://128.199.235.248/magento/rest/V1/customers/me");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . ($get_session_all['customer_id'])));
@@ -116,7 +170,7 @@ class HomeController extends Controller
 
             if(empty($result2->parameters)){
 
-                $ch = curl_init("http://dilokstore.com/magento/rest/V1/carts/mine/items");
+                $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine/items");
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                 curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
@@ -128,7 +182,7 @@ class HomeController extends Controller
                     $data['token_customer'] = $result2;
                     $data['cart_customer'] = $result3;
 
-                    $get_products = new \SoapClient('http://dilokstore.com/magento/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
+                    $get_products = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
 
                     foreach($result3 as $key => $value){
                       $get_key_product = array(
@@ -138,7 +192,7 @@ class HomeController extends Controller
                       $data['product_key'][$key] = $get_products->catalogProductRepositoryV1Get($get_key_product);
                     }
 
-                    $get_type_products = new \SoapClient('http://dilokstore.com/magento/soap/default?wsdl&services=catalogProductAttributeOptionManagementV1',$params);
+                    $get_type_products = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductAttributeOptionManagementV1',$params);
 
                     $get_color_product = [
                       'attributeCode' => 'color',
@@ -161,6 +215,8 @@ class HomeController extends Controller
 
         $data['products'] = $get_products->catalogProductRepositoryV1GetList($get_product_page);
         $data['products2'] = $get_products2->catalogProductRenderListV1GetList($get_product_page);
+        $data['products_highlight'] = $get_products->catalogProductRepositoryV1GetList($get_product_highlight);
+        $data['products2_highlight'] = $get_products2->catalogProductRenderListV1GetList($get_product_highlight);
         $data['category'] = $catalog->catalogCategoryManagementV1GetTree($catalogs);
         $data['blocks'] = $blocks;
         $data['page_title'] = 'Main';

@@ -22,7 +22,7 @@
                   <div class="blog-img-fix">
                     <a href="{{ url('single-blog') }}/{{ $value_block->id }}">
                       @if(!empty($image['src']))
-                        <img class="blog-img-auto" src="http://dilokstore.com/magento/pub/media/{{ $image['src'] }}"/>
+                        <img class="blog-img-auto" src="http://128.199.235.248/magento/pub/media/{{ $image['src'] }}"/>
                       @else
                         <img class="blog-img-auto" src="{{ url('assets/images/No_Image_Available.jpg') }}">
                       @endif

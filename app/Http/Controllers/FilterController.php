@@ -11,7 +11,7 @@ class FilterController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($brands=null,$genders=null)
     {
         $opts = array(
             'ssl' => array('ciphers'=>'RC4-SHA', 'verify_peer'=>false, 'verify_peer_name'=>false)
@@ -29,21 +29,85 @@ class FilterController extends Controller
             'cache_wsdl' => WSDL_CACHE_NONE
         );
 
+        $catalog = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogCategoryManagementV1',$params);
+        $catalogs = [
+            'rootCategoryId' => 1,
+        ];
+        $category = $catalog->catalogCategoryManagementV1GetTree($catalogs);
+
+
         try{
+            if($brands == 'htglight'){
+                $data['brands2'] = $brands;
+            }
 
-            if(!empty($_GET['brands'])){
-
-                //API find from name
-                
-                $brands = $_GET['brands'];
+            if($brands == "Men" || $brands == "Women" || $brands == "Kid") {
+                $data['brands2'] = $brands;
             } else {
+                $data['brands2'] = $brands;
+            }
+            $genderss = '';
+            if(is_int($brands)){
                 $brands = '';
-            }
-            if(!empty($_GET['genders'])){
-                $genders = $_GET['genders'];
+            } elseif($brands == "Men" || $brands == "Women" || $brands == "Kid") {
+                if($brands == "Men"){
+                    $genders = 306;
+                    $genderss = 'Male';
+                    $brands = '';
+                } elseif($brands == "Women"){
+                    $genders = 307;
+                    $genderss = 'Female';
+                    $brands = '';
+                } elseif($brands == "Kid"){
+                    $genders = 308;
+                    $genderss = 'Kids';
+                    $brands = '';
+                } else {
+                    $genders = '';
+                    $genderss = '';
+                    $brands = '';
+                }
             } else {
-                $genders = '';
+                foreach($category->result->childrenData->item as $key => $value_cat){
+                    if($value_cat->name == $brands){
+                        $brands = $value_cat->id;
+                    }
+                }
             }
+
+
+                $data['genders22'] = $genderss;
+
+            if($genders == "Men" || $genders == "Women" || $genders == "Kid") {
+                if($genders == "Men"){
+                    $genders = 306;
+                    $data['genders22'] = 'Male';
+                    $genders_text = 'Male';
+                } elseif($genders == "Women"){
+                    $genders = 307;
+                    $data['genders22'] = 'Female';
+                    $genders_text = 'Female';
+                } elseif($genders == "Kid"){
+                    $genders = 308;
+                    $data['genders22'] = 'Kids';
+                    $genders_text = 'Kids';
+                } else {
+                    $genders = '';
+                    $data['genders22'] = '';
+                    $genders_text = '';
+                }
+            }
+
+            // if(!empty($_GET['brands'])){
+            //     $brands = $_GET['brands'];
+            // } else {
+            //     $brands = '';
+            // }
+            // if(!empty($_GET['genders'])){
+            //     $genders = $_GET['genders'];
+            // } else {
+            //     $genders = '';
+            // }
             if(!empty($_GET['page'])){
                 $page = $_GET['page'];
             } else {
@@ -56,24 +120,38 @@ class FilterController extends Controller
             $colorproduct = array();
 
             if(!empty($brands)){
-                $brand[] = [
-                    'field' => 'category_id',
-                    'value' => $brands,
-                    'conditionType' => 'eq',
-                ];
+                if($brands == 'highlight'){
+                    $brand[] = [
+                        'field' => 'highlight',
+                        'value' => "1",
+                        'conditionType' => 'eq',
+                    ];
+                } else {
+                    $brand[] = [
+                        'field' => 'category_id',
+                        'value' => $brands.",",
+                        'conditionType' => 'in',
+                    ];
+                }
             }
             if(!empty($genders)){
+                // $gender[] = [
+                //     'field' => 'gender',
+                //     'value' => '%25'.$genders.'%25',
+                //     'conditionType' => 'like',
+                // ];
                 $gender[] = [
                     'field' => 'gender',
-                    'value' => '%25'.$genders.'%25',
-                    'conditionType' => 'like',
+                    'value' => $genders.",",
+                    'conditionType' => 'in',
                 ];
             }
 
             if(!empty($_GET)){
                 $type = 'simple';
             } else {
-                $type = 'configurable';
+                // $type = 'configurable';
+                $type = 'simple';
             }
 
             // if(!empty($input_all['gender'])){
@@ -110,10 +188,10 @@ class FilterController extends Controller
             // dd($gender);
             // exit();
 
-            $catalog = new \SoapClient('http://dilokstore.com/magento/soap/default?wsdl&services=catalogCategoryManagementV1',$params);
-            $get_products = new \SoapClient('http://dilokstore.com/magento/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
-            $get_products2 = new \SoapClient('http://dilokstore.com/magento/soap/default?wsdl&services=catalogProductRenderListV1',$params);
-            $get_type_products = new \SoapClient('http://dilokstore.com/magento/soap/default?wsdl&services=catalogProductAttributeOptionManagementV1',$params);
+            $catalog = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogCategoryManagementV1',$params);
+            $get_products = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
+            $get_products2 = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductRenderListV1',$params);
+            $get_type_products = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductAttributeOptionManagementV1',$params);
 
                 $get_product_page = [
                     'searchCriteria' => [
@@ -121,9 +199,9 @@ class FilterController extends Controller
                             0 => [
                                 'filters' => [
                                     [
-                                        'field' => 'visibility',
-                                        'value' => '4',
-                                        'condition_type' => 'eq',
+                                        'field' => 'status',
+                                        'value' => '1',
+                                        'conditionType' => 'eq',
                                     ],
                                 ],
                             ],
@@ -138,7 +216,7 @@ class FilterController extends Controller
                                     [
                                         'field' => 'type_id',
                                         'value' => $type,
-                                        'condition_type' => 'eq',
+                                        'conditionType' => 'eq',
                                     ],
                                 ],
                             ],
@@ -185,8 +263,12 @@ class FilterController extends Controller
                 'attributeCode' => 'gender',
             ];
 
-            $userData = array("username" => "customer", "password" => "customer@01");
-            $ch = curl_init("http://dilokstore.com/magento/rest/V1/integration/admin/token");
+            $get_highlight_products = [
+                'attributeCode' => 'highlight',
+            ];
+
+            $userData = array("username" => "customerdilok", "password" => "dilokstore@1234");
+            $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
             curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -196,7 +278,7 @@ class FilterController extends Controller
 
             $get_blocks = 'searchCriteria[filter_groups][0][filters][0][field]=is_active&searchCriteria[filter_groups][0][filters][0][value]=1&searchCriteria[filter_groups][0][filters][0][condition_type]=eq&searchCriteria[pageSize]=12&searchCriteria[sortOrders][0][field]=block_id&searchCriteria[sortOrders][0][direction]=DESC';
 
-            $ch = curl_init("http://dilokstore.com/magento/rest/V1/cmsBlock/search?".$get_blocks);
+            $ch = curl_init("http://128.199.235.248/magento/rest/V1/cmsBlock/search?".$get_blocks);
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $token));
@@ -206,7 +288,7 @@ class FilterController extends Controller
             $get_session_all = \Session::all();
 
         if(!empty($get_session_all['customer_id'])){
-            $ch = curl_init("http://dilokstore.com/magento/rest/V1/customers/me");
+            $ch = curl_init("http://128.199.235.248/magento/rest/V1/customers/me");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
@@ -215,7 +297,7 @@ class FilterController extends Controller
 
             if(empty($customer_me->parameters)){
 
-                $ch = curl_init("http://dilokstore.com/magento/rest/V1/carts/mine/items");
+                $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine/items");
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                 curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
@@ -228,7 +310,7 @@ class FilterController extends Controller
                     $data['login'] = $customer_me;
                     $data['cart_customer'] = $customer_item;
 
-                    $get_products = new \SoapClient('http://dilokstore.com/magento/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
+                    $get_products = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
 
                         foreach($customer_item as $key => $value){
                             $get_key_product = array(
@@ -254,8 +336,8 @@ class FilterController extends Controller
             $data['category'] = $catalog->catalogCategoryManagementV1GetTree($catalogs);
             $data['color_product'] = $get_type_products->catalogProductAttributeOptionManagementV1GetItems($get_color_product);
             $data['size_products'] = $get_type_products->catalogProductAttributeOptionManagementV1GetItems($get_size_products);
-            // $data['clothing_size'] = $get_type_products->catalogProductAttributeOptionManagementV1GetItems($get_clothing_products);
             $data['gender'] = $get_type_products->catalogProductAttributeOptionManagementV1GetItems($get_gender_products);
+            $data['highlight'] = $get_type_products->catalogProductAttributeOptionManagementV1GetItems($get_highlight_products);
             $data['blocks'] = $blocks;
             $data['page_title'] = 'Fillter';
 
@@ -333,7 +415,7 @@ class FilterController extends Controller
         //
     }
 
-    public function get_gender(Request $request,$id=null){
+    public function get_gender(Request $request  , $brand = null){
         $opts = array(
             'ssl' => array('ciphers'=>'RC4-SHA', 'verify_peer'=>false, 'verify_peer_name'=>false)
         );
@@ -360,57 +442,183 @@ class FilterController extends Controller
         $input_all['brand'] = $request->input('brand');
         $input_all['size'] = $request->input('size');
         $input_all['colorproduct'] = $request->input('colorproduct');
+        $input_all['highlight'] = $request->input('highlight');
+
+        // $request->session()->put('session_gender', $input_all['gender']);
+        // $request->session()->put('session_brand', $input_all['brand']);
+        // $request->session()->put('session_size', $input_all['size']);
+        // $request->session()->put('session_colorproduct', $input_all['colorproduct']);
+
+        $session_all = session()->all();
 
         $gender = array();
         $brand = array();
         $size = array();
         $colorproduct = array();
+        $highlight = array();
+        $main_array = array();
+
+        $brand_text = null;
+        $gender_text = null;
+        $size_text = null;
+        $color_text = null;
+        $highlight_text = null;
+
+        // dd($input_all['gender']);
+        // if(count($input_all['gender']) >= 2){
+        //     foreach($input_all['gender'] as $key => $value){
+        //         echo $value.',',;
+        //     }
+        // } else {
+        //     dd($input_all['gender']);
+        // }
+        // exit();
+
+        $status = [
+            'filters' => [
+                [
+                    'field' => 'status',
+                    'value' => '1',
+                    'conditionType' => 'eq',
+                ],
+            ],
+        ];
+        $type = [
+            'filters' => [
+                [
+                    'field' => 'type_id',
+                    'value' => 'simple',
+                    'conditionType' => 'eq',
+                ],
+            ],
+        ];
+
+        array_push($main_array, $status);
+        array_push($main_array, $type);
 
         if(!empty($input_all['gender'])){
             foreach($input_all['gender'] as $key => $value){
+                // $gender = [
+                //     'filters' => [
+                //         [
+                //             'field' => 'gender',
+                //             'value' => '%25'.$value.'%25',
+                //             'conditionType' => 'like',
+                //         ],
+                //     ],
+                // ];
+                // $gender[] = [
+                //     'field' => 'gender',
+                //     'value' => '%25'.$value.'%25',
+                //     'conditionType' => 'like',
+                // ];
+                $gender_text .= $value.",";
+            }
                 $gender[] = [
                     'field' => 'gender',
-                    'value' => '%25'.$value.'%25',
-                    'conditionType' => 'like',
+                    'value' => $gender_text,
+                    'conditionType' => 'in',
                 ];
-            }
+                array_push($main_array, $gender);
         }
 
         if(!empty($input_all['brand'])){
             foreach($input_all['brand'] as $key => $value){
+                // $brand = [
+                //     'filters' => [
+                //         [
+                //             'field' => 'category_id',
+                //             'value' => $value.',',
+                //             'conditionType' => 'in',
+                //         ],
+                //     ],
+                // ];
+                // $brand[] = [
+                //     'field' => 'category_id',
+                //     'value' => $value,
+                //     'conditionType' => 'eq',
+                // ];
+                $brand_text .= $value.",";
+            }
                 $brand[] = [
                     'field' => 'category_id',
-                    'value' => $value,
-                    'conditionType' => 'eq',
+                    'value' => $brand_text,
+                    'conditionType' => 'in',
                 ];
-            }
+                array_push($main_array, $brand);
         }
 
         if(!empty($input_all['size'])){
             foreach($input_all['size'] as $key => $value){
+                // $size = [
+                //     'filters' => [
+                //         [
+                //             'field' => 'size',
+                //             'value' => $value,
+                //             'conditionType' => 'eq',
+                //         ],
+                //     ],
+                // ];
+                // $size[] = [
+                //     'field' => 'size',
+                //     'value' => $value,
+                //     'conditionType' => 'eq',
+                // ];
+                $size_text .= $value.",";
+            }
                 $size[] = [
                     'field' => 'size',
-                    'value' => $value,
-                    'conditionType' => 'eq',
+                    'value' => $size_text,
+                    'conditionType' => 'in',
                 ];
-            }
+                array_push($main_array, $size);
         }
 
         if(!empty($input_all['colorproduct'])){
             foreach($input_all['colorproduct'] as $key => $value){
+                // $colorproduct = [
+                //     'filters' => [
+                //         [
+                //             'field' => 'color',
+                //             'value' => '%25'.$value.'%25',
+                //             'conditionType' => ' ',
+                //         ],
+                //     ],
+                // ];
+                // $colorproduct[] = [
+                //     'field' => 'color',
+                //     'value' => '%25'.$value.'%25',
+                //     'conditionType' => 'like',
+                // ];
+                $color_text .= $value.",";
+            }
                 $colorproduct[] = [
                     'field' => 'color',
-                    'value' => '%25'.$value.'%25',
-                    'conditionType' => 'like',
+                    'value' => $color_text,
+                    'conditionType' => 'in',
                 ];
-            }
+                array_push($main_array, $colorproduct);
         }
 
-        $get_products = new \SoapClient('http://dilokstore.com/magento/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
-        $get_products2 = new \SoapClient('http://dilokstore.com/magento/soap/default?wsdl&services=catalogProductRenderListV1',$params);
+        if(!empty($input_all['highlight'])){
+            foreach($input_all['highlight'] as $key => $value){
+                $highlight_text .= $value.",";
+            }
+                $highlight[] = [
+                    'field' => 'highlight',
+                    'value' => '1',
+                    'conditionType' => 'eq',
+                ];
+                array_push($main_array, $highlight);
+        }
 
-        // if($id != null){
-            if(!empty($input_all['gender']) || !empty($input_all['brand']) || !empty($input_all['size']) || !empty($input_all['colorproduct'])){
+        // dd($colorproduct,$highlight);
+        // exit();
+
+        $get_products = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
+        $get_products2 = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductRenderListV1',$params);
+
+            if(!empty($input_all['gender']) || !empty($input_all['brand']) || !empty($input_all['size']) || !empty($input_all['colorproduct']) || !empty($input_all['highlight'])){
                 $get_product_page = [
                     'searchCriteria' => [
                         'filterGroups' => [
@@ -424,26 +632,33 @@ class FilterController extends Controller
                                 ],
                             ],
                             1 => [
-                                'filters' => $gender
-                            ],
-                            2 => [
-                                'filters' => $brand
-                            ],
-                            3 => [
-                                'filters' => $size
-                            ],
-                            4 => [
-                                'filters' => $colorproduct
-                            ],
-                            5 => [
                                 'filters' => [
                                     [
                                         'field' => 'type_id',
                                         'value' => 'simple',
-                                        'condition_type' => 'eq',
+                                        'conditionType' => 'eq',
                                     ],
                                 ],
                             ],
+                            2 => [
+                                'filters' => $gender
+                            ],
+                            3 => [
+                                'filters' => $brand
+                            ],
+                            4 => [
+                                'filters' => $size
+                            ],
+                            5 => [
+                                'filters' => $colorproduct
+                            ],
+                            6 => [
+                                'filters' => $highlight
+                            ],
+                            // $gender,
+                            // $size,
+                            // $colorproduct,
+                            // $brand
                             // 6 => [
                             //     'filters' => [
                             //         [
@@ -452,7 +667,12 @@ class FilterController extends Controller
                             //             'condition_type' => 'eq',
                             //         ],
                             //     ],
-                            // ],
+                            ],
+                        'sortOrders' => [
+                            [
+                                'field' => 'entity_id',
+                                'direction' => 'DESC',
+                            ],
                         ],
                         'pageSize' => 12,
                         'currentPage' => $page,
@@ -478,22 +698,22 @@ class FilterController extends Controller
                                 //         'condition_type' => 'eq',
                                 //     ],
                                 // ],
-                                // 'filters' => [
-                                //     [
-                                //         'field' => 'type_id',
-                                //         'value' => 'configurable',
-                                //         'condition_type' => 'eq',
-                                //     ],
-                                // ],
                             ],
                             [
                                 'filters' => [
                                     [
                                         'field' => 'type_id',
-                                        'value' => 'configurable',
+                                        // 'value' => 'configurable',
+                                        'value' => 'simple',
                                         'condition_type' => 'eq',
                                     ],
                                 ],
+                            ],
+                        ],
+                        'sortOrders' => [
+                            [
+                                'field' => 'entity_id',
+                                'direction' => 'DESC',
                             ],
                         ],
                         'pageSize' => 12,
@@ -501,40 +721,7 @@ class FilterController extends Controller
                     ],
                 ];
             }
-        // } else {
-        //     $get_product_page = [
-        //             'searchCriteria' => [
-        //                 'filterGroups' => [
-        //                     [
-        //                         'filters' => [
-        //                             [
-        //                                 'field' => 'status',
-        //                                 'value' => '1',
-        //                                 'conditionType' => 'eq',
-        //                             ],
-        //                         ],
-        //                         'filters' => [
-        //                             [
-        //                                 'field' => 'visibility',
-        //                                 'value' => '4',
-        //                                 'condition_type' => 'eq',
-        //                             ],
-        //                         ],
-                                // 'filters' => [
-                                //     [
-                                //         'field' => 'type_id',
-                                //         'value' => 'configurable',
-                                //         'condition_type' => 'eq',
-                                //     ],
-                                // ],
-        //                     ],
-        //                 ],
-        //                 'pageSize' => 12,
-        //                 'currentPage' => $page,
-        //             ],
-        //         ];
-        //     $data['id_product'] = $id;
-        // }
+
             $get_product_page['storeId'] = "1";
             $get_product_page['currencyCode'] = "THB";
 
@@ -543,10 +730,16 @@ class FilterController extends Controller
 
         $data['products'] = $get_products->catalogProductRepositoryV1GetList($get_product_page);
         $data['products2'] = $get_products2->catalogProductRenderListV1GetList($get_product_page);
+        $data['products_list_pages'] = json_encode($get_product_page);
+
+        // dd($data);
+        // exit();
 
         } catch(Exception $e){
           $data['products'] = $e->getMessage();
         }
+
+        $data['session_chk'] = $session_all;
 
         return view('filter_search',$data);
     }
@@ -574,10 +767,7 @@ class FilterController extends Controller
             $page = 1;
         }
 
-        $get_products = new \SoapClient('http://dilokstore.com/magento/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
-
-
-        // $get_products = new \SoapClient('http://dilokstore.com/magento/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
+        $get_products = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
         $get_product_page = [
             'searchCriteria' => [
                 'filterGroups' => [
@@ -626,11 +816,11 @@ class FilterController extends Controller
 
         try{
             $product = $request->input('product');
-            $price_product = $request->input('price');
+            $price_product = $request->input('price_product_main');
             $product_id = $request->input('product_id');
 
-            $userData = array("username" => "customer", "password" => "customer@01");
-            $ch = curl_init("http://dilokstore.com/magento/rest/V1/integration/admin/token");
+            $userData = array("username" => "customerdilok", "password" => "dilokstore@1234");
+            $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
             curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -638,7 +828,7 @@ class FilterController extends Controller
 
             $token = curl_exec($ch);
 
-        $get_products = new \SoapClient('http://dilokstore.com/magento/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
+        $get_products = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
         $get_product_detail = array(
             'sku' => $product
         );
@@ -647,14 +837,14 @@ class FilterController extends Controller
         $get_session_all = \Session::all();
 
         if(!empty($get_session_all['customer_id'])){
-            $ch = curl_init("http://dilokstore.com/magento/rest/V1/customers/me");
+            $ch = curl_init("http://128.199.235.248/magento/rest/V1/customers/me");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
 
             $customer_me = curl_exec($ch);
 
-            $ch = curl_init("http://dilokstore.com/magento/rest/V1/carts/mine");
+            $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
@@ -672,9 +862,8 @@ class FilterController extends Controller
                 ]
             ];
 
-            // dd($product);
 
-            $ch = curl_init("http://dilokstore.com/magento/rest/V1/carts/mine/items");
+            $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine/items");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
             curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($product));
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -682,9 +871,17 @@ class FilterController extends Controller
 
             $customer_item = json_decode(curl_exec($ch));
 
-            $return['status'] = 1;
-            $return['login'] = $customer_item;
-            $return['content'] = 'เพิ่มสินค้าสำเร็จ';
+            // dd($customer_item->message);
+
+            if(!empty($customer_item->message)){
+                $return['status'] = 3;
+                $return['content'] = 'สินค้าชิ้นนี้หมด';
+            } else {
+                $return['status'] = 1;
+                $return['login'] = $customer_item;
+                $return['content'] = 'เพิ่มสินค้าสำเร็จ';
+            }
+
         } else {
             \Session::flush();
             $return['status'] = 2;
@@ -710,14 +907,14 @@ class FilterController extends Controller
             $get_session_all = \Session::all();
 
             if(!empty($get_session_all['customer_id'])){
-                $ch = curl_init("http://dilokstore.com/magento/rest/V1/customers/me");
+                $ch = curl_init("http://128.199.235.248/magento/rest/V1/customers/me");
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                 curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
 
                 $result2 = curl_exec($ch);
 
-                $ch = curl_init("http://dilokstore.com/magento/rest/V1/carts/mine");
+                $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine");
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                 curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
@@ -733,7 +930,7 @@ class FilterController extends Controller
                     ]
                 ];
 
-                $ch = curl_init("http://dilokstore.com/magento/rest/V1/carts/mine/items/".$product_id);
+                $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine/items/".$product_id);
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "delete");
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                 curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
@@ -757,5 +954,65 @@ class FilterController extends Controller
             $return['title'] = 'ลบสินค้า';
 
         return json_encode($return);
+    }
+
+    public function filter_page_list(Request $request){
+        try {
+            $data = $request->all();
+            // $data = $request->input('filter_page_list');
+            $list_product_page = $data['product_main_page'];
+            $page_list = $data['page_list'];
+
+            $opts = array(
+                'ssl' => array('ciphers'=>'RC4-SHA', 'verify_peer'=>false, 'verify_peer_name'=>false)
+            );
+
+            $params = array (
+              'encoding' => 'UTF-8',
+              'verifypeer' => false,
+              'verifyhost' => false,
+              'soap_version' => SOAP_1_2,
+              'trace' => 1,
+              'exceptions' => 1,
+              'connection_timeout' => 180,
+              'stream_context' => stream_context_create($opts),
+              'cache_wsdl' => WSDL_CACHE_NONE
+            );
+
+            $get_product_page = [
+                    'searchCriteria' => [
+                        'filterGroups' =>
+                            $list_product_page['searchCriteria']['filterGroups'],
+                        'sortOrders' => [
+                            [
+                                'field' => 'entity_id',
+                                'direction' => 'DESC',
+                            ],
+                        ],
+                        'pageSize' => 12,
+                        'currentPage' => $page_list,
+                    ],
+                ];
+            $get_product_page['storeId'] = "1";
+            $get_product_page['currencyCode'] = "THB";
+            $data['page'] = $page_list;
+
+
+            // dd($list_product_page,$get_product_page);
+
+            $get_products = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
+            $get_products2 = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductRenderListV1',$params);
+
+            $data['products'] = $get_products->catalogProductRepositoryV1GetList($get_product_page);
+            $data['products2'] = $get_products2->catalogProductRenderListV1GetList($get_product_page);
+            $data['products_list_pages'] = json_encode($get_product_page);
+            $data['status'] = 1;
+        } catch (Exception $e) {
+            $data['products'] = $e->getMessage();
+        }
+
+    // return view('filter_search2',$data);
+        return json_encode($data);
+
     }
 }

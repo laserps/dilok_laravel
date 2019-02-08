@@ -23,8 +23,8 @@ class CartController extends Controller
      */
     public function create(Request $request)
     {
-        $userData = array("username" => "customer", "password" => "customer@01");
-        $ch = curl_init("http://dilokstore.com/magento/rest/V1/integration/admin/token");
+        $userData = array("username" => "customerdilok", "password" => "dilokstore@1234");
+        $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -45,14 +45,14 @@ class CartController extends Controller
         try {
             if(!empty($get_session_all['customer_id'])){
                 // if($text_color_product != '' && $text_size_product != '' && $text_name_product != '' && $text_price_product != '' && $text_valuecolor_product != '' && $text_valuesize_product != ''){
-                    $ch = curl_init("http://dilokstore.com/magento/rest/V1/customers/me");
+                    $ch = curl_init("http://128.199.235.248/magento/rest/V1/customers/me");
                     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                     curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
 
                     $customer = json_decode(curl_exec($ch));
 
-                    $ch = curl_init("http://dilokstore.com/magento/rest/V1/carts/mine");
+                    $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine");
                     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                     curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
@@ -60,30 +60,74 @@ class CartController extends Controller
                     $create_cart = json_decode(curl_exec($ch));
 
                     if($text_type_product == 'configurable'){
-                        $product = [
-                            "cartItem" => [
-                                "sku"=> $text_name_product,
-                                "qty"=> 1,
-                                "name" => $text_name_product,
-                                "price" => $text_price_product,
-                                "product_type" => "configurable",
-                                "quote_id"=> $create_cart,
-                                "product_option" => [
-                                    "extension_attributes" => [
-                                        "configurable_item_options" => [
-                                            [
-                                                "option_id" => "93",
-                                                "option_value" => $text_valuecolor_product
-                                            ],
-                                            [
-                                                "option_id" => "136",
-                                                "option_value" => $text_valuesize_product
+                        if(!empty($text_valuecolor_product) && !empty($text_valuesize_product)){
+                            $product = [
+                                "cartItem" => [
+                                    "sku"=> $text_name_product,
+                                    "qty"=> 1,
+                                    "name" => $text_name_product,
+                                    "price" => $text_price_product,
+                                    "product_type" => "configurable",
+                                    "quote_id"=> $create_cart,
+                                    "product_option" => [
+                                        "extension_attributes" => [
+                                            "configurable_item_options" => [
+                                                [
+                                                    "option_id" => "93",
+                                                    "option_value" => $text_valuecolor_product
+                                                ],
+                                                [
+                                                    "option_id" => "135",
+                                                    "option_value" => $text_valuesize_product
+                                                ]
                                             ]
                                         ]
                                     ]
                                 ]
-                            ]
-                        ];
+                            ];
+                        } elseif(!empty($text_valuecolor_product)) {
+                            $product = [
+                                "cartItem" => [
+                                    "sku"=> $text_name_product,
+                                    "qty"=> 1,
+                                    "name" => $text_name_product,
+                                    "price" => $text_price_product,
+                                    "product_type" => "configurable",
+                                    "quote_id"=> $create_cart,
+                                    "product_option" => [
+                                        "extension_attributes" => [
+                                            "configurable_item_options" => [
+                                                [
+                                                    "option_id" => "93",
+                                                    "option_value" => $text_valuecolor_product
+                                                ],
+                                            ]
+                                        ]
+                                    ]
+                                ]
+                            ];
+                        } elseif(!empty($text_valuesize_product)){
+                            $product = [
+                                "cartItem" => [
+                                    "sku"=> $text_name_product,
+                                    "qty"=> 1,
+                                    "name" => $text_name_product,
+                                    "price" => $text_price_product,
+                                    "product_type" => "configurable",
+                                    "quote_id"=> $create_cart,
+                                    "product_option" => [
+                                        "extension_attributes" => [
+                                            "configurable_item_options" => [
+                                                [
+                                                    "option_id" => "135",
+                                                    "option_value" => $text_valuesize_product
+                                                ]
+                                            ]
+                                        ]
+                                    ]
+                                ]
+                            ];
+                        }
                     } else {
                         $product = [
                             "cartItem" => [
@@ -101,7 +145,7 @@ class CartController extends Controller
                     // exit();
 
 
-                    $ch = curl_init("http://dilokstore.com/magento/rest/V1/carts/mine/items");
+                    $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine/items");
                     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
                     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($product));
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -111,17 +155,15 @@ class CartController extends Controller
 
                     if(!empty($add_product_to_cart->message)){
                         if($add_product_to_cart->message == 'This product is out of stock.'){
-                            $return['status'] = 2;
+                            $return['status'] = 3;
                             $return['content'] = 'สินค้าหมด';
                         }
+                    } else {
+                        $return['result'] = $create_cart;
+                        $return['status'] = 1;
+                        $return['content'] = 'เพิ่มสินค้าสำเร็จ';
                     }
 
-                    // dd($add_product_to_cart);
-                    // exit();
-
-                    $return['result'] = $create_cart;
-                    $return['status'] = 1;
-                    $return['content'] = 'เพิ่มสินค้าสำเร็จ';
                 // } else {
                 //     $return['status'] = 0;
                 //     $return['content'] = 'กรุณาเลือกประเภทสินค้าให้ถูกต้อง';

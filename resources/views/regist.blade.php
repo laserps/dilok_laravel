@@ -173,20 +173,21 @@
                                 </label>
                                 <div class="input-group text-center">
                                   <div class="input-group-prepend"></div>
-                                  <!-- <input type="text" class="regist-form" name="city" id="city" placeholder="City" aria-describedby="inputGroupPrepend2" required> -->
-                                  <textarea class="regist-form" name="address" id="address" placeholder="address" aria-describedby="inputGroupPrepend6" required></textarea>
+                                  <input type="text" class="regist-form" name="address" id="address" placeholder="address" aria-describedby="inputGroupPrepend2" required>
+                                  <!-- <textarea class="regist-form" name="address" id="address" placeholder="address" aria-describedby="inputGroupPrepend6" required></textarea> -->
                                 </div>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="col-xl-12 mb-3">
-                                <label class="regist-font4 d-flex" for="address">
+                                <label class="regist-font4 d-flex" for="address2">
                                     Address line 2
                                     <span class="forgot-font3 ml-1">*</span>
                                 </label>
                                 <div class="input-group text-center">
                                   <div class="input-group-prepend"></div>
-                                  <textarea class="regist-form" name="address2" id="address2" placeholder="address" aria-describedby="inputGroupPrepend6" required></textarea>
+                                  <input type="text" class="regist-form" name="address2" id="address2" placeholder="address2" aria-describedby="inputGroupPrepend2" required>
+                                  <!-- <textarea class="regist-form" name="address2" id="address2" placeholder="address" aria-describedby="inputGroupPrepend6" required></textarea> -->
                                 </div>
                             </div>
                         </div>

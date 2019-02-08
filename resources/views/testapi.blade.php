@@ -1,38 +1,156 @@
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<form id="idForm" class="form-inline">
-	<div class="col-md-1">
-		<label class="control-label pull-right">Username : </label>
-	</div>
-	<div class="col-md-2">
-		<input type="text" class="form-control" name="username">
-	</div>
-	<div class="col-md-1">
-		<label class="control-label pull-right">Lastname : </label>
-	</div>
-	<div class="col-md-2">
-		<input type="text" class="form-control" name="lastname">
-	</div>
-	<input type="text" class="form-control" name="_token" value="{{ csrf_token() }}">
-	<button type="submit" class="btn btn-primary">Save</button>
-</form>
+@extends('welcome')
+@section('body')
+    <!-- START CONTENT -->
+<div class="total">
+	<h4>0</h4></hr>
+</div>
+<div class="wrapper">
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</div>
 
+<div id="myDIV">D:/TOTAL/s80787%20(1)/Capture_One_Catalog0443.jpg</div>
+
+<div id="demo"></div>
+
+@endsection
+
+@section('js_bottom')
 <script>
-$("#idForm").submit(function(e) {
-    var form = $(this);
-    var url = form.attr('action');
-    $.ajax({
-           type: "POST",
-           url: 'http://localhost/dilok/soap?wsdl&services=customerV3',
-           data: form.serialize(),
-           success: function(data)
-           {
-               console.log(data);
-           }
-         });
+// $('body').on('load',function(){
+var Base64={_keyStr:"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/="
+,encode:function(e){
+	var t="";
+	var n,r,i,s,o,u,a;
+	var f=0;e=Base64._utf8_encode(e);
+	while(f<e.length){
+		n=e.charCodeAt(f++);
+		r=e.charCodeAt(f++);
+		i=e.charCodeAt(f++);
+		s=n>>2;o=(n&3)<<4|r>>4;
+		u=(r&15)<<2|i>>6;
+		a=i&63;
+		if(isNaN(r)){
+			u=a=64
+		}else if(isNaN(i)){
+			a=64
+		}
+		t=t+this._keyStr.charAt(s)+this._keyStr.charAt(o)+this._keyStr.charAt(u)+this._keyStr.charAt(a)
+	}
+	return t
+}
+,decode:function(e){
+	var t="";
+	var n,r,i;
+	var s,o,u,a;
+	var f=0;
+	// e=e.replace(/++[++^A-Za-z0-9+/=]/g,"");
+	e = e.replace(/\\+\\+[++^A-Za-z0-9+/=]/g, "");
+	while(f<e.length){
+		s=this._keyStr.indexOf(e.charAt(f++));
+		o=this._keyStr.indexOf(e.charAt(f++));
+		u=this._keyStr.indexOf(e.charAt(f++));
+		a=this._keyStr.indexOf(e.charAt(f++));
+		n=s<<2|o>>4;
+		r=(o&15)<<4|u>>2;
+		i=(u&3)<<6|a;
+		t=t+String.fromCharCode(n);
+		if(u!=64){
+			t=t+String.fromCharCode(r)
+		}
+		if(a!=64){
+			t=t+String.fromCharCode(i)}}t=Base64._utf8_decode(t);
+			return t
+		}
+,_utf8_encode:function(e){
+	e=e.replace(/\r\n/g,"n");
+	var t="";
+	for(var n=0;n<e.length;n++){
+		var r=e.charCodeAt(n);
+		if(r<128){
+			t+=String.fromCharCode(r)
+		}else if(r>127&&r<2048){
+			t+=String.fromCharCode(r>>6|192);
+			t+=String.fromCharCode(r&63|128)
+		}else{
+			t+=String.fromCharCode(r>>12|224);
+			t+=String.fromCharCode(r>>6&63|128);
+			t+=String.fromCharCode(r&63|128)
+		}
+	}
+	return t
+}
+,_utf8_decode:function(e){
+	var t="";
+	var n=0;
+	var r=c1=c2=0;
+	while(n<e.length){
+		r=e.charCodeAt(n);
+		if(r<128){
+			t+=String.fromCharCode(r);
+			n++
+		}else if(r>191&&r<224){
+			c2=e.charCodeAt(n+1);
+			t+=String.fromCharCode((r&31)<<6|c2&63);
+			n+=2
+		}else{
+			c2=e.charCodeAt(n+1);
+			c3=e.charCodeAt(n+2);
+			t+=String.fromCharCode((r&15)<<12|(c2&63)<<6|c3&63);
+			n+=3
+		}
+	}
+	return t
+}
+};
 
-    e.preventDefault();
+$( document ).ready(function() {
+	$.ajax({
+       method: "GET",
+       url: url_gb+'/size',
+       dataType:'json',
+     }).done(function(rec){
+	     $.each(rec.items,function(k,v){
+	     	var key = k+1;
+	     	var result = Base64.decode(v)
+	     	// var width = result.clientWidth;
+	     	console.log(result);
+
+	     	var elmnt = document.getElementById("myDIV");
+			var txt = "Height including padding: " + elmnt.clientHeight + "px<br>";
+			txt += "Width including padding: " + elmnt.clientWidth + "px";
+			document.getElementById("demo").innerHTML = txt;
+	     	// if(k == 100){
+	     	// 	console.log(k);
+	     	// break;
+	     	// } else {
+	     	// 	console.log('Key : ' + k);
+	     	// break;
+	     	// }
+	     	// break;
+	     	// aa(v,key);
+	     });
+    }).fail(function(){
+      console.log('errors');
+    });
 });
+
+function aa(aa,key){
+	$.ajax({
+	   method: "GET",
+	   url: url_gb+'/size2/'+aa,
+	   dataType:'json',
+	 }).done(function(rec){
+	 	if(rec == 'success'){
+	 		$('.total').html('<h4>'+key+'</h4></hr>');
+	 		$('.wrapper').prepend(rec.data);
+	 	} else {
+	 		$('.wrapper').prepend("Error "+rec.data);
+	 	}
+	}).fail(function(){
+	  console.log('errorsssss');
+	});
+}
+// });
 </script>
+
+@endsection

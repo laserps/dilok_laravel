@@ -71,13 +71,16 @@
                           <a class="nav-link main" href="{{ url('filter') }}">View all Latest</a>
                         </li>
                         <li class="nav-item">
-                          <a class="nav-link" href="{{ url('filter/?genders=25') }}">Latest Male</a>
+                          <a class="nav-link" href="{{ url('brands') }}/{{ ('Men') }}">Latest Male</a>
+                          <!-- <a class="nav-link" href="{{ url('filter/?genders=25') }}">Latest Male</a> -->
                         </li>
                         <li class="nav-item">
-                          <a class="nav-link" href="{{ url('filter?genders=27') }}">Latest Kid's</a>
+                          <a class="nav-link" href="{{ url('brands') }}/{{ ('Kid') }}">Latest Kid's</a>
+                          <!-- <a class="nav-link" href="{{ url('filter?genders=27') }}">Latest Kid's</a> -->
                         </li>
                         <li class="nav-item">
-                          <a class="nav-link" href="{{ url('filter?genders=26') }}">Latest Women's</a>
+                          <a class="nav-link" href="{{ url('brands') }}/{{ ('Women') }}">Latest Women's</a>
+                          <!-- <a class="nav-link" href="{{ url('filter?genders=26') }}">Latest Women's</a> -->
                         </li>
                         <!-- <li class="nav-item">
                           <a class="nav-link" href="{{ url('filter') }}">New This Week</a>
@@ -173,7 +176,8 @@
                                 @foreach($category->result->childrenData->item as $key_category => $value_category)
                                   @if($value_category->name != 'Default Category')
                                     <li>
-                                      <a class="nav-link" href="{{ url('filter/?brands=') }}{{ $value_category->id }}">{{ $value_category->name }}</a>
+                                      <!-- <a class="nav-link" href="{{ url('filter/?brands=') }}{{ $value_category->id }}">{{ $value_category->name }}</a> -->
+                                      <a class="nav-link" href="{{ url('brands') }}/{{ $value_category->name }}">{{ $value_category->name }}</a>
                                     </li>
                                   @endif
                                 @endforeach
@@ -470,7 +474,8 @@
 
           <li class="nav-item">
 
-            <a class="nav-link" href="{{ url('filter/?genders=25') }}"><span style="font-weight : 400;">MEN</span></a>
+            <!-- <a class="nav-link" href="{{ url('filter/?genders=25') }}"><span style="font-weight : 400;">MEN</span></a> -->
+            <a class="nav-link" href="{{ url('brands/Men') }}"><span style="font-weight : 400;">MEN</span></a>
             <div class="list">
                 <div class="list-container">
                   <div class="row">
@@ -482,7 +487,8 @@
                           @foreach($category->result->childrenData->item as $key_category => $value_category)
                             @if($value_category->name != 'Default Category')
                               <li>
-                                <a class="nav-link" href="{{ url('filter/?genders=25&brands=') }}{{ $value_category->id }}">{{ $value_category->name }}</a>
+                                <!-- <a class="nav-link" href="{{ url('filter/?genders=25&brands=') }}{{ $value_category->id }}">{{ $value_category->name }}</a> -->
+                                <a class="nav-link" href="{{ url('brands') }}/{{ $value_category->name }}/{{ ('Men') }}">{{ $value_category->name }}</a>
                               </li>
                             @endif
                           @endforeach
@@ -631,7 +637,8 @@
 
 
           <li class="nav-item">
-            <a class="nav-link" href="{{ url('filter/?genders=26') }}"><span style="font-weight : 400;">WOMEN</span></a>
+            <!-- <a class="nav-link" href="{{ url('filter/?genders=26') }}"><span style="font-weight : 400;">WOMEN</span></a> -->
+            <a class="nav-link" href="{{ url('brands/Women') }}"><span style="font-weight : 400;">WOMEN</span></a>
             <div class="list">
                 <div class="list-container">
                   <div class="row">
@@ -642,7 +649,8 @@
                           @foreach($category->result->childrenData->item as $key_category => $value_category)
                             @if($value_category->name != 'Default Category')
                               <li>
-                                <a class="nav-link" href="{{ url('filter/?genders=26&brands=') }}{{ $value_category->id }}">{{ $value_category->name }}</a>
+                                <!-- <a class="nav-link" href="{{ url('filter/?genders=26&brands=') }}{{ $value_category->id }}">{{ $value_category->name }}</a> -->
+                                <a class="nav-link" href="{{ url('brands') }}/{{ $value_category->name }}/{{ ('Women') }}">{{ $value_category->name }}</a>
                               </li>
                             @endif
                           @endforeach
@@ -792,7 +800,8 @@
           </li> <!-- WOMEN -->
           <li class="nav-item">
 
-            <a class="nav-link" href="{{ url('filter/?genders=27') }}"><span style="font-weight : 400;">KID</span></a>
+            <!-- <a class="nav-link" href="{{ url('filter/?genders=27') }}"><span style="font-weight : 400;">KID</span></a> -->
+            <a class="nav-link" href="{{ url('brands/Kid') }}"><span style="font-weight : 400;">KID</span></a>
             <div class="list">
                 <div class="list-container">
                   <div class="row">
@@ -803,7 +812,8 @@
                           @foreach($category->result->childrenData->item as $key_category => $value_category)
                             @if($value_category->name != 'Default Category')
                               <li>
-                                <a class="nav-link" href="{{ url('filter/?genders=27&brands=') }}{{ $value_category->id }}">{{ $value_category->name }}</a>
+                                <!-- <a class="nav-link" href="{{ url('filter/?genders=27&brands=') }}{{ $value_category->id }}">{{ $value_category->name }}</a> -->
+                                <a class="nav-link" href="{{ url('brands') }}/{{ $value_category->name }}/{{ ('Kid') }}">{{ $value_category->name }}</a>
                               </li>
                             @endif
                           @endforeach
@@ -1058,9 +1068,9 @@
                                     <a href="{{ url('single-blog') }}/{{ $value_blocks->id }}">
                                       <div class="nav-blog">
                                         @if(!empty($image['src']))
-                                          <img class="nav-product" src="http://dilokstore.com/magento/pub/media/{{ $image['src'] }}"/>
+                                          <img class="nav-product" src="http://128.199.235.248/magento/pub/media/{{ $image['src'] }}"/>
                                         @else
-                                          <img class="nav-product" src="{{ url('assets/images/index/blog1.jpg') }}">
+                                          <img class="nav-product" src="{{ url('assets/images/No_Image_Available.jpg') }}">
                                         @endif
                                       </div>
                                     </a>
@@ -1228,6 +1238,7 @@
                 </button>
                 <div class="dropdown-menu dropdown-menu-right">
                     <a class="dropdown-item" href="{{ url('account') }}"><i class="fa fa-user" aria-hidden="true"></i> Profile</a>
+                    <a class="dropdown-item" href="{{ url('order') }}"><i class="fa fa-list-alt" aria-hidden="true"></i> Order</a>
                     <!-- <a class="dropdown-item" href="#">Action</a> -->
                     <!-- <a class="dropdown-item" href="#">Another action</a> -->
                     <a class="dropdown-item" href="{{ url('logout') }}"><i class="fa fa-sign-out-alt" aria-hidden="true"></i> Log out</a>
@@ -1356,7 +1367,7 @@
 
 @yield('body')
 
-<footer class="footer">
+<footer class="footer" style="height: 500px;">
   <div class="container-fluid">
     <div class="row pt-lg-5 pt-md-5 pt-3 pb-2">
       <div class="col-xl-3 col-lg-3 col-md-12 col-12 d-lg-block d-none">
@@ -2566,6 +2577,9 @@ $('body').on('click','.btn_add_to_cart',function(){
         $('body').loader('hide');
         al_su(rec.content,'danger');
         window.location.href = url_gb+'/regist';
+      } else if(rec.status == 3){
+        al_su(rec.content,'danger');
+        $('body').loader('hide');
       }else{
         $('body').loader('hide');
         al_su(rec.content,'danger');
@@ -2598,6 +2612,26 @@ $('body').on('click','.delete_cart_product',function(){
         $('body').loader('hide');
         al_su('Error','danger');
   });
+});
+
+$('body').on('click','.pageination_list',function(){
+  var data = $(this).data('pageination_detail');
+  var page_list = $(this).data('page_list');
+  $('body').loader('show');
+    $.ajax({
+      method : "POST",
+      url : url_gb+"/filter_page_list",
+      dataType : "JSON",
+      data : { 'product_main_page' : data , 'page_list' : page_list},
+    }).done(function(rec){
+      console.log(rec.status);
+      $('#filter_data_page_main').remove();
+      $('#filter_data_search_page_list').html(rec);
+      $('body').loader('hide');
+    }).fail(function(){
+      console.log('Error');
+      $('body').loader('hide');
+    });
 });
 
 </script>

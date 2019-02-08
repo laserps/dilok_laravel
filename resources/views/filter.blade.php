@@ -35,7 +35,55 @@
             <div class="collapse show" id="collapseExample111">
                 <div class="mt-2">
                     <div class="row flex-xl-row">
+                        @if(!empty($brands2))
+                          @if($brands2 == 'Men' || $brands2 == 'Women' || $brands2 == 'Kid')
+                          @else
+                          <span>
+                            <span class="fillter-block fillter-select fillter-font3">
+                              <a class="fas fillter-close pr-2 remove_gender"></a>{{ $brands2 }}
+                            </span>
+                          </span>
+                          @endif
+                        @endif
+                        @if(!empty($genders22))
+                          @if($genders22 != 'Men' || $genders22 != 'Women' || $genders22 != 'Kid')
+                          <span>
+                            <span class="fillter-block fillter-select fillter-font3">
+                              <a class="fas fillter-close pr-2 remove_gender"></a>{{ $genders22 }}
+                            </span>
+                          </span>
+                          @endif
+                        @endif
                         <span class="filter_list"></span>
+                        @php
+                          $session_chk = session()->all();
+                          $chk_brand  = '';
+                          $chk_gender  = '';
+                          $chk_size  = '';
+                          $chk_colorproduct  = '';
+                        @endphp
+                        @if(!empty($session_chk['session_brand']))
+                          @foreach($session_chk['session_brand'] as $key => $value)
+                            @php $chk_brand = $value @endphp
+                          @endforeach
+                        @endif
+                        @if(!empty($session_chk['session_gender']))
+                          @foreach($session_chk['session_gender'] as $key => $value)
+                            @php $chk_gender = $value @endphp
+                          @endforeach
+                        @endif
+                        @if(!empty($session_chk['session_size']))
+                          @foreach($session_chk['session_size'] as $key => $value)
+                            @php $chk_size = $value @endphp
+                          @endforeach
+                        @endif
+                        @if(!empty($session_chk['session_colorproduct']))
+                          @foreach($session_chk['session_colorproduct'] as $key => $value)
+                            @php $chk_colorproduct = $value @endphp
+                          @endforeach
+                        @endif
+
+
                     </div>
                 </div>
             </div>
@@ -56,10 +104,10 @@
                   <div class="filter-scroll">
                       @foreach($gender->result->item as $key_category => $value_category)
                         @if($value_category->label != ' ')
-                          @if(!empty($genders) && $genders == $value_category->value)
+                          @if(!empty($genders) && $genders == $value_category->value || !empty($genders22) && $genders22 == $value_category->label || !empty($chk_gender))
                             <label class="check">
                                 <div class="regist-m-l2 pt-1 fillter-font3 " data-type="{{ $value_category->value }}">{{ $value_category->label }}</div>
-                                <input style="" name="gender[]" data-text_gender="{{ $value_category->label }}" class="checkboxlist checkmark data_type2{{ $value_category->value }}" data-type="{{ $value_category->value }}"  type="checkbox" value="{{ $value_category->value }}" @if(!empty($genders)) {{ 'checked' }} @endif />
+                                <input style="" name="gender[]" data-text_gender="{{ $value_category->label }}" class="checkboxlist checkmark data_type2{{ $value_category->value }}" data-type="{{ $value_category->value }}"  type="checkbox" value="{{ $value_category->value }}" @if(!empty($genders22)) {{ 'checked' }} @endif @if(!empty($genders)) {{ 'checked' }} @endif @if($chk_gender == $value_category->value) {{ 'checked' }} @endif />
                                 <!-- <span class="checkmark data_type{{ $value_category->value }}" data-type="{{ $value_category->value }}" data-text_type="{{ $value_category->label }}"></span> -->
                             </label>
                           @else
@@ -82,17 +130,17 @@
             @endif
 
                 <button class="btn fillter-bg px-0" type="button" data-toggle="collapse" data-target="#collapseExample333" aria-expanded="false" aria-controls="collapseExample">
-                    <span class="fillter-font2 pull-left">BRAND</span>
+                    <span class="fillter-font2 pull-left">BRAND {{ $chk_brand }} {{ $brands2 }}</span>
                     <span class="fas fa-chevron-down pull-right" aria-hidden="true"></span>
                 </button>
                 <div class="collapse show" id="collapseExample333">
                     <div class="filter-scroll">
                         @foreach($category->result->childrenData->item as $key_category => $value_category)
                           @if($value_category->name != 'Default Category')
-                            @if(!empty($brands) && $brands == $value_category->id)
+                            @if(!empty($brands) && $brands == $value_category->id || !empty($brands2) && $brands2 == $value_category->name || !empty($chk_brand))
                               <label class="check">
                                   <div class="regist-m-l2 pt-1 fillter-font3" data-type="{{ $value_category->id }}">{{ $value_category->name }}</div>
-                                  <input name="brand[]" type="checkbox" data-text_gender="{{ $value_category->name }}" data-type="{{ $value_category->id }}" class="checkboxlist checkmark data_type2{{ $value_category->id }}" value="{{ $value_category->id }}" @if(!empty($brands)) {{ 'checked' }} @endif />
+                                  <input name="brand[]" type="checkbox" data-text_gender="{{ $value_category->name }}" data-type="{{ $value_category->id }}" class="checkboxlist checkmark data_type2{{ $value_category->id }}" value="{{ $value_category->id }}" @if(!empty($brands2)) @if($brands2 == $value_category->name) {{ 'checked' }} @endif @endif @if(!empty($brands)) {{ 'checked' }} @endif @if(!empty($brands2)) @if($chk_brand == $value_category->id) {{ 'checked' }} @endif @endif />
                                   <!-- <span class="checkmark data_type{{ $value_category->id }}" data-type="{{ $value_category->id }}" data-text_type="{{ $value_category->name }}"></span> -->
                               </label>
                               @else
@@ -135,11 +183,19 @@
                       <div class="filter-scroll">
                           @foreach($size_products->result->item as $key_sizes => $value_sizes)
                             @if($value_sizes->label != ' ')
-                              <label class="check">
-                                  <div class="regist-m-l2 pt-1 fillter-font3">{{ $value_sizes->label }}</div>
-                                  <input name="size[]" type="checkbox" data-text_gender="{{ $value_sizes->label }}" data-type="{{ $value_sizes->value }}"" class="checkboxlist checkmark data_type2{{ $value_sizes->value }}" value="{{ $value_sizes->value }}" />
-                                  <!-- <span class="checkmark data_type{{ $value_sizes->value }}"></span> -->
-                              </label>
+                              @if(!empty($chk_size))
+                                <label class="check">
+                                    <div class="regist-m-l2 pt-1 fillter-font3">{{ $value_sizes->label }}</div>
+                                    <input name="size[]" type="checkbox" data-text_gender="{{ $value_sizes->label }}" data-type="{{ $value_sizes->value }}"" class="checkboxlist checkmark data_type2{{ $value_sizes->value }}" value="{{ $value_sizes->value }}" @if($chk_size == $value_sizes->value) {{ 'checked' }} @endif />
+                                    <!-- <span class="checkmark data_type{{ $value_sizes->value }}"></span> -->
+                                </label>
+                              @else
+                                <label class="check">
+                                    <div class="regist-m-l2 pt-1 fillter-font3">{{ $value_sizes->label }}</div>
+                                    <input name="size[]" type="checkbox" data-text_gender="{{ $value_sizes->label }}" data-type="{{ $value_sizes->value }}"" class="checkboxlist checkmark data_type2{{ $value_sizes->value }}" value="{{ $value_sizes->value }}"/>
+                                    <!-- <span class="checkmark data_type{{ $value_sizes->value }}"></span> -->
+                                </label>
+                              @endif
                             @endif
                           @endforeach
                       </div>
@@ -153,17 +209,42 @@
                         <div class="filter-scroll">
                           @foreach($color_product->result->item as $key_color => $value_color)
                             @if($value_color->label != ' ')
-                              <label class="check">
+                              @if(!empty($chk_colorproduct))
+                                <label class="check">
+                                    <div class="regist-m-l2 pt-1 fillter-font3">{{$value_color->label}}</div>
+                                    <input name="colorproduct[]" data-text_gender="{{ $value_color->label }}" data-type="{{ $value_color->value }}" type="checkbox" class="checkboxlist checkmark data_type2{{ $value_color->value }}" value="{{ $value_color->value }}" @if($chk_colorproduct == $value_color->value) {{ 'checked' }} @endif />
+                                    <!-- <span class="checkmark data_type{{ $value_color->value }}"></span> -->
+                                </label>
+                              @else
+                                <label class="check">
                                   <div class="regist-m-l2 pt-1 fillter-font3">{{$value_color->label}}</div>
-                                  <input name="colorproduct[]" data-text_gender="{{ $value_color->label }}" data-type="{{ $value_color->value }}" type="checkbox" class="checkboxlist checkmark data_type2{{ $value_color->value }}" value="{{ $value_color->value }}" />
+                                  <input name="colorproduct[]" data-text_gender="{{ $value_color->label }}" data-type="{{ $value_color->value }}" type="checkbox" class="checkboxlist checkmark data_type2{{ $value_color->value }}" value="{{ $value_color->value }}"/>
                                   <!-- <span class="checkmark data_type{{ $value_color->value }}"></span> -->
-                              </label>
+                                </label>
+                              @endif
                             @endif
                           @endforeach
                         </div>
                     </div>
-              </form>
             <hr>
+
+            <button class="btn fillter-bg px-0" type="button" data-toggle="collapse" data-target="#collapseExample666" aria-expanded="false" aria-controls="collapseExample">
+                    <span class="fillter-font2 pull-left">HIGHLIGHT</span>
+                    <span class="fas fa-chevron-down pull-right" aria-hidden="true"></span>
+                </button>
+                <div class="collapse show" id="collapseExample666">
+                    <div class="filter-scroll">
+                      <label class="check">
+                        <div class="regist-m-l2 pt-1 fillter-font3">HIGHLIGHT</div>
+                        <input name="highlight[]" data-text_gender="HIGHLIGHT" data-type="{{ $highlight->result->item[0]->value }}" type="checkbox" class="checkboxlist checkmark data_type2{{ $highlight->result->item[0]->value }}" value="HIGHLIGHT" @if($brands2 == 'highlight') {{ 'checked' }} @endif />
+                      </label>
+
+
+                    </div>
+                </div>
+          </form>
+        <hr>
+
          </div>
     </section>
 
@@ -210,6 +291,7 @@
                     $special_to_date = '';
                     $pan = 'padding-right: 5px;';
                     $date = date('Y-m-d H:i:s');
+                    $price_defult = 0;
                   @endphp
                   @foreach($value_custom as $key => $value)
                     @if($value->attributeCode == 'image' && !empty($value->value))
@@ -239,20 +321,20 @@
                     @if($value_product->id == $products2->result->items->item[$key_product]->id)
                       @php $price_defult = $products2->result->items->item[$key_product]->priceInfo->regularPrice; @endphp
                     @else
-                      @php $price_defult = ''; @endphp
+                      @php $price_defult = $value_product->price; @endphp
                     @endif
                   @else
-                    @php $price_defult = ''; @endphp
+                    @php $price_defult = $value_product->price; @endphp
                   @endif
 
                   @if(!empty($products2->result->items->item[$key_product]->priceInfo->finalPrice))
                     @if($value_product->id == $products2->result->items->item[$key_product]->id)
                       @php $price_special = $products2->result->items->item[$key_product]->priceInfo->finalPrice; @endphp
                     @else
-                      @php $price_special = ''; @endphp
+                      @php $price_special = $value_product->price; @endphp
                     @endif
                   @else
-                    @php $price_special = ''; @endphp
+                    @php $price_special = $value_product->price; @endphp
                   @endif
 
                     <div class="item">
@@ -286,14 +368,19 @@
                         @endif
                           <div class="latest-product-frame filter-frame filter-product-frame ">
                               <a href="{{ url('product/'.$value_product->id) }}">
-                                <img class="latest-product-pic" src="http://dilokstore.com/magento/pub/media/catalog/product\{{$image}}" alt="Card image cap">
+                                @if(!empty($image))
+                                  <img class="latest-product-pic" src="http://128.199.235.248/magento/pub/media/catalog/product\{{$image}}" alt="Card image cap">
+                                @else
+                                  <img class="latest-product-pic" src="{{ url('assets/images/No_Image_Available.jpg') }}" alt="Card image cap">
+                                @endif
                               </a>
-                              <a href="{{ url('product/'.$value_product->id) }}"> <img class="latest-product-pic second-latest-product" src="http://dilokstore.com/magento/pub/media/catalog/product\{{$small_image}}" alt="Card image cap"> </a>
+                              <a href="{{ url('product/'.$value_product->id) }}"> <img class="latest-product-pic second-latest-product" src="http://128.199.235.248/magento/pub/media/catalog/product\{{$small_image}}" alt="Card image cap"> </a>
                           </div>
                           <div class="card-body p-1 filter-a filter-position-a">
                             <div class="row px-0 mx-0">
                                 <div class="col-xl-8 col-lg-9 col-md-9 col-8 px-xl-2 px-0 mb-2">
-                                    <div class="product-title filter-font-product1">
+                                    <!-- <div class="product-title filter-font-product1"> -->
+                                    <div class="filter-font-product1">
                                       <span>{{ $value_product->name }}<span>
                                     </div>
                                     <div class="product-categories filter-font-product1">
@@ -306,13 +393,13 @@
                                 </div>
                                 <div class="col-xl-4 col-lg-3 col-md-3 col-4 mb-2 px-0 text-right">
                                   <!-- <button type="button" class="btn heart-btn"><i name="like-button" class="fa-2x fa-heart liked fas liked-shaked"></i></button> -->
-                                  <button type="button" class="btn heart-btn"><i name="like-button" class="far fa-2x fa-heart not-liked"></i></button>
+                                  <!-- <button type="button" class="btn heart-btn"><i name="like-button" class="far fa-2x fa-heart not-liked"></i></button> -->
                                 </div>
                                 <div class="col-xl-4 col-md-4 col-0 col-lg-3 px-xl-2 px-0 mb-2 filtered-item3 d-md-flex d-none"></div>
                                 <div class="col-xl-8 col-md-8 col-lg-9 col-12 px-xl-2 px-0 mb-2 latest-product-price filtered-item3">
                                   @if(!empty($price_defult))
                                     <span class="@if($price_special != $price_defult){{'before'}}@endif">{{ number_format($price_defult,2) }}</span>
-                                    @endif
+                                  @endif
                                       <span style="@if($price_special != $price_defult){{'padding-right: 0px;'}}@endif" class="@if($price_special != $price_defult){{'after'}}@endif">
                                         @if($price_special != $price_defult)
                                             {{ number_format($price_special,2) }}
@@ -322,17 +409,21 @@
                                 </div>
                                 <div class="d-none d-lg-block d-md-none col-xl-6 col-lg-12 px-xl-1 px-lg-0 mb-xl-0 mb-2 mt-2 latest-product-btn latest-product-btn-pond fillter-btn-width">
                                   <!-- <button type="button" class="btn add-to-cart p-2"> -->
-                                  <!-- <button type="button" class="btn_add_to_cart" data-product_detail="{{ $value_product->name }}" data-product_id="{{ $value_product->id }}" data-price_product="@if($price_special != $price_defult)
+                                  <button type="button" class="btn_add_to_cart" data-product_detail="{{ $value_product->name }}" data-product_id="{{ $value_product->id }}" data-price_product="@if($price_special != $price_defult)
                                     {{ $price_special }}
-                                  @endif" class="btn add-to-cart p-2"> -->
-                                  <a href="{{ url('product/'.$value_product->id) }}">
-                                    <button type="button" class="btn add-to-cart p-2">
+                                  @endif" class="btn add-to-cart p-2">
+                                  <!-- <a href="{{ url('product/'.$value_product->id) }}"> -->
+                                    <input type="hidden" name="price_product_main" value="@if($price_special != $price_defult){{number_format($price_special,2)}}@else @if(!empty($price_defult)) {{number_format($price_defult,2)}} @endif @endif">
+                                    <!-- <button type="button" class="btn add-to-cart p-2"> -->
+                                    <!-- <button type="button" class="btn_add_to_cart" data-product_detail="{{ $value_product->name }}" data-product_id="{{ $value_product->id }}" data-price_product="@if($price_special != $price_defult) -->
+                                    <!-- {{ $price_special }} -->
+                                <!-- @endif" class="btn add-to-cart p-2"> -->
                                       <label class="mb-0 d-flex pr-2">
                                         <span>Add to cart</span>
                                         <i class="fas fa-plus ml-auto pt-1" aria-hidden="true"></i>
                                       </label>
                                     </button>
-                                  </a>
+                                  <!-- </a> -->
                                   <!-- </button> -->
                                 </div>
                                 <div class="d-none d-lg-block d-md-none col-xl-6 col-lg-12 px-xl-1 px-lg-0 mt-2 latest-product-btn latest-product-btn-pond fillter-btn-width">
@@ -366,6 +457,7 @@
               $page_number = number_format($sum_products/$products);
               $sum_page = ($page_number-$main_page);
               $main_page2 = $main_page-4;
+              $gender_list_page = null;
             @endphp
             @if($sum_page <= 4)
               @php $sum_page = $main_page+$sum_page; $main_page2 = $main_page; @endphp
@@ -377,15 +469,42 @@
             @else
               @php $main_page-4; @endphp
             @endif
+            @if(!empty($genders22))
+              @if($genders22 == 'Male')
+                @php $gender_list_page = 'Men'; @endphp
+              @elseif($genders22 == 'Female')
+                @php $gender_list_page = 'Women'; @endphp
+              @elseif($genders22 == 'Kids')
+                @php $gender_list_page = 'Kid'; @endphp
+              @endif
+            @endif
             @if($prev_page)
-              <li class="page-item pr-1"><a class="news_page-link" href="{{ url('filter') }}?page={{$prev_page}}">&laquo;</a></li>
+              @if(!empty($brands2) && !empty($gender_list_page))
+                <li class="page-item pr-1"><a class="news_page-link" href="{{ url('brands') }}/{{$brands2}}/{{$gender_list_page}}?page={{$prev_page}}">&laquo;</a></li>
+              @elseif(!empty($brands2))
+                <li class="page-item pr-1"><a class="news_page-link" href="{{ url('brands') }}/{{$brands2}}?page={{$prev_page}}">&laquo;</a></li>
+              @else
+                <li class="page-item pr-1"><a class="news_page-link" href="{{ url('filter') }}?page={{$prev_page}}">&laquo;</a></li>
+              @endif
             @endif
             @for($i = $main_page2; $i <= $sum_page; $i++)
-                  <li class="page-item pr-1"><a @if($main_page == $i) style="background-color: #999;" @endif class="news_page-link page_main" href="{{ url('filter') }}?page={{$i}}">{{ $i }}</a></li>
+              @if(!empty($brands2) && !empty($gender_list_page))
+                <li class="page-item pr-1"><a @if($main_page == $i) style="background-color: #999;" @endif class="news_page-link page_main" href="{{ url('brands') }}/{{$brands2}}/{{$gender_list_page}}?page={{$i}}">{{ $i }}</a></li>
+              @elseif(!empty($brands2))
+                <li class="page-item pr-1"><a @if($main_page == $i) style="background-color: #999;" @endif class="news_page-link page_main" href="{{ url('brands') }}/{{$brands2}}?page={{$i}}">{{ $i }}</a></li>
+              @else
+                <li class="page-item pr-1"><a @if($main_page == $i) style="background-color: #999;" @endif class="news_page-link page_main" href="{{ url('filter') }}?page={{$i}}">{{ $i }}</a></li>
+              @endif
             @endfor
             @if($i != 1)
               @if($next_page)
-                <li class="page-item pr-1"><a class="news_page-link" href="{{ url('filter') }}?page={{$next_page}}">&raquo;</a></li>
+                @if(!empty($brands2) && !empty($gender_list_page))
+                  <li class="page-item pr-1"><a class="news_page-link" href="{{ url('brands') }}/{{$brands2}}/{{$gender_list_page}}?page={{$next_page}}">&raquo;</a></li>
+                @elseif(!empty($brands2))
+                  <li class="page-item pr-1"><a class="news_page-link" href="{{ url('brands') }}/{{$brands2}}?page={{$next_page}}">&raquo;</a></li>
+                @else
+                  <li class="page-item pr-1"><a class="news_page-link" href="{{ url('filter') }}?page={{$next_page}}">&raquo;</a></li>
+                @endif
               @endif
             @endif
           </ul>

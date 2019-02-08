@@ -17,14 +17,17 @@
                 @php
                   $sum_price = 0;
                   $date = date('Y-m-d H:i:s');
+                  $special_price  = 0;
+                  $start_date = null;
+                  $end_date = null;
                 @endphp
 
                 @foreach($cart_customer as $key_cart => $value_cart)
 
                 @foreach($product_key[$key_cart]->result->customAttributes->item as $key_product => $value_product)
-                  @if($value_product->attributeCode == 'special_from_date')
-                    @php $start_date = $value_product->value; @endphp
-                  @endif
+                    @if($value_product->attributeCode == 'special_from_date')
+                      @php $start_date = $value_product->value; @endphp
+                    @endif
 
                   @if($value_product->attributeCode == 'special_to_date')
                     @php $end_date = $value_product->value; @endphp
@@ -35,17 +38,18 @@
                   @endif
                 @endforeach
 
+            <div class="col-lg-5 col-md-5 col-5 p-md-0 p-2 cart-col">
+              <!-- <a href="{{ url('product-details2') }}"> -->
+              <a>
+                <div class="cart-product-frame">
                   @foreach($product_key[$key_cart]->result->customAttributes->item as $key_product_image => $value_image)
                     @if($value_image->attributeCode == 'image')
-                      <div class="col-lg-5 col-md-5 col-5 p-md-0 p-2 cart-col">
-                        <a href="{{ url('product-details2') }}">
-                          <div class="cart-product-frame">
-                            <img class="cart-product" src="http://dilokstore.com/magento/pub/media/catalog/product\{{ $value_image->value }}">
-                          </div>
-                        </a>
-                      </div>
+                      <img class="cart-product" src="http://128.199.235.248/magento/pub/media/catalog/product\{{ $value_image->value }}">
                     @endif
                   @endforeach
+                </div>
+              </a>
+            </div>
 
                 <div class="col-lg-7 col-md-7 col-7 cart-col cart-col-414 px-lg-2 px-md-2 px-0">
                     <div class="cart-product-detail">
@@ -89,15 +93,21 @@
                             <input class="input-group-field" name="quantity" type="number" value="{{ $value_cart->qty }}"/>
                             <!-- <a class="plus" onclick="plusfunction()"> + </a> -->
                             <span class="pull-right">THB</span>
-                            @if($date >= $start_date && $date <= $end_date)
+                            @if($special_price == $value_cart->price)
                               <span class="pull-right discount mx-1">
                                 {{ number_format($special_price,2) }}
                               </span>
                             @endif
-                            <span class="pull-right @if($date >= $start_date && $date <= $end_date) {{'discounted'}} @endif">
+                            <!-- <span class="pull-right @if($date >= $start_date && $date <= $end_date) {{'discounted'}} @endif"> -->
+                            <span style="padding-right: 5px;" class="pull-right @if($special_price == $value_cart->price) {{'discounted'}} @endif">
+                            @if(!empty($strt_date) && !empty($end_date))
                               @if($date >= $start_date && $date <= $end_date)
-                                {{ number_format($product_key[$key_cart]->result->price,2) }}
+                                <!-- bb : {{ number_format($product_key[$key_cart]->result->price,2) }} -->
+                                {{ number_format($value_cart->price,2) }}
                               @endif
+                            @else
+                                {{ number_format($value_cart->price,2) }}
+                            @endif
                             </span>
                       </div>
                     </div>

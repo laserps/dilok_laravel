@@ -17,8 +17,8 @@ class PaypalPaymentController extends Controller{
 
     public function paywithPaypal(Request $request)
     {
-        $userData = array("username" => "customer", "password" => "customer@01");
-        $ch = curl_init("http://dilokstore.com/magento/rest/V1/integration/admin/token");
+        $userData = array("username" => "customerdilok", "password" => "dilokstore@1234");
+        $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -54,7 +54,7 @@ class PaypalPaymentController extends Controller{
             if(!empty($get_session_all['customer_id'])){
 
                 foreach($value_product_ids as $key_product_id => $value_product_id){
-                    $ch = curl_init("http://dilokstore.com/magento/rest/V1/carts/mine/items/".$value_product_id);
+                    $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine/items/".$value_product_id);
                     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "delete");
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                     curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
@@ -63,21 +63,21 @@ class PaypalPaymentController extends Controller{
 
                 }
 
-                    $ch = curl_init("http://dilokstore.com/magento/rest/V1/carts/mine/items");
+                    $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine/items");
                     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                     curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
 
                     $result2 = json_decode(curl_exec($ch));
 
-                    $ch = curl_init("http://dilokstore.com/magento/rest/V1/customers/addresses/".$request->id_value_billing."");
+                    $ch = curl_init("http://128.199.235.248/magento/rest/V1/customers/addresses/".$request->id_value_billing."");
                     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                     curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $token));
 
                     $address_bill = json_decode(curl_exec($ch));
 
-                    $ch = curl_init("http://dilokstore.com/magento/rest/V1/customers/addresses/".$request->id_value_shipping."");
+                    $ch = curl_init("http://128.199.235.248/magento/rest/V1/customers/addresses/".$request->id_value_shipping."");
                     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                     curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $token));
@@ -112,42 +112,42 @@ class PaypalPaymentController extends Controller{
                     $data_shipping = [
                       "addressInformation" => [
                         "shippingAddress" => [
-                            "customer_id" => $address_shipping->customer_id,
-                            "region" => $address_shipping->region->region,
-                            "country_id" => $address_shipping->country_id,
+                            "customer_id" => $address_shipping->customer_id, // 1
+                            "region" => $address_shipping->region->region, // Thailand
+                            "country_id" => $address_shipping->country_id, // TH
                             "street" => [
-                                $address_shipping->street[0],$street_ship
+                                $address_shipping->street[0],$street_ship // 1518/4 , wongsawang
                             ],
-                            "company" => $company_shipping,
-                            "telephone" => $address_shipping->telephone,
-                            "postcode" => $address_shipping->postcode,
-                            "city" => $address_shipping->city,
-                            "firstname" => $address_shipping->firstname,
-                            "lastname" => $address_shipping->lastname,
-                            "region_code" => $address_shipping->region->region_code,
+                            "company" => $company_shipping, // workbythai
+                            "telephone" => $address_shipping->telephone, // 021024291
+                            "postcode" => $address_shipping->postcode, // 10800
+                            "city" => $address_shipping->city, // bangsue
+                            "firstname" => $address_shipping->firstname, // workbythai
+                            "lastname" => $address_shipping->lastname, // workbythai
+                            "region_code" => $address_shipping->region->region_code, // Thailand
                             "sameAsBilling" => 1
                         ],
                         "billingAddress" => [
-                            "customer_id" => $address_bill->customer_id,
-                            "region" => $address_bill->region->region,
-                            "country_id" => $address_bill->country_id,
+                            "customer_id" => $address_bill->customer_id, // 1
+                            "region" => $address_bill->region->region, // Thailand
+                            "country_id" => $address_bill->country_id, // TH
                             "street" => [
-                                $address_bill->street[0],$street_bill
+                                $address_bill->street[0],$street_bill // 1518/4 , wongsawang
                             ],
-                            "company" => $company_bill,
-                            "telephone" => $address_bill->telephone,
-                            "postcode" => $address_bill->postcode,
-                            "city" => $address_bill->city,
-                            "firstname" => $address_bill->firstname,
-                            "lastname" => $address_bill->lastname,
-                            "region_code" => $address_bill->region->region_code
+                            "company" => $company_bill, // workbythai
+                            "telephone" => $address_bill->telephone, // 021024291
+                            "postcode" => $address_bill->postcode, // 10800
+                            "city" => $address_bill->city, // bangsue
+                            "firstname" => $address_bill->firstname, // workbythai
+                            "lastname" => $address_bill->lastname, // workbythai
+                            "region_code" => $address_bill->region->region_code // Thailand
                         ],
-                            "shipping_method_code" => "flatrate",
-                            "shipping_carrier_code" => "flatrate"
+                            "shipping_method_code" => "freeshipping",
+                            "shipping_carrier_code" => "freeshipping"
                         ]
                     ];
 
-                    $ch = curl_init("http://dilokstore.com/magento/rest/V1/carts/mine/shipping-information");
+                    $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine/shipping-information");
                     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
                     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data_shipping));
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -155,7 +155,10 @@ class PaypalPaymentController extends Controller{
 
                     $result_shipping = json_decode(curl_exec($ch));
 
-                    $ch = curl_init("http://dilokstore.com/magento/rest/V1/carts/mine/items");
+                    // dd($data_shipping,$result_shipping);
+                    // exit();
+
+                    $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine/items");
                     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                     curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
@@ -173,15 +176,17 @@ class PaypalPaymentController extends Controller{
                 // ### Address
                 // Base Address object used as shipping or billing
                 // address in a payment. [Optional]
-                $shippingAddress = Paypalpayment::shippingAddress();
-                $shippingAddress->setLine1($address_shipping->street[0])
-                    ->setLine2($street2)
-                    ->setCity($address_shipping->city)
-                    ->setState($address_shipping->country_id)
-                    ->setPostalCode($address_shipping->postcode)
-                    ->setCountryCode($address_shipping->country_id)
-                    ->setPhone($address_shipping->telephone)
-                    ->setRecipientName($address_shipping->firstname);
+                // $shippingAddress = Paypalpayment::shippingAddress();
+                // $shippingAddress->setLine1($address_shipping->street[0])
+                //     ->setLine2($street2)
+                //     ->setCity($address_shipping->city)
+                //     ->setState($address_shipping->country_id)
+                //     ->setPostalCode($address_shipping->postcode)
+                //     ->setCountryCode($address_shipping->country_id)
+                //     ->setPhone($address_shipping->telephone)
+                //     // ->setCountryCode("TH")
+                //     // ->setPhone("6657000516")
+                //     ->setRecipientName($address_shipping->firstname);
 
                 // ### Payer
                 // A resource representing a Payer that funds a payment
@@ -203,8 +208,8 @@ class PaypalPaymentController extends Controller{
                     }
 
                 $itemList = Paypalpayment::itemList();
-                $itemList->setItems($cart_item)
-                    ->setShippingAddress($shippingAddress);
+                $itemList->setItems($cart_item);
+                    // ->setShippingAddress($shippingAddress);
 
                 $details = Paypalpayment::details();
                 $details->setShipping("0")
@@ -246,6 +251,10 @@ class PaypalPaymentController extends Controller{
                     ->setRedirectUrls($redirectUrls)
                     ->setTransactions([$transaction]);
 
+
+                // dd($payment);
+                // exit();
+
                 $status['status'] = 1;
             } else {
                 session()->forget('customer_id');
@@ -276,10 +285,11 @@ class PaypalPaymentController extends Controller{
         $account = $configpaypal['account'];
         $apiContext = new ApiContext(
             new OAuthTokenCredential(
-                $account['client_id'],
-                $account['client_secret']
+                $account['client_id'],  // AY9LOQarQhjvZPm16Z2iINOQIMe0Yqy45qdAqIO0adyb9AXHleU4HlnCCfnkYluy5Vr1QR9GAzq45NKz
+                $account['client_secret'] // EF2usP-kyxFJJaO6QYF9iQ3gT2yJy70s1hAU3m6QyGQ5DzuNYiyeUUVWdAelwMSxDKn45P0PmTB-0CcK
             )
         );
+
 
         // Get payment object by passing paymentId
         $paymentId = $_GET['paymentId'];
@@ -315,12 +325,16 @@ class PaypalPaymentController extends Controller{
             $create_order = [
               // "email"=> "hamworkbythai@gmail.com",
               "paymentMethod"=> [
-                "method"=> "paypal_express",
-                "additional_data"=> [
-                  "paypal_express_checkout_token" => $token_payment,
-                  "paypal_express_checkout_redirect_required" => false,
-                  "paypal_express_checkout_payer_id" => $payerId,
-                ],
+                "method"=> "checkmo",
+                // "method"=> "paypal_express",
+                // "additional_data"=> [
+                  // "paypal_express_checkout_token" => $token_payment, //EC-1J094180WA280981C
+                  // "paypal_express_checkout_redirect_required" => false,
+                  // "paypal_express_checkout_payer_id" => $payerId, //E229NB87LG5SQ
+                  // "method_title"=> "PayPal Express Checkout",
+                  // "paypal_payer_id" => $payerId,
+                  // "paypal_correlation_id"=> "3d3bad7ea8f03"
+                // ],
               ],
               // "billingAddress"=> [
               //   "region"=> "TH",
@@ -345,8 +359,8 @@ class PaypalPaymentController extends Controller{
               // ],
             ];
 
-            $userData = array("username" => "customer", "password" => "customer@01");
-            $ch = curl_init("http://dilokstore.com/magento/rest/V1/integration/admin/token");
+            $userData = array("username" => "customerdilok", "password" => "dilokstore@1234");
+            $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
             curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -354,57 +368,88 @@ class PaypalPaymentController extends Controller{
 
             $token = json_decode(curl_exec($ch));
 
+
             $get_session_all = \Session::all();
+
+            // dd($get_session_all,$get_session_all['customer_id']);
+            // exit();
 
             if(!empty($get_session_all['customer_id'])){
 
-                $ch = curl_init("http://dilokstore.com/magento/rest/V1/carts/mine/payment-information");
+                $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine/payment-information");
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
                 curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($create_order));
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
-
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer ".$get_session_all['customer_id']));
 
                 $result_order = json_decode(curl_exec($ch));
 
                 $value_sku_products = session()->get('sku_product');
 
-                $get_products = new \SoapClient('http://dilokstore.com/magento/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
+                $ch = curl_init("http://128.199.235.248/magento/rest/V1/orders"."/".$result_order);
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer ". $token));
+
+                $get_oder_status = json_decode(curl_exec($ch));
+
+                $status = [
+                    'entity' => [
+                        'entity_id'=> $get_oder_status->entity_id,
+                        'increment_id' => $get_oder_status->increment_id,
+                        'status'=> 'processing',
+                    ]
+                ];
+
+                $ch = curl_init("http://128.199.235.248/magento/rest/V1/orders");
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+                curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($status));
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer ".$token));
+
+                $status_order = json_decode(curl_exec($ch));
+
+                $get_product_detail = null;
+
+                $get_products = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
 
                 if(!empty($value_sku_products)){
                     foreach($value_sku_products as $key_sku_product => $value_sku_product){
-                        $get_product_detail = array(
-                            'sku' => $value_sku_product
-                        );
-                        $data_product = $get_products->catalogProductRepositoryV1Get($get_product_detail);
+                        if(!empty($value_sku_product)){
+                            $get_product_detail = array(
+                                'sku' => $value_sku_product
+                            );
 
-                        $ch = curl_init("http://dilokstore.com/magento/rest/V1/carts/mine");
-                        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
+                            $data_product = $get_products->catalogProductRepositoryV1Get($get_product_detail);
 
-                        $create_cart = json_decode(curl_exec($ch));
+                            $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine");
+                            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+                            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
 
-                        $product = [
-                            "cartItem" => [
-                              "sku"=> $data_product->result->sku,
-                              "qty"=> 1,
-                              "name" => $data_product->result->sku,
-                              "price" => 1,
-                              "product_type" => "simple",
-                              "quote_id"=> $create_cart,
-                            ]
-                          ];
+                            $create_cart = json_decode(curl_exec($ch));
 
-                        $ch = curl_init("http://dilokstore.com/magento/rest/V1/carts/mine/items");
-                        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-                        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($product));
-                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
+                            $product = [
+                                "cartItem" => [
+                                  "sku"=> $data_product->result->sku,
+                                  "qty"=> 1,
+                                  "name" => $data_product->result->sku,
+                                  "price" => 1,
+                                  "product_type" => "simple",
+                                  "quote_id"=> $create_cart,
+                                ]
+                              ];
 
-                        $post_items = json_decode(curl_exec($ch));
+                            $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine/items");
+                            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+                            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($product));
+                            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
 
-                        session()->forget('sku_product');
+                            $post_items = json_decode(curl_exec($ch));
+
+                            session()->forget('sku_product');
+                        }
                     }
                 }
 

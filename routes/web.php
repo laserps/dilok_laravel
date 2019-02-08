@@ -22,6 +22,7 @@ Route::get('/testsoap2','TestapiController@testsoap2');
 Route::get('/testrest','TestapiController@testrest');
 Route::get('/testrestpost','MeeController@addCustomer');
 
+Route::get('/brand/{brands}','FilterController@index');
 
 Route::get('/','HomeController@index');
 Route::get('/blog','BlogController@index');

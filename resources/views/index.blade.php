@@ -309,7 +309,7 @@
       </div>
       <div class="clearfix"></div>
 
-      
+
 
         <div class="latest-slide owl-carousel owl-theme">
       @if(!empty($products_highlight->result->items->item))
@@ -384,7 +384,9 @@
                       <img class="latest-product-pic" src="{{ url('assets/images/No_Image_Available.jpg') }}" alt="Card image cap">
                     @endif
                   </a>
-                  <a href="{{ url('product/'.$value_product->id) }}"> <img class="latest-product-pic second-latest-product" src="http://128.199.235.248/magento/pub/media/catalog/product\{{$small_image}}" alt="Card image cap"> </a>
+                  <a href="{{ url('product/'.$value_product->id) }}">
+                    <!-- <img class="latest-product-pic second-latest-product" src="http://128.199.235.248/magento/pub/media/catalog/product\{{$small_image}}" alt="Card image cap"> -->
+                  </a>
                 </div>
                 <div class="card-body p-0">
                   <div class="row px-0 mx-0">
@@ -545,7 +547,9 @@
                       <img class="latest-product-pic" src="{{ url('assets/images/No_Image_Available.jpg') }}" alt="Card image cap">
                     @endif
                   </a>
-                  <a href="{{ url('product-details1/'.$products_highlight->result->items->item->id) }}"> <img class="latest-product-pic second-latest-product" src="http://128.199.235.248/magento/pub/media/catalog/product\{{$small_image}}" alt="Card image cap"> </a>
+                  <a href="{{ url('product-details1/'.$products_highlight->result->items->item->id) }}">
+                    <!-- <img class="latest-product-pic second-latest-product" src="http://128.199.235.248/magento/pub/media/catalog/product\{{$small_image}}" alt="Card image cap"> -->
+                     </a>
                 </div>
                 <div class="card-body p-0">
                   <div class="row px-0 mx-0">

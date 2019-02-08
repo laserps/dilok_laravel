@@ -75,7 +75,7 @@ class HomeController extends Controller
         $get_product_highlight = [
             'searchCriteria' => [
                 'filterGroups' => [
-                    [
+                      [
                         'filters' => [
                             [
                                 'field' => 'visibility',
@@ -83,6 +83,8 @@ class HomeController extends Controller
                                 'condition_type' => 'eq',
                             ],
                         ],
+                      ],
+                      [
                         'filters' => [
                             [
                                 'field' => 'status',
@@ -90,14 +92,18 @@ class HomeController extends Controller
                                 'condition_type' => 'eq',
                             ],
                         ],
+                      ],
+                      [
                         'filters' => [
                             [
                                 'field' => 'type_id',
-                                // 'value' => 'configurable',
-                                'value' => 'simple',
+                                'value' => 'configurable',
+                                // 'value' => 'simple',
                                 'condition_type' => 'eq',
                             ],
                         ],
+                      ],
+                      [
                         'filters' => [
                             [
                                 'field' => 'highlight',
@@ -122,7 +128,6 @@ class HomeController extends Controller
         $catalogs = [
             'rootCategoryId' => 1,
         ];
-
 
         $userData = array("username" => "customerdilok", "password" => "dilokstore@1234");
         $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");

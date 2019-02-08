@@ -41,7 +41,7 @@
                 <div class="cart-product-frame">
                   @foreach($product_key[$key_cart]->result->customAttributes->item as $key_product_image => $value_image)
                     @if($value_image->attributeCode == 'image')
-                      <img class="cart-product" src="http://dilokstore.com/magento/pub/media/catalog/product\{{ $value_image->value }}">
+                      <img class="cart-product" src="http://128.199.235.248/magento/pub/media/catalog/product\{{ $value_image->value }}">
                     @endif
                   @endforeach
                 </div>

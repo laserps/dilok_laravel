@@ -60,30 +60,74 @@ class CartController extends Controller
                     $create_cart = json_decode(curl_exec($ch));
 
                     if($text_type_product == 'configurable'){
-                        $product = [
-                            "cartItem" => [
-                                "sku"=> $text_name_product,
-                                "qty"=> 1,
-                                "name" => $text_name_product,
-                                "price" => $text_price_product,
-                                "product_type" => "configurable",
-                                "quote_id"=> $create_cart,
-                                "product_option" => [
-                                    "extension_attributes" => [
-                                        "configurable_item_options" => [
-                                            [
-                                                "option_id" => "93",
-                                                "option_value" => $text_valuecolor_product
-                                            ],
-                                            [
-                                                "option_id" => "135",
-                                                "option_value" => $text_valuesize_product
+                        if(!empty($text_valuecolor_product) && !empty($text_valuesize_product)){
+                            $product = [
+                                "cartItem" => [
+                                    "sku"=> $text_name_product,
+                                    "qty"=> 1,
+                                    "name" => $text_name_product,
+                                    "price" => $text_price_product,
+                                    "product_type" => "configurable",
+                                    "quote_id"=> $create_cart,
+                                    "product_option" => [
+                                        "extension_attributes" => [
+                                            "configurable_item_options" => [
+                                                [
+                                                    "option_id" => "93",
+                                                    "option_value" => $text_valuecolor_product
+                                                ],
+                                                [
+                                                    "option_id" => "135",
+                                                    "option_value" => $text_valuesize_product
+                                                ]
                                             ]
                                         ]
                                     ]
                                 ]
-                            ]
-                        ];
+                            ];
+                        } elseif(!empty($text_valuecolor_product)) {
+                            $product = [
+                                "cartItem" => [
+                                    "sku"=> $text_name_product,
+                                    "qty"=> 1,
+                                    "name" => $text_name_product,
+                                    "price" => $text_price_product,
+                                    "product_type" => "configurable",
+                                    "quote_id"=> $create_cart,
+                                    "product_option" => [
+                                        "extension_attributes" => [
+                                            "configurable_item_options" => [
+                                                [
+                                                    "option_id" => "93",
+                                                    "option_value" => $text_valuecolor_product
+                                                ],
+                                            ]
+                                        ]
+                                    ]
+                                ]
+                            ];
+                        } elseif(!empty($text_valuesize_product)){
+                            $product = [
+                                "cartItem" => [
+                                    "sku"=> $text_name_product,
+                                    "qty"=> 1,
+                                    "name" => $text_name_product,
+                                    "price" => $text_price_product,
+                                    "product_type" => "configurable",
+                                    "quote_id"=> $create_cart,
+                                    "product_option" => [
+                                        "extension_attributes" => [
+                                            "configurable_item_options" => [
+                                                [
+                                                    "option_id" => "135",
+                                                    "option_value" => $text_valuesize_product
+                                                ]
+                                            ]
+                                        ]
+                                    ]
+                                ]
+                            ];
+                        }
                     } else {
                         $product = [
                             "cartItem" => [

@@ -31,7 +31,7 @@ Route::get('/launches-detail','LauncheController@detail');
 Route::get('/filter','FilterController@index');
 Route::get('/product/{id}','ProductController@detail');
 Route::get('/product-details2','ProductController@details');
-Route::get('/product-details1','ProductController@detail1');
+Route::get('/product-details1/{id}','ProductController@detail1');
 Route::get('/regist','RegistController@index');
 Route::get('/forgot','RegistController@forgot');
 Route::get('/add-branch','AboutController@add_branch');

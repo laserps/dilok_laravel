@@ -309,9 +309,11 @@
       </div>
       <div class="clearfix"></div>
 
-        <div class="latest-slide owl-carousel owl-theme">
+      
 
-        @if(!empty($products_highlight->result->items->item))
+        <div class="latest-slide owl-carousel owl-theme">
+      @if(!empty($products_highlight->result->items->item))
+        @if(is_array($products_highlight->result->items->item))
           @foreach($products_highlight->result->items->item as $key_product => $value_product)
             @foreach($value_product->customAttributes as $key_custom => $value_custom)
           <!-- บังคับ first child มัclass first    last child มี class last  -->
@@ -375,7 +377,7 @@
           <div class="item first">
             <div class="card p-1">
                 <div class="latest-product-frame">
-                  <a href="{{ url('product/'.$value_product->id) }}">
+                  <a href="{{ url('product-details1/'.$value_product->id) }}">
                     @if(!empty($image))
                       <img class="latest-product-pic" src="http://128.199.235.248/magento/pub/media/catalog/product\{{$image}}" alt="Card image cap">
                     @else
@@ -473,8 +475,169 @@
                 </div>
             </div>
           </div>
+            @endforeach
           @endforeach
+        @else
+        @foreach($products_highlight->result->items->item->customAttributes as $key => $value2)
+        @php
+          $image = '';
+          $small_image = '';
+          $special_price = 0;
+          $news_from_date = '';
+          $news_to_date = '';
+          $after = '';
+          $before = '';
+          $special_from_date = '';
+          $special_to_date = '';
+          $pan = 'padding-right: 5px;';
+          $date = date('Y-m-d H:i:s');
+        @endphp
+        @foreach($value2 as $key => $value)
+          @if($value->attributeCode == 'image' && !empty($value->value))
+            @php $image = $value->value; @endphp
+          @endif
+          @if($value->attributeCode == 'small_image' && !empty($value->value))
+            @php $small_image = $value->value; @endphp
+          @endif
+          @if($value->attributeCode == 'special_from_date' && !empty($value->value))
+            @php $special_from_date = $value->value; @endphp
+          @endif
+          @if($value->attributeCode == 'special_to_date' && !empty($value->value))
+            @php $special_to_date = $value->value; @endphp
+          @endif
+          @if($value->attributeCode == 'special_price' && !empty($value->value))
+            @php $special_price = $value->value; $after = 'after'; $pan = 'padding-right: 0px;'; @endphp
+          @endif
+          @if($value->attributeCode == 'news_from_date' && !empty($value->value))
+            @php $news_from_date = $value->value; @endphp
+          @endif
+          @if($value->attributeCode == 'news_to_date' && !empty($value->value))
+            @php $news_to_date = $value->value; @endphp
+          @endif
         @endforeach
+
+        @if(!empty($products2_highlight->result->items->item->priceInfo->regularPrice))
+          @if($products_highlight->result->items->item->id == $products2_highlight->result->items->item->id)
+            @php $price_defult = $products2_highlight->result->items->item->priceInfo->regularPrice; @endphp
+          @else
+            @php $price_defult = $products_highlight->result->items->item->price; @endphp
+          @endif
+        @else
+          @php $price_defult = ''; @endphp
+        @endif
+
+        @if(!empty($products2_highlight->result->items->item->priceInfo->finalPrice))
+          @if($products_highlight->result->items->item->id == $products2_highlight->result->items->item->id)
+            @php $price_special = $products2_highlight->result->items->item->priceInfo->finalPrice; @endphp
+          @else
+            @php $price_special = $products_highlight->result->items->item->price; @endphp
+          @endif
+        @else
+          @php $price_special = ''; @endphp
+        @endif
+        <div class="item first">
+            <div class="card p-1">
+                <div class="latest-product-frame">
+                  <a href="{{ url('product-details1/'.$products_highlight->result->items->item->id) }}">
+                    @if(!empty($image))
+                      <img class="latest-product-pic" src="http://128.199.235.248/magento/pub/media/catalog/product\{{$image}}" alt="Card image cap">
+                    @else
+                      <img class="latest-product-pic" src="{{ url('assets/images/No_Image_Available.jpg') }}" alt="Card image cap">
+                    @endif
+                  </a>
+                  <a href="{{ url('product-details1/'.$products_highlight->result->items->item->id) }}"> <img class="latest-product-pic second-latest-product" src="http://128.199.235.248/magento/pub/media/catalog/product\{{$small_image}}" alt="Card image cap"> </a>
+                </div>
+                <div class="card-body p-0">
+                  <div class="row px-0 mx-0">
+                    @if(!empty($news_from_date) && !empty($news_to_date))
+                      @if($date >= $news_from_date && $date <= $news_to_date)
+                        <div id="ribbon" class="green-ribbon">
+                        New
+                        </div>
+                      @endif
+                    @endif
+                    @if(!empty($price_defult))
+                        @if($price_special != 0)
+                            @php $before = 'before'; @endphp
+                        @endif
+                        @if($price_defult != $price_special)
+                          @php $percen_sum = (100-(($price_special*100)/$price_defult)); @endphp
+                        @else
+                          @php $percen_sum = '0'; @endphp
+                        @endif
+                    @else
+                      @php $percen_sum = ''; $before = ''; @endphp
+                    @endif
+
+                  @if(!empty($price_defult))
+                    @if($price_defult != $price_special)
+                      @if($percen_sum != null || $percen_sum != '')
+                        <div id="ribbon2" class="red-ribbon">{{number_format($percen_sum,0)}}%
+                        </div>
+                      @endif
+                    @endif
+                  @endif
+                      <div class="col-8 px-xl-2 px-0 mb-2">
+                          <div class="product-title">
+                            <span>{{ $products_highlight->result->items->item->name }}<span>
+                          </div>
+                          <div class="product-categories">
+                            @foreach($products_highlight->result->items->item->customAttributes->item as $key => $value3)
+                              @if(!empty($value3->attributeCode) && !empty($value3->value) && $value3->attributeCode == 'short_description')
+                                <span>{!! $value3->value !!}</span>
+                              @endif
+                            @endforeach
+                          </div>
+                      </div>
+                      <div class="col-2 mb-2 px-0"></div>
+                      <div class="col-2 mb-2 px-0">
+                        <!-- <button type="button" class="btn heart-btn"><i name="like-button" class="fa-2x fa-heart liked fas liked-shaked"></i></button> -->
+                        <!-- <button type="button" class="btn heart-btn"><i name="like-button" class="far fa-2x fa-heart not-liked"></i></button> -->
+                      </div>
+                      <div class="col-4 px-xl-2 px-0 mb-2">
+                      </div>
+                      <div class="col-8 px-xl-2 px-0 mb-2 latest-product-price">
+
+                        @if(!empty($price_defult))
+                          <span class="@if($price_defult != $price_special){{$before}}@endif">
+                              {{ number_format($price_defult,2) }}
+                          </span>
+                        @endif
+                          <span style="@if(!empty($price_special)) @if($price_defult != $price_special){{$pan}} {{"color:red"}} @endif @endif" class="@if($date >= $special_from_date && $date <= $special_to_date){{$after}}@endif">
+
+                              @if($price_defult != $price_special)
+                                {{ number_format($price_special,2) }}
+                              @endif
+
+                          </span>
+                          <span class="currency">THB</span>
+                      </div>
+                      <div class="col-xl-6 col-lg-12 px-xl-1 px-lg-0 mb-xl-0 mb-2 latest-product-btn">
+                        <a href="{{ url('product-details1/'.$products_highlight->result->items->item->id) }}">
+                          <button type="button" class="btn add-to-cart p-2">
+                            <label class="mb-0 d-flex px-2">
+                              <span>Add to cart</span>
+                              <i class="fas fa-plus ml-auto pt-1" aria-hidden="true"></i>
+                            </label>
+                          </button>
+                        </a>
+                      </div>
+                      <div class="col-xl-6 col-lg-12 px-xl-1 px-lg-0 latest-product-btn">
+                        <a href="{{ url('product-details1/'.$products_highlight->result->items->item->id) }}">
+                          <button type="button" class="btn fast-buy p-2">
+                            <label class="mb-0 d-flex px-2">
+                              <span>Buy now</span>
+                              <i class="icon-collpase fas fa-angle-right ml-auto pt-1" aria-hidden="true"></i>
+                            </label>
+                          </button>
+                        </a>
+                      </div>
+                  </div>
+                </div>
+            </div>
+          </div>
+          @endforeach
+        @endif
       @endif
         </div>
     </div>

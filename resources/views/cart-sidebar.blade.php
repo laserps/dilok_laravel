@@ -17,6 +17,9 @@
                 @php
                   $sum_price = 0;
                   $date = date('Y-m-d H:i:s');
+                  $special_price  = 0;
+                  $start_date = null;
+                  $end_date = null;
                 @endphp
 
                 @foreach($cart_customer as $key_cart => $value_cart)
@@ -97,10 +100,14 @@
                             @endif
                             <!-- <span class="pull-right @if($date >= $start_date && $date <= $end_date) {{'discounted'}} @endif"> -->
                             <span style="padding-right: 5px;" class="pull-right @if($special_price == $value_cart->price) {{'discounted'}} @endif">
+                            @if(!empty($strt_date) && !empty($end_date))
                               @if($date >= $start_date && $date <= $end_date)
                                 <!-- bb : {{ number_format($product_key[$key_cart]->result->price,2) }} -->
                                 {{ number_format($value_cart->price,2) }}
                               @endif
+                            @else
+                                {{ number_format($value_cart->price,2) }}
+                            @endif
                             </span>
                       </div>
                     </div>

@@ -32,6 +32,9 @@ class FilterController extends Controller
         try{
 
             if(!empty($_GET['brands'])){
+
+                //API find from name
+                
                 $brands = $_GET['brands'];
             } else {
                 $brands = '';

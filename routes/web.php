@@ -22,6 +22,7 @@ Route::get('/testsoap2','TestapiController@testsoap2');
 Route::get('/testrest','TestapiController@testrest');
 Route::get('/testrestpost','MeeController@addCustomer');
 
+Route::get('/brand/{brands}','FilterController@index');
 
 Route::get('/','HomeController@index');
 Route::get('/blog','BlogController@index');
@@ -76,3 +77,7 @@ Route::post('/del_address_customer/{id}','CustomerController@destroy');
 Route::get('/logout','CustomerController@logout');
 
 Route::post('/get_billing/{id}','CustomerController@get_billing');
+
+Route::get('/cal',function(){
+    return view('cal');
+});

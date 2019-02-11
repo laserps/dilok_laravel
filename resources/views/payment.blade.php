@@ -98,18 +98,18 @@
                 </div>
                 <div class="pt-3">
                     <div class="pay-font6">
-                      <div><span>Firstname : </span><span id="bill_firstname">@if(!empty($get_cart->billing_address->firstname)){{ $get_cart->billing_address->firstname }} @endif</span></div>
-                      <div><span>Lastname : </span><span id="bill_lastname">@if(!empty($get_cart->billing_address->lastname)){{ $get_cart->billing_address->lastname }} @endif</span></div>
-                      <div><span>Street : </span><span id="bill_street1">@if(!empty($get_cart->billing_address->street[0])){{ $get_cart->billing_address->street[0] }} @endif</span></div>
-                      <div><span>Street2 : </span><span id="bill_street2">@if(!empty($get_cart->billing_address->street[1])){{ $get_cart->billing_address->street[1] }} @endif</span></div>
-                      <div><span>Company : </span><span id="bill_company">@if(!empty($get_cart->billing_address->company)) {{ $get_cart->billing_address->company }} @endif</span></div>
-                      <div><span>Telephone : </span><span id="bill_telephone">@if(!empty($get_cart->billing_address->telephone)) {{ $get_cart->billing_address->telephone }} @endif</span></div>
-                      <div><span>City : </span><span id="bill_city">@if(!empty($get_cart->billing_address->city)) {{ $get_cart->billing_address->city }} @endif</span></div>
-                      <div><span>Postcode : </span><span id="bill_postcode">@if(!empty($get_cart->billing_address->postcode)) {{ $get_cart->billing_address->postcode }} @endif</span></div>
-                      <div><span>Country : </span><span id="bill_country_id">@if(!empty($get_cart->billing_address->country_id)) {{ $get_cart->billing_address->country_id }} @endif</span></div>
-                      <div><span>Email : </span><span id="bill_email">@if(!empty($get_cart->billing_address->email)) {{ $get_cart->billing_address->email }} @endif</span></div>
+                      <div><span>Firstname : </span><span id="bill_firstname">@if(!empty($token_customer->addresses[0]->firstname)){{ $token_customer->addresses[0]->firstname }} @endif</span></div>
+                      <div><span>Lastname : </span><span id="bill_lastname">@if(!empty($token_customer->addresses[0]->lastname)){{ $token_customer->addresses[0]->lastname }} @endif</span></div>
+                      <div><span>Street : </span><span id="bill_street1">@if(!empty($token_customer->addresses[0]->street[0])){{ $token_customer->addresses[0]->street[0] }} @endif</span></div>
+                      <div><span>Street2 : </span><span id="bill_street2">@if(!empty($token_customer->addresses[0]->street[1])){{ $token_customer->addresses[0]->street[1] }} @endif</span></div>
+                      <div><span>Company : </span><span id="bill_company">@if(!empty($token_customer->addresses[0]->company)) {{ $token_customer->addresses[0]->company }} @endif</span></div>
+                      <div><span>Telephone : </span><span id="bill_telephone">@if(!empty($token_customer->addresses[0]->telephone)) {{ $token_customer->addresses[0]->telephone }} @endif</span></div>
+                      <div><span>City : </span><span id="bill_city">@if(!empty($token_customer->addresses[0]->city)) {{ $token_customer->addresses[0]->city }} @endif</span></div>
+                      <div><span>Postcode : </span><span id="bill_postcode">@if(!empty($token_customer->addresses[0]->postcode)) {{ $token_customer->addresses[0]->postcode }} @endif</span></div>
+                      <div><span>Country : </span><span id="bill_country_id">@if(!empty($token_customer->addresses[0]->country_id)) {{ $token_customer->addresses[0]->country_id }} @endif</span></div>
+                      <!-- <div><span>Email : </span><span id="bill_email">@if(!empty($token_customer->addresses[0]->email)) {{ $token_customer->addresses[0]->email }} @endif</span></div> -->
 
-                      <input type="hidden" name="id_value_billing" id="id_value_billing" required>
+                      <input type="hidden" name="id_value_billing" id="id_value_billing" value="@if(!empty($token_customer->addresses[0]->id)) {{ $token_customer->addresses[0]->id }} @endif" required>
                     </div>
                 </div>
                 <hr>
@@ -123,18 +123,18 @@
                 </div>
                 <div class="pt-3">
                     <div class="pay-font6">
-                      <div><span>Firstname : </span><span id="shipping_firstname">@if(!empty($get_cart->billing_address->firstname)){{ $get_cart->billing_address->firstname }} @endif</span></div>
-                      <div><span>Lastname : </span><span id="shipping_lastname">@if(!empty($get_cart->billing_address->lastname)){{ $get_cart->billing_address->lastname }} @endif</span></div>
-                      <div><span>Street : </span><span id="shipping_street1">@if(!empty($get_cart->billing_address->street[0])){{ $get_cart->billing_address->street[0] }} @endif</span></div>
-                      <div><span>Street2 : </span><span id="shipping_street2">@if(!empty($get_cart->billing_address->street[1])){{ $get_cart->billing_address->street[1] }} @endif</span></div>
-                      <div><span>Company : </span><span id="shipping_company">@if(!empty($get_cart->billing_address->company)) {{ $get_cart->billing_address->company }} @endif</span></div>
-                      <div><span>Telephone : </span><span id="shipping_telephone">@if(!empty($get_cart->billing_address->telephone)) {{ $get_cart->billing_address->telephone }} @endif</span></div>
-                      <div><span>City : </span><span id="shipping_city">@if(!empty($get_cart->billing_address->city)) {{ $get_cart->billing_address->city }} @endif</span></div>
-                      <div><span>Postcode : </span><span id="shipping_postcode">@if(!empty($get_cart->billing_address->postcode)) {{ $get_cart->billing_address->postcode }} @endif</span></div>
-                      <div><span>Country : </span><span id="shipping_country_id">@if(!empty($get_cart->billing_address->country_id)) {{ $get_cart->billing_address->country_id }} @endif</span></div>
-                      <div><span>Email : </span><span id="shipping_email">@if(!empty($get_cart->billing_address->email)) {{ $get_cart->billing_address->email }} @endif</span></div>
+                      <div><span>Firstname : </span><span id="shipping_firstname">@if(!empty($token_customer->addresses[0]->firstname)){{ $token_customer->addresses[0]->firstname }} @endif</span></div>
+                      <div><span>Lastname : </span><span id="shipping_lastname">@if(!empty($token_customer->addresses[0]->lastname)){{ $token_customer->addresses[0]->lastname }} @endif</span></div>
+                      <div><span>Street : </span><span id="shipping_street1">@if(!empty($token_customer->addresses[0]->street[0])){{ $token_customer->addresses[0]->street[0] }} @endif</span></div>
+                      <div><span>Street2 : </span><span id="shipping_street2">@if(!empty($token_customer->addresses[0]->street[1])){{ $token_customer->addresses[0]->street[1] }} @endif</span></div>
+                      <div><span>Company : </span><span id="shipping_company">@if(!empty($token_customer->addresses[0]->company)) {{ $token_customer->addresses[0]->company }} @endif</span></div>
+                      <div><span>Telephone : </span><span id="shipping_telephone">@if(!empty($token_customer->addresses[0]->telephone)) {{ $token_customer->addresses[0]->telephone }} @endif</span></div>
+                      <div><span>City : </span><span id="shipping_city">@if(!empty($token_customer->addresses[0]->city)) {{ $token_customer->addresses[0]->city }} @endif</span></div>
+                      <div><span>Postcode : </span><span id="shipping_postcode">@if(!empty($token_customer->addresses[0]->postcode)) {{ $token_customer->addresses[0]->postcode }} @endif</span></div>
+                      <div><span>Country : </span><span id="shipping_country_id">@if(!empty($token_customer->addresses[0]->country_id)) {{ $token_customer->addresses[0]->country_id }} @endif</span></div>
+                      <!-- <div><span>Email : </span><span id="shipping_email">@if(!empty($token_customer->addresses[0]->email)) {{ $token_customer->addresses[0]->email }} @endif</span></div> -->
 
-                      <input type="hidden" name="id_value_shipping" id="id_value_shipping" required>
+                      <input type="hidden" name="id_value_shipping" id="id_value_shipping" value="@if(!empty($token_customer->addresses[0]->id)) {{ $token_customer->addresses[0]->id }} @endif" required>
                     </div>
                 </div>
                 <hr>
@@ -171,7 +171,7 @@
                           $sum_price = 0;
                         @endphp
                       @foreach($cart_customer as $key_cart => $value_cart)
-                      <input type="checkbox" style="width: 50px; height: 20px; position: relative;" class="checkbox" name="c_cart_product_id[{{$key_cart}}]" id="{{ $value_cart->sku }}" value="{{ $value_cart->item_id }}">
+                      <input type="checkbox" style="width: 50px; height: 20px; position: relative;" class="checkbox chk_product_list" data-price_product="{{ $value_cart->price }}" name="c_cart_product_id[{{$key_cart}}]" id="{{ $value_cart->sku }}" value="{{ $value_cart->item_id }}">
                       <!-- <input type="text" name="cart_product_id[{{$key_cart}}]" value="{{ $value_cart->item_id }}"> -->
                       <!-- <input type="text" name="chk_false[{{$key_cart}}]" class="chk_false{{$key_cart}}" value=""> -->
                       <div class="row pt-3 pay-padding">
@@ -179,7 +179,7 @@
                             @if($value_image->attributeCode == 'image')
                               <div class="col-xl-6 col-lg-6 col-md-6 pay-m-l-r">
                                   <div class="overlay-img2">
-                                    <img class="image-full" src="http://dilokstore.com/magento/pub/media/catalog/product\{{ $value_image->value }}">
+                                    <img class="image-full" src="http://128.199.235.248/magento/pub/media/catalog/product\{{ $value_image->value }}">
                                   </div>
                               </div>
                             @endif
@@ -235,7 +235,8 @@
                               <div class="pay-font10">Delivery</div>
                           </div>
                           <div class="col-xl-6 col-lg-6 col-md-6 col-6 pay-m-l-r">
-                              <div class="pay-font10 text-right">@if(!empty($sum_price)){{ $sum_price }}@endif THB</div>
+                              <div class="pay-font10 text-right"><span class="subtotal2">0</span> THB</div>
+                              <!-- @if(!empty($sum_price)){{ $sum_price }}@endif -->
                               <div class="pay-font10 text-right">0 THB</div>
                           </div>
                       </div>
@@ -244,7 +245,8 @@
                               <div class="pay-font10">Total</div>
                           </div>
                           <div class="col-xl-6 col-lg-6  col-md-6 col-6 pay-m-l-r text-right">
-                              <div class="pay-font11" style="display:inline;">@if(!empty($sum_price)){{ $sum_price }}@endif</div>
+                              <!-- <div class="pay-font11" style="display:inline;">@if(!empty($sum_price)){{ $sum_price }}@endif</div> -->
+                              <div class="pay-font11 total2" style="display:inline;">0</div>
                               <div class="pay-font10" style="display:inline;"> THB</div>
                           </div>
                       </div>
@@ -408,6 +410,18 @@
 //         al_su('Error','danger');
 //   });
 // });
+
+$('body').on('change','.chk_product_list',function(){
+  var price_product = $(this).data('price_product');
+  var subtotal = parseInt($('.subtotal2').html());
+  if(this.checked) {
+    $('.subtotal2').html(subtotal+price_product);
+    $('.total2').html(subtotal+price_product);
+  } else {
+    $('.subtotal2').html(subtotal-price_product);
+    $('.total2').html(subtotal-price_product);
+  }
+});
 
 $('body').on('click','#btn_submit_billing',function(){
   var id_address = $(this).data('data_billing');

@@ -32,6 +32,38 @@ class OrderProductController extends Controller
 
             $catalog = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogCategoryManagementV1',$params);
 
+
+            // $get_products = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
+            // $get_products2 = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductRenderListV1',$params);
+
+            //       $get_key_product = array(
+            //         'sku' => 'ESS CHELSEA -593'
+            //       );
+            //       $data['product_key'] = $get_products->catalogProductRepositoryV1Get($get_key_product);
+
+            //     if($data['product_key']->result->typeId == "configurable"){
+            //         $get_product_detail = [
+            //               'searchCriteria' => [
+            //                   'filterGroups' => [
+            //                       [
+            //                           'filters' => [
+            //                               [
+            //                                   'field' => 'entity_id',
+            //                                   'value' => $data['product_key']->result->id,
+            //                                   'condition_type' => 'eq',
+            //                               ],
+            //                           ],
+            //                       ],
+            //                   ],
+            //               ],
+            //           ];
+            //         $get_product_detail['storeId'] = "1";
+            //         $get_product_detail['currencyCode'] = "THB";
+            //         $get_product_page = $get_products2->catalogProductRenderListV1GetList($get_product_detail);
+            //     }
+            //     dd($get_product_page->result->items->item->priceInfo->finalPrice);
+            //     exit();
+
             $catalogs = [
                 'rootCategoryId' => 1,
             ];

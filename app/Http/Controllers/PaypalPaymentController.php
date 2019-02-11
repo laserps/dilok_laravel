@@ -412,8 +412,10 @@ class PaypalPaymentController extends Controller{
                 $status_order = json_decode(curl_exec($ch));
 
                 $get_product_detail = null;
+                $price_product_cart = 0;
 
                 $get_products = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
+                $get_products2 = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductRenderListV1',$params);
 
                 if(!empty($value_sku_products)){
                     foreach($value_sku_products as $key_sku_product => $value_sku_product){
@@ -431,11 +433,39 @@ class PaypalPaymentController extends Controller{
 
                             $create_cart = json_decode(curl_exec($ch));
 
-                            if(!empty($data_product->result->price)){
-                                $price_product_cart = $data_product->result->price;
+                            if($data_product->result->typeId == "configurable"){
+                                $get_product_detail = [
+                                      'searchCriteria' => [
+                                          'filterGroups' => [
+                                              [
+                                                  'filters' => [
+                                                      [
+                                                          'field' => 'entity_id',
+                                                          'value' => $data_product->result->id,
+                                                          'condition_type' => 'eq',
+                                                      ],
+                                                  ],
+                                              ],
+                                          ],
+                                      ],
+                                  ];
+                                $get_product_detail['storeId'] = "1";
+                                $get_product_detail['currencyCode'] = "THB";
+                                $get_product_page = $get_products2->catalogProductRenderListV1GetList($get_product_detail);
+
+                                if(!empty($get_product_page->result->items->item->priceInfo->finalPrice)){
+                                    $price_product_cart = $get_product_page->result->items->item->priceInfo->finalPrice;
+                                } else {
+                                    $price_product_cart = 0;
+                                }
                             } else {
-                                $price_product_cart = 0;
+                                if(!empty($data_product->result->price)){
+                                    $price_product_cart = $data_product->result->price;
+                                } else {
+                                    $price_product_cart = 0;
+                                }
                             }
+
 
                             $product = [
                                 "cartItem" => [

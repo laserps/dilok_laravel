@@ -81,7 +81,9 @@
 
 
                           $products_detail = $get_products->catalogProductRepositoryV1GetList($get_product_detail);
+                          $parent_item = null;
                         @endphp
+                        @if($value_product->product_type == 'simple')
                         <div class="row">
                           <div class="col-xl-4 col-lg-4 col-md-4 col-12 cart-p-l">
                             @if(!empty($products_detail->result->items->item))
@@ -98,6 +100,13 @@
                                 @endforeach
                               @endforeach
                             @endif
+                            @if(!empty($value_product->parent_item))
+                              @php $parent_item = $value_product->parent_item->base_price; @endphp
+                            @else
+                              @if(!empty($value_product->price))
+                                @php $parent_item = $value_product->price @endphp
+                              @endif
+                            @endif
                             <div class="col-xl-6 col-lg-6 col-md-8">
                               <div class="overlay-img" style="height:160px;">
                                 @if(!empty($images))
@@ -111,11 +120,12 @@
                            <div class="col-xl-8 col-lg-8 col-md-8 col-12">
                               <div class="cart-m-t2">Name : @if(!empty($value_product->name)){{ $value_product->name }} @endif</div>
                               <div class="pay-font9">sku : @if(!empty($value_product->sku)){{ $value_product->sku }} @endif</div>
-                              <div class="pay-font9 mt-2">Price : @if(!empty($value_product->price)){{ $value_product->price }} @endif</div>
+                              <div class="pay-font9 mt-2">Price : @if(!empty($parent_item)){{ $parent_item }} @endif</div>
                               <div class="pay-font9 mt-2">Item : @if(!empty($value_product->qty_ordered)){{ $value_product->qty_ordered }} @endif</div>
                               <div class="pay-font9 mt-2">Date : @if(!empty($value_product->created_at)){{ $value_product->created_at }} @endif</div>
                           </div>
                         </div>
+                        @endif
                           <div class="clearfix"></div><br/>
                        @endforeach
                      <hr>

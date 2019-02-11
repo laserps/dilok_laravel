@@ -51,6 +51,32 @@
 
     <!-- END HEADER -->
   </head>
+<style>
+.alert-danger{
+    position: fixed;
+    margin: 0px 0px 0px -200px !important;
+    z-index: 9999;
+    top: 50% !important;
+    width: 400px !important;
+    height: 100px;
+    left: 50%;
+    background-color: black;
+    border-color: black;
+    color: white;
+}
+.alert-success{
+    position: fixed;
+    margin: 0px 0px 0px -200px !important;
+    z-index: 9999;
+    top: 50% !important;
+    width: 400px !important;
+    height: 100px;
+    left: 50%;
+    background-color: black;
+    border-color: black;
+    color: white;
+}
+</style>
 
   <body>
     <!-- START NAVBAR -->
@@ -1890,7 +1916,7 @@ $.ajaxSetup({
     function al_su(content,type){
       $(function() {
         setTimeout(function() {
-            $.bootstrapGrowl(content, { type: type , align : 'left'});
+            $.bootstrapGrowl(content, { type: type , align : 'center_middle'});
         }, 3000);
       });
     }
@@ -1898,7 +1924,7 @@ $.ajaxSetup({
     function al_da(content,type){
       $(function() {
         setTimeout(function() {
-            $.bootstrapGrowl(content, { type: type , align : 'left'});
+            $.bootstrapGrowl(content, { type: type , align : 'center_middle'});
         }, 3000);
       });
     }

@@ -142,8 +142,8 @@ class PaypalPaymentController extends Controller{
                             "lastname" => $address_bill->lastname, // workbythai
                             "region_code" => $address_bill->region->region_code // Thailand
                         ],
-                            "shipping_method_code" => "freeshipping",
-                            "shipping_carrier_code" => "freeshipping"
+                            "shipping_method_code" => "flatrate",
+                            "shipping_carrier_code" => "flatrate"
                         ]
                     ];
 
@@ -385,6 +385,8 @@ class PaypalPaymentController extends Controller{
                 $result_order = json_decode(curl_exec($ch));
 
                 $value_sku_products = session()->get('sku_product');
+
+                // dd($result_order);
 
                 $ch = curl_init("http://128.199.235.248/magento/rest/V1/orders"."/".$result_order);
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");

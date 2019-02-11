@@ -80,11 +80,11 @@
                  <label class="pay-select">
                      <div class="pay-font4" style="display:inline;">Paypal</div>
                        <img src="{{ asset('assets/images/payment/pp.png') }}" class="pay-size2" style="display:inline;">
-                     <input type="radio" name="radio" class="payment_method" data-payment_method="paypal_express">
+                     <input type="radio" name="radio" class="payment_method" data-payment_method="paypal_express" checked>
                      <span class="checkmark2"></span>
                  </label>
             </div>
-            <input type="hidden" name="payment_method_value" class="payment_method_value">
+            <input type="hidden" name="payment_method_value" class="payment_method_value" value="paypal_express">
           </div>
           <div class="col-xl-3  mt-5">
             <div class="card pay-b-n p-3">

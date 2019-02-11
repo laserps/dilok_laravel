@@ -21,17 +21,17 @@
                        <div class="col-xl-12 col-lg-6 cart-bg">
                            <div class="row">
                                <div class="col-xl-4 col-lg-4 col-md-4 col-12">
-                                   <div class="pay-font9">Firstname : {{ $value_order_customer_me->billing_address->firstname }}</div>
-                                   <div class="pay-font9">Lastname : {{ $value_order_customer_me->billing_address->lastname }}</div>
-                                   <div class="pay-font9">Email : {{ $value_order_customer_me->billing_address->email }}</div>
-                                   <div class="pay-font9">Company : {{ $value_order_customer_me->billing_address->company }}</div>
-                                   <div class="pay-font9">Postcode : {{ $value_order_customer_me->billing_address->postcode }}</div>
+                                   <div class="pay-font9">Firstname : @if(!empty($value_order_customer_me->billing_address->firstname)){{ $value_order_customer_me->billing_address->firstname }} @endif</div>
+                                   <div class="pay-font9">Lastname : @if(!empty($value_order_customer_me->billing_address->lastname)){{ $value_order_customer_me->billing_address->lastname }} @endif</div>
+                                   <div class="pay-font9">Email : @if(!empty($value_order_customer_me->billing_address->email)){{ $value_order_customer_me->billing_address->email }} @endif</div>
+                                   <div class="pay-font9">Company : @if(!empty($value_order_customer_me->billing_address->company)){{ $value_order_customer_me->billing_address->company }} @endif</div>
+                                   <div class="pay-font9">Postcode : @if(!empty($value_order_customer_me->billing_address->postcode)){{ $value_order_customer_me->billing_address->postcode }} @endif</div>
                                </div>
                                <div class="col-xl-4 col-lg-4 col-md-4 col-12">
-                                   <div class="pay-font9">City : {{ $value_order_customer_me->billing_address->city }}</div>
-                                   <div class="pay-font9">Region : {{ $value_order_customer_me->billing_address->region }}</div>
-                                   <div class="pay-font9">Telephone : {{ $value_order_customer_me->billing_address->telephone }}</div>
-                                   <div class="pay-font9">Address Line1 : {{ $value_order_customer_me->billing_address->street[0] }}</div>
+                                   <div class="pay-font9">City : @if(!empty($value_order_customer_me->billing_address->city)){{ $value_order_customer_me->billing_address->city }} @endif</div>
+                                   <div class="pay-font9">Region : @if(!empty($value_order_customer_me->billing_address->region)){{ $value_order_customer_me->billing_address->region }} @endif</div>
+                                   <div class="pay-font9">Telephone : @if(!empty($value_order_customer_me->billing_address->telephone)){{ $value_order_customer_me->billing_address->telephone }} @endif</div>
+                                   <div class="pay-font9">Address Line1 : @if(!empty($value_order_customer_me->billing_address->street[0])){{ $value_order_customer_me->billing_address->street[0] }} @endif</div>
                                    <div class="pay-font9">Address Line2 : @if(!empty($value_order_customer_me->billing_address->street[1])) {{ $value_order_customer_me->billing_address->street[1] }} @endif</div>
                                </div>
                                <div class="col-xl-2 col-lg-2 col-md-2 col-12 text-center cart-m-t3">
@@ -109,11 +109,11 @@
                            </div>
                           </div>
                            <div class="col-xl-8 col-lg-8 col-md-8 col-12">
-                              <div class="cart-m-t2">Name : {{ $value_product->name }}</div>
-                              <div class="pay-font9">sku : {{ $value_product->sku }}</div>
-                              <div class="pay-font9 mt-2">Price : {{ $value_product->price }}</div>
-                              <div class="pay-font9 mt-2">Item : {{ $value_product->qty_ordered }}</div>
-                              <div class="pay-font9 mt-2">Date : {{ $value_product->created_at }}</div>
+                              <div class="cart-m-t2">Name : @if(!empty($value_product->name)){{ $value_product->name }} @endif</div>
+                              <div class="pay-font9">sku : @if(!empty($value_product->sku)){{ $value_product->sku }} @endif</div>
+                              <div class="pay-font9 mt-2">Price : @if(!empty($value_product->price)){{ $value_product->price }} @endif</div>
+                              <div class="pay-font9 mt-2">Item : @if(!empty($value_product->qty_ordered)){{ $value_product->qty_ordered }} @endif</div>
+                              <div class="pay-font9 mt-2">Date : @if(!empty($value_product->created_at)){{ $value_product->created_at }} @endif</div>
                           </div>
                         </div>
                           <div class="clearfix"></div><br/>

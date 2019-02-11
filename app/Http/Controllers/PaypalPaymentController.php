@@ -431,12 +431,18 @@ class PaypalPaymentController extends Controller{
 
                             $create_cart = json_decode(curl_exec($ch));
 
+                            if(!empty($data_product->result->price)){
+                                $price_product_cart = $data_product->result->price;
+                            } else {
+                                $price_product_cart = 0;
+                            }
+
                             $product = [
                                 "cartItem" => [
                                   "sku"=> $data_product->result->sku,
                                   "qty"=> 1,
                                   "name" => $data_product->result->sku,
-                                  "price" => 1,
+                                  "price" => $price_product_cart,
                                   "product_type" => "simple",
                                   "quote_id"=> $create_cart,
                                 ]

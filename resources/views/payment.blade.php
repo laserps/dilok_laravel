@@ -157,6 +157,7 @@
               <div class="row">
                       <input type="hidden" name="chk_false" id="chk_false">
                       <input type="hidden" name="chk_false_id" id="chk_false_id">
+                      <input type="hidden" name="chk_price_id" id="chk_price_id">
                   <div class="col-xl-12">
                       <div class="row mt-3 pay-padding">
                           <div class="col-xl-8 col-lg-6 col-md-6 col-12 text-center text-lg-left text-md-left pay-m-l-r">
@@ -171,7 +172,7 @@
                           $sum_price = 0;
                         @endphp
                       @foreach($cart_customer as $key_cart => $value_cart)
-                      <input type="checkbox" style="width: 50px; height: 20px; position: relative;" class="checkbox chk_product_list" data-price_product="{{ $value_cart->price }}" name="c_cart_product_id[{{$key_cart}}]" id="{{ $value_cart->sku }}" value="{{ $value_cart->item_id }}">
+                      <input type="checkbox" style="width: 50px; height: 20px; position: relative;" class="checkbox chk_product_list" data-price_product="{{ $value_cart->price }}" name="c_cart_product_id[{{$key_cart}}]" id="{{ $value_cart->sku }}" price="{{ $value_cart->price }}" value="{{ $value_cart->item_id }}">
                       <!-- <input type="text" name="cart_product_id[{{$key_cart}}]" value="{{ $value_cart->item_id }}"> -->
                       <!-- <input type="text" name="chk_false[{{$key_cart}}]" class="chk_false{{$key_cart}}" value=""> -->
                       <div class="row pt-3 pay-padding">
@@ -534,27 +535,34 @@ $('body').on('click','[type=checkbox]',function(){
   var cb = $("[type=checkbox]");
   var chk_check = [];
   var chk_false_id = [];
+  var chk_price_id = [];
+  var price = $('.chk_product_list').data('price_product');
     $.each(cb,function(key,value){
         if(value.checked == false){
           chk_check.push(value.value);
           chk_false_id.push(value.id);
+          chk_price_id.push(price);
         }
     });
       $('#chk_false').val(chk_check);
       $('#chk_false_id').val(chk_false_id);
+      $('#chk_price_id').val(chk_price_id);
 });
 
 function check_chk(){
     var cb = $("[type=checkbox]");
     var chk_check = [];
     var chk_false_id = [];
+    var chk_price_id = [];
+    var price = $('.chk_product_list').data('price_product');
     $.each(cb,function(key,value){
         if(value.checked == false){
           chk_check.push(value.value);
           chk_false_id.push(value.id);
+          chk_price_id.push(price);
         }
     });
-    return chk_check,chk_false_id;
+    return chk_check,chk_false_id,chk_price_id;
 }
 
 

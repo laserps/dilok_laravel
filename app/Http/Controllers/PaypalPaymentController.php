@@ -28,22 +28,59 @@ class PaypalPaymentController extends Controller{
 
         $false_chk = explode(",",$request->chk_false);
         $chk_false_id = explode(",",$request->chk_false_id);
+        $chk_price_id = explode(",",$request->chk_price_id);
 
         $request->session()->put('product_id', $false_chk);
         $request->session()->put('sku_product', $chk_false_id);
+        $request->session()->put('price_product', $chk_price_id);
         $session_all = session()->all();
         $value_product_ids = session()->get('product_id');
         $value_sku_products = session()->get('sku_product');
+        $price_products = session()->get('price_product');
 
         $check = $request->c_cart_product_id;
 
         $get_session_all = \Session::all();
 
+        // if(count($value_sku_products) >= 2){
+        //     dd(1);
+        // } else {
+        //     $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine");
+        //     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+        //     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        //     curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
+
+        //     $create_cart2 = json_decode(curl_exec($ch));
+
+        //     $product2 = [
+        //         "cartItem" => [
+        //             "sku"=> $value_sku_products[0],
+        //             "qty"=> 1,
+        //             "name" => $value_sku_products[0],
+        //             "price" => $price_products[0],
+        //             "product_type" => "simple",
+        //             "quote_id"=> $create_cart2,
+        //         ]
+        //     ];
+
+        //     $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine/items");
+        //     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+        //     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($product2));
+        //     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        //     curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
+
+        //     $post_items = json_decode(curl_exec($ch));
+
+        //     dd($product2,$post_items);
+        // }
+
+        // dd(count($value_sku_products),$value_sku_products,$product);
+        // exit();
+
         $validator = \Validator::make($request->all(), [
             'id_value_billing' => 'required',
             'id_value_shipping' => 'required',
         ]);
-
 
         $errors = $validator->errors();
 
@@ -297,6 +334,8 @@ class PaypalPaymentController extends Controller{
         $payment = Payment::get($paymentId, $apiContext);
         $payerId = $_GET['PayerID'];
         $token_payment = $_GET['token'];
+        $price_products = '';
+        $price_main_cart = '';
 
         // Execute payment with payer ID
         $execution = new PaymentExecution();
@@ -320,7 +359,7 @@ class PaypalPaymentController extends Controller{
 
         try {
         // Execute payment
-            $result = $payment->execute($execution, $apiContext);
+            // $result = $payment->execute($execution, $apiContext);
 
             $create_order = [
               // "email"=> "hamworkbythai@gmail.com",
@@ -384,7 +423,10 @@ class PaypalPaymentController extends Controller{
 
                 $result_order = json_decode(curl_exec($ch));
 
+                $session_all = session()->all();
                 $value_sku_products = session()->get('sku_product');
+                $price_products = session()->get('price_product');
+
 
                 // dd($result_order);
 
@@ -412,83 +454,110 @@ class PaypalPaymentController extends Controller{
                 $status_order = json_decode(curl_exec($ch));
 
                 $get_product_detail = null;
-                $price_product_cart = 0;
+                // $price_product_cart = 0;
 
                 $get_products = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
                 $get_products2 = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductRenderListV1',$params);
 
                 if(!empty($value_sku_products)){
-                    foreach($value_sku_products as $key_sku_product => $value_sku_product){
-                        if(!empty($value_sku_product)){
-                            $get_product_detail = array(
-                                'sku' => $value_sku_product
-                            );
+                    // if(count($value_sku_products) >= 2){
+                        // foreach($value_sku_products as $key_sku_product => $value_sku_product){
+                        //     if(!empty($value_sku_product)){
+                        //         $get_product_detail = array(
+                        //             'sku' => $value_sku_product
+                        //         );
 
-                            $data_product = $get_products->catalogProductRepositoryV1Get($get_product_detail);
+                        //         $data_product = $get_products->catalogProductRepositoryV1Get($get_product_detail);
 
+                        //         $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine");
+                        //         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+                        //         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                        //         curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
+
+                        //         $create_cart = json_decode(curl_exec($ch));
+
+                        //             $get_product_detail2 = [
+                        //                   'searchCriteria' => [
+                        //                       'filterGroups' => [
+                        //                           [
+                        //                               'filters' => [
+                        //                                   [
+                        //                                       'field' => 'entity_id',
+                        //                                       'value' => $data_product->result->id,
+                        //                                       'condition_type' => 'eq',
+                        //                                   ],
+                        //                               ],
+                        //                           ],
+                        //                       ],
+                        //                   ],
+                        //               ];
+                        //             $get_product_detail2['storeId'] = "1";
+                        //             $get_product_detail2['currencyCode'] = "THB";
+                        //             $get_product_page = $get_products2->catalogProductRenderListV1GetList($get_product_detail2);
+
+                        //             if(!empty($get_product_page->result->items->item->priceInfo->finalPrice)){
+                        //                 $price_product_cart = $get_product_page->result->items->item->priceInfo->finalPrice;
+                        //             }
+                        //             if(!empty($data_product->result->price)){
+                        //                 $price_product_cart = $data_product->result->price;
+                        //             }
+
+                        //             $price_main_cart = (int)$price_product_cart;
+
+                        //             $product = [
+                        //                 "cartItem" => [
+                        //                     "sku"=> $data_product->result->sku,
+                        //                     "qty"=> 1,
+                        //                     "name" => $data_product->result->sku,
+                        //                     "price" => $price_products,
+                        //                     "product_type" => "simple",
+                        //                     "quote_id"=> $create_cart,
+                        //                 ]
+                        //             ];
+
+                        //         $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine/items");
+                        //         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+                        //         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($product));
+                        //         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                        //         curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
+
+                        //         $post_items = json_decode(curl_exec($ch));
+
+                        //         // dd($get_product_detail,$get_product_detail2,$price_product_cart,$price_products,$product,$price_main_cart,$post_items,$session_all);
+                        //         session()->forget('sku_product');
+                        //     }
+                        // }
+                    // } else {
                             $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine");
                             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
                             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                             curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
 
-                            $create_cart = json_decode(curl_exec($ch));
+                            $create_cart2 = json_decode(curl_exec($ch));
 
-                            if($data_product->result->typeId == "configurable"){
-                                $get_product_detail = [
-                                      'searchCriteria' => [
-                                          'filterGroups' => [
-                                              [
-                                                  'filters' => [
-                                                      [
-                                                          'field' => 'entity_id',
-                                                          'value' => $data_product->result->id,
-                                                          'condition_type' => 'eq',
-                                                      ],
-                                                  ],
-                                              ],
-                                          ],
-                                      ],
-                                  ];
-                                $get_product_detail['storeId'] = "1";
-                                $get_product_detail['currencyCode'] = "THB";
-                                $get_product_page = $get_products2->catalogProductRenderListV1GetList($get_product_detail);
-
-                                if(!empty($get_product_page->result->items->item->priceInfo->finalPrice)){
-                                    $price_product_cart = $get_product_page->result->items->item->priceInfo->finalPrice;
-                                } else {
-                                    $price_product_cart = 0;
-                                }
-                            } else {
-                                if(!empty($data_product->result->price)){
-                                    $price_product_cart = $data_product->result->price;
-                                } else {
-                                    $price_product_cart = 0;
-                                }
-                            }
-
-
-                            $product = [
+                            $product2 = [
                                 "cartItem" => [
-                                  "sku"=> $data_product->result->sku,
-                                  "qty"=> 1,
-                                  "name" => $data_product->result->sku,
-                                  "price" => $price_product_cart,
-                                  "product_type" => "simple",
-                                  "quote_id"=> $create_cart,
+                                    "sku"=> $value_sku_products[0],
+                                    "qty"=> 1,
+                                    "name" => $value_sku_products[0],
+                                    "price" => $price_products[0],
+                                    "product_type" => "simple",
+                                    "quote_id"=> $create_cart2,
                                 ]
-                              ];
+                            ];
 
                             $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine/items");
                             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-                            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($product));
+                            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($product2));
                             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                             curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
 
                             $post_items = json_decode(curl_exec($ch));
 
+                            // dd($product,$post_items);
                             session()->forget('sku_product');
-                        }
-                    }
+
+                    // }
                 }
 
             } else {

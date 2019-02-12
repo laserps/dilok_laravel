@@ -39,6 +39,7 @@ class FilterController extends Controller
         try{
             if($brands == 'htglight'){
                 $data['brands2'] = $brands;
+                // $type = 'configurable';
             }
 
             if($brands == "Men" || $brands == "Women" || $brands == "Kid") {
@@ -147,11 +148,17 @@ class FilterController extends Controller
                 ];
             }
 
-            if(!empty($_GET)){
+            // if(!empty($_GET)){
+            //     $type = 'simple';
+            // } else {
+            //     // $type = 'configurable';
+            //     $type = 'simple';
+            // }
+            if(!empty($brands) && $brands != 'highlight'){
                 $type = 'simple';
             } else {
                 // $type = 'configurable';
-                $type = 'simple';
+                $type = 'configurable';
             }
 
             // if(!empty($input_all['gender'])){
@@ -816,7 +823,7 @@ class FilterController extends Controller
 
         try{
             $product = $request->input('product');
-            $price_product = $request->input('price_product_main');
+            $price_product = $request->input('price');
             $product_id = $request->input('product_id');
 
             $userData = array("username" => "customerdilok", "password" => "dilokstore@1234");
@@ -862,6 +869,9 @@ class FilterController extends Controller
                 ]
             ];
 
+            // dd($product);
+            // exit();
+
 
             $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine/items");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
@@ -871,7 +881,7 @@ class FilterController extends Controller
 
             $customer_item = json_decode(curl_exec($ch));
 
-            // dd($customer_item->message);
+            // dd($customer_item,$product);
 
             if(!empty($customer_item->message)){
                 $return['status'] = 3;

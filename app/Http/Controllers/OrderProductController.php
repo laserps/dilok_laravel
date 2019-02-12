@@ -61,7 +61,7 @@ class OrderProductController extends Controller
             //         $get_product_detail['currencyCode'] = "THB";
             //         $get_product_page = $get_products2->catalogProductRenderListV1GetList($get_product_detail);
             //     }
-            //     dd($get_product_page->result->items->item->priceInfo->finalPrice);
+            //     dd($get_product_page->result->items->item,$data['product_key']->result);
             //     exit();
 
             $catalogs = [

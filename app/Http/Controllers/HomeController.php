@@ -181,6 +181,7 @@ class HomeController extends Controller
 
             $create_cart222 = json_decode(curl_exec($ch));
 
+
             if(empty($result2->parameters)){
 
                 $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine/items");

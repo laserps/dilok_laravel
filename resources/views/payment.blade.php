@@ -90,7 +90,7 @@
             <div class="card pay-b-n p-3">
                 <div class="row">
                     <div class="col-xl-12">
-                        <div class="pay-font1"style="display:inline;">Billing Address</div>
+                        <div class="pay-font1" style="display:inline;">Billing Address</div>
                         <div class="pay-font1 pay-m-l2 w-100" style="display:inline;">
                           <a href="#" class="pay-font5" data-toggle="modal" id="billing_modal" data-target="#billing"><u>edit</u></a>
                         </div>

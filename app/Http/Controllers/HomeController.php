@@ -174,6 +174,13 @@ class HomeController extends Controller
 
             $result2 = json_decode(curl_exec($ch));
 
+            $ch = curl_init("http://128.199.235.248/magento/rest/V1/customers/".$result2->id."/carts");
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $token));
+
+            $create_cart222 = json_decode(curl_exec($ch));
+
             if(empty($result2->parameters)){
 
                 $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine/items");

@@ -613,6 +613,7 @@ class CustomerController extends Controller
 
                 // \Session::put(json_decode($result2)->id, json_decode($result));
                 $request->session()->put('customer_id', json_decode($result));
+                $request->session()->put('token_admin', json_decode($token));
 
                 $return['status'] = 1;
                 $return['login'] = $result2;

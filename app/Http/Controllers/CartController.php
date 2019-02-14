@@ -42,6 +42,11 @@ class CartController extends Controller
 
         $get_session_all = \Session::all();
 
+        $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine");
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
+
         try {
             if(!empty($get_session_all['customer_id'])){
                 // if($text_color_product != '' && $text_size_product != '' && $text_name_product != '' && $text_price_product != '' && $text_valuecolor_product != '' && $text_valuesize_product != ''){
@@ -58,6 +63,16 @@ class CartController extends Controller
                     curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
 
                     $create_cart = json_decode(curl_exec($ch));
+
+                    // $ch = curl_init("http://128.199.235.248/magento/rest/V1/customers/".$customer->id."/carts");
+                    // curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+                    // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                    // curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $token_admin));
+
+                    // $create_cart = json_decode(curl_exec($ch));
+
+                    // print_r($create_cart);
+                    // exit();
 
                     if($text_type_product == 'configurable'){
                         if(!empty($text_valuecolor_product) && !empty($text_valuesize_product)){
@@ -141,7 +156,7 @@ class CartController extends Controller
                         ];
                     }
 
-                    // dd($product);
+                    // return $product;
                     // exit();
 
 

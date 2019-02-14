@@ -33,6 +33,8 @@ class PaypalPaymentController extends Controller{
         $request->session()->put('product_id', $false_chk);
         $request->session()->put('sku_product', $chk_false_id);
         $request->session()->put('price_product', $chk_price_id);
+        $request->session()->put('token_admin', $token);
+
         $session_all = session()->all();
         $value_product_ids = session()->get('product_id');
         $value_sku_products = session()->get('sku_product');
@@ -409,7 +411,9 @@ class PaypalPaymentController extends Controller{
 
 
             $get_session_all = \Session::all();
-
+            $session_all = session()->all();
+            $value_sku_products = session()->get('sku_product');
+            $price_products = session()->get('price_product');
             // dd($get_session_all,$get_session_all['customer_id']);
             // exit();
 
@@ -422,13 +426,6 @@ class PaypalPaymentController extends Controller{
                 curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer ".$get_session_all['customer_id']));
 
                 $result_order = json_decode(curl_exec($ch));
-
-                $session_all = session()->all();
-                $value_sku_products = session()->get('sku_product');
-                $price_products = session()->get('price_product');
-
-
-                // dd($result_order);
 
                 $ch = curl_init("http://128.199.235.248/magento/rest/V1/orders"."/".$result_order);
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
@@ -461,101 +458,156 @@ class PaypalPaymentController extends Controller{
 
                 if(!empty($value_sku_products)){
                     // if(count($value_sku_products) >= 2){
-                        // foreach($value_sku_products as $key_sku_product => $value_sku_product){
-                        //     if(!empty($value_sku_product)){
-                        //         $get_product_detail = array(
-                        //             'sku' => $value_sku_product
-                        //         );
+                        foreach($value_sku_products as $key_sku_product => $value_sku_product){
+                            if(!empty($value_sku_product)){
+                                $get_product_detail = array(
+                                    'sku' => $value_sku_product
+                                );
 
-                        //         $data_product = $get_products->catalogProductRepositoryV1Get($get_product_detail);
+                                $data_product = $get_products->catalogProductRepositoryV1Get($get_product_detail);
 
-                        //         $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine");
-                        //         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-                        //         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                        //         curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
+                                $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine");
+                                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+                                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                                curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
 
-                        //         $create_cart = json_decode(curl_exec($ch));
+                                $create_cart = json_decode(curl_exec($ch));
 
-                        //             $get_product_detail2 = [
-                        //                   'searchCriteria' => [
-                        //                       'filterGroups' => [
-                        //                           [
-                        //                               'filters' => [
-                        //                                   [
-                        //                                       'field' => 'entity_id',
-                        //                                       'value' => $data_product->result->id,
-                        //                                       'condition_type' => 'eq',
-                        //                                   ],
-                        //                               ],
-                        //                           ],
-                        //                       ],
-                        //                   ],
-                        //               ];
-                        //             $get_product_detail2['storeId'] = "1";
-                        //             $get_product_detail2['currencyCode'] = "THB";
-                        //             $get_product_page = $get_products2->catalogProductRenderListV1GetList($get_product_detail2);
+                                $ch = curl_init("http://128.199.235.248/magento/rest/V1/customers/me");
+                                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+                                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                                curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
 
-                        //             if(!empty($get_product_page->result->items->item->priceInfo->finalPrice)){
-                        //                 $price_product_cart = $get_product_page->result->items->item->priceInfo->finalPrice;
-                        //             }
-                        //             if(!empty($data_product->result->price)){
-                        //                 $price_product_cart = $data_product->result->price;
-                        //             }
+                                $customer = json_decode(curl_exec($ch));
 
-                        //             $price_main_cart = (int)$price_product_cart;
+                                    // $get_product_detail2 = [
+                                    //       'searchCriteria' => [
+                                    //           'filterGroups' => [
+                                    //               [
+                                    //                   'filters' => [
+                                    //                       [
+                                    //                           'field' => 'entity_id',
+                                    //                           'value' => $data_product->result->id,
+                                    //                           'condition_type' => 'eq',
+                                    //                       ],
+                                    //                   ],
+                                    //               ],
+                                    //           ],
+                                    //       ],
+                                    //   ];
+                                    // $get_product_detail2['storeId'] = "1";
+                                    // $get_product_detail2['currencyCode'] = "THB";
+                                    // $get_product_page = $get_products2->catalogProductRenderListV1GetList($get_product_detail2);
 
-                        //             $product = [
-                        //                 "cartItem" => [
-                        //                     "sku"=> $data_product->result->sku,
-                        //                     "qty"=> 1,
-                        //                     "name" => $data_product->result->sku,
-                        //                     "price" => $price_products,
-                        //                     "product_type" => "simple",
-                        //                     "quote_id"=> $create_cart,
-                        //                 ]
-                        //             ];
+                                    // if(!empty($get_product_page->result->items->item->priceInfo->finalPrice)){
+                                    //     $price_product_cart = $get_product_page->result->items->item->priceInfo->finalPrice;
+                                    // }
+                                    // if(!empty($data_product->result->price)){
+                                    //     $price_product_cart = $data_product->result->price;
+                                    // }
 
-                        //         $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine/items");
-                        //         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-                        //         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($product));
-                        //         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                        //         curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
+                                    // $price_main_cart = (int)$price_product_cart;
 
-                        //         $post_items = json_decode(curl_exec($ch));
+                                    $product = [
+                                        "cartItem" => [
+                                            "sku"=> $data_product->result->sku,
+                                            "qty"=> 1,
+                                            "name" => $data_product->result->sku,
+                                            "price" => $price_products[$key_sku_product],
+                                            "product_type" => "simple",
+                                            "quote_id"=> $create_cart,
+                                        ]
+                                    ];
 
-                        //         // dd($get_product_detail,$get_product_detail2,$price_product_cart,$price_products,$product,$price_main_cart,$post_items,$session_all);
-                        //         session()->forget('sku_product');
-                        //     }
-                        // }
+                                $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine/items");
+                                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+                                curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($product));
+                                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                                curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
+
+                                $post_items = json_decode(curl_exec($ch));
+
+                                $ch = curl_init("http://128.199.235.248/magento/rest/V1/customers/".$customer->id."/carts");
+                                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+                                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                                curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $token));
+
+                                $create_cart222 = json_decode(curl_exec($ch));
+
+                                // dd($get_product_detail,$get_product_detail2,$price_product_cart,$price_products,$product,$price_main_cart,$post_items,$session_all);
+                                session()->forget('sku_product');
+                            }
+                        }
                     // } else {
-                            $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine");
-                            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-                            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
+                            // $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine");
+                            // curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+                            // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                            // curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
 
-                            $create_cart2 = json_decode(curl_exec($ch));
+                            // $create_cart = json_decode(curl_exec($ch));
 
-                            $product2 = [
-                                "cartItem" => [
-                                    "sku"=> $value_sku_products[0],
-                                    "qty"=> 1,
-                                    "name" => $value_sku_products[0],
-                                    "price" => $price_products[0],
-                                    "product_type" => "simple",
-                                    "quote_id"=> $create_cart2,
-                                ]
-                            ];
+                            // $ch = curl_init("http://128.199.235.248/magento/rest/V1/customers/me");
+                            // curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+                            // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                            // curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
 
-                            $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine/items");
-                            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-                            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($product2));
-                            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
+                            // $customer = json_decode(curl_exec($ch));
 
-                            $post_items = json_decode(curl_exec($ch));
+                            // $ch = curl_init("http://128.199.235.248/magento/rest/V1/customers/".$customer->id."/carts");
+                            // curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+                            // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                            // curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $token));
 
-                            // dd($product,$post_items);
-                            session()->forget('sku_product');
+                            // $create_cart = json_decode(curl_exec($ch));
+
+                            // $product = [
+                            //     "cartItem" => [
+                            //         "sku"=> $value_sku_products[0],
+                            //         "qty"=> 1,
+                            //         "name" => $value_sku_products[0],
+                            //         "price" => $price_products[0],
+                            //         "product_type" => "simple",
+                            //         "quote_id"=> $create_cart,
+                            //     ]
+                            // ];
+                            // $product = [
+                            //     "cartItem" => [
+                            //         "sku"=> 'HARDEN VOL III -088',
+                            //         "qty"=> 1,
+                            //         "name" => 'HARDEN VOL III -088',
+                            //         "price" => 1500,
+                            //         "product_type" => "configurable",
+                            //         "quote_id"=> $create_cart,
+                            //         "product_option" => [
+                            //             "extension_attributes" => [
+                            //                 "configurable_item_options" => [
+                            //                     [
+                            //                         "option_id" => "135",
+                            //                         "option_value" => "83"
+                            //                     ]
+                            //                 ]
+                            //             ]
+                            //         ]
+                            //     ]
+                            // ];
+
+                            // $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine/items");
+                            // curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+                            // curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($product));
+                            // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                            // curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
+
+                            // $post_items = json_decode(curl_exec($ch));
+
+                            // $ch = curl_init("http://128.199.235.248/magento/rest/V1/customers/".$customer->id."/carts");
+                            // curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+                            // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                            // curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $token));
+
+                            // $create_cart222 = json_decode(curl_exec($ch));
+
+                            // // dd($create_cart,$product,$post_items);
+                            // session()->forget('sku_product');
 
                     // }
                 }

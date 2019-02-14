@@ -375,7 +375,7 @@ class PaypalPaymentController extends Controller{
 
         try {
         // Execute payment
-            // $result = $payment->execute($execution, $apiContext);
+            $result = $payment->execute($execution, $apiContext);
 
             $create_order = [
               // "email"=> "hamworkbythai@gmail.com",

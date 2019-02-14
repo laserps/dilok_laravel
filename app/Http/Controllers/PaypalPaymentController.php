@@ -25,6 +25,7 @@ class PaypalPaymentController extends Controller{
         curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . strlen(json_encode($userData))));
 
         $token = json_decode(curl_exec($ch));
+        $customer_token = session(['customer_token' => $token]);
 
         $false_chk = explode(",",$request->chk_false);
         $chk_false_id = explode(",",$request->chk_false_id);
@@ -38,6 +39,7 @@ class PaypalPaymentController extends Controller{
         $session_all = session()->all();
         $value_product_ids = session()->get('product_id');
         $value_sku_products = session()->get('sku_product');
+
         $price_products = session()->get('price_product');
 
         $check = $request->c_cart_product_id;
@@ -147,7 +149,7 @@ class PaypalPaymentController extends Controller{
                         $company_bill = '';
                     }
 
-                ///////// Add Shipping ////////
+                    ///////// Add Shipping ////////
                     $data_shipping = [
                       "addressInformation" => [
                         "shippingAddress" => [
@@ -290,7 +292,6 @@ class PaypalPaymentController extends Controller{
                     ->setRedirectUrls($redirectUrls)
                     ->setTransactions([$transaction]);
 
-
                 // dd($payment);
                 // exit();
 
@@ -318,7 +319,7 @@ class PaypalPaymentController extends Controller{
         return json_encode($status);
     }
 
-    public function success(){
+    public function success_old(){
         $configpaypal = \Config::get('paypal_payment');
 
         $account = $configpaypal['account'];
@@ -408,7 +409,6 @@ class PaypalPaymentController extends Controller{
             curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . strlen(json_encode($userData))));
 
             $token = json_decode(curl_exec($ch));
-
 
             $get_session_all = \Session::all();
             $session_all = session()->all();

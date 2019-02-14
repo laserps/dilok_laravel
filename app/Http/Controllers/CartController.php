@@ -73,6 +73,8 @@ class CartController extends Controller
 
                     // print_r($create_cart);
                     // exit();
+                    // return $text_type_product;
+                    // exit();
 
                     if($text_type_product == 'configurable'){
                         if(!empty($text_valuecolor_product) && !empty($text_valuesize_product)){

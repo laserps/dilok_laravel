@@ -481,12 +481,10 @@ class ProductController extends Controller
 
           $option_product_color = array(
             'sku' => $data['products_detail']->result->items->item->sku,
-            // 'id' => 5
             'id' => 7
           );
           $option_product_size = array(
             'sku' => $data['products_detail']->result->items->item->sku,
-            // 'id' => 6
             'id' => 8
           );
 
@@ -500,43 +498,6 @@ class ProductController extends Controller
             $data['product_options'] = '';
           }
 
-
-          // dd($data['product_options']);
-          // exit();
-
-          // foreach($test->result->item as $key_options => $value_options){
-          //   if($value_options->attributeId == '93' && $value_options->label == 'Color'){
-          //     foreach($value_options->values->item as $key_value => $value_value){
-          //       dd($value_value);
-          //     }
-          //   }
-          // }
-
-          // dd($test);
-          // exit();
-
-          // $data['product_option'] = $get_products_option->configurableProductOptionRepositoryV1Get($option_product_color);
-          // $data['product_option_size'] = $get_products_option->configurableProductOptionRepositoryV1Get($option_product_size);
-
-          // @foreach($product_option->result->values->item as $key_product_color => $value_product_color)
-          //   @if($value_product_color->valueIndex == $value_color->value)
-          //     <div class="col-1 mr-2 px-2 mb-2 text-center">
-          //       <button type="button" class="btn color-btn color-active" style="background-color:{{$value_color->label}}"></button>
-          //     </div>
-          //   @endif
-          // @endforeach
-
-          // @foreach($product_option_size->result->values->item as $key_product_size => $value_product_size)
-          //   @if($value_sizes->label != ' ')
-              // @if($value_product_size->valueIndex == $value_sizes->value)
-              //   <div class="col-xl-4 col-6 px-0 size-select @if($value_product_size->valueIndex != $value_sizes->value) {{ 'disabled' }} @endif">
-              //     <span>{{ $value_sizes->label }}</span>
-              //   </div>
-              // @endif
-          //   @endif
-          // @endforeach
-
-          // if(!empty($data['product_option']) || !empty($data['product_option_size'])){
             $get_products_gallery = [
                   'sku' => $data['products_detail']->result->items->item->sku,
               ];
@@ -545,44 +506,25 @@ class ProductController extends Controller
             $data['color_product'] = $get_color_products->catalogProductAttributeOptionManagementV1GetItems($get_color_product);
             $data['size_products'] = $get_color_products->catalogProductAttributeOptionManagementV1GetItems($get_size_products);
 
-            // dd($data['size_products'],$data['product_option_size']);
-            // exit();
-
-            // foreach($data['color_product']->result->item as $key_color => $value_color){
-            //   foreach($data['product_option']->result->values->item as $key_product_color => $value_product_color){
-            //     if($value_color->value != ''){
-            //       if($value_product_color->valueIndex == $value_color->value){
-            //         foreach($data['size_products']->result->item as $key_sizes => $value_sizes){
-            //           foreach($data['product_option_size']->result->values->item as $key_product_size => $value_product_size){
-            //             if($value_sizes->label != ' '){
-            //               if($value_product_size == $value_sizes->value){
-            //                 $get_stock_products = array(
-            //                   'productSku' => $data['products_detail']->result->items->item->sku.'-'.$value_color->label.'-'.$value_sizes->label
-            //                 );
-            //                 // $stock_data = $get_stock_product->catalogInventoryStockRegistryV1GetStockStatusBySku($get_stock_products);
-            //                 $data['stock'][$value_color->label][$value_sizes->label] = $get_stock_product->catalogInventoryStockRegistryV1GetStockStatusBySku($get_stock_products);
-            //               }
-            //             }
-            //           }
-            //         }
-            //       }
-            //     }
-            //   }
-            // }
-          // }
-
         $catalogs = [
             'rootCategoryId' => 1,
         ];
 
-        $userData = array("username" => "customerdilok", "password" => "dilokstore@1234");
-        $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . strlen(json_encode($userData))));
+        $token = '';
+        $get_session_all = \Session::all();
 
-        $token = json_decode(curl_exec($ch));
+        if(!empty($get_session_all['token_admin'])){
+          $token = $get_session_all['token_admin'];
+        } else {
+          $userData = array("username" => "customerdilok", "password" => "dilokstore@1234");
+          $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
+          curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+          curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
+          curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+          curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . strlen(json_encode($userData))));
+
+          $token = json_decode(curl_exec($ch));
+        }
 
         $get_blocks = 'searchCriteria[filter_groups][0][filters][0][field]=is_active&searchCriteria[filter_groups][0][filters][0][value]=1&searchCriteria[filter_groups][0][filters][0][condition_type]=eq&searchCriteria[pageSize]=12&searchCriteria[sortOrders][0][field]=block_id&searchCriteria[sortOrders][0][direction]=DESC';
 
@@ -592,9 +534,6 @@ class ProductController extends Controller
         curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $token));
 
         $blocks = json_decode(curl_exec($ch));
-
-
-        $get_session_all = \Session::all();
 
         if(!empty($get_session_all['customer_id'])){
           $ch = curl_init("http://128.199.235.248/magento/rest/V1/customers/me");
@@ -718,14 +657,18 @@ class ProductController extends Controller
           'rootCategoryId' => 1,
       ];
 
-      $userData = array("username" => "customerdilok", "password" => "dilokstore@1234");
-      $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
-      curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-      curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
-      curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-      curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . strlen(json_encode($userData))));
+      if(!empty($get_session_all['token_admin'])){
+        $token = $get_session_all['token_admin'];
+      } else {
+        $userData = array("username" => "customerdilok", "password" => "dilokstore@1234");
+        $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . strlen(json_encode($userData))));
 
-      $token = json_decode(curl_exec($ch));
+        $token = json_decode(curl_exec($ch));
+      }
 
       $get_blocks = 'searchCriteria[filter_groups][0][filters][0][field]=is_active&searchCriteria[filter_groups][0][filters][0][value]=1&searchCriteria[filter_groups][0][filters][0][condition_type]=eq&searchCriteria[pageSize]=12&searchCriteria[sortOrders][0][field]=block_id&searchCriteria[sortOrders][0][direction]=DESC';
 

@@ -17,15 +17,28 @@ class PaypalPaymentController extends Controller{
 
     public function paywithPaypal(Request $request)
     {
-        $userData = array("username" => "customerdilok", "password" => "dilokstore@1234");
-        $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . strlen(json_encode($userData))));
+        if(!empty($get_session_all['token_admin'])){
+            $token = $get_session_all['token_admin'];
+        } else {
+            $userData = array("username" => "customerdilok", "password" => "dilokstore@1234");
+            $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . strlen(json_encode($userData))));
 
-        $token = json_decode(curl_exec($ch));
-        $customer_token = session(['customer_token' => $token]);
+            $token = json_decode(curl_exec($ch));
+        }
+
+        // $userData = array("username" => "customerdilok", "password" => "dilokstore@1234");
+        // $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
+        // curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+        // curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
+        // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        // curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . strlen(json_encode($userData))));
+
+        // $token = json_decode(curl_exec($ch));
+        // $customer_token = session(['customer_token' => $token]);
 
         $false_chk = explode(",",$request->chk_false);
         $chk_false_id = explode(",",$request->chk_false_id);
@@ -401,14 +414,28 @@ class PaypalPaymentController extends Controller{
               // ],
             ];
 
-            $userData = array("username" => "customerdilok", "password" => "dilokstore@1234");
-            $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
-            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . strlen(json_encode($userData))));
 
-            $token = json_decode(curl_exec($ch));
+            if(!empty($get_session_all['token_admin'])){
+                $token = $get_session_all['token_admin'];
+            } else {
+                $userData = array("username" => "customerdilok", "password" => "dilokstore@1234");
+                $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+                curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . strlen(json_encode($userData))));
+
+                $token = json_decode(curl_exec($ch));
+            }
+
+            // $userData = array("username" => "customerdilok", "password" => "dilokstore@1234");
+            // $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
+            // curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+            // curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
+            // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            // curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . strlen(json_encode($userData))));
+
+            // $token = json_decode(curl_exec($ch));
 
             $get_session_all = \Session::all();
             $session_all = session()->all();

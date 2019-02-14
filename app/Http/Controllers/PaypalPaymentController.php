@@ -319,7 +319,7 @@ class PaypalPaymentController extends Controller{
         return json_encode($status);
     }
 
-    public function success_old(){
+    public function success(){
         $configpaypal = \Config::get('paypal_payment');
 
         $account = $configpaypal['account'];
@@ -609,36 +609,36 @@ class PaypalPaymentController extends Controller{
                             // // dd($create_cart,$product,$post_items);
                             // session()->forget('sku_product');
 
-                            $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine");
-                            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-                            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
+                            // $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine");
+                            // curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+                            // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                            // curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
 
-                            $create_cart2 = json_decode(curl_exec($ch));
+                            // $create_cart2 = json_decode(curl_exec($ch));
 
-                            $product2 = [
-                                "cartItem" => [
-                                    "sku"=> $value_sku_products[0],
-                                    "qty"=> 1,
-                                    "name" => $value_sku_products[0],
-                                    "price" => 800,
-                                    "product_type" => "simple",
-                                    "quote_id"=> $create_cart2,
-                                ]
-                            ];
+                            // $product2 = [
+                            //     "cartItem" => [
+                            //         "sku"=> $value_sku_products[0],
+                            //         "qty"=> 1,
+                            //         "name" => $value_sku_products[0],
+                            //         "price" => 800,
+                            //         "product_type" => "simple",
+                            //         "quote_id"=> $create_cart2,
+                            //     ]
+                            // ];
 
-                            // return $product2;
+                            // // return $product2;
 
-                            $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine/items");
-                            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-                            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($product2));
-                            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
+                            // $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine/items");
+                            // curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+                            // curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($product2));
+                            // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                            // curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
 
-                            $post_items = json_decode(curl_exec($ch));
+                            // $post_items = json_decode(curl_exec($ch));
 
-                            dd($product2,$post_items);
-                            session()->forget('sku_product');
+                            // dd($product2,$post_items);
+                            // session()->forget('sku_product');
 
                     // }
                 }

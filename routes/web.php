@@ -99,3 +99,5 @@ Route::get('imagemake',function(){
     $img = Image::make('D:\TOTAL2\8.1289650-703\TON_7198.jpg')->resize(300, 200);
     return $img->response('jpg');
 });
+
+Route::get('recreatecart','TestCartController@index');

@@ -539,7 +539,6 @@ class PaypalPaymentController extends Controller{
                             }
                         }
                     // } else {
-<<<<<<< HEAD
                             // $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine");
                             // curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
                             // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -609,7 +608,7 @@ class PaypalPaymentController extends Controller{
 
                             // // dd($create_cart,$product,$post_items);
                             // session()->forget('sku_product');
-=======
+
                             $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine");
                             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
                             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -627,7 +626,6 @@ class PaypalPaymentController extends Controller{
                                     "quote_id"=> $create_cart2,
                                 ]
                             ];
-                            
 
                             // return $product2;
 
@@ -641,7 +639,6 @@ class PaypalPaymentController extends Controller{
 
                             dd($product2,$post_items);
                             session()->forget('sku_product');
->>>>>>> 411deeed7feab709673044732b154c9cc2ed8aca
 
                     // }
                 }

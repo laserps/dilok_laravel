@@ -17,18 +17,14 @@ class TestapiController extends Controller
     public function testapiimage(){
         // Instantiate the MultiCurl class.
         $mc = \JMathai\PhpMultiCurl\MultiCurl::getInstance();
-
         // Make a call to a URL.
         $call1 = $mc->addUrl('http://128.199.235.248/magento/rest/V1/categories');
-
         $call2 = "searchCriteria[filter_groups][0][filters][0][field]=type_id&";
         $call2 .= "searchCriteria[filter_groups][0][filters][0][value]=configurable&";
         $call2 .= "searchCriteria[filter_groups][0][filters][0][condition_type]=eq";
         $call2 = $mc->addUrl('http://128.199.235.248/magento/rest/V1/products?'.$call2);
-
         $data[] = json_decode($call1->response);
         $data[] = json_decode($call2->response);
-
         // Access the response for $call1.
         return $data;
     }

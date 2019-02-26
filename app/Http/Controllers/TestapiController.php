@@ -15,124 +15,19 @@ class TestapiController extends Controller
      */
 
     public function testapiimage(){
-        $id = 10160;
-        $moms = \DB::table('catalog_product_20190207_020321')
-            ->select('*')
-            ->where('product_type', 'configurable')
-            // ->where(function($q){
-            //     $q->orWhere('configurable_variations', 'like', '%highlight=No%')
-            //     ->orWhere('configurable_variations', 'like', '%highlight=Yes%')
-            //     ->orWhere('configurable_variations', 'like', '%gender=Female%')
-            //     ->orWhere('configurable_variations', 'like', '%gender=Male%')
-            //     ->orWhere('configurable_variations', 'like', '%gender=Kids%');
-            // })
-            ->where('id', '>', $id)
-            ->limit(500)
-            ->get();
-        $mom_and_baby = [];
-
-        \DB::beginTransaction();
-        try {
-            foreach ($moms as $key_mom => $mom) {
-                $babys = \DB::table('catalog_product_20190207_020321')
-                    ->select('*')
-                    ->where('product_type', 'simple')
-                    ->where('sku', 'like', $mom->sku.'%')
-                    ->get();
-                $mom_and_baby[$key_mom]['mom'] = $mom->sku;
-                $mom_and_baby[$key_mom]['baby'] = count($babys);
-                $mom_and_baby[$key_mom]['configurable_variations'] = '';
-                $mom_and_baby[$key_mom]['configurable_variation_labels'] = '';
-                $mom_and_baby[$key_mom]['additional_images'] = '';
-                $mom_and_baby[$key_mom]['base_image'] = '';
-                $mom_and_baby[$key_mom]['small_image'] = '';
-                $mom_and_baby[$key_mom]['thumbnail_image'] = '';
-                $mom_and_baby[$key_mom]['swatch_image'] = '';
-                $check_color_size = 0;
-                $max = 0;
-                $mom_and_baby[$key_mom]['additional_image_labels'] = '';
-                // loop baby
-                foreach ($babys as $key_baby => $baby) {
-                    if($key_baby > 0){
-                        $mom_and_baby[$key_mom]['configurable_variations'] .= '|';
-                    }
-                    $mom_and_baby[$key_mom]['configurable_variations'] .= 'sku='.$baby->sku.','.
-                        str_replace("highlight=No,","",
-                            str_replace("highlight=Yes,","",
-                                str_replace("gender=Female,","",
-                                    str_replace("gender=Male,","",
-                                        str_replace("gender=Kids,","",$baby->additional_attributes)
-                                    )
-                                )
-                            )
-                        );
-                    // เช็คไห้เข้ามาเช็ครอบเดียวเลยต้องสร้างตัวแปลไว้แล้วเมื่อเปลี่ยนค่าก็ไม่ไห้มันเข้า โดย เช็ค = 0
-                    if( substr_count( $baby->additional_attributes, 'color' ) != false && substr_count( $baby->additional_attributes, 'size' ) != false && $check_color_size <= 0 ){
-                        $check_color_size = 1;
-                    }else if( substr_count( $baby->additional_attributes, 'size' ) != false && $check_color_size <= 0){
-                        $check_color_size = 2;
-                    }else if( substr_count( $baby->additional_attributes, 'color' ) != false && $check_color_size <= 0){
-                        $check_color_size = 3;
-                    }
-                    $explode_img = explode(',', $baby->additional_images);
-                    $count_img = count($explode_img);
-                    if($count_img > $max){
-                        for ($i=0; $i < $count_img-1 ; $i++) {
-                            $mom_and_baby[$key_mom]['additional_image_labels'] .= ',';
-                        }
-                        $max = $count_img;
-                        $mom_and_baby[$key_mom]['additional_images'] = $baby->additional_images;
-                        $mom_and_baby[$key_mom]['base_image'] = $explode_img[0];
-                        $mom_and_baby[$key_mom]['small_image'] = $explode_img[0];
-                        $mom_and_baby[$key_mom]['thumbnail_image'] = $explode_img[0];
-                        $mom_and_baby[$key_mom]['swatch_image'] = $explode_img[0];
-                    }
-                // echo substr_count( $baby->additional_attributes, 'color' ).'-'.substr_count( $baby->additional_attributes, 'size' ).'<br>';
-                }
-                // set configurable_variation_labels
-                if( $check_color_size == 1 ){
-                    $mom_and_baby[$key_mom]['configurable_variation_labels'] = 'color=Color,size=Size';
-                }else if( $check_color_size == 2 ){
-                    $mom_and_baby[$key_mom]['configurable_variation_labels'] = 'size=Size';
-                }else if( $check_color_size == 3 ){
-                    $mom_and_baby[$key_mom]['configurable_variation_labels'] = 'color=Color';
-                }
-                // echo $mom_and_baby[$key_mom]['configurable_variations'].'<br>';
-
-                $data_update = [
-                    'configurable_variations' => $mom_and_baby[$key_mom]['configurable_variations'],
-                    'configurable_variation_labels' => $mom_and_baby[$key_mom]['configurable_variation_labels'],
-                    'additional_images' => $mom_and_baby[$key_mom]['additional_images'],
-                    'base_image' => $mom_and_baby[$key_mom]['base_image'],
-                    'small_image' => $mom_and_baby[$key_mom]['small_image'],
-                    'thumbnail_image' => $mom_and_baby[$key_mom]['thumbnail_image'],
-                    'swatch_image' => $mom_and_baby[$key_mom]['swatch_image'],
-                ];
-                \DB::table('catalog_product_20190207_020321')
-                    ->where('product_type', 'configurable')
-                    ->where('sku', $mom->sku)
-                    // ->count();
-                    ->update($data_update);
-                // echo $mom->id.'<br>';
-            }
-        // dd();
-        // dd($mom_and_baby);
-            $return['id'] = $mom->id;
-            $return['content'] = 'success';
-            \DB::commit();
-        } catch (\Exception $e) {
-            \DB::rollBack();
-            $return['status'] = 0;
-            $return['content'] = 'unsuccess'.$e->getMessage();
-        }
-        dd($return);
-        // dd($mom_and_baby);
-        // return $moms;
+        // Instantiate the MultiCurl class.
+        $mc = \JMathai\PhpMultiCurl\MultiCurl::getInstance();
+        // Make a call to a URL.
+        $call1 = $mc->addUrl('http://128.199.235.248/magento/rest/V1/categories');
+        $call2 = "searchCriteria[filter_groups][0][filters][0][field]=type_id&";
+        $call2 .= "searchCriteria[filter_groups][0][filters][0][value]=configurable&";
+        $call2 .= "searchCriteria[filter_groups][0][filters][0][condition_type]=eq";
+        $call2 = $mc->addUrl('http://128.199.235.248/magento/rest/V1/products?'.$call2);
+        $data[] = json_decode($call1->response);
+        $data[] = json_decode($call2->response);
+        // Access the response for $call1.
+        return $data;
     }
-
-
-
-
 
     public function index()
     {

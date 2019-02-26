@@ -10,6 +10,22 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+<<<<<<< HEAD
+=======
+// Route::get('/checkphp',function(){
+//     return phpinfo();
+// });
+
+Route::get('/manyapi','TestapiController@testapiimage');
+Route::post('/postapidilok','TestapiController@postapidilok');
+Route::get('/testsoap','TestapiController@testsoap');
+Route::get('/testsoap2','TestapiController@testsoap2');
+
+Route::get('/testrest','TestapiController@testrest');
+Route::get('/testrestpost','MeeController@addCustomer');
+
+Route::get('/brand/{brands}','FilterController@index');
+>>>>>>> 8f386b9bf743f6d3caecdfd001a9aeed304c0510
 
 //Home
 Route::get('/','HomeController@index');

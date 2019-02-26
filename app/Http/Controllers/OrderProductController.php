@@ -30,44 +30,14 @@ class OrderProductController extends Controller
                 'cache_wsdl' => WSDL_CACHE_NONE
             );
 
+            //เรียกหมวดหมู่
             $catalog = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogCategoryManagementV1',$params);
-
-
-            // $get_products = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
-            // $get_products2 = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductRenderListV1',$params);
-
-            //       $get_key_product = array(
-            //         'sku' => 'ESS CHELSEA -593'
-            //       );
-            //       $data['product_key'] = $get_products->catalogProductRepositoryV1Get($get_key_product);
-
-            //     if($data['product_key']->result->typeId == "configurable"){
-            //         $get_product_detail = [
-            //               'searchCriteria' => [
-            //                   'filterGroups' => [
-            //                       [
-            //                           'filters' => [
-            //                               [
-            //                                   'field' => 'entity_id',
-            //                                   'value' => $data['product_key']->result->id,
-            //                                   'condition_type' => 'eq',
-            //                               ],
-            //                           ],
-            //                       ],
-            //                   ],
-            //               ],
-            //           ];
-            //         $get_product_detail['storeId'] = "1";
-            //         $get_product_detail['currencyCode'] = "THB";
-            //         $get_product_page = $get_products2->catalogProductRenderListV1GetList($get_product_detail);
-            //     }
-            //     dd($get_product_page->result->items->item,$data['product_key']->result);
-            //     exit();
 
             $catalogs = [
                 'rootCategoryId' => 1,
             ];
 
+            //เรียก size & color ทั้งหมด
             $get_type_products = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductAttributeOptionManagementV1',$params);
             $get_size_products = [
                 'attributeCode' => 'size',
@@ -77,18 +47,19 @@ class OrderProductController extends Controller
                 'attributeCode' => 'color',
             ];
 
-            $userData = array("username" => "customerdilok", "password" => "dilokstore@1234");
-            $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
-            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . strlen(json_encode($userData))));
-
-            $token = json_decode(curl_exec($ch));
-
             $get_session_all = \Session::all();
 
+            $token_admin_magento = new HomeController;
+
+            if(!empty($get_session_all['token_admin'])){
+                $token = $get_session_all['token_admin'];
+            } else {
+                $token = $token_admin_magento->login_admin_magento();
+            }
+
+            //เรียกข้อมูล block
             $get_blocks_page = 'searchCriteria[filter_groups][0][filters][0][field]=is_active&searchCriteria[filter_groups][0][filters][0][value]=1&searchCriteria[filter_groups][0][filters][0][condition_type]=eq&searchCriteria[pageSize]=2&searchCriteria[sortOrders][0][field]=block_id&searchCriteria[sortOrders][0][direction]=DESC';
+            //เรียกข้อมูล block
             $get_blocks = 'searchCriteria[filter_groups][0][filters][0][field]=is_active&searchCriteria[filter_groups][0][filters][0][value]=1&searchCriteria[filter_groups][0][filters][0][condition_type]=eq&searchCriteria[pageSize]=12&searchCriteria[sortOrders][0][field]=block_id&searchCriteria[sortOrders][0][direction]=DESC';
 
                 $ch = curl_init("http://128.199.235.248/magento/rest/V1/cmsBlock/search?".$get_blocks_page);
@@ -97,7 +68,6 @@ class OrderProductController extends Controller
                 curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $token));
 
                 $sum_blocks = json_decode(curl_exec($ch));
-
 
                 $ch = curl_init("http://128.199.235.248/magento/rest/V1/cmsBlock/search?".$get_blocks);
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
@@ -109,7 +79,7 @@ class OrderProductController extends Controller
                 $data['sum_blocks'] = $sum_blocks;
 
             if(!empty($get_session_all['customer_id'])){
-
+                //เรียกข้อมูล customer
                 $ch = curl_init("http://128.199.235.248/magento/rest/V1/customers/me");
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -118,8 +88,7 @@ class OrderProductController extends Controller
                 $customer_me = json_decode(curl_exec($ch));
 
                 if(empty($customer_me->parameters)){
-
-
+                    //เรียกข้อมูลตะกร้าสินค้า
                     $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine/items");
                     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -127,8 +96,8 @@ class OrderProductController extends Controller
 
                     $customer_item = json_decode(curl_exec($ch));
 
-
-                    $get_order_customer = 'searchCriteria[filterGroups][][filters][][field]=customer_email&searchCriteria[filterGroups][0][filters][0][value]='.$customer_me->email;
+                    //เรียกข้อมูล order
+                    $get_order_customer = 'searchCriteria[filterGroups][][filters][][field]=customer_email&searchCriteria[filterGroups][0][filters][0][value]='.$customer_me->email.'&searchCriteria[sortOrders][0][field]=entity_id&searchCriteria[sortOrders][0][direction]=DESC';
 
                     $ch = curl_init("http://128.199.235.248/magento/rest/V1/orders?".$get_order_customer);
                     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
@@ -145,6 +114,7 @@ class OrderProductController extends Controller
                         $data['login'] = $customer_me;
                         $data['cart_customer'] = $customer_item;
 
+                        //เรียกข้อมูลสินค้า
                         $get_products = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
 
                             foreach($customer_item as $key => $value){

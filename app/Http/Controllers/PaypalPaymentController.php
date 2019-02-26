@@ -17,36 +17,25 @@ class PaypalPaymentController extends Controller{
 
     public function paywithPaypal(Request $request)
     {
+        $get_session_all = \Session::all();
+
+        $token_admin_magento = new HomeController;
+
         if(!empty($get_session_all['token_admin'])){
             $token = $get_session_all['token_admin'];
         } else {
-            $userData = array("username" => "customerdilok", "password" => "dilokstore@1234");
-            $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
-            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . strlen(json_encode($userData))));
-
-            $token = json_decode(curl_exec($ch));
+            $token = $token_admin_magento->login_admin_magento();
         }
-
-        // $userData = array("username" => "customerdilok", "password" => "dilokstore@1234");
-        // $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
-        // curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-        // curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
-        // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        // curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . strlen(json_encode($userData))));
-
-        // $token = json_decode(curl_exec($ch));
-        // $customer_token = session(['customer_token' => $token]);
 
         $false_chk = explode(",",$request->chk_false);
         $chk_false_id = explode(",",$request->chk_false_id);
         $chk_price_id = explode(",",$request->chk_price_id);
+        // $chk_qty_id = explode(",",$request->chk_qty_id);
 
         $request->session()->put('product_id', $false_chk);
         $request->session()->put('sku_product', $chk_false_id);
         $request->session()->put('price_product', $chk_price_id);
+        // $request->session()->put('chk_qty_id', $chk_qty_id);
         $request->session()->put('token_admin', $token);
 
         $session_all = session()->all();
@@ -54,45 +43,9 @@ class PaypalPaymentController extends Controller{
         $value_sku_products = session()->get('sku_product');
 
         $price_products = session()->get('price_product');
+        // $chk_qty_id = session()->get('chk_qty_id');
 
-        $check = $request->c_cart_product_id;
-
-        $get_session_all = \Session::all();
-
-        // if(count($value_sku_products) >= 2){
-        //     dd(1);
-        // } else {
-        //     $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine");
-        //     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-        //     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        //     curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
-
-        //     $create_cart2 = json_decode(curl_exec($ch));
-
-        //     $product2 = [
-        //         "cartItem" => [
-        //             "sku"=> $value_sku_products[0],
-        //             "qty"=> 1,
-        //             "name" => $value_sku_products[0],
-        //             "price" => $price_products[0],
-        //             "product_type" => "simple",
-        //             "quote_id"=> $create_cart2,
-        //         ]
-        //     ];
-
-        //     $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine/items");
-        //     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-        //     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($product2));
-        //     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        //     curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
-
-        //     $post_items = json_decode(curl_exec($ch));
-
-        //     dd($product2,$post_items);
-        // }
-
-        // dd(count($value_sku_products),$value_sku_products,$product);
-        // exit();
+        // $check = $request->c_cart_product_id;
 
         $validator = \Validator::make($request->all(), [
             'id_value_billing' => 'required',
@@ -108,15 +61,15 @@ class PaypalPaymentController extends Controller{
             if(!empty($get_session_all['customer_id'])){
 
                 foreach($value_product_ids as $key_product_id => $value_product_id){
+                    //ลบสินค้าที่อยู่ใน session
                     $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine/items/".$value_product_id);
                     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "delete");
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                     curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
 
                     $delete_item_product = curl_exec($ch);
-
                 }
-
+                    //เรียกข้อมูลตะกร้าสินค้า
                     $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine/items");
                     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -124,6 +77,7 @@ class PaypalPaymentController extends Controller{
 
                     $result2 = json_decode(curl_exec($ch));
 
+                    //เรียกข้อมูล bill
                     $ch = curl_init("http://128.199.235.248/magento/rest/V1/customers/addresses/".$request->id_value_billing."");
                     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -131,6 +85,7 @@ class PaypalPaymentController extends Controller{
 
                     $address_bill = json_decode(curl_exec($ch));
 
+                    //เรียกข้อมูล shipping
                     $ch = curl_init("http://128.199.235.248/magento/rest/V1/customers/addresses/".$request->id_value_shipping."");
                     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -201,6 +156,7 @@ class PaypalPaymentController extends Controller{
                         ]
                     ];
 
+                    //set shippping
                     $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine/shipping-information");
                     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
                     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data_shipping));
@@ -209,9 +165,7 @@ class PaypalPaymentController extends Controller{
 
                     $result_shipping = json_decode(curl_exec($ch));
 
-                    // dd($data_shipping,$result_shipping);
-                    // exit();
-
+                    //เรียกข้อมูลตะกร้าสินค้า
                     $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine/items");
                     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -238,8 +192,8 @@ class PaypalPaymentController extends Controller{
                 //     ->setPostalCode($address_shipping->postcode)
                 //     ->setCountryCode($address_shipping->country_id)
                 //     ->setPhone($address_shipping->telephone)
-                //     // ->setCountryCode("TH")
-                //     // ->setPhone("6657000516")
+                //     ->setCountryCode("TH")
+                //     ->setPhone("6657000516")
                 //     ->setRecipientName($address_shipping->firstname);
 
                 // ### Payer
@@ -378,9 +332,11 @@ class PaypalPaymentController extends Controller{
             $result = $payment->execute($execution, $apiContext);
 
             $create_order = [
-              // "email"=> "hamworkbythai@gmail.com",
+                // "email"=> "hamworkbythai@gmail.com",
+            //โอนเงินตามปกติ
               "paymentMethod"=> [
                 "method"=> "checkmo",
+            //ผ่าน paypal
                 // "method"=> "paypal_express",
                 // "additional_data"=> [
                   // "paypal_express_checkout_token" => $token_payment, //EC-1J094180WA280981C
@@ -391,61 +347,26 @@ class PaypalPaymentController extends Controller{
                   // "paypal_correlation_id"=> "3d3bad7ea8f03"
                 // ],
               ],
-              // "billingAddress"=> [
-              //   "region"=> "TH",
-              //   "region_id"=> 0,
-              //   "region_code"=> "bangkok",
-              //   "country_id"=> "TH",
-              //   "street"=> [
-              //     "1518/4"
-              //   ],
-              //   "company"=> "workbythai",
-              //   "telephone"=> "021024291",
-              //   "postcode"=> "10800",
-              //   "city"=> "bangkok",
-              //   "firstname"=> "banjong",
-              //   "lastname"=> "limkluea",
-              //   "customer_id"=> 1,
-              //   "email"=> "hamworkbythai@gmail.com",
-              //   "same_as_billing"=> 1,
-              //   "customer_address_id"=> 1,
-              //   "save_in_address_book"=> 1,
-              //   "extension_attributes"=> [],
-              // ],
             ];
 
+
+            $get_session_all = \Session::all();
+
+            $token_admin_magento = new HomeController;
 
             if(!empty($get_session_all['token_admin'])){
                 $token = $get_session_all['token_admin'];
             } else {
-                $userData = array("username" => "customerdilok", "password" => "dilokstore@1234");
-                $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
-                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-                curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . strlen(json_encode($userData))));
-
-                $token = json_decode(curl_exec($ch));
+                $token = $token_admin_magento->login_admin_magento();
             }
 
-            // $userData = array("username" => "customerdilok", "password" => "dilokstore@1234");
-            // $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
-            // curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-            // curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
-            // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            // curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . strlen(json_encode($userData))));
-
-            // $token = json_decode(curl_exec($ch));
-
-            $get_session_all = \Session::all();
             $session_all = session()->all();
             $value_sku_products = session()->get('sku_product');
             $price_products = session()->get('price_product');
-            // dd($get_session_all,$get_session_all['customer_id']);
-            // exit();
+            // $chk_qty_id = session()->get('chk_qty_id');
 
             if(!empty($get_session_all['customer_id'])){
-
+                //สร้าง order
                 $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine/payment-information");
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
                 curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($create_order));
@@ -454,6 +375,7 @@ class PaypalPaymentController extends Controller{
 
                 $result_order = json_decode(curl_exec($ch));
 
+                //เรียก order
                 $ch = curl_init("http://128.199.235.248/magento/rest/V1/orders"."/".$result_order);
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -469,6 +391,7 @@ class PaypalPaymentController extends Controller{
                     ]
                 ];
 
+                //update status order
                 $ch = curl_init("http://128.199.235.248/magento/rest/V1/orders");
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
                 curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($status));
@@ -478,13 +401,13 @@ class PaypalPaymentController extends Controller{
                 $status_order = json_decode(curl_exec($ch));
 
                 $get_product_detail = null;
-                // $price_product_cart = 0;
 
+                //เรียกข้อมูลสินค้า
                 $get_products = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
+                //เรียกข้อมูลสินค้า
                 $get_products2 = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductRenderListV1',$params);
 
                 if(!empty($value_sku_products)){
-                    // if(count($value_sku_products) >= 2){
                         foreach($value_sku_products as $key_sku_product => $value_sku_product){
                             if(!empty($value_sku_product)){
                                 $get_product_detail = array(
@@ -493,6 +416,7 @@ class PaypalPaymentController extends Controller{
 
                                 $data_product = $get_products->catalogProductRepositoryV1Get($get_product_detail);
 
+                                //สร้างข้อมูลตะกร้าสินค้า
                                 $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine");
                                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
                                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -500,6 +424,7 @@ class PaypalPaymentController extends Controller{
 
                                 $create_cart = json_decode(curl_exec($ch));
 
+                                //เรียกข้อมูล customer
                                 $ch = curl_init("http://128.199.235.248/magento/rest/V1/customers/me");
                                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
                                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -507,37 +432,10 @@ class PaypalPaymentController extends Controller{
 
                                 $customer = json_decode(curl_exec($ch));
 
-                                    // $get_product_detail2 = [
-                                    //       'searchCriteria' => [
-                                    //           'filterGroups' => [
-                                    //               [
-                                    //                   'filters' => [
-                                    //                       [
-                                    //                           'field' => 'entity_id',
-                                    //                           'value' => $data_product->result->id,
-                                    //                           'condition_type' => 'eq',
-                                    //                       ],
-                                    //                   ],
-                                    //               ],
-                                    //           ],
-                                    //       ],
-                                    //   ];
-                                    // $get_product_detail2['storeId'] = "1";
-                                    // $get_product_detail2['currencyCode'] = "THB";
-                                    // $get_product_page = $get_products2->catalogProductRenderListV1GetList($get_product_detail2);
-
-                                    // if(!empty($get_product_page->result->items->item->priceInfo->finalPrice)){
-                                    //     $price_product_cart = $get_product_page->result->items->item->priceInfo->finalPrice;
-                                    // }
-                                    // if(!empty($data_product->result->price)){
-                                    //     $price_product_cart = $data_product->result->price;
-                                    // }
-
-                                    // $price_main_cart = (int)$price_product_cart;
-
                                     $product = [
                                         "cartItem" => [
                                             "sku"=> $data_product->result->sku,
+                                            // "qty"=> $chk_qty_id[$key_sku_product],
                                             "qty"=> 1,
                                             "name" => $data_product->result->sku,
                                             "price" => $price_products[$key_sku_product],
@@ -546,6 +444,7 @@ class PaypalPaymentController extends Controller{
                                         ]
                                     ];
 
+                                //เก็บสินค้าลงในตะกร้า
                                 $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine/items");
                                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
                                 curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($product));
@@ -554,6 +453,7 @@ class PaypalPaymentController extends Controller{
 
                                 $post_items = json_decode(curl_exec($ch));
 
+                                //update สินค้า
                                 $ch = curl_init("http://128.199.235.248/magento/rest/V1/customers/".$customer->id."/carts");
                                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
                                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -561,113 +461,9 @@ class PaypalPaymentController extends Controller{
 
                                 $create_cart222 = json_decode(curl_exec($ch));
 
-                                // dd($get_product_detail,$get_product_detail2,$price_product_cart,$price_products,$product,$price_main_cart,$post_items,$session_all);
                                 session()->forget('sku_product');
                             }
                         }
-                    // } else {
-                            // $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine");
-                            // curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-                            // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                            // curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
-
-                            // $create_cart = json_decode(curl_exec($ch));
-
-                            // $ch = curl_init("http://128.199.235.248/magento/rest/V1/customers/me");
-                            // curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
-                            // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                            // curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
-
-                            // $customer = json_decode(curl_exec($ch));
-
-                            // $ch = curl_init("http://128.199.235.248/magento/rest/V1/customers/".$customer->id."/carts");
-                            // curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-                            // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                            // curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $token));
-
-                            // $create_cart = json_decode(curl_exec($ch));
-
-                            // $product = [
-                            //     "cartItem" => [
-                            //         "sku"=> $value_sku_products[0],
-                            //         "qty"=> 1,
-                            //         "name" => $value_sku_products[0],
-                            //         "price" => $price_products[0],
-                            //         "product_type" => "simple",
-                            //         "quote_id"=> $create_cart,
-                            //     ]
-                            // ];
-                            // $product = [
-                            //     "cartItem" => [
-                            //         "sku"=> 'HARDEN VOL III -088',
-                            //         "qty"=> 1,
-                            //         "name" => 'HARDEN VOL III -088',
-                            //         "price" => 1500,
-                            //         "product_type" => "configurable",
-                            //         "quote_id"=> $create_cart,
-                            //         "product_option" => [
-                            //             "extension_attributes" => [
-                            //                 "configurable_item_options" => [
-                            //                     [
-                            //                         "option_id" => "135",
-                            //                         "option_value" => "83"
-                            //                     ]
-                            //                 ]
-                            //             ]
-                            //         ]
-                            //     ]
-                            // ];
-
-                            // $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine/items");
-                            // curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-                            // curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($product));
-                            // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                            // curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
-
-                            // $post_items = json_decode(curl_exec($ch));
-
-                            // $ch = curl_init("http://128.199.235.248/magento/rest/V1/customers/".$customer->id."/carts");
-                            // curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-                            // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                            // curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $token));
-
-                            // $create_cart222 = json_decode(curl_exec($ch));
-
-                            // // dd($create_cart,$product,$post_items);
-                            // session()->forget('sku_product');
-
-                            // $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine");
-                            // curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-                            // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                            // curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
-
-                            // $create_cart2 = json_decode(curl_exec($ch));
-
-                            // $product2 = [
-                            //     "cartItem" => [
-                            //         "sku"=> $value_sku_products[0],
-                            //         "qty"=> 1,
-                            //         "name" => $value_sku_products[0],
-                            //         "price" => 800,
-                            //         "product_type" => "simple",
-                            //         "quote_id"=> $create_cart2,
-                            //     ]
-                            // ];
-
-                            // // return $product2;
-
-                            // $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine/items");
-                            // curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-                            // curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($product2));
-                            // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                            // curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
-
-                            // $post_items = json_decode(curl_exec($ch));
-
-                            // dd($product2,$post_items);
-                            // session()->forget('sku_product');
-
-                    // }
                 }
 
             } else {

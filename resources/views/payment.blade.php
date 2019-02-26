@@ -158,6 +158,9 @@
                       <input type="hidden" name="chk_false" id="chk_false">
                       <input type="hidden" name="chk_false_id" id="chk_false_id">
                       <input type="hidden" name="chk_price_id" id="chk_price_id">
+                      <input type="hidden" name="chk_color_id" id="chk_color_id">
+                      <input type="hidden" name="chk_op_color_id" id="chk_op_color_id">
+                      <input type="hidden" name="chk_op_size_id" id="chk_op_size_id">
                   <div class="col-xl-12">
                       <div class="row mt-3 pay-padding">
                           <div class="col-xl-8 col-lg-6 col-md-6 col-12 text-center text-lg-left text-md-left pay-m-l-r">
@@ -170,9 +173,35 @@
                       @if(!empty($cart_customer))
                         @php
                           $sum_price = 0;
+                          $op_color = '';
+                          $color = '';
+                          $op_size = '';
+                          $size = '';
                         @endphp
                       @foreach($cart_customer as $key_cart => $value_cart)
-                      <input type="checkbox" style="width: 50px; height: 20px; position: relative;" class="checkbox chk_product_list" data-price_product="{{ $value_cart->price }}" name="c_cart_product_id[{{$key_cart}}]" id="{{ $value_cart->sku }}" price="{{ $value_cart->price }}" value="{{ $value_cart->item_id }}">
+                        @if(!empty($value_cart->product_option))
+                          @if($value_cart->product_option->extension_attributes->configurable_item_options[0]->option_id == '135')
+                            @php
+                              $op_color = $value_cart->product_option->extension_attributes->configurable_item_options[0]->option_id;
+                              $color = $value_cart->product_option->extension_attributes->configurable_item_options[0]->option_value;
+                            @endphp
+                          @endif
+                          @if($value_cart->product_option->extension_attributes->configurable_item_options[0]->option_id == '93')
+                            @php
+                              $op_size = $value_cart->product_option->extension_attributes->configurable_item_options[0]->option_id;
+                              $size = $value_cart->product_option->extension_attributes->configurable_item_options[0]->option_value;
+                            @endphp
+                          @endif
+                        @else
+                          @php
+                            $op_color = '';
+                            $color = '';
+                            $op_size = '';
+                            $size = '';
+                          @endphp
+                        @endif
+                        <!-- data-qty="{{ $value_cart->qty }}" -->
+                      <input type="checkbox" style="width: 50px; height: 20px; position: relative;" class="checkbox chk_product_list" data-color_product="{{ $color }}" data-color_op_product="{{ $op_color }}" data-size_product="{{ $size }}" data-price_op_product="{{$op_size}}" data-price_product="{{ $value_cart->price }}" name="c_cart_product_id[{{$key_cart}}]" id="{{ $value_cart->sku }}" price="{{ $value_cart->price }}" value="{{ $value_cart->item_id }}">
                       <!-- <input type="text" name="cart_product_id[{{$key_cart}}]" value="{{ $value_cart->item_id }}"> -->
                       <!-- <input type="text" name="chk_false[{{$key_cart}}]" class="chk_false{{$key_cart}}" value=""> -->
                       <div class="row pt-3 pay-padding">
@@ -536,17 +565,36 @@ $('body').on('click','[type=checkbox]',function(){
   var chk_check = [];
   var chk_false_id = [];
   var chk_price_id = [];
+  var chk_color_id = [];
+  // var chk_qty_id = [];
+  var chk_size_id = [];
+  var chk_op_color_id = [];
+  var chk_op_size_id = [];
   var price = $('.chk_product_list').data('price_product');
+  var color = $('.chk_product_list').data('color_product');
+  var size = $('.chk_product_list').data('size_product');
+  // var qty = $('.chk_product_list').data('qty');
+  var op_color = $('.chk_product_list').data('op_color_product');
+  var op_size = $('.chk_product_list').data('op_size_product');
     $.each(cb,function(key,value){
         if(value.checked == false){
           chk_check.push(value.value);
           chk_false_id.push(value.id);
           chk_price_id.push(price);
+          chk_color_id.push(color);
+          // chk_qty_id.push(qty);
+          chk_size_id.push(size);
+          chk_op_color_id.push(op_color);
+          chk_op_size_id.push(op_size);
         }
     });
       $('#chk_false').val(chk_check);
       $('#chk_false_id').val(chk_false_id);
       $('#chk_price_id').val(chk_price_id);
+      $('#chk_color_id').val(chk_color_id);
+      $('#chk_size_id').val(chk_size_id);
+      $('#chk_op_color_id').val(chk_op_color_id);
+      $('#chk_op_size_id').val(chk_op_size_id);
 });
 
 function check_chk(){
@@ -554,14 +602,30 @@ function check_chk(){
     var chk_check = [];
     var chk_false_id = [];
     var chk_price_id = [];
+    var chk_color_id = [];
+    // var chk_qty_id = [];
+    var chk_size_id = [];
+    var chk_op_color_id = [];
+    var chk_op_size_id = [];
     var price = $('.chk_product_list').data('price_product');
+    var color = $('.chk_product_list').data('color_product');
+    var size = $('.chk_product_list').data('size_product');
+    // var qty = $('.chk_product_list').data('qty');
+    var op_color = $('.chk_product_list').data('op_color_product');
+    var op_size = $('.chk_product_list').data('op_size_product');
     $.each(cb,function(key,value){
         if(value.checked == false){
           chk_check.push(value.value);
           chk_false_id.push(value.id);
           chk_price_id.push(price);
+          chk_color_id.push(color);
+          // chk_qty_id.push(qty);
+          chk_size_id.push(size);
+          chk_op_color_id.push(op_color);
+          chk_op_size_id.push(op_size);
         }
     });
+    // return chk_check,chk_false_id,chk_price_id,chk_qty_id;
     return chk_check,chk_false_id,chk_price_id;
 }
 

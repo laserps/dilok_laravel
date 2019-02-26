@@ -17,11 +17,11 @@ class ProductController extends Controller
     }
 
     public function dilok_higlight($id){
-      $data['token_customer'] = '';
-      $data['cart_customer'] = '';
-      $data['color_product'] = '';
-      $data['size_products'] = '';
-      return view('product_details1',$data);
+        $data['token_customer'] = '';
+        $data['cart_customer'] = '';
+        $data['color_product'] = '';
+        $data['size_products'] = '';
+        return view('product_details1',$data);
     }
 
     public function detail($id){
@@ -41,12 +41,17 @@ class ProductController extends Controller
           'cache_wsdl' => WSDL_CACHE_NONE
         );
         try{
+          //เรียกข้อมูลสินค้า
           $get_products = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
+          //เรียกข้อมูลสินค้า
           $get_products2 = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductRenderListV1',$params);
+          //เรียกข้อมูล gallery
           $get_products_gallerys = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductAttributeMediaGalleryManagementV1',$params);
+          //เรียกข้อมูลสี
           $get_color_products = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductAttributeOptionManagementV1',$params);
+          //เรียกข้อมูล option อื่นๆ
           $get_products_option = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=configurableProductOptionRepositoryV1',$params);
-          $get_stock_product = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogInventoryStockRegistryV1',$params);
+          //เรียกหมวดหมู่
           $catalog = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogCategoryManagementV1',$params);
 
           $get_product_detail = [
@@ -120,12 +125,10 @@ class ProductController extends Controller
 
           $option_product_color = array(
             'sku' => $data['products_detail']->result->items->item->sku,
-            // 'id' => 5
             'id' => 7
           );
           $option_product_size = array(
             'sku' => $data['products_detail']->result->items->item->sku,
-            // 'id' => 6
             'id' => 8
           );
 
@@ -139,43 +142,6 @@ class ProductController extends Controller
             $data['product_options'] = '';
           }
 
-
-          // dd($data['product_options']);
-          // exit();
-
-          // foreach($test->result->item as $key_options => $value_options){
-          //   if($value_options->attributeId == '93' && $value_options->label == 'Color'){
-          //     foreach($value_options->values->item as $key_value => $value_value){
-          //       dd($value_value);
-          //     }
-          //   }
-          // }
-
-          // dd($test);
-          // exit();
-
-          // $data['product_option'] = $get_products_option->configurableProductOptionRepositoryV1Get($option_product_color);
-          // $data['product_option_size'] = $get_products_option->configurableProductOptionRepositoryV1Get($option_product_size);
-
-          // @foreach($product_option->result->values->item as $key_product_color => $value_product_color)
-          //   @if($value_product_color->valueIndex == $value_color->value)
-          //     <div class="col-1 mr-2 px-2 mb-2 text-center">
-          //       <button type="button" class="btn color-btn color-active" style="background-color:{{$value_color->label}}"></button>
-          //     </div>
-          //   @endif
-          // @endforeach
-
-          // @foreach($product_option_size->result->values->item as $key_product_size => $value_product_size)
-          //   @if($value_sizes->label != ' ')
-              // @if($value_product_size->valueIndex == $value_sizes->value)
-              //   <div class="col-xl-4 col-6 px-0 size-select @if($value_product_size->valueIndex != $value_sizes->value) {{ 'disabled' }} @endif">
-              //     <span>{{ $value_sizes->label }}</span>
-              //   </div>
-              // @endif
-          //   @endif
-          // @endforeach
-
-          // if(!empty($data['product_option']) || !empty($data['product_option_size'])){
             $get_products_gallery = [
                   'sku' => $data['products_detail']->result->items->item->sku,
               ];
@@ -184,45 +150,21 @@ class ProductController extends Controller
             $data['color_product'] = $get_color_products->catalogProductAttributeOptionManagementV1GetItems($get_color_product);
             $data['size_products'] = $get_color_products->catalogProductAttributeOptionManagementV1GetItems($get_size_products);
 
-            // dd($data['size_products'],$data['product_option_size']);
-            // exit();
-
-            // foreach($data['color_product']->result->item as $key_color => $value_color){
-            //   foreach($data['product_option']->result->values->item as $key_product_color => $value_product_color){
-            //     if($value_color->value != ''){
-            //       if($value_product_color->valueIndex == $value_color->value){
-            //         foreach($data['size_products']->result->item as $key_sizes => $value_sizes){
-            //           foreach($data['product_option_size']->result->values->item as $key_product_size => $value_product_size){
-            //             if($value_sizes->label != ' '){
-            //               if($value_product_size == $value_sizes->value){
-            //                 $get_stock_products = array(
-            //                   'productSku' => $data['products_detail']->result->items->item->sku.'-'.$value_color->label.'-'.$value_sizes->label
-            //                 );
-            //                 // $stock_data = $get_stock_product->catalogInventoryStockRegistryV1GetStockStatusBySku($get_stock_products);
-            //                 $data['stock'][$value_color->label][$value_sizes->label] = $get_stock_product->catalogInventoryStockRegistryV1GetStockStatusBySku($get_stock_products);
-            //               }
-            //             }
-            //           }
-            //         }
-            //       }
-            //     }
-            //   }
-            // }
-          // }
-
         $catalogs = [
             'rootCategoryId' => 1,
         ];
 
-        $userData = array("username" => "customerdilok", "password" => "dilokstore@1234");
-        $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . strlen(json_encode($userData))));
+        $get_session_all = \Session::all();
 
-        $token = json_decode(curl_exec($ch));
+        $token_admin_magento = new HomeController;
 
+        if(!empty($get_session_all['token_admin'])){
+            $token = $get_session_all['token_admin'];
+        } else {
+            $token = $token_admin_magento->login_admin_magento();
+        }
+
+        //เรียกข้อมูล block
         $get_blocks = 'searchCriteria[filter_groups][0][filters][0][field]=is_active&searchCriteria[filter_groups][0][filters][0][value]=1&searchCriteria[filter_groups][0][filters][0][condition_type]=eq&searchCriteria[pageSize]=12&searchCriteria[sortOrders][0][field]=block_id&searchCriteria[sortOrders][0][direction]=DESC';
 
         $ch = curl_init("http://128.199.235.248/magento/rest/V1/cmsBlock/search?".$get_blocks);
@@ -232,10 +174,8 @@ class ProductController extends Controller
 
         $blocks = json_decode(curl_exec($ch));
 
-
-        $get_session_all = \Session::all();
-
         if(!empty($get_session_all['customer_id'])){
+          //เรียกข้อมูล customer
           $ch = curl_init("http://128.199.235.248/magento/rest/V1/customers/me");
           curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
           curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -244,7 +184,7 @@ class ProductController extends Controller
           $result2 = json_decode(curl_exec($ch));
 
           if(empty($result2->parameters)){
-
+            //เรียกข้อมูลตะกร้าสินค้า
             $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine/items");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -254,6 +194,7 @@ class ProductController extends Controller
 
             if(!empty($result3->message)){
               if($result3->message == '%fieldName is a required field.'){
+                    //สร้างตะกร้าสินค้า
                     $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine");
                     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -266,6 +207,7 @@ class ProductController extends Controller
               $data['token_customer'] = $result2;
               $data['cart_customer'] = $result3;
 
+              //เรียกข้อมูลสินค้า
               $get_products = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
 
                 foreach($result3 as $key => $value){
@@ -275,6 +217,7 @@ class ProductController extends Controller
                   $data['product_key'][$key] = $get_products->catalogProductRepositoryV1Get($get_key_product);
                 }
 
+                //เรียก size & color ทั้งหมด
                 $get_type_products = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductAttributeOptionManagementV1',$params);
                 $get_color_product = [
                   'attributeCode' => 'color',
@@ -298,21 +241,6 @@ class ProductController extends Controller
           }
         }
 
-          // if(!empty($stock_data)){
-          //   $data['stock'][$value_color->label][$value_sizes->label] = $stock_data;
-          // } else {
-          //   $data['stock'][$value_color->label][$value_sizes->label] = '';
-          // }
-
-          // $get_stock_products = array(
-          //   'productSku' => 'Nike Roshe One-WHITE-6'
-          // );
-          // dd($get_stock_products);
-          // exit();
-
-
-          // dd($data);
-          // exit();
         $data['category'] = $catalog->catalogCategoryManagementV1GetTree($catalogs);
         $data['blocks'] = $blocks;
         $data['page_title'] = 'ProductDetail';
@@ -340,7 +268,9 @@ class ProductController extends Controller
           'cache_wsdl' => WSDL_CACHE_NONE
         );
         try{
+        //เรียกหมวดหมู่
         $catalog = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogCategoryManagementV1',$params);
+        //เรียกข้อมูลสินค้า
         $get_products = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
         $get_product_page = [
             'searchCriteria' => [
@@ -355,15 +285,17 @@ class ProductController extends Controller
             'rootCategoryId' => 1,
         ];
 
-        $userData = array("username" => "customerdilok", "password" => "dilokstore@1234");
-        $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . strlen(json_encode($userData))));
+        $get_session_all = \Session::all();
 
-        $token = json_decode(curl_exec($ch));
+        $token_admin_magento = new HomeController;
 
+        if(!empty($get_session_all['token_admin'])){
+            $token = $get_session_all['token_admin'];
+        } else {
+            $token = $token_admin_magento->login_admin_magento();
+        }
+
+        //เรียกข้อมูล block
         $get_blocks = 'searchCriteria[filter_groups][0][filters][0][field]=is_active&searchCriteria[filter_groups][0][filters][0][value]=1&searchCriteria[filter_groups][0][filters][0][condition_type]=eq&searchCriteria[pageSize]=12&searchCriteria[sortOrders][0][field]=block_id&searchCriteria[sortOrders][0][direction]=DESC';
 
         $ch = curl_init("http://128.199.235.248/magento/rest/V1/cmsBlock/search?".$get_blocks);
@@ -402,12 +334,17 @@ class ProductController extends Controller
           'cache_wsdl' => WSDL_CACHE_NONE
         );
         try{
+          //เรียกข้อมูลสินค้า
           $get_products = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
+          //เรียกข้อมูลสินค้า
           $get_products2 = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductRenderListV1',$params);
+          //เรียกข้อมูล gallery
           $get_products_gallerys = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductAttributeMediaGalleryManagementV1',$params);
+          //เรียกข้อมูลสี
           $get_color_products = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductAttributeOptionManagementV1',$params);
+          //เรียกข้อมูล option อื่นๆ
           $get_products_option = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=configurableProductOptionRepositoryV1',$params);
-          $get_stock_product = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogInventoryStockRegistryV1',$params);
+          //เรียกหมวดหมู่
           $catalog = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogCategoryManagementV1',$params);
 
           $get_product_detail = [
@@ -510,22 +447,17 @@ class ProductController extends Controller
             'rootCategoryId' => 1,
         ];
 
-        $token = '';
         $get_session_all = \Session::all();
 
-        if(!empty($get_session_all['token_admin'])){
-          $token = $get_session_all['token_admin'];
-        } else {
-          $userData = array("username" => "customerdilok", "password" => "dilokstore@1234");
-          $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
-          curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-          curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
-          curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-          curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . strlen(json_encode($userData))));
+        $token_admin_magento = new HomeController;
 
-          $token = json_decode(curl_exec($ch));
+        if(!empty($get_session_all['token_admin'])){
+            $token = $get_session_all['token_admin'];
+        } else {
+            $token = $token_admin_magento->login_admin_magento();
         }
 
+        //เรียกข้อมูล block
         $get_blocks = 'searchCriteria[filter_groups][0][filters][0][field]=is_active&searchCriteria[filter_groups][0][filters][0][value]=1&searchCriteria[filter_groups][0][filters][0][condition_type]=eq&searchCriteria[pageSize]=12&searchCriteria[sortOrders][0][field]=block_id&searchCriteria[sortOrders][0][direction]=DESC';
 
         $ch = curl_init("http://128.199.235.248/magento/rest/V1/cmsBlock/search?".$get_blocks);
@@ -536,6 +468,7 @@ class ProductController extends Controller
         $blocks = json_decode(curl_exec($ch));
 
         if(!empty($get_session_all['customer_id'])){
+          //เรียกข้อมูล customer
           $ch = curl_init("http://128.199.235.248/magento/rest/V1/customers/me");
           curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
           curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -544,7 +477,7 @@ class ProductController extends Controller
           $result2 = json_decode(curl_exec($ch));
 
           if(empty($result2->parameters)){
-
+            //เรียกข้อมูลตะกร้าสินค้า
             $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine/items");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -554,6 +487,7 @@ class ProductController extends Controller
 
             if(!empty($result3->message)){
               if($result3->message == '%fieldName is a required field.'){
+                    //สร้างตะกร้าสินค้า
                     $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine");
                     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -566,6 +500,7 @@ class ProductController extends Controller
               $data['token_customer'] = $result2;
               $data['cart_customer'] = $result3;
 
+              //เรียกข้อมูลสินค้า
               $get_products = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
 
                 foreach($result3 as $key => $value){
@@ -575,6 +510,7 @@ class ProductController extends Controller
                   $data['product_key'][$key] = $get_products->catalogProductRepositoryV1Get($get_key_product);
                 }
 
+                //เรียก size & color ทั้งหมด
                 $get_type_products = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductAttributeOptionManagementV1',$params);
                 $get_color_product = [
                   'attributeCode' => 'color',
@@ -598,21 +534,6 @@ class ProductController extends Controller
           }
         }
 
-          // if(!empty($stock_data)){
-          //   $data['stock'][$value_color->label][$value_sizes->label] = $stock_data;
-          // } else {
-          //   $data['stock'][$value_color->label][$value_sizes->label] = '';
-          // }
-
-          // $get_stock_products = array(
-          //   'productSku' => 'Nike Roshe One-WHITE-6'
-          // );
-          // dd($get_stock_products);
-          // exit();
-
-
-          // dd($data);
-          // exit();
         $data['category'] = $catalog->catalogCategoryManagementV1GetTree($catalogs);
         $data['blocks'] = $blocks;
         $data['page_title'] = 'ProductDetail';
@@ -651,25 +572,24 @@ class ProductController extends Controller
           'cache_wsdl' => WSDL_CACHE_NONE
       );
 
+      //เรียกหมวดหมู่
       $catalog = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogCategoryManagementV1',$params);
 
       $catalogs = [
           'rootCategoryId' => 1,
       ];
 
-      if(!empty($get_session_all['token_admin'])){
-        $token = $get_session_all['token_admin'];
-      } else {
-        $userData = array("username" => "customerdilok", "password" => "dilokstore@1234");
-        $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . strlen(json_encode($userData))));
+      $get_session_all = \Session::all();
 
-        $token = json_decode(curl_exec($ch));
+      $token_admin_magento = new HomeController;
+
+      if(!empty($get_session_all['token_admin'])){
+          $token = $get_session_all['token_admin'];
+      } else {
+          $token = $token_admin_magento->login_admin_magento();
       }
 
+      //เรียกข้อมูล block
       $get_blocks = 'searchCriteria[filter_groups][0][filters][0][field]=is_active&searchCriteria[filter_groups][0][filters][0][value]=1&searchCriteria[filter_groups][0][filters][0][condition_type]=eq&searchCriteria[pageSize]=12&searchCriteria[sortOrders][0][field]=block_id&searchCriteria[sortOrders][0][direction]=DESC';
 
       $ch = curl_init("http://128.199.235.248/magento/rest/V1/cmsBlock/search?".$get_blocks);
@@ -679,8 +599,8 @@ class ProductController extends Controller
 
       $blocks = json_decode(curl_exec($ch));
 
-      $get_session_all = \Session::all();
         if(!empty($get_session_all['customer_id'])){
+            //เรียกข้อมูล customer
             $ch = curl_init("http://128.199.235.248/magento/rest/V1/customers/me");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -689,22 +609,22 @@ class ProductController extends Controller
             $result2 = curl_exec($ch);
 
             if(!empty(json_decode($result2)->id)){
+              //เรียกข้อมูลตะกร้าสินค้า
+              $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine/items");
+              curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+              curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+              curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
 
-            $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine/items");
-            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
-
-            $result3 = json_decode(curl_exec($ch));
+              $result3 = json_decode(curl_exec($ch));
 
             if(empty($result3->parameters)) {
+              //เรียกตะกร้า
+              $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine");
+              curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+              curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+              curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
 
-            $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine");
-            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
-
-            $get_cart = json_decode(curl_exec($ch));
+              $get_cart = json_decode(curl_exec($ch));
 
             $opts = array(
                 'ssl' => array('ciphers'=>'RC4-SHA', 'verify_peer'=>false, 'verify_peer_name'=>false)
@@ -722,7 +642,9 @@ class ProductController extends Controller
               'cache_wsdl' => WSDL_CACHE_NONE
             );
 
+            //เรียกข้อมูลสินค้า
             $get_products = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
+            //เรียกข้อมูลสินค้า
             $get_products2 = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductRenderListV1',$params);
             $get_product_page = [
                 'searchCriteria' => [
@@ -763,8 +685,6 @@ class ProductController extends Controller
             $get_product_page['storeId'] = "1";
             $get_product_page['currencyCode'] = "THB";
 
-            $get_products = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
-
             foreach($result3 as $key => $value){
               $get_key_product = array(
                 'sku' => $value->sku
@@ -773,6 +693,7 @@ class ProductController extends Controller
               $data['product_key'][$key] = $get_products->catalogProductRepositoryV1Get($get_key_product);
             }
 
+            //เรียก size & color ทั้งหมด
             $get_type_products = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductAttributeOptionManagementV1',$params);
 
             $get_color_product = [
@@ -883,18 +804,18 @@ class ProductController extends Controller
     }
 
     public function payment_order(Request $request){
-      $userData = array("username" => "customerdilok", "password" => "dilokstore@1234");
-      $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
-      curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-      curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
-      curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-      curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . strlen(json_encode($userData))));
-
-      $token = json_decode(curl_exec($ch));
-
       $get_session_all = \Session::all();
 
+      $token_admin_magento = new HomeController;
+
+      if(!empty($get_session_all['token_admin'])){
+          $token = $get_session_all['token_admin'];
+      } else {
+          $token = $token_admin_magento->login_admin_magento();
+      }
+
       if(!empty($get_session_all['customer_id'])){
+          //เรียกข้อมูล bill
           $ch = curl_init("http://128.199.235.248/magento/rest/V1/customers/addresses/".$request->data_billing."");
           curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
           curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -902,13 +823,13 @@ class ProductController extends Controller
 
           $address_bill = json_decode(curl_exec($ch));
 
+          //เรียกข้อมูล shipping
           $ch = curl_init("http://128.199.235.248/magento/rest/V1/customers/addresses/".$request->data_shipping."");
           curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
           curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
           curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $token));
 
           $address_shipping = json_decode(curl_exec($ch));
-
 
           dd($address_bill,$address_shipping);
           exit();
@@ -936,13 +857,6 @@ class ProductController extends Controller
             curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . json_decode($token)));
 
             $result3 = json_decode(curl_exec($ch));
-
-              // $ch = curl_init("http://128.199.235.248/magento/rest/V1/products/Nike Air Span II SE-BLACK-6");
-              // curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
-              // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-              // curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . json_decode($token)));
-
-              // $result4 = json_decode(curl_exec($ch));
 
             $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine/payment-information");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");

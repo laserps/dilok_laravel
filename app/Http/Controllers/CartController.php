@@ -23,14 +23,15 @@ class CartController extends Controller
      */
     public function create(Request $request)
     {
-        $userData = array("username" => "customerdilok", "password" => "dilokstore@1234");
-        $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . strlen(json_encode($userData))));
+        $get_session_all = \Session::all();
 
-        $token_admin = json_decode(curl_exec($ch));
+        $token_admin_magento = new HomeController;
+
+        if(!empty($get_session_all['token_admin'])){
+            $token = $get_session_all['token_admin'];
+        } else {
+            $token = $token_admin_magento->login_admin_magento();
+        }
 
         $text_color_product = $request->input('text_color_product');
         $text_size_product = $request->input('text_size_product');
@@ -40,16 +41,9 @@ class CartController extends Controller
         $text_valuesize_product = $request->input('text_valuesize_product');
         $text_type_product = $request->input('text_type_product');
 
-        $get_session_all = \Session::all();
-
-        $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine");
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
-
         try {
             if(!empty($get_session_all['customer_id'])){
-                // if($text_color_product != '' && $text_size_product != '' && $text_name_product != '' && $text_price_product != '' && $text_valuecolor_product != '' && $text_valuesize_product != ''){
+                    //เรียกข้อมูล customer
                     $ch = curl_init("http://128.199.235.248/magento/rest/V1/customers/me");
                     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -57,24 +51,13 @@ class CartController extends Controller
 
                     $customer = json_decode(curl_exec($ch));
 
+                    //เรียกข้อมูลตะกร้าสินค้า
                     $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine");
                     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                     curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
 
                     $create_cart = json_decode(curl_exec($ch));
-
-                    // $ch = curl_init("http://128.199.235.248/magento/rest/V1/customers/".$customer->id."/carts");
-                    // curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-                    // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                    // curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $token_admin));
-
-                    // $create_cart = json_decode(curl_exec($ch));
-
-                    // print_r($create_cart);
-                    // exit();
-                    // return $text_type_product;
-                    // exit();
 
                     if($text_type_product == 'configurable'){
                         if(!empty($text_valuecolor_product) && !empty($text_valuesize_product)){
@@ -158,10 +141,7 @@ class CartController extends Controller
                         ];
                     }
 
-                    // return $product;
-                    // exit();
-
-
+                    //เอาสินค้าลงตะกร้า
                     $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine/items");
                     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
                     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($product));
@@ -181,10 +161,6 @@ class CartController extends Controller
                         $return['content'] = 'เพิ่มสินค้าสำเร็จ';
                     }
 
-                // } else {
-                //     $return['status'] = 0;
-                //     $return['content'] = 'กรุณาเลือกประเภทสินค้าให้ถูกต้อง';
-                // }
             } else {
                 \Session::flush();
                 $return['status'] = 2;

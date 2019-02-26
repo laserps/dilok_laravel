@@ -30,40 +30,41 @@ class RegistController extends Controller
                 'cache_wsdl' => WSDL_CACHE_NONE
             );
 
+            //เรียกหมวดหมู่
             $catalog = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogCategoryManagementV1',$params);
 
             $catalogs = [
                 'rootCategoryId' => 1,
             ];
 
-            $userData = array("username" => "customerdilok", "password" => "dilokstore@1234");
-            $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
-            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . strlen(json_encode($userData))));
+            $get_session_all = \Session::all();
 
-            $token_admin = json_decode(curl_exec($ch));
+            $token_admin_magento = new HomeController;
 
+            if(!empty($get_session_all['token_admin'])){
+                $token = $get_session_all['token_admin'];
+            } else {
+                $token = $token_admin_magento->login_admin_magento();
+            }
+
+            //เรียกข้อมูล block
             $get_blocks = 'searchCriteria[filter_groups][0][filters][0][field]=is_active&searchCriteria[filter_groups][0][filters][0][value]=1&searchCriteria[filter_groups][0][filters][0][condition_type]=eq&searchCriteria[pageSize]=12&searchCriteria[sortOrders][0][field]=block_id&searchCriteria[sortOrders][0][direction]=DESC';
 
             $ch = curl_init("http://128.199.235.248/magento/rest/V1/cmsBlock/search?".$get_blocks);
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $token_admin));
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $token));
 
             $blocks = json_decode(curl_exec($ch));
 
             $ch = curl_init("http://128.199.235.248/magento/rest/V1/directory/countries");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . $token_admin));
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . $token));
 
             $result = json_decode(curl_exec($ch));
 
             $data['countries'] = $result;
-
-            $get_session_all = \Session::all();
 
             if(!empty($get_session_all['customer_id'])){
                 return redirect('/');
@@ -99,40 +100,42 @@ class RegistController extends Controller
                 'cache_wsdl' => WSDL_CACHE_NONE
             );
 
+            //เรียกหมวดหมู่
             $catalog = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogCategoryManagementV1',$params);
 
             $catalogs = [
                 'rootCategoryId' => 1,
             ];
 
-            $userData = array("username" => "customerdilok", "password" => "dilokstore@1234");
-            $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
-            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . strlen(json_encode($userData))));
+            $get_session_all = \Session::all();
 
-            $token_admin = json_decode(curl_exec($ch));
+            $token_admin_magento = new HomeController;
 
+            if(!empty($get_session_all['token_admin'])){
+                $token = $get_session_all['token_admin'];
+            } else {
+                $token = $token_admin_magento->login_admin_magento();
+            }
+
+            //เรียกข้อมูล block
             $get_blocks = 'searchCriteria[filter_groups][0][filters][0][field]=is_active&searchCriteria[filter_groups][0][filters][0][value]=1&searchCriteria[filter_groups][0][filters][0][condition_type]=eq&searchCriteria[pageSize]=12&searchCriteria[sortOrders][0][field]=block_id&searchCriteria[sortOrders][0][direction]=DESC';
 
             $ch = curl_init("http://128.199.235.248/magento/rest/V1/cmsBlock/search?".$get_blocks);
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $token_admin));
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $token));
 
             $blocks = json_decode(curl_exec($ch));
 
+            //เรียกข้อมูล countries
             $ch = curl_init("http://128.199.235.248/magento/rest/V1/directory/countries");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . $token_admin));
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . $token));
 
             $result = json_decode(curl_exec($ch));
 
             $data['countries'] = $result;
-
-            $get_session_all = \Session::all();
 
             if(!empty($get_session_all['customer_id'])){
                 return redirect('/');

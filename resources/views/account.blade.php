@@ -31,9 +31,9 @@
                   <span>PERSONAL INFO</span>
                 </div>
                 <!-- <a href="#" class="account-edit btn_edit_account" data-btn_customer_id="{{ $token_customer->id }}" data-toggle="modal" data-target="#edit_new_address">Edit</a> -->
-                <a href="#" class="account-edit btn_edit_account" data-btn_customer_id="{{ $token_customer->id }}">Edit</a>
                 <div class="col-12 px-0 my-3">
                   <div class="card account-card">
+                      <a href="#" class="account-edit btn_edit_account" data-btn_customer_id="{{ $token_customer->id }}">Edit</a>
                     <div class="card-body account-line-height text-md-left text-center">
                         <div><span>Fristname : {{ $token_customer->firstname }}</span></div>
                         <div><span>Lastname : {{ $token_customer->lastname }}</span></div>
@@ -307,8 +307,6 @@
               </div>
             </div>
 
-
-
           <!-- #Modal EDIT NEW ADDRESS -->
             <div class="modal fade px-0" id="edit_new_address" role="dialog" aria-labelledby="edit_new_address" aria-hidden="true">
               <div class="modal-dialog account-modal-dialog " role="document">
@@ -456,7 +454,6 @@ $('body').on('click','#btn-add-address',function(){
 
 $('body').on('click','.btn_edit_account',function(){
     var customer_id = $(this).data('btn_customer_id');
-
       $.ajax({
           method : "GET",
           url : url_gb+"/page_edit_account/"+customer_id,

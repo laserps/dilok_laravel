@@ -79,15 +79,17 @@ class CustomerController extends Controller
                     "password" => $request->input('password'),
                 ];
 
-                $admin_token = array("username" => "customerdilok", "password" => "dilokstore@1234");
-                $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
-                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-                curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($admin_token));
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . strlen(json_encode($admin_token))));
+                $get_session_all = \Session::all();
 
-                $token = json_decode(curl_exec($ch));
+                $token_admin_magento = new HomeController;
 
+                if(!empty($get_session_all['token_admin'])){
+                    $token = $get_session_all['token_admin'];
+                } else {
+                    $token = $token_admin_magento->login_admin_magento();
+                }
+
+                //เรียกข้อมูล customer
                 $chch = curl_init("http://128.199.235.248/magento/rest/all/V1/customers");
                 curl_setopt($chch, CURLOPT_CUSTOMREQUEST, "POST");
                 curl_setopt($chch, CURLOPT_POSTFIELDS, json_encode($value));
@@ -126,26 +128,24 @@ class CustomerController extends Controller
     public function store(Request $request , $id)
     {
       try{
-        $userData = array("username" => "customerdilok", "password" => "dilokstore@1234");
-        $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . strlen(json_encode($userData))));
-
-        $token = json_decode(curl_exec($ch));
-
         $get_session_all = \Session::all();
 
+        $token_admin_magento = new HomeController;
+
+        if(!empty($get_session_all['token_admin'])){
+            $token = $get_session_all['token_admin'];
+        } else {
+            $token = $token_admin_magento->login_admin_magento();
+        }
+
         if(!empty($get_session_all['customer_id'])){
+                //เรียกข้อมูล customer
                 $ch = curl_init("http://128.199.235.248/magento/rest/V1/customers/me");
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                 curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
 
                 $result2 = json_decode(curl_exec($ch));
-
-                // $data['token_customer'] = $result2;
 
                 foreach($result2->addresses as $key => $value){
                     if(!empty($value->company)){
@@ -158,9 +158,9 @@ class CustomerController extends Controller
                             "id" => $value->id,
                             "customer_id" => $value->customer_id,
                             "region" => [
-                              "region_code" => $value->region->region_code,
-                              "region" => $value->region->region,
-                              "region_id" => $value->region->region_id,
+                                "region_code" => $value->region->region_code,
+                                "region" => $value->region->region,
+                                "region_id" => $value->region->region_id,
                             ],
                             "region_id" => $value->region_id,
                             "country_id" => $value->country_id,
@@ -194,7 +194,7 @@ class CustomerController extends Controller
                         "city" => $request->input('city'),
                         "firstname" => $request->input('firstname'),
                         "lastname" => $request->input('lastname'),
-                ];
+                    ];
 
                 $value = [
                     "customer" => [
@@ -218,6 +218,7 @@ class CustomerController extends Controller
                 $return['content'] = 'กรุณาล็อกอินเข้าสู่ระบบ';
             }
 
+        //แก้ไขข้อมูล customer
         $chch = curl_init("http://128.199.235.248/magento/rest/all/V1/customers/me");
         curl_setopt($chch, CURLOPT_CUSTOMREQUEST, "PUT");
         curl_setopt($chch, CURLOPT_POSTFIELDS, json_encode($value));
@@ -225,9 +226,6 @@ class CustomerController extends Controller
         curl_setopt($chch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
 
         $result = json_decode(curl_exec($chch));
-
-        // dd($result);
-        // exit();
 
         $return['status'] = 1;
         $return['customer'] = $result;
@@ -251,15 +249,17 @@ class CustomerController extends Controller
     public function show($id)
     {
         try {
-            $userData = array("username" => "customerdilok", "password" => "dilokstore@1234");
-            $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
-            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . strlen(json_encode($userData))));
+            $get_session_all = \Session::all();
 
-            $token = json_decode(curl_exec($ch));
+            $token_admin_magento = new HomeController;
 
+            if(!empty($get_session_all['token_admin'])){
+                $token = $get_session_all['token_admin'];
+            } else {
+                $token = $token_admin_magento->login_admin_magento();
+            }
+
+            //เรียกข้อมูล customer
             $chch = curl_init("http://128.199.235.248/magento/rest/all/V1/customers/".$id."");
             curl_setopt($chch, CURLOPT_CUSTOMREQUEST, "GET");
             curl_setopt($chch, CURLOPT_RETURNTRANSFER, true);
@@ -306,21 +306,22 @@ class CustomerController extends Controller
             "password" => $request->input('password'),
         ];
 
-        $userData = array("username" => "customerdilok", "password" => "dilokstore@1234");
-        $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . strlen(json_encode($userData))));
+        $get_session_all = \Session::all();
 
-        $token = curl_exec($ch);
+        $token_admin_magento = new HomeController;
 
+        if(!empty($get_session_all['token_admin'])){
+            $token = $get_session_all['token_admin'];
+        } else {
+            $token = $token_admin_magento->login_admin_magento();
+        }
 
+        //แก้ไขข้อมูล customer
         $chch = curl_init("http://128.199.235.248/magento/rest/all/V1/customers/".$id."");
         curl_setopt($chch, CURLOPT_CUSTOMREQUEST, "PUT");
         curl_setopt($chch, CURLOPT_POSTFIELDS, json_encode($value));
         curl_setopt($chch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($chch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . json_decode($token)));
+        curl_setopt($chch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $token));
 
         $result = curl_exec($chch);
 
@@ -360,15 +361,15 @@ class CustomerController extends Controller
         try {
             $get_session_all = \Session::all();
 
-            $userData = array("username" => "customerdilok", "password" => "dilokstore@1234");
-            $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
-            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . strlen(json_encode($userData))));
+            $token_admin_magento = new HomeController;
 
-            $token = json_decode(curl_exec($ch));
+            if(!empty($get_session_all['token_admin'])){
+                $token = $get_session_all['token_admin'];
+            } else {
+                $token = $token_admin_magento->login_admin_magento();
+            }
 
+            //ลบข้อมูลที่อยู่
             $ch = curl_init("http://128.199.235.248/magento/rest/V1/addresses/".$id."");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "delete");
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -414,15 +415,15 @@ class CustomerController extends Controller
 
             $get_session_all = \Session::all();
 
-            $userData = array("username" => "customerdilok", "password" => "dilokstore@1234");
-            $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
-            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . strlen(json_encode($userData))));
+            $token_admin_magento = new HomeController;
 
-            $token = json_decode(curl_exec($ch));
+            if(!empty($get_session_all['token_admin'])){
+                $token = $get_session_all['token_admin'];
+            } else {
+                $token = $token_admin_magento->login_admin_magento();
+            }
 
+            //เรียกข้อมูล countries
             $ch = curl_init("http://128.199.235.248/magento/rest/V1/directory/countries");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -430,6 +431,7 @@ class CustomerController extends Controller
 
             $result = json_decode(curl_exec($ch));
 
+            //เรียกข้อมูล block
             $get_blocks = 'searchCriteria[filter_groups][0][filters][0][field]=is_active&searchCriteria[filter_groups][0][filters][0][value]=1&searchCriteria[filter_groups][0][filters][0][condition_type]=eq&searchCriteria[pageSize]=12&searchCriteria[sortOrders][0][field]=block_id&searchCriteria[sortOrders][0][direction]=DESC';
 
             $ch = curl_init("http://128.199.235.248/magento/rest/V1/cmsBlock/search?".$get_blocks);
@@ -442,6 +444,7 @@ class CustomerController extends Controller
             $data['countries'] = $result;
 
             if(!empty($get_session_all['customer_id'])){
+                //เรียกข้อมูล customer
                 $ch = curl_init("http://128.199.235.248/magento/rest/V1/customers/me");
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -450,6 +453,7 @@ class CustomerController extends Controller
                 $result2 = json_decode(curl_exec($ch));
 
                 if(!empty($result2->id)){
+                    //เรียกข้อมูลตะกร้าสินค้า
                     $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine/items");
                     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -458,7 +462,7 @@ class CustomerController extends Controller
                     $result3 = json_decode(curl_exec($ch));
 
                     if(empty($result3->parameters)) {
-
+                        //เรียกตะกร้า
                         $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine");
                         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
                         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -532,7 +536,7 @@ class CustomerController extends Controller
 
                             $data['product_key'][$key] = $get_products->catalogProductRepositoryV1Get($get_key_product);
                         }
-
+                        //เรียก size & color ทั้งหมด
                         $get_type_products = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductAttributeOptionManagementV1',$params);
 
                         $get_color_product = [
@@ -586,24 +590,27 @@ class CustomerController extends Controller
                 'password' => $request->input('password_login')
             );
 
-            $userData = array("username" => "customerdilok", "password" => "dilokstore@1234");
-            $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
-            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . strlen(json_encode($userData))));
+            $get_session_all = \Session::all();
 
-            $token = curl_exec($ch);
+            $token_admin_magento = new HomeController;
 
+            if(!empty($get_session_all['token_admin'])){
+                $token = $get_session_all['token_admin'];
+            } else {
+                $token = $token_admin_magento->login_admin_magento();
+            }
+
+            //login customer
             $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/customer/token");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
             curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($login_customers));
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . json_decode($token)));
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $token));
 
             $result = curl_exec($ch);
 
             if(empty(json_decode($result)->message)){
+                //เรียกข้อมูล customer
                 $ch = curl_init("http://128.199.235.248/magento/rest/V1/customers/me");
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -611,9 +618,7 @@ class CustomerController extends Controller
 
                 $result2 = curl_exec($ch);
 
-                // \Session::put(json_decode($result2)->id, json_decode($result));
                 $request->session()->put('customer_id', json_decode($result));
-                $request->session()->put('token_admin', json_decode($token));
 
                 $return['status'] = 1;
                 $return['login'] = $result2;
@@ -640,18 +645,18 @@ class CustomerController extends Controller
 
     public function get_billing($id_address){
         try{
-            $userData = array("username" => "customerdilok", "password" => "dilokstore@1234");
-            $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
-            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . strlen(json_encode($userData))));
+            $get_session_all = \Session::all();
 
-            $token = json_decode(curl_exec($ch));
+            $token_admin_magento = new HomeController;
 
-        $get_session_all = \Session::all();
+            if(!empty($get_session_all['token_admin'])){
+                $token = $get_session_all['token_admin'];
+            } else {
+                $token = $token_admin_magento->login_admin_magento();
+            }
 
         if(!empty($get_session_all['customer_id'])){
+            //เรียกข้อมูล customer
             $ch = curl_init("http://128.199.235.248/magento/rest/V1/customers/me");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -659,6 +664,7 @@ class CustomerController extends Controller
 
             $result2 = json_decode(curl_exec($ch));
 
+            //เรียกข้อมูลที่อยู่
             $ch = curl_init("http://128.199.235.248/magento/rest/V1/customers/addresses/".$id_address."");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -685,15 +691,17 @@ class CustomerController extends Controller
 
     public function show_edit_address($id_address){
         try {
-            $userData = array("username" => "customerdilok", "password" => "dilokstore@1234");
-            $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
-            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . strlen(json_encode($userData))));
+            $get_session_all = \Session::all();
 
-            $token = json_decode(curl_exec($ch));
+            $token_admin_magento = new HomeController;
 
+            if(!empty($get_session_all['token_admin'])){
+                $token = $get_session_all['token_admin'];
+            } else {
+                $token = $token_admin_magento->login_admin_magento();
+            }
+
+            //เรียกข้อมูลที่อยู่
             $chch = curl_init("http://128.199.235.248/magento/rest/all/V1/customers/addresses/".$id_address."");
             curl_setopt($chch, CURLOPT_CUSTOMREQUEST, "GET");
             curl_setopt($chch, CURLOPT_RETURNTRANSFER, true);
@@ -715,25 +723,24 @@ class CustomerController extends Controller
 
     public function edit_address_customer($id_address,Request $request){
         try{
-        $userData = array("username" => "customerdilok", "password" => "dilokstore@1234");
-        $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . strlen(json_encode($userData))));
+            $get_session_all = \Session::all();
 
-        $token = json_decode(curl_exec($ch));
+            $token_admin_magento = new HomeController;
 
-        $get_session_all = \Session::all();
+            if(!empty($get_session_all['token_admin'])){
+                $token = $get_session_all['token_admin'];
+            } else {
+                $token = $token_admin_magento->login_admin_magento();
+            }
 
-        if(!empty($get_session_all['customer_id'])){
+            if(!empty($get_session_all['customer_id'])){
+                //เรียกข้อมูล customer
                 $ch = curl_init("http://128.199.235.248/magento/rest/V1/customers/me");
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                 curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
 
                 $result2 = json_decode(curl_exec($ch));
-
 
                 foreach($result2->addresses as $key => $value){
                     if(!empty($value->company)){
@@ -745,9 +752,9 @@ class CustomerController extends Controller
                             "id" => $value->id,
                             "customer_id" => $value->customer_id,
                             "region" => [
-                              "region_code" => $value->region->region_code,
-                              "region" => $value->region->region,
-                              "region_id" => $value->region->region_id,
+                                "region_code" => $value->region->region_code,
+                                "region" => $value->region->region,
+                                "region_id" => $value->region->region_id,
                             ],
                             "region_id" => $value->region_id,
                             "country_id" => $value->country_id,
@@ -781,7 +788,7 @@ class CustomerController extends Controller
                         "city" => $request->input('city'),
                         "firstname" => $request->input('firstname'),
                         "lastname" => $request->input('lastname'),
-                ];
+                    ];
 
                 $value = [
                     "customer" => [
@@ -799,16 +806,13 @@ class CustomerController extends Controller
                     ],
                 ];
 
-
-                // dd($value);
-                // exit();
-
             } else {
                 \Session::flush();
                 $return['status'] = 2;
                 $return['content'] = 'กรุณาล็อกอินเข้าสู่ระบบ';
             }
 
+        //แก้ไขข้อมูล customer
         $chch = curl_init("http://128.199.235.248/magento/rest/all/V1/customers/me");
         curl_setopt($chch, CURLOPT_CUSTOMREQUEST, "PUT");
         curl_setopt($chch, CURLOPT_POSTFIELDS, json_encode($value));
@@ -816,9 +820,6 @@ class CustomerController extends Controller
         curl_setopt($chch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
 
         $result = json_decode(curl_exec($chch));
-
-        // dd($result);
-        // exit();
 
         $return['status'] = 1;
         $return['customer'] = $result;

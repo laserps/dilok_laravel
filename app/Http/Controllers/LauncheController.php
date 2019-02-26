@@ -30,6 +30,7 @@ class LauncheController extends Controller
         );
 
         try{
+            //เรียก size & color ทั้งหมด
             $get_type_products = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductAttributeOptionManagementV1',$params);
 
             $get_size_products = [
@@ -43,6 +44,7 @@ class LauncheController extends Controller
         $get_session_all = \Session::all();
 
             if(!empty($get_session_all['customer_id'])){
+                //เรียกข้อมูล customer
                 $ch = curl_init("http://128.199.235.248/magento/rest/V1/customers/me");
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -51,7 +53,7 @@ class LauncheController extends Controller
                 $customer_me = json_decode(curl_exec($ch));
 
                 if(empty($customer_me->parameters)){
-
+                    //เรียกข้อมูลตะกร้าสินค้า
                     $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine/items");
                     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -65,6 +67,7 @@ class LauncheController extends Controller
                         $data['login'] = $customer_me;
                         $data['cart_customer'] = $customer_item;
 
+                        //เรียกข้อมูลสินค้า
                         $get_products = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
 
                             foreach($customer_item as $key => $value){
@@ -118,7 +121,9 @@ class LauncheController extends Controller
           'cache_wsdl' => WSDL_CACHE_NONE
         );
         try{
+        //เรียกข้อมูลสินค้า
         $get_products = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
+        //เรียกข้อมูลสินค้า
         $get_products2 = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductRenderListV1',$params);
 
         $get_product_page = [
@@ -160,6 +165,7 @@ class LauncheController extends Controller
         $get_product_page['storeId'] = "1";
         $get_product_page['currencyCode'] = "THB";
 
+        //เรียก size & color ทั้งหมด
         $get_type_products = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductAttributeOptionManagementV1',$params);
 
             $get_size_products = [
@@ -173,6 +179,7 @@ class LauncheController extends Controller
         $get_session_all = \Session::all();
 
         if(!empty($get_session_all['customer_id'])){
+            //เรีขกข้อมูล customer
             $ch = curl_init("http://128.199.235.248/magento/rest/V1/customers/me");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -181,7 +188,7 @@ class LauncheController extends Controller
             $customer_me = json_decode(curl_exec($ch));
 
             if(empty($customer_me->parameters)){
-
+                //เรียกข้อมูลตะกร้าสินค้า
                 $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine/items");
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -195,6 +202,7 @@ class LauncheController extends Controller
                     $data['login'] = $customer_me;
                     $data['cart_customer'] = $result3;
 
+                    //เรียกข้อมูลสินค้า
                     $get_products = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
 
                         foreach($result3 as $key => $value){

@@ -29,6 +29,7 @@ class FilterController extends Controller
             'cache_wsdl' => WSDL_CACHE_NONE
         );
 
+        //เรียกหมวดหมู่
         $catalog = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogCategoryManagementV1',$params);
         $catalogs = [
             'rootCategoryId' => 1,
@@ -192,12 +193,11 @@ class FilterController extends Controller
             //     }
             // }
 
-            // dd($gender);
-            // exit();
-
-            $catalog = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogCategoryManagementV1',$params);
+            //เรียกข้อมูลสินค้า
             $get_products = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
+            //เรียกข้อมูลสินค้า
             $get_products2 = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductRenderListV1',$params);
+            //เรียก size & color ทั้งหมด
             $get_type_products = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductAttributeOptionManagementV1',$params);
 
                 $get_product_page = [
@@ -247,9 +247,6 @@ class FilterController extends Controller
                 $get_product_page['storeId'] = "1";
                 $get_product_page['currencyCode'] = "THB";
 
-                // dd($get_product_page);
-                // exit();
-
             $catalogs = [
                 'rootCategoryId' => 1,
             ];
@@ -274,15 +271,17 @@ class FilterController extends Controller
                 'attributeCode' => 'highlight',
             ];
 
-            $userData = array("username" => "customerdilok", "password" => "dilokstore@1234");
-            $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
-            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . strlen(json_encode($userData))));
+            $get_session_all = \Session::all();
 
-            $token = json_decode(curl_exec($ch));
+            $token_admin_magento = new HomeController;
 
+            if(!empty($get_session_all['token_admin'])){
+                $token = $get_session_all['token_admin'];
+            } else {
+                $token = $token_admin_magento->login_admin_magento();
+            }
+
+            //เรียกข้อมูล block
             $get_blocks = 'searchCriteria[filter_groups][0][filters][0][field]=is_active&searchCriteria[filter_groups][0][filters][0][value]=1&searchCriteria[filter_groups][0][filters][0][condition_type]=eq&searchCriteria[pageSize]=12&searchCriteria[sortOrders][0][field]=block_id&searchCriteria[sortOrders][0][direction]=DESC';
 
             $ch = curl_init("http://128.199.235.248/magento/rest/V1/cmsBlock/search?".$get_blocks);
@@ -292,9 +291,8 @@ class FilterController extends Controller
 
             $blocks = json_decode(curl_exec($ch));
 
-            $get_session_all = \Session::all();
-
         if(!empty($get_session_all['customer_id'])){
+            //เรียกข้อมูล customer
             $ch = curl_init("http://128.199.235.248/magento/rest/V1/customers/me");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -303,7 +301,7 @@ class FilterController extends Controller
             $customer_me = json_decode(curl_exec($ch));
 
             if(empty($customer_me->parameters)){
-
+                //เรียกข้อมูลตะกร้าสินค้า
                 $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine/items");
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -317,6 +315,7 @@ class FilterController extends Controller
                     $data['login'] = $customer_me;
                     $data['cart_customer'] = $customer_item;
 
+                    //เรียกข้อมูลสินค้า
                     $get_products = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
 
                         foreach($customer_item as $key => $value){
@@ -619,10 +618,9 @@ class FilterController extends Controller
                 array_push($main_array, $highlight);
         }
 
-        // dd($colorproduct,$highlight);
-        // exit();
-
+        //เรียกข้อมูลสินค้า
         $get_products = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
+        //เรียกข้อมูลสินค้า
         $get_products2 = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductRenderListV1',$params);
 
             if(!empty($input_all['gender']) || !empty($input_all['brand']) || !empty($input_all['size']) || !empty($input_all['colorproduct']) || !empty($input_all['highlight'])){
@@ -732,15 +730,9 @@ class FilterController extends Controller
             $get_product_page['storeId'] = "1";
             $get_product_page['currencyCode'] = "THB";
 
-            // dd($get_product_page);
-            // exit();
-
         $data['products'] = $get_products->catalogProductRepositoryV1GetList($get_product_page);
         $data['products2'] = $get_products2->catalogProductRenderListV1GetList($get_product_page);
         $data['products_list_pages'] = json_encode($get_product_page);
-
-        // dd($data);
-        // exit();
 
         } catch(Exception $e){
           $data['products'] = $e->getMessage();
@@ -774,6 +766,7 @@ class FilterController extends Controller
             $page = 1;
         }
 
+        //เรียกข้อมูลสินค้า
         $get_products = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
         $get_product_page = [
             'searchCriteria' => [
@@ -826,24 +819,25 @@ class FilterController extends Controller
             $price_product = $request->input('price');
             $product_id = $request->input('product_id');
 
-            $userData = array("username" => "customerdilok", "password" => "dilokstore@1234");
-            $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
-            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . strlen(json_encode($userData))));
+            $get_session_all = \Session::all();
 
-            $token = curl_exec($ch);
+            $token_admin_magento = new HomeController;
 
+            if(!empty($get_session_all['token_admin'])){
+                $token = $get_session_all['token_admin'];
+            } else {
+                $token = $token_admin_magento->login_admin_magento();
+            }
+
+        //เรียกข้อมูลสินค้า
         $get_products = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
         $get_product_detail = array(
             'sku' => $product
         );
         $data_product = $get_products->catalogProductRepositoryV1Get($get_product_detail);
 
-        $get_session_all = \Session::all();
-
         if(!empty($get_session_all['customer_id'])){
+            //เรียกข้อมูล customer
             $ch = curl_init("http://128.199.235.248/magento/rest/V1/customers/me");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -851,6 +845,7 @@ class FilterController extends Controller
 
             $customer_me = curl_exec($ch);
 
+            //เรียกข้อมูลตะกร้าสินค้า
             $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -869,10 +864,7 @@ class FilterController extends Controller
                 ]
             ];
 
-            // dd($product);
-            // exit();
-
-
+            //เก็บสินค้าลงตะกร้า
             $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine/items");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
             curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($product));
@@ -880,8 +872,6 @@ class FilterController extends Controller
             curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
 
             $customer_item = json_decode(curl_exec($ch));
-
-            // dd($customer_item,$product);
 
             if(!empty($customer_item->message)){
                 $return['status'] = 3;
@@ -917,6 +907,7 @@ class FilterController extends Controller
             $get_session_all = \Session::all();
 
             if(!empty($get_session_all['customer_id'])){
+                //เรียกข้อมูล customer
                 $ch = curl_init("http://128.199.235.248/magento/rest/V1/customers/me");
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -924,6 +915,7 @@ class FilterController extends Controller
 
                 $result2 = curl_exec($ch);
 
+                //เรียกข้อมูลตะกร้าสินค้า
                 $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine");
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -940,6 +932,7 @@ class FilterController extends Controller
                     ]
                 ];
 
+                //ลบสินค้าในตะกร้า
                 $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine/items/".$product_id);
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "delete");
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -969,7 +962,6 @@ class FilterController extends Controller
     public function filter_page_list(Request $request){
         try {
             $data = $request->all();
-            // $data = $request->input('filter_page_list');
             $list_product_page = $data['product_main_page'];
             $page_list = $data['page_list'];
 
@@ -1007,10 +999,9 @@ class FilterController extends Controller
             $get_product_page['currencyCode'] = "THB";
             $data['page'] = $page_list;
 
-
-            // dd($list_product_page,$get_product_page);
-
+            //เรียกข้อมูลสินค้า
             $get_products = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
+            //เรียกข้อมูลสินค้า
             $get_products2 = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductRenderListV1',$params);
 
             $data['products'] = $get_products->catalogProductRepositoryV1GetList($get_product_page);

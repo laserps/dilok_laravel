@@ -74,7 +74,7 @@ class MeeController extends Controller
                             "value"=> "string"
                             ]
                         ]
-                    ]    
+                    ]
 
                 ],
             ]
@@ -90,16 +90,15 @@ class MeeController extends Controller
         $token = curl_exec($ch);
         curl_close($ch);
         // return $token;
-<<<<<<< HEAD
-        
+
         $chch = curl_init("http://localhost/wb_magento/rest/default/V1/customers/7");
-        curl_setopt($chch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . 
+        curl_setopt($chch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " .
         json_decode($token)));
         // curl_setopt($chch, CURLOPT_CUSTOMREQUEST, "POST");
         curl_setopt($chch, CURLOPT_CUSTOMREQUEST, 'PUT');
         curl_setopt($chch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($chch, CURLOPT_POSTFIELDS, json_encode($value));
-=======
+
 
         $chch = curl_init("http://localhost/dilok2/rest/all/V1/customers");
         curl_setopt($chch, CURLOPT_CUSTOMREQUEST, "POST");
@@ -107,14 +106,9 @@ class MeeController extends Controller
         curl_setopt($chch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($chch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . json_decode($token)));
 
->>>>>>> 09e86313428b32a3f2264e3ca3dbcfae79c30004
         $result = curl_exec($chch);
         curl_close($chch);
         return $result;
-<<<<<<< HEAD
-        
-=======
 
->>>>>>> 09e86313428b32a3f2264e3ca3dbcfae79c30004
     }
 }

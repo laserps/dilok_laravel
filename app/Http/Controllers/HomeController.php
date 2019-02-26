@@ -28,9 +28,23 @@ class HomeController extends Controller
           'stream_context' => stream_context_create($opts),
           'cache_wsdl' => WSDL_CACHE_NONE
         );
+
+        $admin_magento = array("username" => "customerdilok", "password" => "dilokstore@1234");
+        $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($admin_magento));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . strlen(json_encode($admin_magento))));
+
+        $token = json_decode(curl_exec($ch));
+        session()->put('token_admin', $token);
+
         try{
+        //เรียกหมวดหมู่
         $catalog = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogCategoryManagementV1',$params);
+        //เรียกข้อมูลสินค้า
         $get_products = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
+        //เรียกข้อมูลสินค้า
         $get_products2 = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductRenderListV1',$params);
         $get_product_page = [
             'searchCriteria' => [
@@ -38,23 +52,23 @@ class HomeController extends Controller
                     [
                         'filters' => [
                             [
-                                'field' => 'visibility',
-                                'value' => '4',
+                                'field' => 'visibility', //การมองเห็น
+                                'value' => '4', //1 Not //2 Catalog //3 search //4 catalog , search
+                                'condition_type' => 'eq', // =
+                            ],
+                        ],
+                        'filters' => [
+                            [
+                                'field' => 'status', // status
+                                'value' => '1', //1 , 0
                                 'condition_type' => 'eq',
                             ],
                         ],
                         'filters' => [
                             [
-                                'field' => 'status',
-                                'value' => '1',
-                                'condition_type' => 'eq',
-                            ],
-                        ],
-                        'filters' => [
-                            [
-                                'field' => 'type_id',
-                                // 'value' => 'configurable',
-                                'value' => 'simple',
+                                'field' => 'type_id', // ประเภท
+                                // 'value' => 'configurable', // ตัวแม่
+                                'value' => 'simple', // ตัวลูก
                                 'condition_type' => 'eq',
                             ],
                         ],
@@ -129,22 +143,19 @@ class HomeController extends Controller
             'rootCategoryId' => 1,
         ];
 
-        $userData = array("username" => "customerdilok", "password" => "dilokstore@1234");
-        $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($userData));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . strlen(json_encode($userData))));
-
-        $token = json_decode(curl_exec($ch));
-
-        $token_admin_text = session()->put('token_admin', $token);
         $get_session_all = \Session::all();
 
+        $token_admin_magento = new HomeController;
 
-        // dd($get_session_all['token_admin']);
+        if(!empty($get_session_all['token_admin'])){
+            $token = $get_session_all['token_admin'];
+        } else {
+            $token = $token_admin_magento->login_admin_magento();
+        }
 
+        //เรียกข้อมูล block
         $get_blocks_page = 'searchCriteria[filter_groups][0][filters][0][field]=is_active&searchCriteria[filter_groups][0][filters][0][value]=1&searchCriteria[filter_groups][0][filters][0][condition_type]=eq&searchCriteria[pageSize]=2&searchCriteria[sortOrders][0][field]=block_id&searchCriteria[sortOrders][0][direction]=DESC';
+        //เรียกข้อมูล block
         $get_blocks = 'searchCriteria[filter_groups][0][filters][0][field]=is_active&searchCriteria[filter_groups][0][filters][0][value]=1&searchCriteria[filter_groups][0][filters][0][condition_type]=eq&searchCriteria[pageSize]=12&searchCriteria[sortOrders][0][field]=block_id&searchCriteria[sortOrders][0][direction]=DESC';
 
             $ch = curl_init("http://128.199.235.248/magento/rest/V1/cmsBlock/search?".$get_blocks_page);
@@ -153,7 +164,6 @@ class HomeController extends Controller
             curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['token_admin']));
 
             $sum_blocks = json_decode(curl_exec($ch));
-
 
             $ch = curl_init("http://128.199.235.248/magento/rest/V1/cmsBlock/search?".$get_blocks);
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
@@ -164,9 +174,8 @@ class HomeController extends Controller
 
             $data['sum_blocks'] = $sum_blocks;
 
-        $get_session_all = \Session::all();
-
         if(!empty($get_session_all['customer_id'])){
+            //เรียกข้อมูล customer
             $ch = curl_init("http://128.199.235.248/magento/rest/V1/customers/me");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -175,7 +184,7 @@ class HomeController extends Controller
             $result2 = json_decode(curl_exec($ch));
 
             if(empty($result2->parameters)){
-
+                //สร้างตะกร้าสินค้า
                 $ch = curl_init("http://128.199.235.248/magento/rest/V1/customers/".$result2->id."/carts");
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -183,6 +192,7 @@ class HomeController extends Controller
 
                 $create_cart222 = json_decode(curl_exec($ch));
 
+                //เรียกข้อมูลตะกร้าสินค้า
                 $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine/items");
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -195,6 +205,7 @@ class HomeController extends Controller
                     $data['token_customer'] = $result2;
                     $data['cart_customer'] = $result3;
 
+                    //เรียกข้อมูลสินค้า
                     $get_products = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
 
                     foreach($result3 as $key => $value){
@@ -205,6 +216,7 @@ class HomeController extends Controller
                       $data['product_key'][$key] = $get_products->catalogProductRepositoryV1Get($get_key_product);
                     }
 
+                    //เรียก size & color ทั้งหมด
                     $get_type_products = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductAttributeOptionManagementV1',$params);
 
                     $get_color_product = [
@@ -239,6 +251,21 @@ class HomeController extends Controller
         }
 
         return view('index',$data);
+    }
+
+    public function login_admin_magento(){
+      //login admin magento
+      $admin_magento = array("username" => "customerdilok", "password" => "dilokstore@1234");
+      $ch = curl_init("http://128.199.235.248/magento/rest/V1/integration/admin/token");
+      curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+      curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($admin_magento));
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+      curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Lenght: " . strlen(json_encode($admin_magento))));
+
+      $token = json_decode(curl_exec($ch));
+      session()->put('token_admin', $token);
+
+      return $token;
     }
 
     /**

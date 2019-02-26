@@ -7,12 +7,10 @@
 Homestead.json
 Homestead.yaml
 .env
-# Rocketeer PHP task runner and deployment package. https://github.com/rocketeers/rocketeer
-.rocketeer/
 
 # Editor directories and files
 .idea
 .vscode
 .DS_Store
 .composer.lock
-composer.lock 
+composer.lock

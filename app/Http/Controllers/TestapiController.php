@@ -29,10 +29,6 @@ class TestapiController extends Controller
         return $data;
     }
 
-
-
-
-
     public function index()
     {
         $opts = array(

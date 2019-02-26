@@ -14,7 +14,7 @@ Route::get('/checkphp',function(){
     return phpinfo();
 });
 
-Route::get('/testapi','TestapiController@testapiimage');
+Route::get('manyapi','TestapiController@testapiimage');
 Route::post('/postapidilok','TestapiController@postapidilok');
 Route::get('/testsoap','TestapiController@testsoap');
 Route::get('/testsoap2','TestapiController@testsoap2');

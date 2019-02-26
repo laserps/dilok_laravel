@@ -64,7 +64,7 @@
                             <span>{{ $value_cart->name }}</span>
                           </a>
                       </div>
-                      @foreach($product_key[$key_cart]->result->customAttributes->item as $key_product_image => $value_sizes)
+                      <!-- @foreach($product_key[$key_cart]->result->customAttributes->item as $key_product_image => $value_sizes)
                         @foreach($size_products->result->item as $key_size => $value_size)
                           @if($value_sizes->attributeCode == 'size')
                             @if($value_size->value == $value_sizes->value)
@@ -72,8 +72,26 @@
                             @endif
                           @endif
                         @endforeach
-                      @endforeach
+                      @endforeach -->
                       @foreach($product_key[$key_cart]->result->customAttributes->item as $key_product_image => $value_colors)
+                        @foreach($color_product->result->item as $key_color => $value_color)
+                          @if($value_colors->attributeCode == 'color')
+                            @if($value_color->value == $value_colors->value)
+                              <div class="pay-font9 pay-m-t3 pay-m-t2">Color: {{ $value_color->label }}</div>
+                            @endif
+                          @endif
+                        @endforeach
+                      @endforeach
+                      @foreach($product_key[$key_cart]->result->customAttributes->item as $key_product_image => $value_sizes)
+                        @foreach($size_products->result->item as $key_size => $value_size)
+                          @if($value_sizes->attributeCode == 'size')
+                            @if($value_size->value == $value_sizes->value)
+                              <div class="pay-font9 pay-m-t2">Size: [UK] {{ $value_size->label }}</div>
+                            @endif
+                          @endif
+                        @endforeach
+                      @endforeach
+                     <!--  @foreach($product_key[$key_cart]->result->customAttributes->item as $key_product_image => $value_colors)
                         @foreach($color_product->result->item as $key_color => $value_color)
                           @if($value_colors->attributeCode == 'color')
                             @if($value_color->value == $value_colors->value)
@@ -83,7 +101,7 @@
                             @endif
                           @endif
                         @endforeach
-                      @endforeach
+                      @endforeach -->
                       <!-- <div class="cart-product-size">
                             <span>B41674</span>
                       </div> -->

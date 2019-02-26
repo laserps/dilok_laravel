@@ -19,6 +19,7 @@
             $before = '';
             $price_special = '';
             $price_defult = '';
+            $price_defult2 = '';
             $special_from_date = '';
             $special_to_date = '';
             $pan = 'padding-right: 5px;';
@@ -48,13 +49,24 @@
             @endif
           @endforeach
 
-        @if(isset($products->result->items->item))
-          @if(!empty($products->result->items->item[$key_product]))
-            @php $price_defult = $products->result->items->item[$key_product]->price; @endphp
+        @if(!empty($products2->result->items->item[$key_product]->priceInfo->regularPrice))
+          @if($value_product->id == $products2->result->items->item[$key_product]->id)
+            @php $price_defult = $products2->result->items->item[$key_product]->priceInfo->regularPrice; @endphp
+          @else
+            @php $price_defult = $value_product->price; @endphp
           @endif
         @else
-          @php $price_defult = ''; @endphp
+          @php $price_defult = $value_product->price; @endphp
         @endif
+
+        @if(isset($products->result->items->item))
+          @if(!empty($products->result->items->item[$key_product]))
+            @php $price_defult2 = $products->result->items->item[$key_product]->price; @endphp
+          @endif
+        @else
+          @php $price_defult2 = ''; @endphp
+        @endif
+
 
 
         @if(isset($products2->result->items->item))
@@ -143,17 +155,20 @@
                               <span class="currency filter-font-product1">THB</span>
                         </div>
                         <div class="d-none d-lg-block d-md-none col-xl-6 col-lg-12 px-xl-1 px-lg-0 mb-xl-0 mb-2 mt-2 latest-product-btn latest-product-btn-pond fillter-btn-width">
-                          <input type="hidden" name="price_product_main" value="@if(!empty($price_special)){{ number_format($price_special,2) }}@else{{number_format($price_defult,2)}}@endif">
-                          <button type="button" class="btn_add_to_cart" data-product_detail="{{ $value_product->name }}" data-product_id="{{ $value_product->id }}" data-price_product="@if(!empty($price_special))
+                          <!-- <input type="hidden" name="price_product_main" value="@if(!empty($price_special)){{ number_format($price_special,2) }}@else{{number_format($price_defult,2)}}@endif"> -->
+                          <!-- <button type="button" class="btn_add_to_cart" data-product_detail="{{ $value_product->name }}" data-product_id="{{ $value_product->id }}" data-price_product="@if(!empty($price_special))
                                     {{ $price_special }}
                           @else
                           {{ $price_defult }}
-                                @endif" class="btn add-to-cart p-2">
+                                @endif" class="btn add-to-cart p-2"> -->
+                        <a href="{{ url('product/'.$value_product->id) }}">
+                          <button type="button" class="btn add-to-cart p-2">
                             <label class="mb-0 d-flex pr-2">
                               <span>Add to cart</span>
                               <i class="fas fa-plus ml-auto pt-1" aria-hidden="true"></i>
                             </label>
                           </button>
+                        </a>
                         </div>
                         <div class="d-none d-lg-block d-md-none col-xl-6 col-lg-12 px-xl-1 px-lg-0 mt-2 latest-product-btn latest-product-btn-pond fillter-btn-width">
                           <a href="{{ url('product/'.$value_product->id) }}">

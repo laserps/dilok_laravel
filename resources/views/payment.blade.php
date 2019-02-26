@@ -9,7 +9,73 @@
         <!-- END CART SIDEBAR -->
 <div class="container-fluid custom-container fadeIn animated">
         <div class="row">
-          <div class="col-xl-6 mt-5">
+          <div class="col-xl-5  mt-5">
+            <div class="card pay-b-n p-3">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="pay-font1" style="display:inline;">Billing Address</div>
+                        <div class="pay-font1 pay-m-l2 w-100" style="display:inline;">
+                          <a href="#" class="pay-font5" style="float: right;" data-toggle="modal" id="billing_modal" data-target="#billing"><u>edit</u></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="pt-3">
+                    <div class="pay-font6">
+                      <div><span>Firstname : </span><span id="bill_firstname">@if(!empty($token_customer->addresses[0]->firstname)){{ $token_customer->addresses[0]->firstname }} @endif</span></div>
+                      <div><span>Lastname : </span><span id="bill_lastname">@if(!empty($token_customer->addresses[0]->lastname)){{ $token_customer->addresses[0]->lastname }} @endif</span></div>
+                      <div><span>Street : </span><span id="bill_street1">@if(!empty($token_customer->addresses[0]->street[0])){{ $token_customer->addresses[0]->street[0] }} @endif</span></div>
+                      <div><span>Street2 : </span><span id="bill_street2">@if(!empty($token_customer->addresses[0]->street[1])){{ $token_customer->addresses[0]->street[1] }} @endif</span></div>
+                      <div><span>Company : </span><span id="bill_company">@if(!empty($token_customer->addresses[0]->company)) {{ $token_customer->addresses[0]->company }} @endif</span></div>
+                      <div><span>Telephone : </span><span id="bill_telephone">@if(!empty($token_customer->addresses[0]->telephone)) {{ $token_customer->addresses[0]->telephone }} @endif</span></div>
+                      <div><span>City : </span><span id="bill_city">@if(!empty($token_customer->addresses[0]->city)) {{ $token_customer->addresses[0]->city }} @endif</span></div>
+                      <div><span>Postcode : </span><span id="bill_postcode">@if(!empty($token_customer->addresses[0]->postcode)) {{ $token_customer->addresses[0]->postcode }} @endif</span></div>
+                      <div><span>Country : </span><span id="bill_country_id">@if(!empty($token_customer->addresses[0]->country_id)) {{ $token_customer->addresses[0]->country_id }} @endif</span></div>
+                      <!-- <div><span>Email : </span><span id="bill_email">@if(!empty($token_customer->addresses[0]->email)) {{ $token_customer->addresses[0]->email }} @endif</span></div> -->
+
+                      <input type="hidden" name="id_value_billing" id="id_value_billing" value="@if(!empty($token_customer->addresses[0]->id)) {{ $token_customer->addresses[0]->id }} @endif" required>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="pay-font1"style="display:inline;">Shipping Address</div>
+                        <div class="pay-font1 pay-m-l3 w-100" style="display:inline;">
+                          <a href="#" class="pay-font5" style="float: right;" data-toggle="modal" data-target="#shipping"><u>edit</u></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="pt-3">
+                    <div class="pay-font6">
+                      <div><span>Firstname : </span><span id="shipping_firstname">@if(!empty($token_customer->addresses[0]->firstname)){{ $token_customer->addresses[0]->firstname }} @endif</span></div>
+                      <div><span>Lastname : </span><span id="shipping_lastname">@if(!empty($token_customer->addresses[0]->lastname)){{ $token_customer->addresses[0]->lastname }} @endif</span></div>
+                      <div><span>Street : </span><span id="shipping_street1">@if(!empty($token_customer->addresses[0]->street[0])){{ $token_customer->addresses[0]->street[0] }} @endif</span></div>
+                      <div><span>Street2 : </span><span id="shipping_street2">@if(!empty($token_customer->addresses[0]->street[1])){{ $token_customer->addresses[0]->street[1] }} @endif</span></div>
+                      <div><span>Company : </span><span id="shipping_company">@if(!empty($token_customer->addresses[0]->company)) {{ $token_customer->addresses[0]->company }} @endif</span></div>
+                      <div><span>Telephone : </span><span id="shipping_telephone">@if(!empty($token_customer->addresses[0]->telephone)) {{ $token_customer->addresses[0]->telephone }} @endif</span></div>
+                      <div><span>City : </span><span id="shipping_city">@if(!empty($token_customer->addresses[0]->city)) {{ $token_customer->addresses[0]->city }} @endif</span></div>
+                      <div><span>Postcode : </span><span id="shipping_postcode">@if(!empty($token_customer->addresses[0]->postcode)) {{ $token_customer->addresses[0]->postcode }} @endif</span></div>
+                      <div><span>Country : </span><span id="shipping_country_id">@if(!empty($token_customer->addresses[0]->country_id)) {{ $token_customer->addresses[0]->country_id }} @endif</span></div>
+                      <!-- <div><span>Email : </span><span id="shipping_email">@if(!empty($token_customer->addresses[0]->email)) {{ $token_customer->addresses[0]->email }} @endif</span></div> -->
+
+                      <input type="hidden" name="id_value_shipping" id="id_value_shipping" value="@if(!empty($token_customer->addresses[0]->id)) {{ $token_customer->addresses[0]->id }} @endif" required>
+                    </div>
+                </div>
+                <hr>
+                <!-- <div class="row">
+                  <div class="col-xl-12">
+                      <div class="pay-font1"style="display:inline;">Shipping Method</div>
+                      <div class="pay-font1 pay-m-l4 w-100" style="display:inline;">
+                        <a href="#" class="pay-font5"><u>edit</u></a>
+                      </div>
+                  </div>
+                </div>
+                <div class="pt-3">
+                    <div class="pay-font6">EMS</div>
+                </div> -->
+            </div>
+          </div>
+
+          <div class="col-xl-4 mt-5">
             <div class="card pay-b-n p-3">
               <div class="pay-font1">Payment Method</div>
               <!-- <div class="pt-3"> -->
@@ -85,71 +151,6 @@
                  </label>
             </div>
             <input type="hidden" name="payment_method_value" class="payment_method_value" value="paypal_express">
-          </div>
-          <div class="col-xl-3  mt-5">
-            <div class="card pay-b-n p-3">
-                <div class="row">
-                    <div class="col-xl-12">
-                        <div class="pay-font1" style="display:inline;">Billing Address</div>
-                        <div class="pay-font1 pay-m-l2 w-100" style="display:inline;">
-                          <a href="#" class="pay-font5" data-toggle="modal" id="billing_modal" data-target="#billing"><u>edit</u></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="pt-3">
-                    <div class="pay-font6">
-                      <div><span>Firstname : </span><span id="bill_firstname">@if(!empty($token_customer->addresses[0]->firstname)){{ $token_customer->addresses[0]->firstname }} @endif</span></div>
-                      <div><span>Lastname : </span><span id="bill_lastname">@if(!empty($token_customer->addresses[0]->lastname)){{ $token_customer->addresses[0]->lastname }} @endif</span></div>
-                      <div><span>Street : </span><span id="bill_street1">@if(!empty($token_customer->addresses[0]->street[0])){{ $token_customer->addresses[0]->street[0] }} @endif</span></div>
-                      <div><span>Street2 : </span><span id="bill_street2">@if(!empty($token_customer->addresses[0]->street[1])){{ $token_customer->addresses[0]->street[1] }} @endif</span></div>
-                      <div><span>Company : </span><span id="bill_company">@if(!empty($token_customer->addresses[0]->company)) {{ $token_customer->addresses[0]->company }} @endif</span></div>
-                      <div><span>Telephone : </span><span id="bill_telephone">@if(!empty($token_customer->addresses[0]->telephone)) {{ $token_customer->addresses[0]->telephone }} @endif</span></div>
-                      <div><span>City : </span><span id="bill_city">@if(!empty($token_customer->addresses[0]->city)) {{ $token_customer->addresses[0]->city }} @endif</span></div>
-                      <div><span>Postcode : </span><span id="bill_postcode">@if(!empty($token_customer->addresses[0]->postcode)) {{ $token_customer->addresses[0]->postcode }} @endif</span></div>
-                      <div><span>Country : </span><span id="bill_country_id">@if(!empty($token_customer->addresses[0]->country_id)) {{ $token_customer->addresses[0]->country_id }} @endif</span></div>
-                      <!-- <div><span>Email : </span><span id="bill_email">@if(!empty($token_customer->addresses[0]->email)) {{ $token_customer->addresses[0]->email }} @endif</span></div> -->
-
-                      <input type="hidden" name="id_value_billing" id="id_value_billing" value="@if(!empty($token_customer->addresses[0]->id)) {{ $token_customer->addresses[0]->id }} @endif" required>
-                    </div>
-                </div>
-                <hr>
-                <div class="row">
-                    <div class="col-xl-12">
-                        <div class="pay-font1"style="display:inline;">Shipping Address</div>
-                        <div class="pay-font1 pay-m-l3 w-100" style="display:inline;">
-                          <a href="#" class="pay-font5" data-toggle="modal" data-target="#shipping"><u>edit</u></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="pt-3">
-                    <div class="pay-font6">
-                      <div><span>Firstname : </span><span id="shipping_firstname">@if(!empty($token_customer->addresses[0]->firstname)){{ $token_customer->addresses[0]->firstname }} @endif</span></div>
-                      <div><span>Lastname : </span><span id="shipping_lastname">@if(!empty($token_customer->addresses[0]->lastname)){{ $token_customer->addresses[0]->lastname }} @endif</span></div>
-                      <div><span>Street : </span><span id="shipping_street1">@if(!empty($token_customer->addresses[0]->street[0])){{ $token_customer->addresses[0]->street[0] }} @endif</span></div>
-                      <div><span>Street2 : </span><span id="shipping_street2">@if(!empty($token_customer->addresses[0]->street[1])){{ $token_customer->addresses[0]->street[1] }} @endif</span></div>
-                      <div><span>Company : </span><span id="shipping_company">@if(!empty($token_customer->addresses[0]->company)) {{ $token_customer->addresses[0]->company }} @endif</span></div>
-                      <div><span>Telephone : </span><span id="shipping_telephone">@if(!empty($token_customer->addresses[0]->telephone)) {{ $token_customer->addresses[0]->telephone }} @endif</span></div>
-                      <div><span>City : </span><span id="shipping_city">@if(!empty($token_customer->addresses[0]->city)) {{ $token_customer->addresses[0]->city }} @endif</span></div>
-                      <div><span>Postcode : </span><span id="shipping_postcode">@if(!empty($token_customer->addresses[0]->postcode)) {{ $token_customer->addresses[0]->postcode }} @endif</span></div>
-                      <div><span>Country : </span><span id="shipping_country_id">@if(!empty($token_customer->addresses[0]->country_id)) {{ $token_customer->addresses[0]->country_id }} @endif</span></div>
-                      <!-- <div><span>Email : </span><span id="shipping_email">@if(!empty($token_customer->addresses[0]->email)) {{ $token_customer->addresses[0]->email }} @endif</span></div> -->
-
-                      <input type="hidden" name="id_value_shipping" id="id_value_shipping" value="@if(!empty($token_customer->addresses[0]->id)) {{ $token_customer->addresses[0]->id }} @endif" required>
-                    </div>
-                </div>
-                <hr>
-                <!-- <div class="row">
-                  <div class="col-xl-12">
-                      <div class="pay-font1"style="display:inline;">Shipping Method</div>
-                      <div class="pay-font1 pay-m-l4 w-100" style="display:inline;">
-                        <a href="#" class="pay-font5"><u>edit</u></a>
-                      </div>
-                  </div>
-                </div>
-                <div class="pt-3">
-                    <div class="pay-font6">EMS</div>
-                </div> -->
-            </div>
           </div>
 
         <div class="col-xl-3  mt-5">

@@ -86,6 +86,9 @@
       <div class="container-fluid black-bg">
         <ul class="desktop-nav navbar-nav mr-auto">
           <li class="nav-item active">
+            <a class="nav-link" href="{{ url('/') }}"><span style="font-weight : 400;">HOME</span></a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" href="{{ url('filter') }}"><span style="font-weight : 400;">LATEST</span></a>
             <div class="list">
                 <div class="list-container">

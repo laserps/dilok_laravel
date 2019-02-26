@@ -156,7 +156,8 @@ class FilterController extends Controller
             //     $type = 'simple';
             // }
             if(!empty($brands) && $brands != 'highlight'){
-                $type = 'simple';
+                // $type = 'simple';
+                $type = 'configurable';
             } else {
                 // $type = 'configurable';
                 $type = 'configurable';
@@ -347,7 +348,6 @@ class FilterController extends Controller
             $data['blocks'] = $blocks;
             $data['page_title'] = 'Fillter';
 
-
         } catch(Exception $e) {
             $data['products'] = $e->getMessage();
         }
@@ -493,7 +493,8 @@ class FilterController extends Controller
             'filters' => [
                 [
                     'field' => 'type_id',
-                    'value' => 'simple',
+                    'value' => 'configurable',
+                    // 'value' => 'simple',
                     'conditionType' => 'eq',
                 ],
             ],
@@ -640,7 +641,8 @@ class FilterController extends Controller
                                 'filters' => [
                                     [
                                         'field' => 'type_id',
-                                        'value' => 'simple',
+                                        'value' => 'configurable',
+                                        // 'value' => 'simple',
                                         'conditionType' => 'eq',
                                     ],
                                 ],
@@ -696,20 +698,13 @@ class FilterController extends Controller
                                         'conditionType' => 'eq',
                                     ],
                                 ],
-                                // 'filters' => [
-                                //     [
-                                //         'field' => 'visibility',
-                                //         'value' => '4',
-                                //         'condition_type' => 'eq',
-                                //     ],
-                                // ],
                             ],
                             [
                                 'filters' => [
                                     [
                                         'field' => 'type_id',
-                                        // 'value' => 'configurable',
-                                        'value' => 'simple',
+                                        'value' => 'configurable',
+                                        // 'value' => 'simple',
                                         'condition_type' => 'eq',
                                     ],
                                 ],

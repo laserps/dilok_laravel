@@ -180,6 +180,8 @@ return [
         // Plugin Paypal
         Anouar\Paypalpayment\PaypalpaymentServiceProvider::class,
 
+        Intervention\Image\ImageServiceProvider::class
+
     ],
 
     /*
@@ -231,6 +233,8 @@ return [
 
         // Plugin Paypal
         'Paypalpayment'   => Anouar\Paypalpayment\Facades\PaypalPayment::class,
+
+        'Image' => Intervention\Image\Facades\Image::class
 
     ],
 

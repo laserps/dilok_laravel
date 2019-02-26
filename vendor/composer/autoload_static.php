@@ -80,6 +80,7 @@ class ComposerStaticInit96f61ca8541d72b082b8d8bda2700df3
         array (
             'JakubOnderka\\PhpConsoleHighlighter\\' => 35,
             'JakubOnderka\\PhpConsoleColor\\' => 29,
+            'JMathai\\PhpMultiCurl\\' => 21,
         ),
         'I' => 
         array (
@@ -228,6 +229,10 @@ class ComposerStaticInit96f61ca8541d72b082b8d8bda2700df3
         'JakubOnderka\\PhpConsoleColor\\' => 
         array (
             0 => __DIR__ . '/..' . '/jakub-onderka/php-console-color/src',
+        ),
+        'JMathai\\PhpMultiCurl\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/jmathai/php-multi-curl/src',
         ),
         'Illuminate\\' => 
         array (
@@ -1609,6 +1614,11 @@ class ComposerStaticInit96f61ca8541d72b082b8d8bda2700df3
         'Illuminate\\View\\ViewFinderInterface' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/View/ViewFinderInterface.php',
         'Illuminate\\View\\ViewName' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/View/ViewName.php',
         'Illuminate\\View\\ViewServiceProvider' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/View/ViewServiceProvider.php',
+        'JMathai\\PhpMultiCurl\\MultiCurl' => __DIR__ . '/..' . '/jmathai/php-multi-curl/src/MultiCurl.php',
+        'JMathai\\PhpMultiCurl\\MultiCurlException' => __DIR__ . '/..' . '/jmathai/php-multi-curl/src/MultiCurlException.php',
+        'JMathai\\PhpMultiCurl\\MultiCurlInvalidParameterException' => __DIR__ . '/..' . '/jmathai/php-multi-curl/src/MultiCurlException.php',
+        'JMathai\\PhpMultiCurl\\MultiCurlManager' => __DIR__ . '/..' . '/jmathai/php-multi-curl/src/MultiCurlManager.php',
+        'JMathai\\PhpMultiCurl\\MultiCurlSequence' => __DIR__ . '/..' . '/jmathai/php-multi-curl/src/MultiCurlSequence.php',
         'JakubOnderka\\PhpConsoleColor\\ConsoleColor' => __DIR__ . '/..' . '/jakub-onderka/php-console-color/src/ConsoleColor.php',
         'JakubOnderka\\PhpConsoleColor\\InvalidStyleException' => __DIR__ . '/..' . '/jakub-onderka/php-console-color/src/InvalidStyleException.php',
         'JakubOnderka\\PhpConsoleHighlighter\\Highlighter' => __DIR__ . '/..' . '/jakub-onderka/php-console-highlighter/src/Highlighter.php',

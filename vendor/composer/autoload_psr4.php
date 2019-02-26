@@ -36,6 +36,7 @@ return array(
     'Laravel\\Tinker\\' => array($vendorDir . '/laravel/tinker/src'),
     'JakubOnderka\\PhpConsoleHighlighter\\' => array($vendorDir . '/jakub-onderka/php-console-highlighter/src'),
     'JakubOnderka\\PhpConsoleColor\\' => array($vendorDir . '/jakub-onderka/php-console-color/src'),
+    'JMathai\\PhpMultiCurl\\' => array($vendorDir . '/jmathai/php-multi-curl/src'),
     'Illuminate\\' => array($vendorDir . '/laravel/framework/src/Illuminate'),
     'Faker\\' => array($vendorDir . '/fzaninotto/faker/src/Faker'),
     'Dotenv\\' => array($vendorDir . '/vlucas/phpdotenv/src'),

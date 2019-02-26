@@ -42,6 +42,8 @@ class HomeController extends Controller
         try{
         //เรียกหมวดหมู่
         $catalog = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogCategoryManagementV1',$params);
+        // http://128.199.235.248/magento/rest/V1/categories
+
         //เรียกข้อมูลสินค้า
         $get_products = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
         //เรียกข้อมูลสินค้า

@@ -2603,6 +2603,13 @@ $END PRODUCT DETAILS 1
   .header-slide-btn {
       width: 150px;
   }
+  .product-series-frame {
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      margin-bottom: 10px;
+      height: 360px!important;
+  }
   .productdetail1-carousel .product-ipad-frame {
       position: relative;
       overflow: hidden;

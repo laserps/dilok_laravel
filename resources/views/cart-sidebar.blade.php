@@ -320,7 +320,7 @@
     </div>
     <!-- END Sidebar Header -->
     <div class='sidebar-bottom'>
-      <div class="row pt-4 px-5 mx-0">
+      <div class="row py-4 px-5 mx-0">
         <div class="col-12 text-center">
             <div class="subtotal">
               <span class="pull-left">Subtotal:</span><span class="pull-right"> THB</span><span class="pull-right">@if(!empty($sum_price)){{ $sum_price }}@endif</span>

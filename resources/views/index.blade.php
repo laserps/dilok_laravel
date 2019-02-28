@@ -653,7 +653,7 @@
 
   <section class="blog-launches mb-lg-5 mb-md-5 mb-4">
     <div class="row mx-0">
-      <div class="col-12 px-lg-3 px-0 mb-md-3">
+      <div class="col-12 px-lg-3 px-0 mb-3">
         <h3 class="mb-1 mt-2 pull-left">BLOG</h3>
         <div class="latest-product-btn pull-right mb-2">
 

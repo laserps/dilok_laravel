@@ -82,764 +82,756 @@
     <!-- START NAVBAR -->
     <!-- Image and text -->
 <!-- Desktop + ipad pro landscape Navbar -->
-<nav class="navbar navbar-expand-lg d-xl-flex d-none black-bg">
-      <div class="container-fluid black-bg">
-        <ul class="desktop-nav navbar-nav mr-auto">
-          {{-- <li class="nav-item active">
-             <a class="nav-link" href="{{ url('/') }}"><span style="font-weight : 400;">HOME</span></a>
-          </li> --}}
-          
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url('filter') }}"><span style="font-weight : 400;">LATEST</span></a>
-            <div class="list">
-                <div class="list-container">
-                  <div class="row">
-                    <!-- col 1 -->
-                    <div class="col-4 list-first-col">
-                      <ul class="nav flex-column">
-                        <li class="nav-item">
-                          <a class="nav-link main" href="{{ url('filter') }}">View all Latest</a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" href="{{ url('brands') }}/{{ ('Men') }}">Latest Male</a>
-                          <!-- <a class="nav-link" href="{{ url('filter/?genders=25') }}">Latest Male</a> -->
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" href="{{ url('brands') }}/{{ ('Kid') }}">Latest Kid's</a>
-                          <!-- <a class="nav-link" href="{{ url('filter?genders=27') }}">Latest Kid's</a> -->
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" href="{{ url('brands') }}/{{ ('Women') }}">Latest Women's</a>
-                          <!-- <a class="nav-link" href="{{ url('filter?genders=26') }}">Latest Women's</a> -->
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-            </div>
-          </li> <!-- Latest -->
-          
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url('filter') }}"><span style="font-weight : 400;">BRAND</span></a>
-            <div class="list">
-                <div class="list-container">
-                  <div class="row">
-                    <!-- col 1 -->
-                    <div class="col-12">
+<nav class="navbar navbar-expand-lg d-xl-flex d-none black-bg px-0">
+      <div class="custom-container nav-container black-bg">
+        <div class=" row">
+          <div class="col-6">
+            <ul class="desktop-nav navbar-nav mr-auto ">
+              <li class="nav-item active">
+                 <a class="nav-link" href="{{ url('/') }}"><span style="font-weight : 400;">HOME</span></a>
+              </li>
+              
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url('filter') }}"><span style="font-weight : 400;">LATEST</span></a>
+                <div class="list">
+                    <div class="list-container">
                       <div class="row">
+                        <!-- col 1 -->
+                        <div class="col-4 list-first-col">
+                          <ul class="nav flex-column">
+                            <li class="nav-item">
+                              <a class="nav-link main" href="{{ url('filter') }}">View all Latest</a>
+                            </li>
+                            <li class="nav-item">
+                              <a class="nav-link" href="{{ url('brands') }}/{{ ('Men') }}">Latest Male</a>
+                              <!-- <a class="nav-link" href="{{ url('filter/?genders=25') }}">Latest Male</a> -->
+                            </li>
+                            <li class="nav-item">
+                              <a class="nav-link" href="{{ url('brands') }}/{{ ('Kid') }}">Latest Kid's</a>
+                              <!-- <a class="nav-link" href="{{ url('filter?genders=27') }}">Latest Kid's</a> -->
+                            </li>
+                            <li class="nav-item">
+                              <a class="nav-link" href="{{ url('brands') }}/{{ ('Women') }}">Latest Women's</a>
+                              <!-- <a class="nav-link" href="{{ url('filter?genders=26') }}">Latest Women's</a> -->
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+              </li> <!-- Latest -->
+              
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url('filter') }}"><span style="font-weight : 400;">BRAND</span></a>
+                <div class="list">
+                    <div class="list-container">
+                      <div class="row">
+                        <!-- col 1 -->
                         <div class="col-12">
-                          <div class="w-100">
-                          <a class="nav-link main" href="{{ url('filter') }}">View all Brans and Designers</a>
-                          </div>
-                          <div class="column-box">
-                            <div class="columns">
-                              <ul class="nav-ul-list">
-                                @foreach($category->result->childrenData->item as $key_category => $value_category)
-                                  @if($value_category->name != 'Default Category')
-                                    <li>
-                                      <a class="nav-link" href="{{ url('brands') }}/{{ $value_category->name }}">{{ $value_category->name }}</a>
-                                    </li>
-                                  @endif
-                                @endforeach
-                              </ul>
+                          <div class="row">
+                            <div class="col-12">
+                              <div class="w-100">
+                              <a class="nav-link main" href="{{ url('filter') }}">View all Brans and Designers</a>
+                              </div>
+                              <div class="column-box">
+                                <div class="columns">
+                                  <ul class="nav-ul-list">
+                                    @foreach($category->result->childrenData->item as $key_category => $value_category)
+                                      @if($value_category->name != 'Default Category')
+                                        <li>
+                                          <a class="nav-link" href="{{ url('brands') }}/{{ $value_category->name }}">{{ $value_category->name }}</a>
+                                        </li>
+                                      @endif
+                                    @endforeach
+                                  </ul>
+                                </div>
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </div>
-                </div><!-- END list container-->
-            </div>
-          </li> <!-- Brand -->
-
-          <li class="nav-item">
-
-            <!-- <a class="nav-link" href="{{ url('filter/?genders=25') }}"><span style="font-weight : 400;">MEN</span></a> -->
-            <a class="nav-link" href="{{ url('brands/Men') }}"><span style="font-weight : 400;">MEN</span></a>
-            <div class="list">
-                <div class="list-container">
-                  <div class="row">
-                    <!-- col 1 -->
-
-                    <div class="column-box">
-                      <div class="columns">
-                        <ul class="nav-ul-list">
-                          @foreach($category->result->childrenData->item as $key_category => $value_category)
-                            @if($value_category->name != 'Default Category')
-                              <li>
-                                <a class="nav-link" href="{{ url('brands') }}/{{ $value_category->name }}/{{ ('Men') }}">{{ $value_category->name }}</a>
-                              </li>
-                            @endif
-                          @endforeach
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
+                    </div><!-- END list container-->
                 </div>
-            </div>
-          </li> <!-- MEN -->
+              </li> <!-- Brand -->
 
+              <li class="nav-item">
 
-          <li class="nav-item">
-            <!-- <a class="nav-link" href="{{ url('filter/?genders=26') }}"><span style="font-weight : 400;">WOMEN</span></a> -->
-            <a class="nav-link" href="{{ url('brands/Women') }}"><span style="font-weight : 400;">WOMEN</span></a>
-            <div class="list">
-                <div class="list-container">
-                  <div class="row">
-                    <!-- col 1 -->
-                    <div class="column-box">
-                      <div class="columns">
-                        <ul class="nav-ul-list">
-                          @foreach($category->result->childrenData->item as $key_category => $value_category)
-                            @if($value_category->name != 'Default Category')
-                              <li>
-                                <!-- <a class="nav-link" href="{{ url('filter/?genders=26&brands=') }}{{ $value_category->id }}">{{ $value_category->name }}</a> -->
-                                <a class="nav-link" href="{{ url('brands') }}/{{ $value_category->name }}/{{ ('Women') }}">{{ $value_category->name }}</a>
-                              </li>
-                            @endif
-                          @endforeach
-                        </ul>
-                      </div>
-                    </div>
-                    <!-- <div class="col-12 list-first-col">
-                      <ul class="nav flex-column">
-                        <li class="nav-item">
-                          <a class="nav-link main" href="{{ url('filter') }}">NEW PRODUCTS</a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" href="{{ url('filter') }}">Latest Sneakers</a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" href="{{ url('filter') }}">Latest Women's</a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" href="{{ url('filter') }}">New This Week</a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" href="{{ url('filter') }}">Restocks</a>
-                        </li>
-                      </ul>
-                    </div> -->
-                    <!-- col 2 -->
-                    <!-- <div class="col-3 list-first-col">
-                        <div class="row">
-                          <div class="col-6">
-                            <ul class="nav flex-column">
-                              <li class="nav-item">
-                                <a class="nav-link main" href="{{ url('filter') }}">CHLOTHES</a>
-                              </li>
-                              <li class="nav-item">
-                                <a class="nav-link" href="{{ url('filter') }}">All clothes</a>
-                              </li>
-                              <li class="nav-item">
-                                <a class="nav-link" href="{{ url('filter') }}">Latest</a>
-                              </li>
-                              <li class="nav-item">
-                                <a class="nav-link" href="{{ url('filter') }}">Latest Kid's</a>
-                              </li>
-                              <li class="nav-item">
-                                <a class="nav-link" href="{{ url('filter') }}">Latest Women's</a>
-                              </li>
-                              <li class="nav-item">
-                                <a class="nav-link" href="{{ url('filter') }}">Trend</a>
-                              </li>
-                            </ul>
-                          </div>
-                          <div class="col-6">
-                            <ul class="nav flex-column">
-                              <li class="nav-item">
-                                <a class="nav-link main" href="{{ url('filter') }}">SCHOES</a>
-                              </li>
-                              <li class="nav-item">
-                                <a class="nav-link" href="{{ url('filter') }}">All clothes</a>
-                              </li>
-                              <li class="nav-item">
-                                <a class="nav-link" href="{{ url('filter') }}">Latest</a>
-                              </li>
-                              <li class="nav-item">
-                                <a class="nav-link" href="{{ url('filter') }}">Latest Kid's</a>
-                              </li>
-                              <li class="nav-item">
-                                <a class="nav-link" href="{{ url('filter') }}">Latest Women's</a>
-                              </li>
-                              <li class="nav-item">
-                                <a class="nav-link" href="{{ url('filter') }}">Trend</a>
-                              </li>
-                            </ul>
-                        </div>
-                        </div>
-                    </div> -->
-                    <!-- col  3-->
-                    <!-- <div class="col-3">
-                        <div class="row">
-                          <div class="col-6">
-                            <ul class="nav flex-column">
-                              <li class="nav-item">
-                                <a class="nav-link main" href="{{ url('filter') }}">Sport</a>
-                              </li>
-                              <li class="nav-item">
-                                <a class="nav-link" href="{{ url('filter') }}">All clothes</a>
-                              </li>
-                              <li class="nav-item">
-                                <a class="nav-link" href="{{ url('filter') }}">Latest</a>
-                              </li>
-                              <li class="nav-item">
-                                <a class="nav-link" href="{{ url('filter') }}">Trend</a>
-                              </li>
-                            </ul>
-                          </div>
-                          <div class="col-6">
-                            <ul class="nav flex-column">
-                              <li class="nav-item">
-                                <a class="nav-link main" href="{{ url('filter') }}">Size</a>
-                              </li>
-                              <li class="nav-item">
-                                <a class="nav-link" href="{{ url('filter') }}">All clothes</a>
-                              </li>
-                              <li class="nav-item">
-                                <a class="nav-link" href="{{ url('filter') }}">Latest</a>
-                              </li>
-                              <li class="nav-item">
-                                <a class="nav-link" href="{{ url('filter') }}">Latest Kid's</a>
-                              </li>
-                              <li class="nav-item">
-                                <a class="nav-link" href="{{ url('filter') }}">Latest Women's</a>
-                              </li>
-                              <li class="nav-item">
-                                <a class="nav-link" href="{{ url('filter') }}">Trend</a>
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
-                    </div> -->
-                    <!-- col 4 -->
-                    <!-- <div class="col-2">
-                        <div class="row">
-                          <div class="nav-col col-12">
-                            <a href="{{ url('adidas') }}">
-                              <div class="nav-double">
-                                <img class="nav-product" src="assets/images/index/navbrand/4.jpg" alt="Card image cap">
-                              </div>
-                              <div class="w-100 text-center">
-                                <span>ADIDAS</span>
-                              </div>
-                            </a>
-                          </div>
-                          <div class="nav-col col-12">
-                            <a href="{{ url('adidas') }}">
-                              <div class="nav-double">
-                                <img class="nav-product" src="assets/images/index/navbrand/6.jpg" alt="Card image cap">
-                              </div>
-                              <div class="w-100 text-center">
-                                <span>ADIDAS</span>
-                              </div>
-                            </a>
-                          </div>
-                        </div>
-                    </div> -->
-                  </div>
-                </div>
-            </div>
-
-          </li> <!-- WOMEN -->
-          <li class="nav-item">
-
-            <!-- <a class="nav-link" href="{{ url('filter/?genders=27') }}"><span style="font-weight : 400;">KID</span></a> -->
-            <a class="nav-link" href="{{ url('brands/Kid') }}"><span style="font-weight : 400;">KID</span></a>
-            <div class="list">
-                <div class="list-container">
-                  <div class="row">
-                    <!-- col 1 -->
-                    <div class="column-box">
-                      <div class="columns">
-                        <ul class="nav-ul-list">
-                          @foreach($category->result->childrenData->item as $key_category => $value_category)
-                            @if($value_category->name != 'Default Category')
-                              <li>
-                                <!-- <a class="nav-link" href="{{ url('filter/?genders=27&brands=') }}{{ $value_category->id }}">{{ $value_category->name }}</a> -->
-                                <a class="nav-link" href="{{ url('brands') }}/{{ $value_category->name }}/{{ ('Kid') }}">{{ $value_category->name }}</a>
-                              </li>
-                            @endif
-                          @endforeach
-                        </ul>
-                      </div>
-                    </div>
-                    <!-- <div class="col-12 list-first-col">
-                      <ul class="nav flex-column">
-                        <li class="nav-item">
-                          <a class="nav-link main" href="{{ url('filter') }}">NEW PRODUCTS</a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" href="{{ url('filter') }}">Latest Sneakers</a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" href="{{ url('filter') }}">Latest Women's</a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" href="{{ url('filter') }}">New This Week</a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" href="{{ url('filter') }}">Restocks</a>
-                        </li>
-                      </ul>
-                    </div> -->
-                    <!-- col 2 -->
-                    <!-- <div class="col-3 list-first-col">
-                        <div class="row">
-                          <div class="col-6">
-                            <ul class="nav flex-column">
-                              <li class="nav-item">
-                                <a class="nav-link main" href="{{ url('filter') }}">CHLOTHES</a>
-                              </li>
-                              <li class="nav-item">
-                                <a class="nav-link" href="{{ url('filter') }}">All clothes</a>
-                              </li>
-                              <li class="nav-item">
-                                <a class="nav-link" href="{{ url('filter') }}">Latest</a>
-                              </li>
-                              <li class="nav-item">
-                                <a class="nav-link" href="{{ url('filter') }}">Latest Kid's</a>
-                              </li>
-                              <li class="nav-item">
-                                <a class="nav-link" href="{{ url('filter') }}">Latest Women's</a>
-                              </li>
-                              <li class="nav-item">
-                                <a class="nav-link" href="{{ url('filter') }}">Trend</a>
-                              </li>
-                            </ul>
-                          </div>
-                          <div class="col-6">
-                            <ul class="nav flex-column">
-                              <li class="nav-item">
-                                <a class="nav-link main" href="{{ url('filter') }}">SCHOES</a>
-                              </li>
-                              <li class="nav-item">
-                                <a class="nav-link" href="{{ url('filter') }}">All clothes</a>
-                              </li>
-                              <li class="nav-item">
-                                <a class="nav-link" href="{{ url('filter') }}">Latest</a>
-                              </li>
-                              <li class="nav-item">
-                                <a class="nav-link" href="{{ url('filter') }}">Latest Kid's</a>
-                              </li>
-                              <li class="nav-item">
-                                <a class="nav-link" href="{{ url('filter') }}">Latest Women's</a>
-                              </li>
-                              <li class="nav-item">
-                                <a class="nav-link" href="{{ url('filter') }}">Trend</a>
-                              </li>
-                            </ul>
-                        </div>
-                        </div>
-                    </div> -->
-                    <!-- col  3-->
-                    <!-- <div class="col-3">
-                        <div class="row">
-                          <div class="col-6">
-                            <ul class="nav flex-column">
-                              <li class="nav-item">
-                                <a class="nav-link main" href="{{ url('filter') }}">Sport</a>
-                              </li>
-                              <li class="nav-item">
-                                <a class="nav-link" href="{{ url('filter') }}">All clothes</a>
-                              </li>
-                              <li class="nav-item">
-                                <a class="nav-link" href="{{ url('filter') }}">Latest</a>
-                              </li>
-                              <li class="nav-item">
-                                <a class="nav-link" href="{{ url('filter') }}">Trend</a>
-                              </li>
-                            </ul>
-                          </div>
-                          <div class="col-6">
-                            <ul class="nav flex-column">
-                              <li class="nav-item">
-                                <a class="nav-link main" href="{{ url('filter') }}">Size</a>
-                              </li>
-                              <li class="nav-item">
-                                <a class="nav-link" href="{{ url('filter') }}">All clothes</a>
-                              </li>
-                              <li class="nav-item">
-                                <a class="nav-link" href="{{ url('filter') }}">Latest</a>
-                              </li>
-                              <li class="nav-item">
-                                <a class="nav-link" href="{{ url('filter') }}">Latest Kid's</a>
-                              </li>
-                              <li class="nav-item">
-                                <a class="nav-link" href="{{ url('filter') }}">Latest Women's</a>
-                              </li>
-                              <li class="nav-item">
-                                <a class="nav-link" href="{{ url('filter') }}">Trend</a>
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
-                    </div> -->
-                    <!-- col 4 -->
-                    <!-- <div class="col-2">
-                        <div class="row">
-                          <div class="nav-col col-12">
-                            <a href="{{ url('adidas') }}">
-                              <div class="nav-double">
-                                <img class="nav-product" src="assets/images/index/navbrand/4.jpg" alt="Card image cap">
-                              </div>
-                              <div class="w-100 text-center">
-                                <span>ADIDAS</span>
-                              </div>
-                            </a>
-                          </div>
-                          <div class="nav-col col-12">
-                            <a href="{{ url('adidas') }}">
-                              <div class="nav-double">
-                                <img class="nav-product" src="assets/images/index/navbrand/6.jpg" alt="Card image cap">
-                              </div>
-                              <div class="w-100 text-center">
-                                <span>ADIDAS</span>
-                              </div>
-                            </a>
-                          </div>
-                        </div>
-                    </div> -->
-                  </div>
-                </div>
-            </div>
-
-          </li> <!-- KID -->
-
-         <!--  <li class="nav-item">
-            <a class="nav-link" href="{{ url('sale') }}"><span style="font-weight : 400;">SALE</span></a>
-            <div class="list">
-                <div class="list-container">
-                  <div class="row">
-                    <div class="col-2 list-first-col">
-                      <ul class="nav flex-column">
-                        <li class="nav-item">
-                          <a class="nav-link main" href="{{ url('filter') }}">View all Latest</a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" href="{{ url('filter') }}">Latest Kid's</a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" href="{{ url('filter') }}">Latest Sneakers</a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" href="{{ url('filter') }}">Latest Women's</a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" href="{{ url('filter') }}">New This Week</a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" href="{{ url('filter') }}">Restocks</a>
-                        </li>
-                      </ul>
-                    </div>
-                    <div class="col-2">
-                      <ul class="nav flex-column">
-                        <li class="nav-item">
-                          <a class="nav-link main-2" href="{{ url('filter') }}">LATEST BRANDS</a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" href="{{ url('filter') }}">Adidas</a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" href="{{ url('reebok') }}">Reebok</a>
-                        </li>
-                      </ul>
-                    </div>
-                    <div class="col-2">
-                      <ul class="nav flex-column">
-                        <li class="nav-item">
-                          <a class="nav-link main-2" href="{{ url('filter') }}">LATEST BRANDS</a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" href="{{ url('filter') }}">Adidas</a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" href="{{ url('reebok') }}">Reebok</a>
-                        </li>
-                      </ul>
-                    </div>
-                    <div class="col-2">
-                        <div class="row">
-                          <div class="nav-col col-12">
-
-                            <a href="{{ url('adidas') }}">
-                              <div class="nav-double">
-                                <img class="nav-product" src="assets/images/index/navbrand/15.jpg" alt="Card image cap">
-                              </div>
-                              <div class="w-100 text-center">
-                                <span>ADIDAS</span>
-                              </div>
-                            </a>
-                          </div>
-                          <div class="nav-col col-12">
-
-                            <a href="{{ url('adidas') }}">
-                              <div class="nav-double">
-                                <img class="nav-product" src="assets/images/index/navbrand/16.jpg" alt="Card image cap">
-                              </div>
-                              <div class="w-100 text-center">
-                                <span>ADIDAS</span>
-                              </div>
-                            </a>
-                          </div>
-                        </div>
-                    </div>
-                  </div>
-                </div>
-            </div>
-          </li> -->
-
-          <li class="nav-item">
-
-            <a class="nav-link" href="{{ url('blog') }}"><span style="font-weight : 400;">BLOG</span></a>
-            <div class="list">
-                <div class="list-container">
-                  <div class="w-100 mb-3">
-                    <span>READ DILOK. BLOG</span>
-                  </div>
+                <!-- <a class="nav-link" href="{{ url('filter/?genders=25') }}"><span style="font-weight : 400;">MEN</span></a> -->
+                <a class="nav-link" href="{{ url('brands/Men') }}"><span style="font-weight : 400;">MEN</span></a>
+                <div class="list">
+                    <div class="list-container">
                       <div class="row">
-                        <div class="col-12 blog-box">
-                          <div class="row ">
+                        <!-- col 1 -->
 
-                            @foreach($blocks->items as $key_blocks => $value_blocks)
-                            @php
-                              preg_match('/<img.+url=[\'"](?P<src>.+?)[\'"].*>/i', $value_blocks->content, $image);
-                            @endphp
-                              <div class="col-3 blog-row mb-3">
-                                <div class="row blog-row">
-                                  <div class="col-4 blog-col">
-                                    <a href="{{ url('single-blog') }}/{{ $value_blocks->id }}">
-                                      <div class="nav-blog">
-                                        @if(!empty($image['src']))
-                                          <img class="nav-product" src="http://128.199.235.248/magento/pub/media/{{ $image['src'] }}"/>
-                                        @else
-                                          <img class="nav-product" src="{{ url('assets/images/No_Image_Available.jpg') }}">
-                                        @endif
-                                      </div>
-                                    </a>
-                                  </div>
-                                  <div class="col-8 blog-row">
-                                    <a href="{{ url('single-blog') }}/{{ $value_blocks->id }}">
-                                      <div class="center-table nav-blog-text">
-                                        <span>{{ $value_blocks->title }}</span>
-                                      </div>
-                                    </a>
-                                  </div>
-                                </div>
-                              </div>
-                            @endforeach
-
-                              <!-- <div class="col-6 blog-row mb-3">
-                                <div class="row blog-row">
-                                  <div class="col-4 blog-col">
-
-                                    <a href="#">
-                                      <div class="nav-blog">
-                                        <img class="nav-product" src="assets/images/index/navbrand/10.jpg" alt="Card image cap">
-                                      </div>
-                                    </a>
-                                  </div>
-                                  <div class="col-8 blog-row">
-
-                                    <a href="#">
-                                      <div class="center-table nav-blog-text">
-                                        <span>I'm vertically reatee layout.</span>
-                                      </div>
-                                    </a>
-                                  </div>
-                                </div>
-                              </div>
-
-                              <div class="col-6 blog-row mb-3">
-                                <div class="row blog-row">
-                                  <div class="col-4 blog-col">
-
-                                    <a href="#">
-                                      <div class="nav-blog">
-                                        <img class="nav-product" src="assets/images/index/navbrand/11.jpg" alt="Card image cap">
-                                      </div>
-                                    </a>
-                                  </div>
-                                  <div class="col-8 blog-row">
-
-                                    <a href="#">
-                                      <div class="center-table nav-blog-text">
-                                        <span>I'm vertically reatee layout.</span>
-                                      </div>
-                                    </a>
-                                  </div>
-                                </div>
-                              </div>
-
-                              <div class="col-6 blog-row mb-3">
-                                <div class="row blog-row">
-                                  <div class="col-4 blog-col">
-
-                                    <a href="#">
-                                      <div class="nav-blog">
-                                        <img class="nav-product" src="assets/images/index/navbrand/12.jpg" alt="Card image cap">
-                                      </div>
-                                    </a>
-                                  </div>
-                                  <div class="col-8 blog-row">
-
-                                    <a href="#">
-                                      <div class="center-table nav-blog-text">
-                                        <span>I'm vertically reatee layout.</span>
-                                      </div>
-                                    </a>
-                                  </div>
-                                </div>
-                              </div>
-
-                              <div class="col-6 blog-row mb-3">
-                                <div class="row blog-row">
-                                  <div class="col-4 blog-col">
-
-                                    <a href="#">
-                                      <div class="nav-blog">
-                                        <img class="nav-product" src="assets/images/index/navbrand/13.jpg" alt="Card image cap">
-                                      </div>
-                                    </a>
-                                  </div>
-                                  <div class="col-8 blog-row">
-
-                                    <a href="#">
-                                      <div class="center-table nav-blog-text">
-                                        <span>I'm vertically reatee layout.</span>
-                                      </div>
-                                    </a>
-                                  </div>
-                                </div>
-                              </div> -->
-
+                        <div class="column-box">
+                          <div class="columns">
+                            <ul class="nav-ul-list">
+                              @foreach($category->result->childrenData->item as $key_category => $value_category)
+                                @if($value_category->name != 'Default Category')
+                                  <li>
+                                    <a class="nav-link" href="{{ url('brands') }}/{{ $value_category->name }}/{{ ('Men') }}">{{ $value_category->name }}</a>
+                                  </li>
+                                @endif
+                              @endforeach
+                            </ul>
                           </div>
                         </div>
-                        <!-- <div class="col-2 nav-col-single">
-                          <div class="nav-blog-single mb-2">
-
-                            <a href="#">
-                              <img class="nav-product" src="assets/images/index/navbrand/14.jpg" alt="Card image cap">
-                            </a>
-                          </div>
-                          <div class="nav-blog-text text-center">
-
-                            <a href="#">
-                             <span>This is dummy topic name.</span>
-                            </a>
-                          </div>
-                        </div> -->
-
                       </div>
+                    </div>
                 </div>
-            </div>
-          </li> <!-- BLOG -->
-        </ul><!-- END TOP-LEFT NAVBAR -->
-        {{-- <ul class="navbar-nav desktop-nav ml-auto">
-          <li class="nav-item">
-            <div class="input-group search-input-group">
-              <input type="text" class="form-control search-input white" placeholder="Search item" aria-label="Search item" aria-describedby="basic-addon2">
+              </li> <!-- MEN -->
 
-              <div class="input-group-append">
-                <!-- ปุ่มขยาย ssearch มี script ใน Footerscript -->
-                <button class="btn search-btn toggle-search" onclick="expandsearch()" type="button"><i class="fa fa-search white" aria-hidden="true"></i></button>
-                <!-- ปุ่ม search -->
-                <button class="btn search-btn confirm-search" type="button"><i class="fa fa-search white" aria-hidden="true"></i></button>
-              </div>
-            </div>
-          </li>
 
-          <li class="nav-item cart mr-3">
-            <button class="btn btn-secondary cart-btn sidebarCollapse" type="button" >
-              <span style="font-weight : 400;"><i class="fa fa-shopping-cart" aria-hidden="true"></i> CART
-              @if(!empty($cart_customer))
-                @if(count($cart_customer) != '[]')
-                  ({{ count($cart_customer) }})
-                @else
-                  (0)
-                @endif
-              @else
-                (0)
-              @endif
-            </span>
-            </button>
-          </li>
-          <!-- logged in -->
-          @if(!empty($token_customer))
-
-            <li class="nav-item" style="margin-top: 5px;">
-              <div class="btn-group">
-                <button class="btn profile-btn p-0" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-
-                  <div class="center-table">
-                    <!-- <span class="image-cropper">
-                        <img class="profile-pic rounded" src="assets/images/index/person/1.jpg"/>
-                    </span> -->
-                    <span class="profile-name pl-2">{{ $token_customer->firstname }}</span>
-                  </div>
-
-                </button>
-                <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item" href="{{ url('account') }}"><i class="fa fa-user" aria-hidden="true"></i> Profile</a>
-                    <a class="dropdown-item" href="{{ url('order') }}"><i class="fa fa-list-alt" aria-hidden="true"></i> Order</a>
-                    <!-- <a class="dropdown-item" href="#">Action</a> -->
-                    <!-- <a class="dropdown-item" href="#">Another action</a> -->
-                    <a class="dropdown-item" href="{{ url('logout') }}"><i class="fa fa-sign-out-alt" aria-hidden="true"></i> Log out</a>
-                </div>
-              </div>
-            </li>
-          <!-- end loged in -->
-
-            <!-- <li class="nav-item">
-             <div class="dropdown">
-               <button class="btn btn-secondary log-in-dropdown-btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span style="font-weight:400;">Welcome {{ $token_customer->firstname }}</span>
-               </button>
-                <div class="create-account py-3">
-                  <span><a class="black" href="{{ url('account') }}">Profile</a></span><br/>
-                  <span><a class="black" href="{{ url('logout') }}">Log Out</a></span>
-                </div>
-               </div>
-             </div>
-            </li> -->
-          @else
-            <li class="nav-item">
-                 <div class="dropdown">
-                   <button class="btn btn-secondary log-in-dropdown-btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                     <span style="font-weight:400;"><i class="fa fa-sign-in-alt" aria-hidden="true"></i> Log in</span>
-                   </button>
-                   <div class="dropdown-menu dropdown-menu-right log-in-dropdown" aria-labelledby="dropdownMenuButton">
-                         <form class="p-5 form_login_customer2">
-                          <div class="form-group">
-                            <label class="d-flex">Email address<span class="red">*</span><span class="red ml-auto">*Required fields</span></label>
-                            <input type="email" name="email_login" class="form-control" aria-describedby="" placeholder="">
+              <li class="nav-item">
+                <!-- <a class="nav-link" href="{{ url('filter/?genders=26') }}"><span style="font-weight : 400;">WOMEN</span></a> -->
+                <a class="nav-link" href="{{ url('brands/Women') }}"><span style="font-weight : 400;">WOMEN</span></a>
+                <div class="list">
+                    <div class="list-container">
+                      <div class="row">
+                        <!-- col 1 -->
+                        <div class="column-box">
+                          <div class="columns">
+                            <ul class="nav-ul-list">
+                              @foreach($category->result->childrenData->item as $key_category => $value_category)
+                                @if($value_category->name != 'Default Category')
+                                  <li>
+                                    <!-- <a class="nav-link" href="{{ url('filter/?genders=26&brands=') }}{{ $value_category->id }}">{{ $value_category->name }}</a> -->
+                                    <a class="nav-link" href="{{ url('brands') }}/{{ $value_category->name }}/{{ ('Women') }}">{{ $value_category->name }}</a>
+                                  </li>
+                                @endif
+                              @endforeach
+                            </ul>
                           </div>
-                          <div class="form-group">
-                            <label class="d-flex">Password<span class="red">*</span><span class="ml-auto"><a class="grey" href="{{ url('forgot') }}">Forget your password?</a></span></label>
-                            <input type="password" name="password_login" class="form-control" placeholder="">
-                          </div>
-                            <div class="regist-m-t2 text-center">
-                              <button class="btn regist-btn-1 btn_login_customer2" type="button">LOG IN</button>
-                            </div>
-                        </form>
-                        <div class="create-account py-3">
-                          <span><a class="black" href="{{ url('regist') }}">New? Create an account</a></span>
                         </div>
-                   </div>
-                 </div>
-            </li>
-          @endif
-          <!-- END Not loged in -->
-        </ul> --}}
+                        <!-- <div class="col-12 list-first-col">
+                          <ul class="nav flex-column">
+                            <li class="nav-item">
+                              <a class="nav-link main" href="{{ url('filter') }}">NEW PRODUCTS</a>
+                            </li>
+                            <li class="nav-item">
+                              <a class="nav-link" href="{{ url('filter') }}">Latest Sneakers</a>
+                            </li>
+                            <li class="nav-item">
+                              <a class="nav-link" href="{{ url('filter') }}">Latest Women's</a>
+                            </li>
+                            <li class="nav-item">
+                              <a class="nav-link" href="{{ url('filter') }}">New This Week</a>
+                            </li>
+                            <li class="nav-item">
+                              <a class="nav-link" href="{{ url('filter') }}">Restocks</a>
+                            </li>
+                          </ul>
+                        </div> -->
+                        <!-- col 2 -->
+                        <!-- <div class="col-3 list-first-col">
+                            <div class="row">
+                              <div class="col-6">
+                                <ul class="nav flex-column">
+                                  <li class="nav-item">
+                                    <a class="nav-link main" href="{{ url('filter') }}">CHLOTHES</a>
+                                  </li>
+                                  <li class="nav-item">
+                                    <a class="nav-link" href="{{ url('filter') }}">All clothes</a>
+                                  </li>
+                                  <li class="nav-item">
+                                    <a class="nav-link" href="{{ url('filter') }}">Latest</a>
+                                  </li>
+                                  <li class="nav-item">
+                                    <a class="nav-link" href="{{ url('filter') }}">Latest Kid's</a>
+                                  </li>
+                                  <li class="nav-item">
+                                    <a class="nav-link" href="{{ url('filter') }}">Latest Women's</a>
+                                  </li>
+                                  <li class="nav-item">
+                                    <a class="nav-link" href="{{ url('filter') }}">Trend</a>
+                                  </li>
+                                </ul>
+                              </div>
+                              <div class="col-6">
+                                <ul class="nav flex-column">
+                                  <li class="nav-item">
+                                    <a class="nav-link main" href="{{ url('filter') }}">SCHOES</a>
+                                  </li>
+                                  <li class="nav-item">
+                                    <a class="nav-link" href="{{ url('filter') }}">All clothes</a>
+                                  </li>
+                                  <li class="nav-item">
+                                    <a class="nav-link" href="{{ url('filter') }}">Latest</a>
+                                  </li>
+                                  <li class="nav-item">
+                                    <a class="nav-link" href="{{ url('filter') }}">Latest Kid's</a>
+                                  </li>
+                                  <li class="nav-item">
+                                    <a class="nav-link" href="{{ url('filter') }}">Latest Women's</a>
+                                  </li>
+                                  <li class="nav-item">
+                                    <a class="nav-link" href="{{ url('filter') }}">Trend</a>
+                                  </li>
+                                </ul>
+                            </div>
+                            </div>
+                        </div> -->
+                        <!-- col  3-->
+                        <!-- <div class="col-3">
+                            <div class="row">
+                              <div class="col-6">
+                                <ul class="nav flex-column">
+                                  <li class="nav-item">
+                                    <a class="nav-link main" href="{{ url('filter') }}">Sport</a>
+                                  </li>
+                                  <li class="nav-item">
+                                    <a class="nav-link" href="{{ url('filter') }}">All clothes</a>
+                                  </li>
+                                  <li class="nav-item">
+                                    <a class="nav-link" href="{{ url('filter') }}">Latest</a>
+                                  </li>
+                                  <li class="nav-item">
+                                    <a class="nav-link" href="{{ url('filter') }}">Trend</a>
+                                  </li>
+                                </ul>
+                              </div>
+                              <div class="col-6">
+                                <ul class="nav flex-column">
+                                  <li class="nav-item">
+                                    <a class="nav-link main" href="{{ url('filter') }}">Size</a>
+                                  </li>
+                                  <li class="nav-item">
+                                    <a class="nav-link" href="{{ url('filter') }}">All clothes</a>
+                                  </li>
+                                  <li class="nav-item">
+                                    <a class="nav-link" href="{{ url('filter') }}">Latest</a>
+                                  </li>
+                                  <li class="nav-item">
+                                    <a class="nav-link" href="{{ url('filter') }}">Latest Kid's</a>
+                                  </li>
+                                  <li class="nav-item">
+                                    <a class="nav-link" href="{{ url('filter') }}">Latest Women's</a>
+                                  </li>
+                                  <li class="nav-item">
+                                    <a class="nav-link" href="{{ url('filter') }}">Trend</a>
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
+                        </div> -->
+                        <!-- col 4 -->
+                        <!-- <div class="col-2">
+                            <div class="row">
+                              <div class="nav-col col-12">
+                                <a href="{{ url('adidas') }}">
+                                  <div class="nav-double">
+                                    <img class="nav-product" src="assets/images/index/navbrand/4.jpg" alt="Card image cap">
+                                  </div>
+                                  <div class="w-100 text-center">
+                                    <span>ADIDAS</span>
+                                  </div>
+                                </a>
+                              </div>
+                              <div class="nav-col col-12">
+                                <a href="{{ url('adidas') }}">
+                                  <div class="nav-double">
+                                    <img class="nav-product" src="assets/images/index/navbrand/6.jpg" alt="Card image cap">
+                                  </div>
+                                  <div class="w-100 text-center">
+                                    <span>ADIDAS</span>
+                                  </div>
+                                </a>
+                              </div>
+                            </div>
+                        </div> -->
+                      </div>
+                    </div>
+                </div>
+
+              </li> <!-- WOMEN -->
+              <li class="nav-item">
+
+                <!-- <a class="nav-link" href="{{ url('filter/?genders=27') }}"><span style="font-weight : 400;">KID</span></a> -->
+                <a class="nav-link" href="{{ url('brands/Kid') }}"><span style="font-weight : 400;">KID</span></a>
+                <div class="list">
+                    <div class="list-container">
+                      <div class="row">
+                        <!-- col 1 -->
+                        <div class="column-box">
+                          <div class="columns">
+                            <ul class="nav-ul-list">
+                              @foreach($category->result->childrenData->item as $key_category => $value_category)
+                                @if($value_category->name != 'Default Category')
+                                  <li>
+                                    <!-- <a class="nav-link" href="{{ url('filter/?genders=27&brands=') }}{{ $value_category->id }}">{{ $value_category->name }}</a> -->
+                                    <a class="nav-link" href="{{ url('brands') }}/{{ $value_category->name }}/{{ ('Kid') }}">{{ $value_category->name }}</a>
+                                  </li>
+                                @endif
+                              @endforeach
+                            </ul>
+                          </div>
+                        </div>
+                        <!-- <div class="col-12 list-first-col">
+                          <ul class="nav flex-column">
+                            <li class="nav-item">
+                              <a class="nav-link main" href="{{ url('filter') }}">NEW PRODUCTS</a>
+                            </li>
+                            <li class="nav-item">
+                              <a class="nav-link" href="{{ url('filter') }}">Latest Sneakers</a>
+                            </li>
+                            <li class="nav-item">
+                              <a class="nav-link" href="{{ url('filter') }}">Latest Women's</a>
+                            </li>
+                            <li class="nav-item">
+                              <a class="nav-link" href="{{ url('filter') }}">New This Week</a>
+                            </li>
+                            <li class="nav-item">
+                              <a class="nav-link" href="{{ url('filter') }}">Restocks</a>
+                            </li>
+                          </ul>
+                        </div> -->
+                        <!-- col 2 -->
+                        <!-- <div class="col-3 list-first-col">
+                            <div class="row">
+                              <div class="col-6">
+                                <ul class="nav flex-column">
+                                  <li class="nav-item">
+                                    <a class="nav-link main" href="{{ url('filter') }}">CHLOTHES</a>
+                                  </li>
+                                  <li class="nav-item">
+                                    <a class="nav-link" href="{{ url('filter') }}">All clothes</a>
+                                  </li>
+                                  <li class="nav-item">
+                                    <a class="nav-link" href="{{ url('filter') }}">Latest</a>
+                                  </li>
+                                  <li class="nav-item">
+                                    <a class="nav-link" href="{{ url('filter') }}">Latest Kid's</a>
+                                  </li>
+                                  <li class="nav-item">
+                                    <a class="nav-link" href="{{ url('filter') }}">Latest Women's</a>
+                                  </li>
+                                  <li class="nav-item">
+                                    <a class="nav-link" href="{{ url('filter') }}">Trend</a>
+                                  </li>
+                                </ul>
+                              </div>
+                              <div class="col-6">
+                                <ul class="nav flex-column">
+                                  <li class="nav-item">
+                                    <a class="nav-link main" href="{{ url('filter') }}">SCHOES</a>
+                                  </li>
+                                  <li class="nav-item">
+                                    <a class="nav-link" href="{{ url('filter') }}">All clothes</a>
+                                  </li>
+                                  <li class="nav-item">
+                                    <a class="nav-link" href="{{ url('filter') }}">Latest</a>
+                                  </li>
+                                  <li class="nav-item">
+                                    <a class="nav-link" href="{{ url('filter') }}">Latest Kid's</a>
+                                  </li>
+                                  <li class="nav-item">
+                                    <a class="nav-link" href="{{ url('filter') }}">Latest Women's</a>
+                                  </li>
+                                  <li class="nav-item">
+                                    <a class="nav-link" href="{{ url('filter') }}">Trend</a>
+                                  </li>
+                                </ul>
+                            </div>
+                            </div>
+                        </div> -->
+                        <!-- col  3-->
+                        <!-- <div class="col-3">
+                            <div class="row">
+                              <div class="col-6">
+                                <ul class="nav flex-column">
+                                  <li class="nav-item">
+                                    <a class="nav-link main" href="{{ url('filter') }}">Sport</a>
+                                  </li>
+                                  <li class="nav-item">
+                                    <a class="nav-link" href="{{ url('filter') }}">All clothes</a>
+                                  </li>
+                                  <li class="nav-item">
+                                    <a class="nav-link" href="{{ url('filter') }}">Latest</a>
+                                  </li>
+                                  <li class="nav-item">
+                                    <a class="nav-link" href="{{ url('filter') }}">Trend</a>
+                                  </li>
+                                </ul>
+                              </div>
+                              <div class="col-6">
+                                <ul class="nav flex-column">
+                                  <li class="nav-item">
+                                    <a class="nav-link main" href="{{ url('filter') }}">Size</a>
+                                  </li>
+                                  <li class="nav-item">
+                                    <a class="nav-link" href="{{ url('filter') }}">All clothes</a>
+                                  </li>
+                                  <li class="nav-item">
+                                    <a class="nav-link" href="{{ url('filter') }}">Latest</a>
+                                  </li>
+                                  <li class="nav-item">
+                                    <a class="nav-link" href="{{ url('filter') }}">Latest Kid's</a>
+                                  </li>
+                                  <li class="nav-item">
+                                    <a class="nav-link" href="{{ url('filter') }}">Latest Women's</a>
+                                  </li>
+                                  <li class="nav-item">
+                                    <a class="nav-link" href="{{ url('filter') }}">Trend</a>
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
+                        </div> -->
+                        <!-- col 4 -->
+                        <!-- <div class="col-2">
+                            <div class="row">
+                              <div class="nav-col col-12">
+                                <a href="{{ url('adidas') }}">
+                                  <div class="nav-double">
+                                    <img class="nav-product" src="assets/images/index/navbrand/4.jpg" alt="Card image cap">
+                                  </div>
+                                  <div class="w-100 text-center">
+                                    <span>ADIDAS</span>
+                                  </div>
+                                </a>
+                              </div>
+                              <div class="nav-col col-12">
+                                <a href="{{ url('adidas') }}">
+                                  <div class="nav-double">
+                                    <img class="nav-product" src="assets/images/index/navbrand/6.jpg" alt="Card image cap">
+                                  </div>
+                                  <div class="w-100 text-center">
+                                    <span>ADIDAS</span>
+                                  </div>
+                                </a>
+                              </div>
+                            </div>
+                        </div> -->
+                      </div>
+                    </div>
+                </div>
+
+              </li> <!-- KID -->
+
+             <!--  <li class="nav-item">
+                <a class="nav-link" href="{{ url('sale') }}"><span style="font-weight : 400;">SALE</span></a>
+                <div class="list">
+                    <div class="list-container">
+                      <div class="row">
+                        <div class="col-2 list-first-col">
+                          <ul class="nav flex-column">
+                            <li class="nav-item">
+                              <a class="nav-link main" href="{{ url('filter') }}">View all Latest</a>
+                            </li>
+                            <li class="nav-item">
+                              <a class="nav-link" href="{{ url('filter') }}">Latest Kid's</a>
+                            </li>
+                            <li class="nav-item">
+                              <a class="nav-link" href="{{ url('filter') }}">Latest Sneakers</a>
+                            </li>
+                            <li class="nav-item">
+                              <a class="nav-link" href="{{ url('filter') }}">Latest Women's</a>
+                            </li>
+                            <li class="nav-item">
+                              <a class="nav-link" href="{{ url('filter') }}">New This Week</a>
+                            </li>
+                            <li class="nav-item">
+                              <a class="nav-link" href="{{ url('filter') }}">Restocks</a>
+                            </li>
+                          </ul>
+                        </div>
+                        <div class="col-2">
+                          <ul class="nav flex-column">
+                            <li class="nav-item">
+                              <a class="nav-link main-2" href="{{ url('filter') }}">LATEST BRANDS</a>
+                            </li>
+                            <li class="nav-item">
+                              <a class="nav-link" href="{{ url('filter') }}">Adidas</a>
+                            </li>
+                            <li class="nav-item">
+                              <a class="nav-link" href="{{ url('reebok') }}">Reebok</a>
+                            </li>
+                          </ul>
+                        </div>
+                        <div class="col-2">
+                          <ul class="nav flex-column">
+                            <li class="nav-item">
+                              <a class="nav-link main-2" href="{{ url('filter') }}">LATEST BRANDS</a>
+                            </li>
+                            <li class="nav-item">
+                              <a class="nav-link" href="{{ url('filter') }}">Adidas</a>
+                            </li>
+                            <li class="nav-item">
+                              <a class="nav-link" href="{{ url('reebok') }}">Reebok</a>
+                            </li>
+                          </ul>
+                        </div>
+                        <div class="col-2">
+                            <div class="row">
+                              <div class="nav-col col-12">
+
+                                <a href="{{ url('adidas') }}">
+                                  <div class="nav-double">
+                                    <img class="nav-product" src="assets/images/index/navbrand/15.jpg" alt="Card image cap">
+                                  </div>
+                                  <div class="w-100 text-center">
+                                    <span>ADIDAS</span>
+                                  </div>
+                                </a>
+                              </div>
+                              <div class="nav-col col-12">
+
+                                <a href="{{ url('adidas') }}">
+                                  <div class="nav-double">
+                                    <img class="nav-product" src="assets/images/index/navbrand/16.jpg" alt="Card image cap">
+                                  </div>
+                                  <div class="w-100 text-center">
+                                    <span>ADIDAS</span>
+                                  </div>
+                                </a>
+                              </div>
+                            </div>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+              </li> -->
+
+              <li class="nav-item">
+
+                <a class="nav-link" href="{{ url('blog') }}"><span style="font-weight : 400;">BLOG</span></a>
+                <div class="list">
+                    <div class="list-container">
+                      <div class="w-100 mb-3">
+                        <span>READ DILOK. BLOG</span>
+                      </div>
+                          <div class="row">
+                            <div class="col-12 blog-box">
+                              <div class="row ">
+
+                                @foreach($blocks->items as $key_blocks => $value_blocks)
+                                @php
+                                  preg_match('/<img.+url=[\'"](?P<src>.+?)[\'"].*>/i', $value_blocks->content, $image);
+                                @endphp
+                                  <div class="col-3 blog-row mb-3">
+                                    <div class="row blog-row">
+                                      <div class="col-4 blog-col">
+                                        <a href="{{ url('single-blog') }}/{{ $value_blocks->id }}">
+                                          <div class="nav-blog">
+                                            @if(!empty($image['src']))
+                                              <img class="nav-product" src="http://128.199.235.248/magento/pub/media/{{ $image['src'] }}"/>
+                                            @else
+                                              <img class="nav-product" src="{{ url('assets/images/No_Image_Available.jpg') }}">
+                                            @endif
+                                          </div>
+                                        </a>
+                                      </div>
+                                      <div class="col-8 blog-row">
+                                        <a href="{{ url('single-blog') }}/{{ $value_blocks->id }}">
+                                          <div class="center-table nav-blog-text">
+                                            <span>{{ $value_blocks->title }}</span>
+                                          </div>
+                                        </a>
+                                      </div>
+                                    </div>
+                                  </div>
+                                @endforeach
+
+                                  <!-- <div class="col-6 blog-row mb-3">
+                                    <div class="row blog-row">
+                                      <div class="col-4 blog-col">
+
+                                        <a href="#">
+                                          <div class="nav-blog">
+                                            <img class="nav-product" src="assets/images/index/navbrand/10.jpg" alt="Card image cap">
+                                          </div>
+                                        </a>
+                                      </div>
+                                      <div class="col-8 blog-row">
+
+                                        <a href="#">
+                                          <div class="center-table nav-blog-text">
+                                            <span>I'm vertically reatee layout.</span>
+                                          </div>
+                                        </a>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <div class="col-6 blog-row mb-3">
+                                    <div class="row blog-row">
+                                      <div class="col-4 blog-col">
+
+                                        <a href="#">
+                                          <div class="nav-blog">
+                                            <img class="nav-product" src="assets/images/index/navbrand/11.jpg" alt="Card image cap">
+                                          </div>
+                                        </a>
+                                      </div>
+                                      <div class="col-8 blog-row">
+
+                                        <a href="#">
+                                          <div class="center-table nav-blog-text">
+                                            <span>I'm vertically reatee layout.</span>
+                                          </div>
+                                        </a>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <div class="col-6 blog-row mb-3">
+                                    <div class="row blog-row">
+                                      <div class="col-4 blog-col">
+
+                                        <a href="#">
+                                          <div class="nav-blog">
+                                            <img class="nav-product" src="assets/images/index/navbrand/12.jpg" alt="Card image cap">
+                                          </div>
+                                        </a>
+                                      </div>
+                                      <div class="col-8 blog-row">
+
+                                        <a href="#">
+                                          <div class="center-table nav-blog-text">
+                                            <span>I'm vertically reatee layout.</span>
+                                          </div>
+                                        </a>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <div class="col-6 blog-row mb-3">
+                                    <div class="row blog-row">
+                                      <div class="col-4 blog-col">
+
+                                        <a href="#">
+                                          <div class="nav-blog">
+                                            <img class="nav-product" src="assets/images/index/navbrand/13.jpg" alt="Card image cap">
+                                          </div>
+                                        </a>
+                                      </div>
+                                      <div class="col-8 blog-row">
+
+                                        <a href="#">
+                                          <div class="center-table nav-blog-text">
+                                            <span>I'm vertically reatee layout.</span>
+                                          </div>
+                                        </a>
+                                      </div>
+                                    </div>
+                                  </div> -->
+
+                              </div>
+                            </div>
+                            <!-- <div class="col-2 nav-col-single">
+                              <div class="nav-blog-single mb-2">
+
+                                <a href="#">
+                                  <img class="nav-product" src="assets/images/index/navbrand/14.jpg" alt="Card image cap">
+                                </a>
+                              </div>
+                              <div class="nav-blog-text text-center">
+
+                                <a href="#">
+                                 <span>This is dummy topic name.</span>
+                                </a>
+                              </div>
+                            </div> -->
+
+                          </div>
+                    </div>
+                </div>
+              </li> <!-- BLOG -->
+            </ul><!-- END TOP-LEFT NAVBAR -->
+          </div>
+          <div class="col-6">
+            <ul class="navbar-nav desktop-nav ml-auto nav-cart-black">
+              <li class="nav-item">
+                <div class="input-group search-input-group">
+                  <input type="text" class="form-control search-input white" placeholder="Search item" aria-label="Search item" aria-describedby="basic-addon2">
+
+                  <div class="input-group-append">
+                    <!-- ปุ่มขยาย ssearch มี script ใน Footerscript -->
+                    <button class="btn search-btn toggle-search" onclick="expandsearch()" type="button"><i class="fa fa-search white" aria-hidden="true"></i></button>
+                    <!-- ปุ่ม search -->
+                    <button class="btn search-btn confirm-search" type="button"><i class="fa fa-search white" aria-hidden="true"></i></button>
+                  </div>
+                </div>
+              </li>
+
+              <li class="nav-item cart mr-3">
+                <button class="btn btn-secondary cart-btn sidebarCollapse" type="button" >
+                  <span style="font-weight : 400;"><i class="fa fa-shopping-cart" aria-hidden="true"></i> CART
+                  @if(!empty($cart_customer))
+                    @if(count($cart_customer) != '[]')
+                      ({{ count($cart_customer) }})
+                    @else
+                      (0)
+                    @endif
+                  @else
+                    (0)
+                  @endif
+                </span>
+                </button>
+              </li>
+              <!-- logged in -->
+              @if(!empty($token_customer))
+
+                <li class="nav-item" style="margin-top: 5px;">
+                  <div class="btn-group">
+                    <button class="btn profile-btn p-0" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+                      <div class="center-table">
+                        <!-- <span class="image-cropper">
+                            <img class="profile-pic rounded" src="assets/images/index/person/1.jpg"/>
+                        </span> -->
+                        <span class="profile-name pl-2">{{ $token_customer->firstname }}</span>
+                      </div>
+
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item" href="{{ url('account') }}"><i class="fa fa-user" aria-hidden="true"></i> Profile</a>
+                        <a class="dropdown-item" href="{{ url('order') }}"><i class="fa fa-list-alt" aria-hidden="true"></i> Order</a>
+                        <!-- <a class="dropdown-item" href="#">Action</a> -->
+                        <!-- <a class="dropdown-item" href="#">Another action</a> -->
+                        <a class="dropdown-item" href="{{ url('logout') }}"><i class="fa fa-sign-out-alt" aria-hidden="true"></i> Log out</a>
+                    </div>
+                  </div>
+                </li>
+              <!-- end loged in -->
+              @else
+                <li class="nav-item">
+                     <div class="dropdown">
+                       <button class="btn btn-secondary log-in-dropdown-btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                         <span style="font-weight:400;"><i class="fa fa-sign-in-alt" aria-hidden="true"></i> Log in</span>
+                       </button>
+                       <div class="dropdown-menu dropdown-menu-right log-in-dropdown" aria-labelledby="dropdownMenuButton">
+                             <form class="p-5 form_login_customer2">
+                              <div class="form-group">
+                                <label class="d-flex">Email address<span class="red">*</span><span class="red ml-auto">*Required fields</span></label>
+                                <input type="email" name="email_login" class="form-control" aria-describedby="" placeholder="">
+                              </div>
+                              <div class="form-group">
+                                <label class="d-flex">Password<span class="red">*</span><span class="ml-auto"><a class="grey" href="{{ url('forgot') }}">Forget your password?</a></span></label>
+                                <input type="password" name="password_login" class="form-control" placeholder="">
+                              </div>
+                                <div class="regist-m-t2 text-center">
+                                  <button class="btn regist-btn-1 btn_login_customer2" type="button">LOG IN</button>
+                                </div>
+                            </form>
+                            <div class="create-account py-3">
+                              <span><a class="black" href="{{ url('regist') }}">New? Create an account</a></span>
+                            </div>
+                       </div>
+                     </div>
+                </li>
+              @endif
+              <!-- END Not loged in -->
+            </ul>
+          </div>
+        </div>
       </div>
 </nav>
-<nav class="navbar navbar-expand-lg navbar-light nav-border logo-nav d-xl-flex d-none">
-    <div class="container-fluid nav-container logo-nav">
+<nav class="navbar navbar-expand-lg navbar-light nav-border logo-nav d-xl-flex d-none px-0">
+    <div class="custom-container nav-container logo-nav">
       <div class="row w-100 logo-nav">
         <div class="col-3">
-          <ol class="breadcrumb pull-left" style="top:0;">
-
+          <ol class="breadcrumb px-2 pull-left" style="top:0;">
             <li class="breadcrumb-item "><a href="{{ url('/') }}" class="text-dark">Home</a></li>
             <li class="breadcrumb-item active" aria-current="page">{{ $page_title }}</li>
           </ol>
@@ -921,7 +913,7 @@
 @yield('body')
 
 <footer class="footer" style="height: 500px;">
-  <div class="container-fluid">
+  <div class="custom-container">
     <div class="row pt-lg-5 pt-md-5 pt-3 pb-2">
       <div class="col-xl-3 col-lg-3 col-md-12 col-12 d-lg-block d-none">
         <div class="w-100">
@@ -994,7 +986,7 @@
       </div>
 
       <div class="col-12 text-center white d-lg-none d-md-block">
-        <button type="button" class="btn btn-primary language-picker" data-toggle="modal" data-target="#exampleModal">
+        <button type="button" class="btn btn-primary language-picker " data-toggle="modal" data-target="#exampleModal">
           Language : <img class="pb-2 pr-2" src="http://i65.tinypic.com/2d0kyno.png"/><u>Nederlands</u>
         </button>
       </div>

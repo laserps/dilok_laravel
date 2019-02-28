@@ -285,7 +285,7 @@
           <div class="row justify-content-center text-center">
             <div class="col-11 px-0">
               <!-- Button trigger modal -->
-                <button type="button" class="btn btn-primary language-picker" data-toggle="modal" data-target="#exampleModal">
+                <button type="button" class="btn btn-primary language-picker w-100" data-toggle="modal" data-target="#exampleModal">
                   Language : <img class="pb-2 pr-2" src="http://i64.tinypic.com/fd60km.png"/><u>English</u>
                 </button>
                 <!-- Modal -->

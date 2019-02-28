@@ -2598,7 +2598,10 @@ $END PRODUCT DETAILS 1
       position: relative;
       overflow: hidden;
       width: 100%;
-      height: 221px!important;
+      height: 260px!important;
+  }
+  .header-slide-btn {
+      width: 150px;
   }
   .productdetail1-carousel .product-ipad-frame {
       position: relative;

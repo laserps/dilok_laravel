@@ -86,7 +86,7 @@
       <div class="container-fluid black-bg">
         <ul class="desktop-nav navbar-nav mr-auto">
           <li class="nav-item active">
-            <a class="nav-link" href="{{ url('/') }}"><span style="font-weight : 400;">HOME</span></a>
+             <a class="nav-link" href="{{ url('/') }}"><span style="font-weight : 400;">HOME</span></a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{{ url('filter') }}"><span style="font-weight : 400;">LATEST</span></a>
@@ -111,78 +111,8 @@
                           <a class="nav-link" href="{{ url('brands') }}/{{ ('Women') }}">Latest Women's</a>
                           <!-- <a class="nav-link" href="{{ url('filter?genders=26') }}">Latest Women's</a> -->
                         </li>
-                        <!-- <li class="nav-item">
-                          <a class="nav-link" href="{{ url('filter') }}">New This Week</a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" href="{{ url('filter') }}">Restocks</a>
-                        </li> -->
                       </ul>
                     </div>
-                    <!-- col 2 -->
-                    <!-- <div class="col-2">
-                      <ul class="nav flex-column">
-                        <li class="nav-item">
-                          <a class="nav-link" href="{{ url('filter') }}">LATEST BRANDS</a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" href="{{ url('filter') }}">Adidas</a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" href="{{ url('filter') }}">Reebok</a>
-                        </li>
-                      </ul>
-                    </div> -->
-                    <!-- col  3-->
-                    <!-- <div class="col-2">
-                      <div class="row">
-                        <div class="nav-col col-12">
-                          <a href="{{ url('adidas') }}">
-                            <div class="nav-double">
-                              <img class="nav-product" src="assets/images/index/navbrand/6.jpg" alt="Card image cap">
-                            </div>
-                            <div class="w-100 text-center">
-                              <span>ADIDAS</span>
-                            </div>
-                          </a>
-                        </div>
-                        <div class="nav-col col-12">
-                          <a href="{{ url('adidas') }}">
-                            <div class="nav-double">
-                              <img class="nav-product" src="assets/images/index/navbrand/7.jpg" alt="Card image cap">
-                            </div>
-                            <div class="w-100 text-center">
-                              <span>ADIDAS</span>
-                            </div>
-                          </a>
-                        </div>
-                      </div>
-                    </div> -->
-                    <!-- col 4 -->
-                    <!-- <div class="col-2">
-                        <div class="row">
-                          <div class="nav-col col-12">
-                            <a href="{{ url('adidas') }}">
-                              <div class="nav-double">
-                                <img class="nav-product" src="assets/images/index/navbrand/7.jpg" alt="Card image cap">
-                              </div>
-                              <div class="w-100 text-center">
-                                <span>ADIDAS</span>
-                              </div>
-                            </a>
-                          </div>
-                          <div class="nav-col col-12">
-                            <a href="{{ url('adidas') }}">
-                              <div class="nav-double">
-                                <img class="nav-product" src="assets/images/index/navbrand/8.jpg" alt="Card image cap">
-                              </div>
-                              <div class="w-100 text-center">
-                                <span>ADIDAS</span>
-                              </div>
-                            </a>
-                          </div>
-                        </div>
-                    </div> -->
                   </div>
                 </div>
             </div>
@@ -205,7 +135,6 @@
                                 @foreach($category->result->childrenData->item as $key_category => $value_category)
                                   @if($value_category->name != 'Default Category')
                                     <li>
-                                      <!-- <a class="nav-link" href="{{ url('filter/?brands=') }}{{ $value_category->id }}">{{ $value_category->name }}</a> -->
                                       <a class="nav-link" href="{{ url('brands') }}/{{ $value_category->name }}">{{ $value_category->name }}</a>
                                     </li>
                                   @endif
@@ -216,290 +145,10 @@
                         </div>
                       </div>
                     </div>
-                    <!-- col 2 -->
-                    <!-- <div class="col-2">
-                        <div class="row">
-                          <div class="nav-col col-12">
-
-                            <a href="{{ url('adidas') }}">
-                              <div class="nav-double">
-                                <img class="nav-product" src="assets/images/index/navbrand/9.jpg" alt="Card image cap">
-                              </div>
-                              <div class="w-100 text-center">
-                                <span>ADIDAS</span>
-                              </div>
-                            </a>
-                          </div>
-                          <div class="nav-col col-12">
-
-                            <a href="{{ url('adidas') }}">
-                              <div class="nav-double">
-                                <img class="nav-product" src="assets/images/index/navbrand/10.jpg" alt="Card image cap">
-                              </div>
-                              <div class="w-100 text-center">
-                                <span>Onisuka</span>
-                              </div>
-                            </a>
-                          </div>
-                        </div>
-                    </div> -->
                   </div>
                 </div><!-- END list container-->
             </div>
           </li> <!-- Brand -->
-
-          <!-- <li class="nav-item">
-            <a class="nav-link" href="{{ url('launches') }}"><span style="font-weight : 400;">LAUNCHES</span></a>
-            <div class="list">
-                <div class="list-container">
-                  <div class="row">
-                    <div class="col-12">
-                          <div class="w-100">
-                            <a class="nav-link" href="{{ url('launches') }}">VIEW UPCOMING RELEASES</a>
-                          </div>
-                          <div class="row launch-row pt-3">
-                            <div class="col-4 mb-3">
-                              <div class="row">
-                                <div class="launches-col col-5">
-                                  <a href="{{ url('launches-detail') }}">
-                                    <div class="nav-launches">
-                                      <img class="nav-product" src="assets/images/index/navbrand/4.jpg" alt="Card image cap">
-                                    </div>
-                                  </a>
-                                </div>
-                                <div class="col-7">
-                                    <div class="launches-title">
-                                      <span>DAME D.O.L.L.A.R</span>
-                                    </div>
-                                    <div class="launches-description">
-                                      <span>lorem ipsum donor</span>
-                                    </div>
-                                    <div class="launches-date">
-                                      <span>22/06/2018 @ 00:01 GTM</span>
-                                    </div>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="col-4 mb-4">
-                              <div class="row">
-                                <div class="launches-col col-5">
-
-                                  <a href="{{ url('launches-detail') }}">
-                                    <div class="nav-launches">
-                                      <img class="nav-product" src="assets/images/index/navbrand/6.jpg" alt="Card image cap">
-                                    </div>
-                                  </a>
-                                </div>
-                                <div class="col-7">
-                                    <div class="launches-title">
-                                      <span>DAME D.O.L.L.A.R</span>
-                                    </div>
-                                    <div class="launches-description">
-                                      <span>lorem ipsum donor</span>
-                                    </div>
-                                    <div class="launches-date">
-                                      <span>22/06/2018 @ 00:01 GTM</span>
-                                    </div>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="col-4 mb-4">
-                              <div class="row">
-                                <div class="launches-col col-5">
-
-                                  <a href="{{ url('launches-detail') }}">
-                                    <div class="nav-launches">
-                                      <img class="nav-product" src="assets/images/index/navbrand/10.jpg" alt="Card image cap">
-                                    </div>
-                                  </a>
-                                </div>
-                                <div class="col-7">
-                                    <div class="launches-title">
-                                      <span>DAME D.O.L.L.A.R</span>
-                                    </div>
-                                    <div class="launches-description">
-                                      <span>lorem ipsum donor</span>
-                                    </div>
-                                    <div class="launches-date">
-                                      <span>22/06/2018 @ 00:01 GTM</span>
-                                    </div>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="col-4 mb-4">
-                              <div class="row">
-                                <div class="launches-col col-5">
-
-                                  <a href="{{ url('launches-detail') }}">
-                                    <div class="nav-launches">
-                                      <img class="nav-product" src="assets/images/index/navbrand/6.jpg" alt="Card image cap">
-                                    </div>
-                                  </a>
-                                </div>
-                                <div class="col-7">
-                                    <div class="launches-title">
-                                      <span>DAME D.O.L.L.A.R</span>
-                                    </div>
-                                    <div class="launches-description">
-                                      <span>lorem ipsum donor</span>
-                                    </div>
-                                    <div class="launches-date">
-                                      <span>22/06/2018 @ 00:01 GTM</span>
-                                    </div>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="col-4 mb-4">
-                              <div class="row">
-                                <div class="launches-col col-5">
-
-                                  <a href="{{ url('launches-detail') }}">
-                                    <div class="nav-launches">
-                                      <img class="nav-product" src="assets/images/index/navbrand/7.jpg" alt="Card image cap">
-                                    </div>
-                                  </a>
-                                </div>
-                                <div class="col-7">
-                                    <div class="launches-title">
-                                      <span>DAME D.O.L.L.A.R</span>
-                                    </div>
-                                    <div class="launches-description">
-                                      <span>lorem ipsum donor</span>
-                                    </div>
-                                    <div class="launches-date">
-                                      <span>22/06/2018 @ 00:01 GTM</span>
-                                    </div>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="col-4 mb-4">
-                              <div class="row">
-                                <div class="launches-col col-5">
-
-                                  <a href="{{ url('launches-detail') }}">
-                                    <div class="nav-launches">
-                                      <img class="nav-product" src="assets/images/index/navbrand/8.jpg" alt="Card image cap">
-                                    </div>
-                                  </a>
-                                </div>
-                                <div class="col-7">
-                                    <div class="launches-title">
-                                      <span>DAME D.O.L.L.A.R</span>
-                                    </div>
-                                    <div class="launches-description">
-                                      <span>lorem ipsum donor</span>
-                                    </div>
-                                    <div class="launches-date">
-                                      <span>22/06/2018 @ 00:01 GTM</span>
-                                    </div>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="col-4 mb-4">
-                              <div class="row">
-                                <div class="launches-col col-5">
-
-                                  <a href="{{ url('launches-detail') }}">
-                                    <div class="nav-launches">
-                                      <img class="nav-product" src="assets/images/index/navbrand/9.jpg" alt="Card image cap">
-                                    </div>
-                                  </a>
-                                </div>
-                                <div class="col-7">
-                                    <div class="launches-title">
-                                      <span>DAME D.O.L.L.A.R</span>
-                                    </div>
-                                    <div class="launches-description">
-                                      <span>lorem ipsum donor</span>
-                                    </div>
-                                    <div class="launches-date">
-                                      <span>22/06/2018 @ 00:01 GTM</span>
-                                    </div>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="col-4 mb-4">
-                              <div class="row">
-                                <div class="launches-col col-5">
-
-                                  <a href="{{ url('launches-detail') }}">
-                                    <div class="nav-launches">
-                                      <img class="nav-product" src="assets/images/index/navbrand/4.jpg" alt="Card image cap">
-                                    </div>
-                                  </a>
-                                </div>
-                                <div class="col-7">
-                                    <div class="launches-title">
-                                      <span>DAME D.O.L.L.A.R</span>
-                                    </div>
-                                    <div class="launches-description">
-                                      <span>lorem ipsum donor</span>
-                                    </div>
-                                    <div class="launches-date">
-                                      <span>22/06/2018 @ 00:01 GTM</span>
-                                    </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-
-                    </div>
-                  </div>
-                </div>
-            </div>
-          </li> -->
-
-          <!-- <li class="nav-item">
-            <a class="nav-link" href="{{ url('filter') }}"><span style="font-weight : 400;">CATEGORIES</span></a>
-            <div class="list">
-                <div class="list-container">
-                  <div class="row">
-                    <div class="col-6">
-                      <div class="row">
-                        <div class="col-12">
-                          <div class="w-100">
-                            <a class="main" href="">ALL CATEGORIES</a>
-                          </div>
-                          <div class="column-box">
-                            <div class="columns">
-                              <ul class="nav-ul-list">
-                                <li>
-                                  <a class="nav-link" href="{{ url('filter') }}">LATEST BRANDS</a>
-                                </li>
-                                <li>
-                                  <a class="nav-link" href="{{ url('adidas') }}">Adidas</a>
-                                </li>
-                                <li>
-                                  <a class="nav-link" href="{{ url('reebok') }}">Reebok</a>
-                                </li>
-                                <li>
-                                  <a class="nav-link" href="{{ url('filter') }}">BRANDS</a>
-                                </li>
-                                <li>
-                                  <a class="nav-link" href="{{ url('adidas') }}">Adidas</a>
-                                </li>
-                                <li>
-                                  <a class="nav-link" href="{{ url('reebok') }}">Reebok</a>
-                                </li>
-                                <li>
-                                  <a class="nav-link" href="{{ url('filter') }}">LATEST BRANDS</a>
-                                </li>
-                                <li>
-                                  <a class="nav-link" href="{{ url('adidas') }}">Adidas</a>
-                                </li>
-                                <li>
-                                  <a class="nav-link" href="{{ url('reebok') }}">Reebok</a>
-                                </li>
-                              </ul>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                </div>
-              </div>
-            </div>
-          </li> -->
 
           <li class="nav-item">
 
@@ -516,7 +165,6 @@
                           @foreach($category->result->childrenData->item as $key_category => $value_category)
                             @if($value_category->name != 'Default Category')
                               <li>
-                                <!-- <a class="nav-link" href="{{ url('filter/?genders=25&brands=') }}{{ $value_category->id }}">{{ $value_category->name }}</a> -->
                                 <a class="nav-link" href="{{ url('brands') }}/{{ $value_category->name }}/{{ ('Men') }}">{{ $value_category->name }}</a>
                               </li>
                             @endif
@@ -524,141 +172,6 @@
                         </ul>
                       </div>
                     </div>
-
-
-                    <!-- <div class="col-4 list-first-col"> -->
-                      <!-- <ul class="nav flex-column"> -->
-                        <!-- <li class="nav-item">
-                          <a class="nav-link" href="{{ url('filter') }}">Latest Sneakers</a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" href="{{ url('filter') }}">Latest Women's</a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" href="{{ url('filter') }}">New This Week</a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" href="{{ url('filter') }}">Restocks</a>
-                        </li> -->
-                      <!-- </ul> -->
-                    <!-- </div> -->
-                    <!-- col 2 -->
-                    <!-- <div class="col-3 list-first-col">
-                        <div class="row">
-                          <div class="col-6">
-                            <ul class="nav flex-column">
-                              <li class="nav-item">
-                                <a class="nav-link main" href="{{ url('filter') }}">CHLOTHES</a>
-                              </li>
-                              <li class="nav-item">
-                                <a class="nav-link" href="{{ url('filter') }}">All clothes</a>
-                              </li>
-                              <li class="nav-item">
-                                <a class="nav-link" href="{{ url('filter') }}">Latest</a>
-                              </li>
-                              <li class="nav-item">
-                                <a class="nav-link" href="{{ url('filter') }}">Latest Kid's</a>
-                              </li>
-                              <li class="nav-item">
-                                <a class="nav-link" href="{{ url('filter') }}">Latest Women's</a>
-                              </li>
-                              <li class="nav-item">
-                                <a class="nav-link" href="{{ url('filter') }}">Trend</a>
-                              </li>
-                            </ul>
-                          </div>
-                          <div class="col-6">
-                            <ul class="nav flex-column">
-                              <li class="nav-item">
-                                <a class="nav-link main" href="{{ url('filter') }}">SCHOES</a>
-                              </li>
-                              <li class="nav-item">
-                                <a class="nav-link" href="{{ url('filter') }}">All clothes</a>
-                              </li>
-                              <li class="nav-item">
-                                <a class="nav-link" href="{{ url('filter') }}">Latest</a>
-                              </li>
-                              <li class="nav-item">
-                                <a class="nav-link" href="{{ url('filter') }}">Latest Kid's</a>
-                              </li>
-                              <li class="nav-item">
-                                <a class="nav-link" href="{{ url('filter') }}">Latest Women's</a>
-                              </li>
-                              <li class="nav-item">
-                                <a class="nav-link" href="{{ url('filter') }}">Trend</a>
-                              </li>
-                            </ul>
-                        </div>
-                        </div>
-                    </div> -->
-                    <!-- col  3-->
-                    <!-- <div class="col-3">
-                        <div class="row">
-                          <div class="col-6">
-                            <ul class="nav flex-column">
-                              <li class="nav-item">
-                                <a class="nav-link main" href="{{ url('filter') }}">Sport</a>
-                              </li>
-                              <li class="nav-item">
-                                <a class="nav-link" href="{{ url('filter') }}">All clothes</a>
-                              </li>
-                              <li class="nav-item">
-                                <a class="nav-link" href="{{ url('filter') }}">Latest</a>
-                              </li>
-                              <li class="nav-item">
-                                <a class="nav-link" href="{{ url('filter') }}">Trend</a>
-                              </li>
-                            </ul>
-                          </div>
-                          <div class="col-6">
-                            <ul class="nav flex-column">
-                              <li class="nav-item">
-                                <a class="nav-link main" href="{{ url('filter') }}">Size</a>
-                              </li>
-                              <li class="nav-item">
-                                <a class="nav-link" href="{{ url('filter') }}">All clothes</a>
-                              </li>
-                              <li class="nav-item">
-                                <a class="nav-link" href="{{ url('filter') }}">Latest</a>
-                              </li>
-                              <li class="nav-item">
-                                <a class="nav-link" href="{{ url('filter') }}">Latest Kid's</a>
-                              </li>
-                              <li class="nav-item">
-                                <a class="nav-link" href="{{ url('filter') }}">Latest Women's</a>
-                              </li>
-                              <li class="nav-item">
-                                <a class="nav-link" href="{{ url('filter') }}">Trend</a>
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
-                    </div> -->
-                    <!-- col 4 -->
-                    <!-- <div class="col-2">
-                        <div class="row">
-                          <div class="nav-col col-12">
-                            <a href="">
-                              <div class="nav-double">
-                                <img class="nav-product" src="assets/images/index/navbrand/4.jpg" alt="Card image cap">
-                              </div>
-                              <div class="w-100 text-center">
-                                <span>ADIDAS</span>
-                              </div>
-                            </a>
-                          </div>
-                          <div class="nav-col col-12">
-                            <a href="">
-                              <div class="nav-double">
-                                <img class="nav-product" src="assets/images/index/navbrand/6.jpg" alt="Card image cap">
-                              </div>
-                              <div class="w-100 text-center">
-                                <span>ADIDAS</span>
-                              </div>
-                            </a>
-                          </div>
-                        </div>
-                    </div> -->
                   </div>
                 </div>
             </div>
@@ -1247,7 +760,7 @@
               @else
                 (0)
               @endif
-            </span></a>
+            </span>
             </button>
           </li>
           <!-- logged in -->
@@ -1377,7 +890,10 @@
     </div>
     <div class="col-lg-5 col-md-5 col-4 px-0-nav">
       <button class="btn btn-secondary cart-btn sidebarCollapse pull-right" type="button">
-         <span><i class="fa fa-shopping-cart" aria-hidden="true"></i> </span><span class="d-xl-block d-lg-none d-md-none d-none">(0)</span></a>
+        <span>
+          <i class="fa fa-shopping-cart" aria-hidden="true"></i> 
+        </span>
+        <span class="d-xl-block d-lg-none d-md-none d-none">(0)</span>
       </button>
       <div class="input-group search-input-group pull-right d-lg-flex d-md-flex d-none">
         <input type="text" class="form-control search-input white" placeholder="Search item" aria-label="Search item" aria-describedby="basic-addon2">
@@ -2303,19 +1819,19 @@ $.ajaxSetup({
             var iw = $(this).width();
             iw = iw * 0.5;
             $(this).css({'height':iw+'px'});
-            $('.product-series-col').css({'height':iw+'px'});
+            $('.product-series-col');
           }
           else if(window.matchMedia("(max-width: 1024px)").matches){
             var iw = $(this).width();
             iw = iw * 0.6;
             $(this).css({'height':iw+'px'});
-            $('.product-series-col').css({'height':iw+'px'});
+            $('.product-series-col');
           }
           else{
             var iw = $(this).width();
             iw = iw * 0.6;
             $(this).css({'height':iw+'px'});
-            $('.product-series-col').css({'height':iw+'px'});
+            $('.product-series-col');
           }
         });
 

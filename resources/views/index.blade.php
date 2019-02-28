@@ -120,7 +120,7 @@
                             <h5>Discovering Your Individual Style</h5>
                             <hr></hr>
 
-                            <div class="header-slide-btn" >
+                            <div class="header-slide-btn content-slide-btn" >
                               <a href="{{ url('filter')}}" class="btn fast-buy p-2 w-100">
                                 <label class="mb-0 d-flex px-2 white">
                                   <span>More Detail</span>
@@ -668,7 +668,7 @@
                       preg_match('/<img.+url=[\'"](?P<src>.+?)[\'"].*>/i', $value_block->content, $image);
                       $date=date_create($value_block->creation_time);
                     @endphp
-                      <div class="col-lg-6 col-12 blog-img-col">
+                      <div class="col-md-6 col-12 blog-img-col">
                         <div class="card_new mr-0 px-1">
                             <div class="blog-img-frame">
                               <a href="{{ url('single-blog') }}/{{ $value_block->id }}">

@@ -136,44 +136,6 @@
                             </div>
                           </div>
                           @endif
-
-                        <!-- </div> -->
-                        <!-- <div class="carousel-item"> -->
-                          <!-- <div class="product-carousel-frame" data-toggle="modal" data-target="#full-screen-product-1"> -->
-                            <!-- รุป youtube เปลี่ยนแค่ช่องก่อน0.jpg เป็นlink video -->
-                            <!--< iframe width="100%" height="100%" src="https://www.youtube.com/embed/iGEUCPnw4Po?rel=0&amp;showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-                          </div>
-                        </div>
-                        <div class="carousel-item">
-                          <div class="product-carousel-frame" data-toggle="modal" data-target="#full-screen-product-1">
-                            <img class="product-carousel-img" src="assets/images/product/1/33.jpg">
-                          </div>
-                        </div>
-                        <div class="carousel-item">
-                          <div class="product-carousel-frame" data-toggle="modal" data-target="#full-screen-product-1">
-                            <img class="product-carousel-img" src="assets/images/product/1/44.jpg">
-                          </div>
-                        </div>
-                        <div class="carousel-item">
-                          <div class="product-carousel-frame" data-toggle="modal" data-target="#full-screen-product-1">
-                            <img class="product-carousel-img" src="assets/images/product/1/55.jpg">
-                          </div>
-                        </div>
-                        <div class="carousel-item">
-                          <div class="product-carousel-frame" data-toggle="modal" data-target="#full-screen-product-1">
-                            <img class="product-carousel-img" src="assets/images/product/1/66.jpg">
-                          </div>
-                        </div>
-                        <div class="carousel-item">
-                          <div class="product-carousel-frame" data-toggle="modal" data-target="#full-screen-product-1">
-                            <img class="product-carousel-img" src="assets/images/product/1/55.jpg">
-                          </div>
-                        </div>
-                        <div class="carousel-item">
-                          <div class="product-carousel-frame" data-toggle="modal" data-target="#full-screen-product-1">
-                            <img class="product-carousel-img" src="assets/images/product/1/44.jpg">
-                          </div>
-                        </div> -->
                       </div>
                       <a class="carousel-control-prev custom-control-prev" href="#product-carousel" role="button" data-slide="prev">
                         <span class="carousel-control-prev-icon custom-prev-icon" aria-hidden="true"></span>
@@ -185,6 +147,8 @@
                       </a>
                       </div>
                   </div>
+
+                  
                   <div class="col-12 d-lg-block d-none">
                     <div class="productdetail1-carousel owl-carousel owl-theme px-5">
                         <!-- บังคับไล่ชื่อitem+เลขด้วย -->
@@ -550,8 +514,8 @@
                           <input type="hidden" name="text_price_product" class="text_price_product" value="@if($price_special != $price_defult) {{ $price_special }} @else {{ $price_defult }} @endif" readonly>
 
                           <div class="row my-3 mx-0">
-                            <div class="col-xl-4 col-lg-6"></div>
-                            <div class="col-xl-4 col-lg-3 col-md-6 col-12 px-xl-1 px-lg-1 px-md-2 px-1 latest-product-btn latest-product-btn-detail1 mb-2">
+                            <div class="col-xl-4"></div>
+                            <div class="col-xl-4 col-lg-6 col-md-6 col-12 px-xl-1 px-lg-1 px-md-2 px-1 latest-product-btn latest-product-btn-detail1 mb-2">
                               <!-- <button type="button" class="btn add-to-cart p-2">
                                 <label class="mb-0 d-flex px-2">
                                   <span>ADD TO CART</span>
@@ -565,7 +529,7 @@
                                 </label>
                               </button>
                             </div>
-                            <div class="col-xl-4 col-lg-3 col-md-6 col-12 px-xl-1 px-lg-1 px-md-2 px-1 latest-product-btn latest-product-btn-detail1">
+                            <div class="col-xl-4 col-lg-6 col-md-6 col-12 px-xl-1 px-lg-1 px-md-2 px-1 latest-product-btn latest-product-btn-detail1">
                               <button type="button" class="btn fast-buy p-2">
                                 <label class="mb-0 d-flex px-2">
                                   <span>BUY NOW</span>

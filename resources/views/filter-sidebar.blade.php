@@ -20,7 +20,7 @@
                              </button>
                              <div class="collapse show" id="collapseExample999">
                                  <div class="mt-2">
-                                     <div class="row">
+                                     <div class="row brand-row-fliter">
                                          <span class="fillter-block fillter-select fillter-font4">
                                            <a href="#" class="fas fa-times fillter-close pr-2"></a>Male
                                          </span>

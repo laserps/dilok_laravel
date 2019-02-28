@@ -489,7 +489,7 @@
                             @endif
 
                             <div class="row my-3 mx-0 pb-3 sticky-product-picker" style="width: 100%;">
-                              <div class="col-xl-6 col-lg-12 col-6 px-xl-1 px-lg-0 px-md-2 px-1 latest-product-btn mb-2">
+                              <div class="col-xl-6 col-lg-6 col-sm-6 col-12 px-xl-1 px-lg-0 px-md-2 px-1 latest-product-btn mb-2">
                                 @if($products_detail->result->items->item->typeId == 'simple')
                                   <button type="button" class="btn_add_to_cart" data-product_detail="{{ $products_detail->result->items->item->name }}" data-product_id="{{ $products_detail->result->items->item->id }}" data-price_product="@if($price_special != $price_defult) {{ $price_special }} @else {{ $price_defult }} @endif" class="btn add-to-cart p-2">
                                   <label class="mb-0 d-flex pr-2">
@@ -506,7 +506,7 @@
                                 </button>
                                 @endif
                               </div>
-                              <div class="col-xl-6 col-lg-12 col-6 px-xl-1 px-lg-0 px-md-2 px-1 latest-product-btn">
+                              <div class="col-xl-6 col-lg-6 col-sm-6 col-12 px-xl-1 px-lg-0 px-md-2 px-1 latest-product-btn">
                                 <button type="button" class="btn fast-buy p-2">
                                   <label class="mb-0 d-flex px-2">
                                     <span>BUY NOW</span>

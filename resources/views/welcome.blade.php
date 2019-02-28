@@ -842,8 +842,9 @@
             <li class="breadcrumb-item active" aria-current="page">{{ $page_title }}</li>
           </ol>
         </div>
+
         <div class="col-6 pt-3">
-          <div class="w-100 h-100">
+          <!-- <div class="w-100 h-100"> -->
             <div class="centering-logo mx-auto h-100">
               <a href="{{ url('/') }}">
                 <div class="logo-lg-frame">
@@ -851,19 +852,25 @@
                 </div>
               </a>
             </div>
-          </div>
+          <!-- </div> -->
         </div>
+
         <div class="col-3">
-          <ul id="languagepicker" class="languagepicker roundborders large">
-              <a href="#en"><li class="current-language"><img src="http://i64.tinypic.com/fd60km.png"/>English</li></a>
-              <a href="#es"><li><img src="http://i68.tinypic.com/avo5ky.png"/>Español</li></a>
-              <a href="#fr"><li><img src="http://i65.tinypic.com/300b30k.png"/>Français</li></a>
-              <a href="#de"><li><img src="http://i63.tinypic.com/10zmzyb.png"/>German</li></a>
-              <a href="#it"><li><img src="http://i65.tinypic.com/23jl6bn.png"/>Italiano</li></a>
-              <a href="#nt"><li><img src="http://i65.tinypic.com/2d0kyno.png"/>Nederlands</li></a>
-              <a href="#en"><li><img src="http://i65.tinypic.com/14llf13.gif"/>Thailand</li></a>
+          <ul id="languagepicker" >
+            <div class="languagepicker roundborders large">
+              
+            
+            <a href="#en"><li class="current-language"><img src="http://i64.tinypic.com/fd60km.png"/>English</li></a>
+       <!--      <a href="#es"><li><img src="http://i68.tinypic.com/avo5ky.png"/>Español</li></a>
+            <a href="#fr"><li><img src="http://i65.tinypic.com/300b30k.png"/>Français</li></a>
+            <a href="#de"><li><img src="http://i63.tinypic.com/10zmzyb.png"/>German</li></a>
+            <a href="#it"><li><img src="http://i65.tinypic.com/23jl6bn.png"/>Italiano</li></a>
+            <a href="#nt"><li><img src="http://i65.tinypic.com/2d0kyno.png"/>Nederlands</li></a> -->
+            <a href="#en"><li><img src="http://i65.tinypic.com/14llf13.gif"/>Thailand</li></a>
+            </div>
           </ul>
         </div>
+
       </div>
     </div>
 </nav>
@@ -1461,6 +1468,7 @@ $.ajaxSetup({
         language = 41;
         $(this).css("height", language);
       });
+      
       // END LANGUAGE PICKER
         $( '.cart-product' ).each( function () {
            var iw = $(this).width();

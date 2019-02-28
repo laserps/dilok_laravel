@@ -85,9 +85,10 @@
 <nav class="navbar navbar-expand-lg d-xl-flex d-none black-bg">
       <div class="container-fluid black-bg">
         <ul class="desktop-nav navbar-nav mr-auto">
-          <li class="nav-item active">
+          {{-- <li class="nav-item active">
              <a class="nav-link" href="{{ url('/') }}"><span style="font-weight : 400;">HOME</span></a>
-          </li>
+          </li> --}}
+          
           <li class="nav-item">
             <a class="nav-link" href="{{ url('filter') }}"><span style="font-weight : 400;">LATEST</span></a>
             <div class="list">
@@ -117,6 +118,7 @@
                 </div>
             </div>
           </li> <!-- Latest -->
+          
           <li class="nav-item">
             <a class="nav-link" href="{{ url('filter') }}"><span style="font-weight : 400;">BRAND</span></a>
             <div class="list">
@@ -734,7 +736,7 @@
             </div>
           </li> <!-- BLOG -->
         </ul><!-- END TOP-LEFT NAVBAR -->
-        <ul class="navbar-nav desktop-nav ml-auto">
+        {{-- <ul class="navbar-nav desktop-nav ml-auto">
           <li class="nav-item">
             <div class="input-group search-input-group">
               <input type="text" class="form-control search-input white" placeholder="Search item" aria-label="Search item" aria-describedby="basic-addon2">
@@ -829,7 +831,7 @@
             </li>
           @endif
           <!-- END Not loged in -->
-        </ul>
+        </ul> --}}
       </div>
 </nav>
 <nav class="navbar navbar-expand-lg navbar-light nav-border logo-nav d-xl-flex d-none">
@@ -874,14 +876,13 @@
       </div>
     </div>
 </nav>
-
 <!-- ipad-pro and downward device width -->
 <nav class="navbar mobile-nav navbar-expand-xl navbar-dark black-bg d-xl-none d-lg-flex">
 
   <div class="row w-100 h-100 mx-0">
     <div class="col-lg-5 col-md-5 col-4 px-0-nav" style="position:relative;">
       <button class="btn btn-secondary collapse-nav-btn pull-left nav-btn" type="button">
-         <span><span class="navbar-toggler-icon"></span></span></a>
+         <span><span class="navbar-toggler-icon"></span></span>
       </button>
     </div>
     <div class="col-lg-2 col-md-2 col-4 px-0-nav">
@@ -1424,7 +1425,7 @@ $.ajaxSetup({
       function toggleChevron() {
           $(this).closest("div.promotion").find(".icon-collpase").toggleClass("fa-plus fa-minus");
       }
-      document.getElementById("promotion-code").addEventListener("click", toggleChevron);
+      {{-- document.getElementById("promotion-code").addEventListener("click", toggleChevron); --}}
       // END toggle  + and - in collapse btn
       // toggle  + and - in collapse mobile nav list
       $('.mobile-nav-list').on('click', function () {

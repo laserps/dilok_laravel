@@ -831,10 +831,14 @@
     <div class="custom-container nav-container logo-nav">
       <div class="row w-100 logo-nav">
         <div class="col-3">
-          <ol class="breadcrumb px-2 pull-left" style="top:0;">
-            <li class="breadcrumb-item "><a href="{{ url('/') }}" class="text-dark">Home</a></li>
-            <li class="breadcrumb-item active" aria-current="page">{{ $page_title }}</li>
-          </ol>
+          @if( URL::current()!=url('/') )
+            <ol class="breadcrumb px-2 pull-left" style="top:0;">
+              <li class="breadcrumb-item "><a href="{{ url('/') }}" class="text-dark">Home</a></li>
+              <li class="breadcrumb-item active" aria-current="page">{{ $page_title }}</li>
+            </ol>
+          @else
+            <div class="py-4"><br></div>
+          @endif
         </div>
 
         <div class="col-6 pt-3">

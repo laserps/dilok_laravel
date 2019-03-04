@@ -2105,6 +2105,10 @@ $END PRODUCT DETAILS 1
       background-color: black;
       height: auto!important;
   }
+  .blog-excerpt {
+      overflow: hidden;
+      height: 52px!important;
+  }
   .header-slide .item {
       height: 65vmin;
       position: relative;
@@ -2314,6 +2318,10 @@ $END PRODUCT DETAILS 1
       padding-left: 15px!important;
       padding-right: 15px!important;
   }
+  .blog-excerpt {
+      overflow: hidden;
+      height: 55px!important;
+  }
   .header-slide {
       height: auto;
   }
@@ -2489,7 +2497,7 @@ $END PRODUCT DETAILS 1
       position: relative;
       overflow: hidden;
       width: 100%;
-      height: 300px !important;
+      height: 225px!important;
   }
   .latest-prev-1 {
       position: absolute;

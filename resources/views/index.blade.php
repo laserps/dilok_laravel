@@ -16,81 +16,88 @@
       <div class="header-slide owl-carousel owl-theme">
         <div class="item">
           <img class="slide-img" src='http://blog.wishatl.com/wp-content/uploads/2015/12/Hypebeast-adidas-Originals-Uncaged-2.jpg'>
-          <div class="row header-row">
-            <div class="col-12 index-text-color  ">
-              <h1>Best of MEN's SNEAKERS</h1>
-              <h5>is simply dummy text of the printing and typesetting industry. Lorem Ipsum</h5>
-            </div>
-            <div class="col-12 ">
-              <hr>
-              <div class="header-slide-btn">
-                <a href="{{ url('filter') }}" class="btn fast-buy p-2 w-100">
-                  <label class="mb-0 d-flex px-2 white" style="cursor:pointer;">
-                    <span>DETAIL</span>
-                    <i class="icon-collpase fas fa-angle-right ml-auto pt-1" aria-hidden="true"></i>
-                  </label>
-                </a>
+          <div class="custom-container position-relative">
+            <div class="row header-row">
+              <div class="col-12 index-text-color">
+                <h1>Best of MEN's SNEAKERS</h1>
+                <h5>is simply dummy text of the printing and typesetting industry. Lorem Ipsum</h5>
+              </div>
+              <div class="col-12 ">
+                <hr>
+                <div class="header-slide-btn">
+                  <a href="{{ url('filter') }}" class="btn fast-buy p-2 w-100">
+                    <label class="mb-0 d-flex px-2 white" style="cursor:pointer;">
+                      <span>DETAIL</span>
+                      <i class="icon-collpase fas fa-angle-right ml-auto pt-1" aria-hidden="true"></i>
+                    </label>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
         </div>
         <div class="item">
           <img class="slide-img" src='http://blog.wishatl.com/wp-content/uploads/2015/12/Hypebeast-adidas-Originals-Uncaged-4.jpg'>
-          <div class="row header-row">
-            <div class="col-12 index-text-color">
-              <h1>Best of MEN's SNEAKERS</h1>
-              <h5>is simply dummy text of the printing and typesetting industry. Lorem Ipsum</h5>
-            </div>
-            <div class="col-12">
-              <hr>
-              <div class="header-slide-btn">
-                <a href="{{ url('filter') }}" class="btn fast-buy p-2 w-100">
-                  <label class="mb-0 d-flex px-2 white" style="cursor:pointer;">
-                    <span>DETAIL</span>
-                    <i class="icon-collpase fas fa-angle-right ml-auto pt-1" aria-hidden="true"></i>
-                  </label>
-                </a>
+          <div class="custom-container position-relative">
+            <div class="row header-row">
+              <div class="col-12 index-text-color">
+                <h1>Best of MEN's SNEAKERS</h1>
+                <h5>is simply dummy text of the printing and typesetting industry. Lorem Ipsum</h5>
+              </div>
+              <div class="col-12">
+                <hr>
+                <div class="header-slide-btn">
+                  <a href="{{ url('filter') }}" class="btn fast-buy p-2 w-100">
+                    <label class="mb-0 d-flex px-2 white" style="cursor:pointer;">
+                      <span>DETAIL</span>
+                      <i class="icon-collpase fas fa-angle-right ml-auto pt-1" aria-hidden="true"></i>
+                    </label>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
         </div>
         <div class="item">
           <img class="slide-img" src='http://blog.wishatl.com/wp-content/uploads/2015/12/Hypebeast-adidas-Originals-Uncaged-7.jpg'>
-          <div class="row header-row">
-            <div class="col-12 index-text-color ">
-              <h1>Best of MEN's SNEAKERS</h1>
-              <h5>is simply dummy text of the printing and typesetting industry. Lorem Ipsum</h5>
-            </div>
-            <div class="col-12">
-              <hr>
-              <div class="header-slide-btn">
-                <a href="{{ url('filter') }}" class="btn fast-buy p-2 w-100">
-                  <label class="mb-0 d-flex px-2 white" style="cursor:pointer;">
-                    <span>DETAIL</span>
-                    <i class="icon-collpase fas fa-angle-right ml-auto pt-1" aria-hidden="true"></i>
-                  </label>
-                </a>
+          <div class="custom-container position-relative">
+            <div class="row header-row">
+              <div class="col-12 index-text-color ">
+                <h1>Best of MEN's SNEAKERS</h1>
+                <h5>is simply dummy text of the printing and typesetting industry. Lorem Ipsum</h5>
+              </div>
+              <div class="col-12">
+                <hr>
+                <div class="header-slide-btn">
+                  <a href="{{ url('filter') }}" class="btn fast-buy p-2 w-100">
+                    <label class="mb-0 d-flex px-2 white" style="cursor:pointer;">
+                      <span>DETAIL</span>
+                      <i class="icon-collpase fas fa-angle-right ml-auto pt-1" aria-hidden="true"></i>
+                    </label>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
         </div>
         <div class="item">
           <img class="slide-img" src='http://blog.wishatl.com/wp-content/uploads/2015/12/Hypebeast-adidas-Originals-Uncaged-6.jpg'>
-          <div class="row header-row">
-            <div class="col-12 index-text-color ">
-
-              <h1>Best of MEN's SNEAKERS</h1>
-              <h5>ลดราคารองเท้า 50 - 70% ไม่ว่าจะเป็นรองเท้าผ้าใบ รองเท้าเดือนทาง รองเท้าวิ่ง</h5>
-            </div>
-            <div class="col-12">
-              <hr>
-              <div class="header-slide-btn">
-                <a href="{{ url('filter') }}" class="btn fast-buy p-2 w-100 mx-auto mx-sm-right">
-                  <label class="mb-0 d-flex px-2 white" style="cursor:pointer;">
-                    <span>DETAIL</span>
-                    <i class="icon-collpase fas fa-angle-right ml-auto pt-1" aria-hidden="true"></i>
-                  </label>
-                </a>
+          <div class="custom-container position-relative">
+            <div class="row header-row">
+              <div class="col-12 index-text-color ">
+                <h1>Best of MEN's SNEAKERS</h1>
+                <h5>ลดราคารองเท้า 50 - 70% ไม่ว่าจะเป็นรองเท้าผ้าใบ รองเท้าเดือนทาง รองเท้าวิ่ง</h5>
+              </div>
+              <div class="col-12">
+                <hr>
+                <div class="header-slide-btn">
+                  <a href="{{ url('filter') }}" class="btn fast-buy p-2 w-100 mx-auto mx-sm-right">
+                    <label class="mb-0 d-flex px-2 white" style="cursor:pointer;">
+                      <span>DETAIL</span>
+                      <i class="icon-collpase fas fa-angle-right ml-auto pt-1" aria-hidden="true"></i>
+                    </label>
+                  </a>
+                </div>
               </div>
             </div>
           </div>

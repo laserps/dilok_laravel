@@ -512,8 +512,8 @@ $Navbar
   }
 
   .list-container{
-    margin-left: 5vw!important;
-    margin-right: 5vw!important;
+/*    margin-left: 0vw!important;
+    margin-right: 0vw!important;*/
     padding-right: 15px;
     padding-left: 15px;
     height:100%;
@@ -529,11 +529,12 @@ $Navbar
     opacity:0;
     pointer-events: none;
     background-color:black;
-    position:absolute;
-    top:48px;
-    left:0;
-    height:40vh;
+    position: absolute;
+    top: 48px;
+    left: 100%;
+    height: 40vh;
     padding: 3vh;
+    transform: translate(-50%,0%);
   }
 
   .list{

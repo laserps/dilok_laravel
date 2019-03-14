@@ -1572,7 +1572,6 @@ $END Index
 $PRODUCT DETAILS 2
 *------------------------------------*/
 
-
   .product-detail-box{
     height:auto;
     position:relative;
@@ -2100,6 +2099,9 @@ $END PRODUCT DETAILS 1
 
 
 @media (max-width: 575px) {
+  .order-list-text-respon {
+    font-size: small;
+  }
   .header-slide {
       height: auto;
   }
@@ -2255,6 +2257,16 @@ $END PRODUCT DETAILS 1
   #nav-sidebar.active {
       min-width: 250px;
       max-width: 250px;
+  }
+  .oder-tresponsive {
+    width: 100%;
+    overflow-x: scroll;
+  }
+  .oder-tresponsive table {
+    width: 480px;
+  }
+  .oder-tresponsive .address-respon {
+    width: 490px;
   }
 }
 
@@ -2439,6 +2451,9 @@ $END PRODUCT DETAILS 1
   #nav-sidebar.active {
       min-width: 300px;
       max-width: 300px;
+  }
+  .order-list-text-respon {
+    font-size: small;
   }
 }
 
@@ -2690,6 +2705,9 @@ $END PRODUCT DETAILS 1
       overflow: hidden;
       width: 100%;
       height: 350px!important;
+  }
+  .order-list-text-respon {
+    font-size: medium;
   }
 }
 @media (min-width: 1600px) {

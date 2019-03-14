@@ -25,7 +25,14 @@ Route::get('/testrestpost','MeeController@addCustomer');
 Route::get('/brand/{brands}','FilterController@index');
 
 //Home
+
+
 Route::get('/','HomeController@index');
+
+
+Route::get('/paymentnew','ProductController@paymentnew');
+
+
 
 //Get Blocks
 Route::get('/blog','BlogController@index');
@@ -52,6 +59,7 @@ Route::get('/add-blank','HelpfulController@add_blank');
 Route::get('/adidas','ProductController@adidas');
 Route::get('/reebok','ProductController@reebok');
 
+// Route::get('/payment','ProductController@payment');
 Route::get('/payment','ProductController@payment');
 Route::post('/payment_order','ProductController@payment_order');
 
@@ -106,6 +114,13 @@ Route::get('/brands/{brands}/{genders}','FilterController@index');
 Route::get('phpinfo',function(){
 	return phpinfo();
 });
+
+
+// Route::get('/paymentnew', function () {
+//     $data['menu'] = 'paymentnew';
+//     return view('paymentnew',$data);
+//     //return redirect('admin');
+// });
 
 // Route::get('size','TestapiController@getresize');
 // Route::get('size','TestapiController@getresize');

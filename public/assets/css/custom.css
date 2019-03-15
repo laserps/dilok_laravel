@@ -2101,9 +2101,15 @@ $END PRODUCT DETAILS 1
   font-weight: 700;
   color: #000!important;
 } 
-
-
-
+.thank-head {
+  font-size: 6.25rem;
+}
+.thank-content {
+  font-size: 20px;
+}
+.head-center {
+  padding: 100px 0px;
+}
 @media (max-width: 575px) {
   .order-list-text-respon {
     font-size: small;
@@ -2281,6 +2287,7 @@ $END PRODUCT DETAILS 1
   .history-tableres table {
     width: 810px;
   }
+
 }
 
 @media (max-width: 568px) and (max-height: 320px) {

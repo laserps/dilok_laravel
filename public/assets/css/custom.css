@@ -117,7 +117,9 @@ $Structure
   .black-bg{
     background-color:black;
   }
-
+  .font-larger {
+    font-size: larger;
+  }
 
 
   body{
@@ -2095,6 +2097,10 @@ $END PRODUCT DETAILS 1
 .green-ribbon{
   background: rgba(27, 175, 67, 0.8);
 }
+.oh-account > li > .active {
+  font-weight: 700;
+  color: #000!important;
+} 
 
 
 
@@ -2267,6 +2273,13 @@ $END PRODUCT DETAILS 1
   }
   .oder-tresponsive .address-respon {
     width: 490px;
+  }
+  .history-tableres {
+    overflow: scroll;
+    width: 100%;
+  }
+  .history-tableres table {
+    width: 810px;
   }
 }
 

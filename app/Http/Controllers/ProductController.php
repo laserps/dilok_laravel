@@ -922,6 +922,191 @@ class ProductController extends Controller
         return view('paymentnew',$data);
     }
 
+
+
+
+    public function confrimpayment(){
+      $opts = array(
+          'ssl' => array('ciphers'=>'RC4-SHA', 'verify_peer'=>false, 'verify_peer_name'=>false)
+      );
+
+      $params = array (
+          'encoding' => 'UTF-8',
+          'verifypeer' => false,
+          'verifyhost' => false,
+          'soap_version' => SOAP_1_2,
+          'trace' => 1,
+          'exceptions' => 1,
+          'connection_timeout' => 180,
+          'stream_context' => stream_context_create($opts),
+          'cache_wsdl' => WSDL_CACHE_NONE
+      );
+
+      //เรียกหมวดหมู่
+      $catalog = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogCategoryManagementV1',$params);
+
+      $catalogs = [
+          'rootCategoryId' => 1,
+      ];
+
+      $get_session_all = \Session::all();
+
+      $token_admin_magento = new HomeController;
+
+      if(!empty($get_session_all['token_admin'])){
+          $token = $get_session_all['token_admin'];
+      } else {
+          $token = $token_admin_magento->login_admin_magento();
+      }
+
+      //เรียกข้อมูล block
+      $get_blocks = 'searchCriteria[filter_groups][0][filters][0][field]=is_active&searchCriteria[filter_groups][0][filters][0][value]=1&searchCriteria[filter_groups][0][filters][0][condition_type]=eq&searchCriteria[pageSize]=12&searchCriteria[sortOrders][0][field]=block_id&searchCriteria[sortOrders][0][direction]=DESC';
+
+      $ch = curl_init("http://128.199.235.248/magento/rest/V1/cmsBlock/search?".$get_blocks);
+      curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+      curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $token));
+
+      $blocks = json_decode(curl_exec($ch));
+
+        if(!empty($get_session_all['customer_id'])){
+            //เรียกข้อมูล customer
+            $ch = curl_init("http://128.199.235.248/magento/rest/V1/customers/me");
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
+
+            $result2 = curl_exec($ch);
+
+            if(!empty(json_decode($result2)->id)){
+              //เรียกข้อมูลตะกร้าสินค้า
+              $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine/items");
+              curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+              curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+              curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
+
+              $result3 = json_decode(curl_exec($ch));
+
+            if(empty($result3->parameters)) {
+              //เรียกตะกร้า
+              $ch = curl_init("http://128.199.235.248/magento/rest/V1/carts/mine");
+              curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+              curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+              curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $get_session_all['customer_id']));
+
+              $get_cart = json_decode(curl_exec($ch));
+
+            $opts = array(
+                'ssl' => array('ciphers'=>'RC4-SHA', 'verify_peer'=>false, 'verify_peer_name'=>false)
+            );
+
+            $params = array (
+              'encoding' => 'UTF-8',
+              'verifypeer' => false,
+              'verifyhost' => false,
+              'soap_version' => SOAP_1_2,
+              'trace' => 1,
+              'exceptions' => 1,
+              'connection_timeout' => 180,
+              'stream_context' => stream_context_create($opts),
+              'cache_wsdl' => WSDL_CACHE_NONE
+            );
+
+            //เรียกข้อมูลสินค้า
+            $get_products = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductRepositoryV1',$params);
+            //เรียกข้อมูลสินค้า
+            $get_products2 = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductRenderListV1',$params);
+            $get_product_page = [
+                'searchCriteria' => [
+                    'filterGroups' => [
+                        [
+                            'filters' => [
+                                [
+                                    'field' => 'visibility',
+                                    'value' => '4',
+                                    'condition_type' => 'eq',
+                                ],
+                            ],
+                            'filters' => [
+                                [
+                                    'field' => 'status',
+                                    'value' => '1',
+                                    'condition_type' => 'eq',
+                                ],
+                            ],
+                            'filters' => [
+                                [
+                                    'field' => 'type_id',
+                                    'value' => 'configurable',
+                                    'condition_type' => 'eq',
+                                ],
+                            ],
+                        ],
+                    ],
+                    'sortOrders' => [
+                        [
+                            'field' => 'entity_id',
+                            'direction' => 'DESC',
+                        ],
+                    ],
+                    'pageSize' => 20,
+                ],
+            ];
+            $get_product_page['storeId'] = "1";
+            $get_product_page['currencyCode'] = "THB";
+
+            foreach($result3 as $key => $value){
+              $get_key_product = array(
+                'sku' => $value->sku
+              );
+
+              $data['product_key'][$key] = $get_products->catalogProductRepositoryV1Get($get_key_product);
+            }
+
+            //เรียก size & color ทั้งหมด
+            $get_type_products = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductAttributeOptionManagementV1',$params);
+
+            $get_color_product = [
+              'attributeCode' => 'color',
+            ];
+            $get_size_product = [
+              'attributeCode' => 'size',
+            ];
+
+            $data['color_product'] = $get_type_products->catalogProductAttributeOptionManagementV1GetItems($get_color_product);
+            $data['size_products'] = $get_type_products->catalogProductAttributeOptionManagementV1GetItems($get_size_product);
+            $data['products'] = $get_products->catalogProductRepositoryV1GetList($get_product_page);
+            $data['products2'] = $get_products2->catalogProductRenderListV1GetList($get_product_page);
+            $data['token_customer'] = json_decode($result2);
+            $data['cart_customer'] = $result3;
+            $data['get_cart'] = $get_cart;
+          } else {
+            $data['color_product'] = '';
+            $data['size_products'] = '';
+            $data['products'] = '';
+            $data['products2'] = '';
+            $data['token_customer'] = json_decode($result2);
+            $data['cart_customer'] = '';
+            $data['get_cart'] = '';
+            $data['product_key']['customer_id'] = '';
+          }
+        } else {
+          \Session::flush();
+          return redirect('/');
+        }
+
+        } else {
+          \Session::flush();
+          return redirect('/');
+        }
+
+        $data['category'] = $catalog->catalogCategoryManagementV1GetTree($catalogs);
+        $data['blocks'] = $blocks;
+        $data['page_title'] = 'confrimpayment';
+
+        return view('confrim-payment',$data);
+    }
+
     /**
      * Show the form for creating a new resource.
      *

@@ -32,6 +32,9 @@ Route::get('/','HomeController@index');
 
 Route::get('/paymentnew','ProductController@paymentnew');
 
+Route::get('/confrim-payment','ProductController@confrimpayment');
+
+Route::get('/history-order','OrderProductController@historyorder');
 
 
 //Get Blocks

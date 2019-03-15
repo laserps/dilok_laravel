@@ -81,7 +81,7 @@
                             <div class="address-respon">
                                 <div class="row mb-2">
                                     <div class="col-2">
-                                        <div class="text-center text-small text-info">
+                                        <div class="text-center text-small ">
                                             <i class="fa fa-thumb-tack" aria-hidden="true"></i>
                                         </div>
                                     </div>
@@ -95,13 +95,13 @@
                                     </div>
                                     <div class="col-2">
                                         <div class="text-small text-right">
-                                            <a href="#" class="text-info">แก้ไข</a>
+                                            <a href="#" class="text-dark">แก้ไข</a>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row mb-2">
                                     <div class="col-2">
-                                        <div class="text-center text-small text-info">
+                                        <div class="text-center text-small ">
                                             <i class="fa fa-building" aria-hidden="true"></i>
                                         </div>
                                     </div>
@@ -112,13 +112,13 @@
                                     </div>
                                     <div class="col-2">
                                         <div class="text-small text-right">
-                                            <a href="#" class="text-info">แก้ไข</a>
+                                            <a href="#" class="text-dark">แก้ไข</a>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row mb-2">
                                     <div class="col-2">
-                                        <div class="text-center text-small text-info">
+                                        <div class="text-center text-small ">
                                             <i class="fa fa-phone" aria-hidden="true"></i>
                                         </div>
                                     </div>
@@ -129,13 +129,13 @@
                                     </div>
                                     <div class="col-2">
                                         <div class="text-small text-right">
-                                            <a href="#" class="text-info">แก้ไข</a>
+                                            <a href="#" class="text-dark">แก้ไข</a>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row mb-2">
                                     <div class="col-2">
-                                        <div class="text-center text-small text-info">
+                                        <div class="text-center text-small ">
                                             <i class="fa fa-envelope" aria-hidden="true"></i>
                                         </div>
                                     </div>
@@ -146,7 +146,7 @@
                                     </div>
                                     <div class="col-2">
                                         <div class="text-small text-right">
-                                            <a href="#" class="text-info">แก้ไข</a>
+                                            <a href="#" class="text-dark">แก้ไข</a>
                                         </div>
                                     </div>
                                 </div>

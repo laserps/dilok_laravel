@@ -787,6 +787,7 @@
                     <div class="dropdown-menu dropdown-menu-right">
                         <a class="dropdown-item" href="{{ url('account') }}"><i class="fa fa-user" aria-hidden="true"></i> Profile</a>
                         <a class="dropdown-item" href="{{ url('order') }}"><i class="fa fa-list-alt" aria-hidden="true"></i> Order</a>
+                        <a class="dropdown-item" href="{{ url('history-order') }}"><i class="fa fa-history" aria-hidden="true"></i> Order history</a>
                         <!-- <a class="dropdown-item" href="#">Action</a> -->
                         <!-- <a class="dropdown-item" href="#">Another action</a> -->
                         <a class="dropdown-item" href="{{ url('logout') }}"><i class="fa fa-sign-out-alt" aria-hidden="true"></i> Log out</a>

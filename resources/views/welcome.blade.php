@@ -931,9 +931,18 @@
           </div>
 
           <div class="contact-info row white mx-0">
-             <div class="col-xl-1 col-lg-1 col-md-12 col-1 text-center"><i class="fa fa-map-marker" aria-hidden="true"></i></div><div class="col-xl-11 col-lg-11 col-md-12 col-12 pr-xl-5 pl-lg-1 pr-lg-5 pl-md-0 mb-2 text-lg-left text-md-center">Street No. 12m Newyouk 12 md-123, USA Postcode 9706</div>
-             <div class="col-xl-1 col-lg-1 col-md-12 col-1 text-center"><i class="fa fa-phone" aria-hidden="true"></i></div><div class="col-xl-11 col-lg-11 col-md-12 col-12 pr-xl-5 pl-lg-1 pr-lg-5 pl-md-0 mb-2 text-lg-left text-md-center">+66 89-123-4567</div>
-             <div class="col-xl-1 col-lg-1 col-md-12 col-1 text-center"><i class="fa fa-envelope" aria-hidden="true"></i></div><div class="col-xl-11 col-lg-11 col-md-12 col-12 pr-xl-5 pl-lg-1 pr-lg-5 pl-md-0 mb-2 text-lg-left text-md-center">admin@dilok.com</div>
+             <div class="col-xl-2 col-lg-1 col-md-12 col-1 text-center">
+              <i class="fa fa-map-marker" aria-hidden="true"></i>
+             </div>
+              <div class="col-xl-10 col-lg-11 col-md-12 col-12 pr-xl-2 pl-lg-1 pr-lg-5 pl-md-0 mb-2 text-lg-left text-md-center">Street No. 12m Newyouk 12 md-123, USA Postcode 9706</div>
+             <div class="col-xl-2 col-lg-1 col-md-12 col-1 text-center">
+              <i class="fa fa-phone" aria-hidden="true"></i>
+             </div>
+              <div class="col-xl-10 col-lg-11 col-md-12 col-12 pr-xl-2 pl-lg-1 pr-lg-5 pl-md-0 mb-2 text-lg-left text-md-center">+66 89-123-4567</div>
+             <div class="col-xl-2 col-lg-1 col-md-12 col-1 text-center">
+              <i class="fa fa-envelope" aria-hidden="true"></i>
+             </div>
+             <div class="col-xl-10 col-lg-11 col-md-12 col-12 pr-xl-2 pl-lg-1 pr-lg-5 pl-md-0 mb-2 text-lg-left text-md-center">admin@dilok.com</div>
           </div>
         </div>
       </div>

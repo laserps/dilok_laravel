@@ -135,7 +135,7 @@
                   </button>
                   <div class="collapse show" id="collapseExample333">
                       <div class="filter-scroll">
-                          @foreach($category->result->childrenData->item as $key_category => $value_category)
+                          @foreach($category->children_data as $key_category => $value_category)
                             @if($value_category->name != 'Default Category')
                               @if(!empty($brands) && $brands == $value_category->id || !empty($brands2) && $brands2 == $value_category->name || !empty($chk_brand))
                                 <label class="check">
@@ -181,7 +181,7 @@
                     </button>
                     <div class="collapse show" id="collapseExample555">
                         <div class="filter-scroll">
-                            @foreach($size_products->result->item as $key_sizes => $value_sizes)
+                            @foreach($size_products as $key_sizes => $value_sizes)
                               @if($value_sizes->label != ' ')
                                 @if(!empty($chk_size))
                                   <label class="check">
@@ -207,7 +207,7 @@
                       </button>
                       <div class="collapse show" id="collapseExample666">
                           <div class="filter-scroll">
-                            @foreach($color_product->result->item as $key_color => $value_color)
+                            @foreach($color_product as $key_color => $value_color)
                               @if($value_color->label != ' ')
                                 @if(!empty($chk_colorproduct))
                                   <label class="check">

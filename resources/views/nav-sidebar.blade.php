@@ -41,7 +41,7 @@
                 <li class="nav-item">
                   <a href="{{ url('filter') }}"><span>View All Brand</span></a>
                 </li>
-                @foreach($category->result->childrenData->item as $key_category => $value_category)
+                @foreach($category->children_data as $key_category => $value_category)
                   @if($value_category->name != 'Default Category')
                     <li class="nav-item">
                       <a  href="{{ url('filter/?brands=') }}{{ $value_category->id }}"><span>{{ $value_category->name }}</span></a>
@@ -86,7 +86,7 @@
             </a>
             <div class="promotion-collapse collapse mb-2" id="collapseExample4">
               <ul class="navbar-nav sidenav-list-text">
-                @foreach($category->result->childrenData->item as $key_category => $value_category)
+                @foreach($category->children_data as $key_category => $value_category)
                   @if($value_category->name != 'Default Category')
                     <li class="nav-item">
                       <a class="nav-link" href="{{ url('filter/?genders=25&brands=') }}{{ $value_category->id }}">{{ $value_category->name }}</a>
@@ -106,7 +106,7 @@
             </a>
             <div class="promotion-collapse collapse mb-2" id="collapseExample5">
               <ul class="navbar-nav sidenav-list-text">
-                @foreach($category->result->childrenData->item as $key_category => $value_category)
+                @foreach($category->children_data as $key_category => $value_category)
                   @if($value_category->name != 'Default Category')
                     <li class="nav-item">
                       <a class="nav-link" href="{{ url('filter/?genders=26&brands=') }}{{ $value_category->id }}">{{ $value_category->name }}</a>
@@ -126,7 +126,7 @@
             </a>
             <div class="promotion-collapse collapse mb-2" id="collapseExample6">
               <ul class="navbar-nav sidenav-list-text">
-                @foreach($category->result->childrenData->item as $key_category => $value_category)
+                @foreach($category->children_data as $key_category => $value_category)
                   @if($value_category->name != 'Default Category')
                     <li class="nav-item">
                       <a class="nav-link" href="{{ url('filter/?genders=27&brands=') }}{{ $value_category->id }}">{{ $value_category->name }}</a>

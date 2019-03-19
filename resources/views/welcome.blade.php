@@ -7,6 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="keywords" content="">
 <meta name="description" content="">
+<meta http-equiv="Cache-control" content="public">
 <meta name="robots" content="index, follow, all">
 <meta name="author" content="Workbythai">
 <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -90,7 +91,7 @@
               <li class="nav-item active">
                  <a class="nav-link" href="{{ url('/') }}"><span style="font-weight : 400;">HOME</span></a>
               </li>
-              
+
               <li class="nav-item">
                 <a class="nav-link" href="{{ url('filter') }}"><span style="font-weight : 400;">LATEST</span></a>
                 <div class="list">
@@ -120,7 +121,7 @@
                     </div>
                 </div>
               </li> <!-- Latest -->
-              
+
               <li class="nav-item">
                 <a class="nav-link" href="{{ url('filter') }}"><span style="font-weight : 400;">BRAND</span></a>
                 <div class="list">
@@ -136,7 +137,7 @@
                               <div class="column-box">
                                 <div class="columns">
                                   <ul class="nav-ul-list">
-                                    @foreach($category->result->childrenData->item as $key_category => $value_category)
+                                    @foreach($category->children_data as $key_category => $value_category)
                                       @if($value_category->name != 'Default Category')
                                         <li>
                                           <a class="nav-link" href="{{ url('brands') }}/{{ $value_category->name }}">{{ $value_category->name }}</a>
@@ -166,7 +167,7 @@
                         <div class="column-box">
                           <div class="columns">
                             <ul class="nav-ul-list">
-                              @foreach($category->result->childrenData->item as $key_category => $value_category)
+                              @foreach($category->children_data as $key_category => $value_category)
                                 @if($value_category->name != 'Default Category')
                                   <li>
                                     <a class="nav-link" href="{{ url('brands') }}/{{ $value_category->name }}/{{ ('Men') }}">{{ $value_category->name }}</a>
@@ -192,7 +193,7 @@
                         <div class="column-box">
                           <div class="columns">
                             <ul class="nav-ul-list">
-                              @foreach($category->result->childrenData->item as $key_category => $value_category)
+                              @foreach($category->children_data as $key_category => $value_category)
                                 @if($value_category->name != 'Default Category')
                                   <li>
                                     <!-- <a class="nav-link" href="{{ url('filter/?genders=26&brands=') }}{{ $value_category->id }}">{{ $value_category->name }}</a> -->
@@ -355,7 +356,7 @@
                         <div class="column-box">
                           <div class="columns">
                             <ul class="nav-ul-list">
-                              @foreach($category->result->childrenData->item as $key_category => $value_category)
+                              @foreach($category->children_data as $key_category => $value_category)
                                 @if($value_category->name != 'Default Category')
                                   <li>
                                     <!-- <a class="nav-link" href="{{ url('filter/?genders=27&brands=') }}{{ $value_category->id }}">{{ $value_category->name }}</a> -->
@@ -857,8 +858,8 @@
         <div class="col-3">
           <ul id="languagepicker" >
             <div class="languagepicker roundborders large">
-              
-            
+
+
             <a href="#en"><li class="current-language"><img src="http://i64.tinypic.com/fd60km.png"/>English</li></a>
        <!--      <a href="#es"><li><img src="http://i68.tinypic.com/avo5ky.png"/>Español</li></a>
             <a href="#fr"><li><img src="http://i65.tinypic.com/300b30k.png"/>Français</li></a>
@@ -896,7 +897,7 @@
     <div class="col-lg-5 col-md-5 col-4 px-0-nav">
       <button class="btn btn-secondary cart-btn sidebarCollapse pull-right" type="button">
         <span>
-          <i class="fa fa-shopping-cart" aria-hidden="true"></i> 
+          <i class="fa fa-shopping-cart" aria-hidden="true"></i>
         </span>
         <span class="d-xl-block d-lg-none d-md-none d-none">(0)</span>
       </button>
@@ -942,7 +943,7 @@
       <div class="col-xl-6 col-lg-6 col-md-4 pt-5 d-lg-block d-none">
         <div class="row white mx-0 text-lg-left text-md-center">
            <div class="col-12 pr-lg-5 px-md-0 mb-lg-2 mb-md-1"><a href="{{ url('filter') }}" class="footer-link">BRAND</a></div>
-           @foreach($category->result->childrenData->item as $key_category => $value_category)
+           @foreach($category->children_data as $key_category => $value_category)
               @if($value_category->name != 'Default Category')
                 <div class="col-6 mb-1 footer-submenu"><a href="{{ url('filter/?brands=') }}{{ $value_category->id }}" class="footer-link">{{ $value_category->name }}</a></div>
               @endif
@@ -1466,7 +1467,7 @@ $.ajaxSetup({
         language = 41;
         $(this).css("height", language);
       });
-      
+
       // END LANGUAGE PICKER
         $( '.cart-product' ).each( function () {
            var iw = $(this).width();

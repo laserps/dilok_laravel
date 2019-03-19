@@ -4,9 +4,9 @@
 
         <div class="latest-slide owl-carousel owl-theme">
 
-        @if(!empty($products->result->items->item))
-          @foreach($products->result->items->item as $key_product => $value_product)
-            @foreach($value_product->customAttributes as $key_custom => $value_custom)
+        @if(!empty($products->items))
+          @foreach($products->items as $key_product => $value_product)
+            @foreach($value_product->custom_attributes as $key_custom => $value_custom)
           <!-- บังคับ first child มัclass first    last child มี class last  -->
               @php
                 $image = '';
@@ -16,38 +16,41 @@
                 $news_to_date = '';
                 $after = '';
                 $before = '';
+                $dep = '';
                 $special_from_date = '';
                 $special_to_date = '';
                 $pan = 'padding-right: 5px;';
                 $date = date('Y-m-d H:i:s');
               @endphp
-              @foreach($value_custom as $key => $value)
-                @if($value->attributeCode == 'image' && !empty($value->value))
+
+                @if($value_custom->attribute_code == 'image' && !empty($value->value))
                   @php $image = $value->value; @endphp
                 @endif
-                @if($value->attributeCode == 'small_image' && !empty($value->value))
+                @if($value_custom->attribute_code == 'small_image' && !empty($value->value))
                   @php $small_image = $value->value; @endphp
                 @endif
-                @if($value->attributeCode == 'special_from_date' && !empty($value->value))
+                @if($value_custom->attribute_code == 'special_from_date' && !empty($value->value))
                   @php $special_from_date = $value->value; @endphp
                 @endif
-                @if($value->attributeCode == 'special_to_date' && !empty($value->value))
+                @if($value_custom->attribute_code == 'special_to_date' && !empty($value->value))
                   @php $special_to_date = $value->value; @endphp
                 @endif
-                @if($value->attributeCode == 'special_price' && !empty($value->value))
+                @if($value_custom->attribute_code == 'special_price' && !empty($value->value))
                   @php $special_price = $value->value; $after = 'after'; $pan = 'padding-right: 0px;'; @endphp
                 @endif
-                @if($value->attributeCode == 'news_from_date' && !empty($value->value))
+                @if($value_custom->attribute_code == 'news_from_date' && !empty($value->value))
                   @php $news_from_date = $value->value; @endphp
                 @endif
-                @if($value->attributeCode == 'news_to_date' && !empty($value->value))
+                @if($value_custom->attribute_code == 'news_to_date' && !empty($value->value))
                   @php $news_to_date = $value->value; @endphp
                 @endif
-              @endforeach
+                @if($value_custom->attribute_code == 'short_description' && !empty($value->value))
+                  @php $dep = $value->value; @endphp
+                @endif
 
-              @if(!empty($products2->result->items->item[$key_product]->priceInfo->regularPrice))
-                @if($value_product->id == $products2->result->items->item[$key_product]->id)
-                  @php $price_defult = $products2->result->items->item[$key_product]->priceInfo->regularPrice; @endphp
+              @if(!empty($products2->items[$key_product]->priceInfo->regularPrice))
+                @if($value_product->id == $products2->items[$key_product]->id)
+                  @php $price_defult = $products2->items[$key_product]->priceInfo->regularPrice; @endphp
                 @else
                   @php $price_defult = $value_product->price; @endphp
                 @endif
@@ -55,15 +58,19 @@
                 @php $price_defult = ''; @endphp
               @endif
 
-              @if(!empty($products2->result->items->item[$key_product]->priceInfo->finalPrice))
-                @if($value_product->id == $products2->result->items->item[$key_product]->id)
-                  @php $price_special = $products2->result->items->item[$key_product]->priceInfo->finalPrice; @endphp
+              @if(!empty($products2->items[$key_product]->priceInfo->finalPrice))
+                @if($value_product->id == $products2->items[$key_product]->id)
+                  @php $price_special = $products2->items[$key_product]->priceInfo->finalPrice; @endphp
                 @else
                   @php $price_special = $value_product->price; @endphp
                 @endif
               @else
                 @php $price_special = ''; @endphp
               @endif
+
+
+        @endforeach
+
 
           <div class="item first">
             <div class="card p-1">
@@ -112,11 +119,7 @@
                             <span>{{ $value_product->name }}<span>
                           </div>
                           <div class="product-categories">
-                            @foreach($value_custom as $key => $value)
-                              @if(!empty($value->attributeCode) && !empty($value->value) && $value->attributeCode == 'short_description')
-                                <span>{!! $value->value !!}</span>
-                              @endif
-                            @endforeach
+                            <span>{!! $dep !!}</span>
                           </div>
                       </div>
                       <div class="col-2 mb-2 px-0"></div>
@@ -167,7 +170,6 @@
             </div>
           </div>
           @endforeach
-        @endforeach
       @endif
         </div>
     </div>

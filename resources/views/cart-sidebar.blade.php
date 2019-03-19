@@ -65,7 +65,7 @@
                           </a>
                       </div>
                       @foreach($product_key[$key_cart]->result->customAttributes->item as $key_product_image => $value_sizes)
-                        @foreach($size_products->result->item as $key_size => $value_size)
+                        @foreach($size_products as $key_size => $value_size)
                           @if($value_sizes->attributeCode == 'size')
                             @if($value_size->value == $value_sizes->value)
                                 @php $size = $value_size->label @endphp
@@ -74,7 +74,7 @@
                         @endforeach
                       @endforeach
                       @foreach($product_key[$key_cart]->result->customAttributes->item as $key_product_image => $value_colors)
-                        @foreach($color_product->result->item as $key_color => $value_color)
+                        @foreach($color_product as $key_color => $value_color)
                           @if($value_colors->attributeCode == 'color')
                             @if($value_color->value == $value_colors->value)
                               <div class="cart-product-size">

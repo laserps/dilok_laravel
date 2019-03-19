@@ -18,6 +18,7 @@ class AboutController extends Controller
 
     public function add_branch(){
         try {
+            header("Cache-Control: max-age=60"); //30days (60sec)
             $opts = array(
                 'ssl' => array('ciphers'=>'RC4-SHA', 'verify_peer'=>false, 'verify_peer_name'=>false)
             );
@@ -34,21 +35,6 @@ class AboutController extends Controller
                 'cache_wsdl' => WSDL_CACHE_NONE
             );
 
-            //หมวกหมู่
-            $catalog = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogCategoryManagementV1',$params);
-            //เรียก size & color ทั้งหมด
-            $get_type_products = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductAttributeOptionManagementV1',$params);
-            $get_size_products = [
-                'attributeCode' => 'size',
-            ];
-
-            $get_color_product = [
-                'attributeCode' => 'color',
-            ];
-            $catalogs = [
-                'rootCategoryId' => 1,
-            ];
-
             $get_session_all = \Session::all();
 
             $token_admin_magento = new HomeController;
@@ -59,14 +45,46 @@ class AboutController extends Controller
                 $token = $token_admin_magento->login_admin_magento();
             }
 
+            $mh = curl_multi_init();
+
+            if(!empty($_GET)){
+                $page = $_GET['page'];
+            } else {
+                $page = 1;
+            }
+
+            $categories = curl_init("http://128.199.235.248/magento/rest/V1/categories?rootCategoryId=1");
+            curl_setopt($categories, CURLOPT_CUSTOMREQUEST, "GET");
+            curl_setopt($categories, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($categories, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $token));
+
+            $size = curl_init("http://128.199.235.248/magento/rest//V1/products/attributes/size/options");
+            curl_setopt($size, CURLOPT_CUSTOMREQUEST, "GET");
+            curl_setopt($size, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($size, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $token));
+
+            $color = curl_init("http://128.199.235.248/magento/rest//V1/products/attributes/color/options");
+            curl_setopt($color, CURLOPT_CUSTOMREQUEST, "GET");
+            curl_setopt($color, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($color, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $token));
+
             //เรียกข้อมูล block
             $get_blocks = 'searchCriteria[filter_groups][0][filters][0][field]=is_active&searchCriteria[filter_groups][0][filters][0][value]=1&searchCriteria[filter_groups][0][filters][0][condition_type]=eq&searchCriteria[pageSize]=12&searchCriteria[sortOrders][0][field]=block_id&searchCriteria[sortOrders][0][direction]=DESC';
-            $ch = curl_init("http://128.199.235.248/magento/rest/V1/cmsBlock/search?".$get_blocks);
-            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $token));
 
-            $blocks = json_decode(curl_exec($ch));
+            $blocks = curl_init("http://128.199.235.248/magento/rest/V1/cmsBlock/search?".$get_blocks);
+            curl_setopt($blocks, CURLOPT_CUSTOMREQUEST, "GET");
+            curl_setopt($blocks, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($blocks, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $token));
+
+            curl_multi_add_handle($mh, $categories);
+            curl_multi_add_handle($mh, $size);
+            curl_multi_add_handle($mh, $color);
+            curl_multi_add_handle($mh, $blocks);
+
+            $running = null;
+            do {
+                curl_multi_exec($mh, $running);
+            } while ($running);
 
         if(!empty($get_session_all['customer_id'])){
             //ดึงข้อมูล customer
@@ -108,8 +126,8 @@ class AboutController extends Controller
                     $data['cart_customer'] = '';
                 }
 
-                $data['color_product'] = $get_type_products->catalogProductAttributeOptionManagementV1GetItems($get_color_product);
-                $data['size_products'] = $get_type_products->catalogProductAttributeOptionManagementV1GetItems($get_size_products);
+                $data['size_products'] = json_decode(curl_multi_getcontent($size));
+                $data['color_product'] = json_decode(curl_multi_getcontent($color));
 
             } else {
                 \Session::flush();
@@ -122,8 +140,8 @@ class AboutController extends Controller
             $data['size_products'] = '';
         }
 
-        $data['category'] = $catalog->catalogCategoryManagementV1GetTree($catalogs);
-        $data['blocks'] = $blocks;
+        $data['category'] = json_decode(curl_multi_getcontent($categories));
+        $data['blocks'] = json_decode(curl_multi_getcontent($blocks));
         $data['page_title'] = 'Branch';
 
         } catch (Exception $e) {
@@ -134,6 +152,7 @@ class AboutController extends Controller
 
     public function sub_branch(){
         try {
+            header("Cache-Control: max-age=60"); //30days (60sec)
             $opts = array(
                 'ssl' => array('ciphers'=>'RC4-SHA', 'verify_peer'=>false, 'verify_peer_name'=>false)
             );
@@ -150,21 +169,6 @@ class AboutController extends Controller
                 'cache_wsdl' => WSDL_CACHE_NONE
             );
 
-            //หมวดหมู่
-            $catalog = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogCategoryManagementV1',$params);
-            //เรียกประเภทสินค้า
-            $get_type_products = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductAttributeOptionManagementV1',$params);
-            $get_size_products = [
-                'attributeCode' => 'size',
-            ];
-
-            $get_color_product = [
-                'attributeCode' => 'color',
-            ];
-            $catalogs = [
-                'rootCategoryId' => 1,
-            ];
-
             $get_session_all = \Session::all();
 
             $token_admin_magento = new HomeController;
@@ -175,14 +179,46 @@ class AboutController extends Controller
                 $token = $token_admin_magento->login_admin_magento();
             }
 
-            //เรียก block
-            $get_blocks = 'searchCriteria[filter_groups][0][filters][0][field]=is_active&searchCriteria[filter_groups][0][filters][0][value]=1&searchCriteria[filter_groups][0][filters][0][condition_type]=eq&searchCriteria[pageSize]=12&searchCriteria[sortOrders][0][field]=block_id&searchCriteria[sortOrders][0][direction]=DESC';
-            $ch = curl_init("http://128.199.235.248/magento/rest/V1/cmsBlock/search?".$get_blocks);
-            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $token));
+            $mh = curl_multi_init();
 
-            $blocks = json_decode(curl_exec($ch));
+            if(!empty($_GET)){
+                $page = $_GET['page'];
+            } else {
+                $page = 1;
+            }
+
+            $categories = curl_init("http://128.199.235.248/magento/rest/V1/categories?rootCategoryId=1");
+            curl_setopt($categories, CURLOPT_CUSTOMREQUEST, "GET");
+            curl_setopt($categories, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($categories, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $token));
+
+            $size = curl_init("http://128.199.235.248/magento/rest//V1/products/attributes/size/options");
+            curl_setopt($size, CURLOPT_CUSTOMREQUEST, "GET");
+            curl_setopt($size, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($size, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $token));
+
+            $color = curl_init("http://128.199.235.248/magento/rest//V1/products/attributes/color/options");
+            curl_setopt($color, CURLOPT_CUSTOMREQUEST, "GET");
+            curl_setopt($color, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($color, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $token));
+
+            //เรียกข้อมูล block
+            $get_blocks = 'searchCriteria[filter_groups][0][filters][0][field]=is_active&searchCriteria[filter_groups][0][filters][0][value]=1&searchCriteria[filter_groups][0][filters][0][condition_type]=eq&searchCriteria[pageSize]=12&searchCriteria[sortOrders][0][field]=block_id&searchCriteria[sortOrders][0][direction]=DESC';
+
+            $blocks = curl_init("http://128.199.235.248/magento/rest/V1/cmsBlock/search?".$get_blocks);
+            curl_setopt($blocks, CURLOPT_CUSTOMREQUEST, "GET");
+            curl_setopt($blocks, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($blocks, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $token));
+
+            curl_multi_add_handle($mh, $categories);
+            curl_multi_add_handle($mh, $size);
+            curl_multi_add_handle($mh, $color);
+            curl_multi_add_handle($mh, $blocks);
+
+            $running = null;
+            do {
+                curl_multi_exec($mh, $running);
+            } while ($running);
 
             if(!empty($get_session_all['customer_id'])){
                 //เรียกข้อมูล customer
@@ -223,8 +259,8 @@ class AboutController extends Controller
                         $data['cart_customer'] = '';
                     }
 
-                    $data['color_product'] = $get_type_products->catalogProductAttributeOptionManagementV1GetItems($get_color_product);
-                    $data['size_products'] = $get_type_products->catalogProductAttributeOptionManagementV1GetItems($get_size_products);
+                    $data['size_products'] = json_decode(curl_multi_getcontent($size));
+                    $data['color_product'] = json_decode(curl_multi_getcontent($color));
 
                 } else {
                     \Session::flush();
@@ -237,8 +273,8 @@ class AboutController extends Controller
                 $data['size_products'] = '';
             }
 
-        $data['category'] = $catalog->catalogCategoryManagementV1GetTree($catalogs);
-        $data['blocks'] = $blocks;
+        $data['category'] = json_decode(curl_multi_getcontent($categories));
+        $data['blocks'] = json_decode(curl_multi_getcontent($blocks));
         $data['page_title'] = 'LaunchesDetail';
 
         } catch (Exception $e) {
@@ -250,6 +286,7 @@ class AboutController extends Controller
 
     public function add_out_story(){
         try {
+            header("Cache-Control: max-age=60"); //30days (60sec)
             $opts = array(
                 'ssl' => array('ciphers'=>'RC4-SHA', 'verify_peer'=>false, 'verify_peer_name'=>false)
             );
@@ -266,21 +303,6 @@ class AboutController extends Controller
                 'cache_wsdl' => WSDL_CACHE_NONE
             );
 
-            //เรียกหมวดหมู่
-            $catalog = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogCategoryManagementV1',$params);
-            //เรียกประเภทสินค้า
-            $get_type_products = new \SoapClient('http://128.199.235.248/magento/soap/default?wsdl&services=catalogProductAttributeOptionManagementV1',$params);
-            $get_size_products = [
-                'attributeCode' => 'size',
-            ];
-
-            $get_color_product = [
-                'attributeCode' => 'color',
-            ];
-            $catalogs = [
-                'rootCategoryId' => 1,
-            ];
-
             $get_session_all = \Session::all();
 
             $token_admin_magento = new HomeController;
@@ -291,14 +313,46 @@ class AboutController extends Controller
                 $token = $token_admin_magento->login_admin_magento();
             }
 
+            $mh = curl_multi_init();
+
+            if(!empty($_GET)){
+                $page = $_GET['page'];
+            } else {
+                $page = 1;
+            }
+
+            $categories = curl_init("http://128.199.235.248/magento/rest/V1/categories?rootCategoryId=1");
+            curl_setopt($categories, CURLOPT_CUSTOMREQUEST, "GET");
+            curl_setopt($categories, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($categories, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $token));
+
+            $size = curl_init("http://128.199.235.248/magento/rest//V1/products/attributes/size/options");
+            curl_setopt($size, CURLOPT_CUSTOMREQUEST, "GET");
+            curl_setopt($size, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($size, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $token));
+
+            $color = curl_init("http://128.199.235.248/magento/rest//V1/products/attributes/color/options");
+            curl_setopt($color, CURLOPT_CUSTOMREQUEST, "GET");
+            curl_setopt($color, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($color, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $token));
+
             //เรียกข้อมูล block
             $get_blocks = 'searchCriteria[filter_groups][0][filters][0][field]=is_active&searchCriteria[filter_groups][0][filters][0][value]=1&searchCriteria[filter_groups][0][filters][0][condition_type]=eq&searchCriteria[pageSize]=12&searchCriteria[sortOrders][0][field]=block_id&searchCriteria[sortOrders][0][direction]=DESC';
-            $ch = curl_init("http://128.199.235.248/magento/rest/V1/cmsBlock/search?".$get_blocks);
-            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $token));
 
-            $blocks = json_decode(curl_exec($ch));
+            $blocks = curl_init("http://128.199.235.248/magento/rest/V1/cmsBlock/search?".$get_blocks);
+            curl_setopt($blocks, CURLOPT_CUSTOMREQUEST, "GET");
+            curl_setopt($blocks, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($blocks, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer " . $token));
+
+            curl_multi_add_handle($mh, $categories);
+            curl_multi_add_handle($mh, $size);
+            curl_multi_add_handle($mh, $color);
+            curl_multi_add_handle($mh, $blocks);
+
+            $running = null;
+            do {
+                curl_multi_exec($mh, $running);
+            } while ($running);
 
             if(!empty($get_session_all['customer_id'])){
                 //เรียกข้อมูล customer
@@ -340,8 +394,8 @@ class AboutController extends Controller
                         $data['cart_customer'] = '';
                     }
 
-                    $data['color_product'] = $get_type_products->catalogProductAttributeOptionManagementV1GetItems($get_color_product);
-                    $data['size_products'] = $get_type_products->catalogProductAttributeOptionManagementV1GetItems($get_size_products);
+                    $data['size_products'] = json_decode(curl_multi_getcontent($size));
+                    $data['color_product'] = json_decode(curl_multi_getcontent($color));
 
                 } else {
                     \Session::flush();
@@ -354,8 +408,8 @@ class AboutController extends Controller
                 $data['size_products'] = '';
             }
 
-        $data['category'] = $catalog->catalogCategoryManagementV1GetTree($catalogs);
-        $data['blocks'] = $blocks;
+        $data['category'] = json_decode(curl_multi_getcontent($categories));
+        $data['blocks'] = json_decode(curl_multi_getcontent($blocks));
         $data['page_title'] = 'Out Story';
 
         } catch (Exception $e) {

@@ -7,7 +7,6 @@
         @include('cart-sidebar')
         @include('nav-sidebar')
         <!-- END CART SIDEBAR -->
-
       @php
         preg_match('/<img.+url=[\'"](?P<src>.+?)[\'"].*>/i', $sum_blocks->content, $image);
         $date=date_create($sum_blocks->creation_time);
